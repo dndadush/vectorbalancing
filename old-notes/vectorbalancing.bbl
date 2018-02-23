@@ -1,0 +1,84 @@
+\def\cprime{$'$}
+\begin{thebibliography}{MNT15}
+
+\bibitem[Bal88]{Ball88}
+Keith Ball.
+\newblock Logarithmically concave functions and sections of convex sets in
+  {${\bf R}^n$}.
+\newblock {\em Studia Math.}, 88(1):69--84, 1988.
+
+\bibitem[Ban93]{Bana93}
+Wojciech Banaszczyk.
+\newblock Balancing vectors and convex bodies.
+\newblock {\em Studia Math.}, 106(1):93--100, 1993.
+
+\bibitem[Ban98]{bana}
+W.~Banaszczyk.
+\newblock Balancing vectors and gaussian measures of n-dimensional convex
+  bodies.
+\newblock {\em Random Structures \& Algorithms}, 12(4):351--360, 1998.
+
+\bibitem[BV04]{BoydV04}
+Stephen Boyd and Lieven Vandenberghe.
+\newblock {\em Convex optimization}.
+\newblock Cambridge University Press, Cambridge, 2004.
+
+\bibitem[Gia97]{giannop}
+Apostolos Giannopoulos.
+\newblock On some vector balancing problems.
+\newblock {\em Studia Mathematica}, 122(3):225--234, 1997.
+
+\bibitem[Lew95]{Lewis95}
+A.~S. Lewis.
+\newblock The convex analysis of unitarily invariant matrix functions.
+\newblock {\em J. Convex Anal.}, 2(1-2):173--183, 1995.
+
+\bibitem[LSV86]{LSV}
+L.~Lov{\'a}sz, J.~Spencer, and K.~Vesztergombi.
+\newblock Discrepancy of set-systems and matrices.
+\newblock {\em European Journal of Combinatorics}, 7(2):151--160, 1986.
+
+\bibitem[Mil86]{Milman86-reverseBM}
+Vitali~D. Milman.
+\newblock In\'egalit\'e de {B}runn-{M}inkowski inverse et applications \`a la
+  th\'eorie locale des espaces norm\'es.
+\newblock {\em C. R. Acad. Sci. Paris S\'er. I Math.}, 302(1):25--28, 1986.
+
+\bibitem[MNT15]{disc-gamma2}
+Ji\v{r}\'{\i} Matou\v{s}ek, Aleksandar Nikolov, and Kunal Talwar.
+\newblock Factorization norms and hereditary discrepancy.
+\newblock {\em Submitted.}, 2015.
+
+\bibitem[MP87]{MP-volnum}
+V.~D. Milman and G.~Pisier.
+\newblock Gaussian processes and mixed volumes.
+\newblock {\em Ann. Probab.}, 15(1):292--304, 1987.
+
+\bibitem[MTJ03]{MTJ03}
+Piotr Mankiewicz and Nicole Tomczak-Jaegermann.
+\newblock Volumetric invariants and operators on random families of {B}anach
+  spaces.
+\newblock {\em Studia Math.}, 159(2):315--335, 2003.
+\newblock Dedicated to Professor Aleksander Pe\l czy\'nski on the occasion of
+  his 70th birthday (Polish).
+
+\bibitem[Pis89]{Pisier-book}
+Gilles Pisier.
+\newblock {\em The volume of convex bodies and {B}anach space geometry},
+  volume~94 of {\em Cambridge Tracts in Mathematics}.
+\newblock Cambridge University Press, Cambridge, 1989.
+
+\bibitem[Roc70]{Rockafellar}
+R.~Tyrrell Rockafellar.
+\newblock {\em Convex analysis}.
+\newblock Princeton Mathematical Series, No. 28. Princeton University Press,
+  Princeton, N.J., 1970.
+
+\bibitem[Rot14]{rothvoss-giann}
+Thomas Rothvo{\ss}.
+\newblock Constructive discrepancy minimization for convex sets.
+\newblock In {\em 55th {IEEE} Annual Symposium on Foundations of Computer
+  Science, {FOCS} 2014, Philadelphia, PA, USA, October 18-21, 2014}, pages
+  140--145. {IEEE} Computer Society, 2014.
+
+\end{thebibliography}

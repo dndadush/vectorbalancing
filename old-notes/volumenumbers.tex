@@ -1,0 +1,188 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsfonts,amsmath,amsthm,amssymb}
+\usepackage{amsthm}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newcommand{\heading}[1]{\vspace{1ex}\par\noindent{\bf\boldmath #1}}
+
+\newcommand{\cut}[1]{}
+
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\N}{{\mathbb{N}}}
+\renewcommand{\S}{\mathbb{S}}
+\newcommand\eps{\varepsilon}
+
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\tr}{tr}
+
+\newcommand{\E}{\mathbb{E}}
+
+\begin{document}
+
+Let $X$ be a Banach space with unit ball $B_X$, and let $u:X \to \ell_2$
+be a linear operator. We use $\vol_n$ for the $n$-dimensional Lebesgue
+measure. Let us define
+\[
+r_k(u) = \sup\left\{\frac{\vol_k(u(B_X \ca W))^{1/k}}{\vol_k(B_2^k)^{1/k}}\right\},
+\]
+where the supremum is over $k$-dimensional subspaces $W$ of $X$. Note how
+this definition differs from that of  volume numbers: 
+\[
+v_k(u) = \sup\left\{\frac{\vol_k(Pu(B_X))^{1/k}}{\vol_k(B_2^k)^{1/k}}\right\},
+\]
+with the supremum over rank $k$ orthogonal projections $P:\ell_2 \to
+\ell_2$. In particular, while we know that that for any $k$, $v_k \ge
+v_{k+1}$, it is not clear that we can expect any monotonicity for
+$r_k$. Moreover, even an approximate monotonicity property will
+most likely have to rely on the hyperplane conjecture. 
+
+Recall that for an operator $u: \ell_2^n \to X$, the $\ell$ norm is
+defined as 
+\[
+\ell(u) = \left(\int\|u(x)\|_X^2d\gamma_n(x)\right)^{1/2},
+\]
+with $\gamma_n$ denoting the standard Gaussian measure on
+$\R^n$. Under trace duality, its dual norm is defined for $w:X\to
+\ell_2^n$ by
+\[
+\ell^*(w) = \sup\{\tr(wu): u:\ell_2^n \to X, \ell(u) \le 1\}.
+\]
+If $X$ is $K$-convex, with $K$-convexity constant $K(X)$, then for any
+$w:X \to \ell_2^n$,
+\begin{equation}
+  \label{eq:K-convexity}
+  \ell(w^*) \le K(X)\ell^*(w).
+\end{equation}
+
+Our goal is to prove the following theorem.
+\begin{theorem}\label{thm:vol-num}
+  Let $X$ be an $n$-dimensional normed space, and let $u:X \to \ell_2^n$
+  be a linear operator. Then
+  \[
+  \ell^*(u) \le C \sum_{k = 1}^n{r_k(u)/\sqrt{k}},
+  \]
+  where $C$ is an absolute constant. 
+\end{theorem}
+The proof follows closely~\cite{PTJ89}.
+
+To prove Theorem~\ref{thm:vol-num} we need some preliminary
+observations and resuts. First, observe that for any operator
+$u:\ell_2^n \to \ell_2^n$ with singular values $\sigma_1 \ge \ldots
+\ge \sigma_n$, we have
+\begin{equation}\label{eq:volnum-ell2}
+r_k(u) = \left(\prod_{i = 1}^k\sigma_i\right)^{1/k} \ge \sigma_k.
+\end{equation}
+
+For two compact sets $K$ and $L$, we use $N(K,L)$ for the
+covering number, i.e.~the number of translates of $L$ needed to cover
+$K$. We also recall the definition of the entropy number $e_k(u)$ of
+an operator $u:X \to Y$: 
+\[
+e_k(u) = \inf\{\varepsilon: N(u(B_X), \varepsilon B_Y) \le 2^{k-1}\}. 
+\]
+In this notation, the dual Sudakov inequality says that there exists a
+constant $C$ such that for any $u:\ell_2^n \to X$
+\begin{equation}
+  \label{eq:sudakov}
+  \max_{k = 1}^n \sqrt{k}e_k(u) \le C\ell(u). 
+\end{equation}
+
+We also need a lemma.
+\begin{lemma}\label{lm:r-vs-e}
+  Let $X$ be an $n$-dimensional normed space, and let $v:\ell_2^n \to
+  X$, $u:X\to\ell_2^n$ be linear operators. Then, for any $k \in \{1,
+  \ldots, n\}$ we have
+  \[
+  r_k(uv) \le 4r_k(u)e_k(v).
+  \]
+\end{lemma}
+\begin{proof}
+  Let $\eps = e_k(v)$, so that $N(v(B_2^n), \eps B_X) \le 2^{k-1}$.
+  Let $W$ be an arbitrary $k$-dimensional subspace, and let $V =
+  v(W)$; we can assume that $\mathrm{dim}\ V = \mathrm{dim}\ W$. It's
+  well-known (and easy to see) that
+  \begin{equation}
+    \label{eq:cover-subsp}
+    N(v(B_2^n) \cap V, 2\eps (B_X \cap V)) \le 
+    N(v(B_2^n), \eps B_X) \le 2^{k-1}.
+  \end{equation}
+  We have
+  \begin{align*}
+    \vol_k(uv(B_2^n \cap W)) 
+    &\le 2^k \eps^k \vol_k(u(B_X \cap V)) 
+    \cdot
+    N(v(B_2^n) \cap V, 2\eps (B_X \cap V))\\
+    &\le 2^{2k - 1} \eps^k \vol_k(u(B_X \cap V)) \\
+    &\le 2^{2k-1}\eps^k r_k(u)^k \vol(B_2^k).
+  \end{align*}
+  Therefore, 
+  \[
+  \frac{\vol_k(uv(B_2^n \cap W))^{1/k}}{\vol(B_2^k)^{1/k}}
+  \le 
+  4\eps r_k(u).
+  \]
+  Since $W$ was arbitrary, the lemma follows.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:vol-num}]
+  Let $v:\ell_2^n \to X$ be an arbitrary operator such that $\ell(v)
+  \le 1$. Then, by \eqref{eq:volnum-ell2},
+  \[
+  |\tr(uv)| 
+  \le \sum_{k = 1}^n{\sigma_k(uv)} \le \sum_{k=1}^n{r_k(uv)},
+  \]
+  where $\sigma_k(uv)$ is the $k$-th largest singular value of
+  $uv$. By Lemma~\ref{lm:r-vs-e} and \eqref{eq:sudakov}, we have
+  \[
+  \sum_{k=1}^n{r_k(uv)} \le 4 \sum_{k = 1}^n{r_k(u)e_k(v)}
+  \le 4 \left(\max_{k = 1}^n{\sqrt{k} e_k(v)}\right) \sum_{k = 1}^n{r_k(u)/\sqrt{k}}
+  \le 4C \ell(v)\sum_{k = 1}^n{r_k(u)/\sqrt{k}}. 
+  \]
+  Combinging the inequalities, and using $\ell(v) \le 1$, we have
+  $|\tr(uv)| \le 4C\sum_{k = 1}^n{r_k(u)/\sqrt{k}}$. Taking a supremum
+  over $v$ gives the theorem. 
+\end{proof}
+
+Let $K$ be a symmetric convex body in $\R^n$, and let $X$ be a normed
+space with unit ball $K$. Let $I:\ell^n_2\to X$ be the identity
+operator. Then $\ell(I)$ is the  Gaussian mean width of $K$: let us
+abuse notation and use $\ell(K) = \ell(I)$. By
+\eqref{eq:K-convexity}, and Theorem~\ref{thm:vol-num}, we have
+\[
+\ell(K) = \ell(I) \le K(X) \ell^*(I^*)
+\le 
+CK(X) \sum_{k = 1}^n{\frac{r_k(I^*)}{\sqrt{k}}}
+\le
+C_1(1+\log n)^2 \max_{k = 1}^n \sqrt{k}
+\sup \left\{\frac{\vol_k(K^\circ \cap W))^{1/k}}{\vol_k(B_2^k)^{1/k}}\right\},
+\]
+where, once again, for each $k$, the supremum is over subspaces $W$ of
+dimension $K$. By Santalo's inequality, $\frac{\vol_k(K^\circ \cap
+W))^{1/k}}{\vol_k(B_2^k)^{1/k}} \le
+\frac{\vol_k(B_2^k)^{1/k}}{\vol_k(P_WK))^{1/k}}$, where $P_W$ is the
+orthogonal projection onto $W$. Furthermore, there exists a constant
+$C_2$ such that $\sqrt{k}\vol_k(B_2^k)^{1/k} \le C_2$. Substituting
+these two inequalities into the inequality above, we get that the
+Gaussian mean width of $K$ is at most 
+\[
+\ell(K) \le C_3(1+\log n)^2 \max_{k = 1}^n 
+\sup \left\{\frac{1}{\vol_k(PK))^{1/k}}\right\},
+\]
+for an absolute constant $C_3$, and with the supremum taken over
+orthogonal projections $P$ of rank $k$. 
+
+
+
+\bibliographystyle{alpha}
+\bibliography{Discrepancy}
+\end{document}

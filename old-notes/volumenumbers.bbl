@@ -1,0 +1,10 @@
+\def\cprime{$'$}
+\begin{thebibliography}{PTJ89}
+
+\bibitem[PTJ89]{PTJ89}
+Alain Pajor and Nicole Tomczak-Jaegermann.
+\newblock Volume ratio and other {$s$}-numbers of operators related to local
+  properties of {B}anach spaces.
+\newblock {\em J. Funct. Anal.}, 87(2):273--293, 1989.
+
+\end{thebibliography}
