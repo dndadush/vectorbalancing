@@ -1,0 +1,1480 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsfonts,amsmath,amsthm,amssymb}
+\usepackage{amsthm}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newcommand{\heading}[1]{\vspace{1ex}\par\noindent{\bf\boldmath #1}}
+
+\newcommand{\cut}[1]{}
+
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\N}{{\mathbb{N}}}
+\renewcommand{\S}{\mathbb{S}}
+
+\newcommand{\E}{\mathbb{E}}
+
+
+
+\newcommand\eps{\varepsilon}
+
+\newcommand{\eqdef}{\triangleq}
+
+\DeclareMathOperator{\vollb}{volLB}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\lspan}{span}
+\DeclareMathOperator{\tr}{tr}
+
+% MARGIN NOTES
+\newif\ifnotes\notestrue
+%\newif\ifnotes\notesfalse
+
+\ifnotes
+\usepackage{color}
+%\definecolor{mygrey}{gray}{0.50}
+\newcommand{\notename}[2]{{\textcolor{red}{\footnotesize{\bf (#1:} {#2}{\bf ) }}}}
+\newcommand{\noteswarning}{{\begin{center} {\Large WARNING: NOTES ON}\end{center}}}
+\newcommand{\knote}[1]{{\notename{Kunal}{#1}}}
+\newcommand{\nnote}[1]{{\notename{Nicole}{#1}}}
+\newcommand{\dnote}[1]{{\notename{Daniel}{#1}}}
+\newcommand{\snote}[1]{{\notename{Sasho}{#1}}}
+
+
+\else
+
+\newcommand{\notename}[2]{{}}
+\newcommand{\noteswarning}{{}}
+\newcommand{\knote}[1]{}
+\newcommand{\nnote}[1]{}
+\newcommand{\dnote}[1]{}
+\newcommand{\snote}[1]{}
+
+\fi
+
+
+
+\begin{document}
+\title{Vector Balancing}
+\maketitle
+
+\noteswarning
+
+\knote{This is a note.}
+\dnote{This is a note.}
+\snote{This is a note.}
+\nnote{This is a note.}
+
+\section{Definitions and Statement of the Volume Lower Bound}
+
+
+In what follows, we use we will use $\langle \cdot, \cdot \rangle$
+for the standard inner product on $\R^n$. Duality and traces are
+defined with respect to this inner product. $K^\circ$ denotes the
+polar of a set $K \subseteq \R^n$. We use $\vol_n(K)$ for the
+$n$-dimensional volume (standard Lebesgue measure in $\R^n$) of $K$ and
+$\kappa_n$ for the volume $B_2^n$, the unit Euclidean ball.
+
+Let $X$ and $Y$ be two normed spaces defined on the vector space
+$\R^n$, with unit balls $B_X$ and $B_Y$, respectively. We define
+the vector balancing number of $X$ with respect to $Y$ by
+\[
+\beta(X, Y) \eqdef \sup\Bigg\{ 
+\min_{\eps_1, \ldots,\eps_N \in \{-1, 1\}} \Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{Y}: N \in \mathbb{N},
+u_1, \ldots, u_N \in B_X\Bigg\}.
+\]
+Given a sequence $(u_1, \ldots, u_N)$ of vectors in $\R^n$, we define:
+\begin{align*}
+\beta_0((u_i)_{i = 1}^N,Y) &\eqdef \min_{\eps_1, \ldots,\eps_N \in
+  \{-1, 1\}}
+\Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{Y};\\
+\beta((u_i)_{i = 1}^N, Y) &\eqdef \max_{S \subseteq  [N]}{\beta_0((u_i)_S, Y)}.
+\end{align*}
+It follows trivially from the definitions that $\beta(X, Y) =
+\sup\{\beta((u_i)_{i = 1}^N, Y)\}$, where the supremum is taken over all
+finite sequence of vectors from the unit ball of $X$.
+
+Let $G$ be the Gram matrix of $u_1, \ldots, u_N$, i.e. $g_{ij} =
+\langle u_i, u_j \rangle$, where $\langle \cdot, \cdot \rangle$ is
+the standard inner product on $\R^n$.  Banaszczyk~\cite{Bana93}
+established the following lower bound on $\beta((u_i)_{i = 1}^N, Y)$:
+\[
+\beta((u_i)_{i = 1}^N, Y) \ge \frac{\det(G)^{1/(2n)}}{\vol_n(B_Y)^{1/n}}.
+\]
+It is easy to see that this inequality is not always tight: for
+example, it is possible that $\beta((u_i)_{i = 1}^N, Y) > 0$, but the
+vectors $u_1, \ldots, u_N$ are not linearly independent, so $\det(G) =
+0$. However, the inequality can be  strengthened by
+maximizing over subsequences of $(u_i)_{i = 1}^N$:
+\begin{equation}
+  \label{eq:vol-lb}
+  \beta((u_i)_{i = 1}^N, Y) \ge \vollb((u_i)_{i = 1}^N, Y) \eqdef
+  \max_{k = 1}^n \max_{S \subseteq [N]:|S| = k} \frac{\det(G_{S,S})^{1/(2k)}}{\vol_k(B_Y \cap \lspan\{u_i: i \in S\})^{1/k}}.
+\end{equation}
+Here $G_{S,S}$ is the principle submatrix of $G$ whose rows and
+columns are indexed by the set $S$.
+
+\section{Tightness of the Volume Lower Bound}
+
+We will show that the volume lower bound
+\eqref{eq:vol-lb} is tight up to factors poly-logarithmic in the
+dimension.
+
+\begin{theorem}\label{thm:tightness}
+  There exists a universal constant $C$ such that the following
+  holds. Let $Y$ be a normed space defined on $\R^n$, and let $u_1,
+  \ldots, u_N \in \R^n$.
+  Then,
+  \[
+  1 \le \frac{\beta((u_i)_{i = 1}^N, Y)}{  \vollb((u_i)_{i = 1}^N, Y) } \le
+  C(1+\log n)K(Y) \le C(1+\log n)^2.
+  \]
+  Above, $K(Y)$ is the $K$-convexity constant of $Y$.
+\end{theorem}
+
+In the proof of Theorem~\ref{thm:tightness}, we will make some
+simplifications. A well-known reduction shows that $\beta((u_i)_{i =
+  1}^N, Y) \le \max_{S}\beta((u_i)_{i \in  S}, Y)$, with the maximum taken
+over sets $S$ such that the vectors $(u_i)_{i \in S}$ are linearly
+independent. Moreover, since we prove the theorem for every normed
+space $Y$, we can apply the same invertible linear map to both $u_1,
+\ldots, u_n$ and $B_Y$ without changing $\beta((u_i)_{i \in  S},
+Y)$. Because of this, we may assume that $u_i = e_i$, where $e_i$ is
+the $i$-th standard basis vector of $\R^n$. Details of these
+reductions are given in the proof of Theorem~\ref{thm:tightness}. 
+
+The main tools we use are the existsnce of Milman ellipsoids, Milman
+and Pisier's volume number theorem, a vector balancing result due to
+Giannopoulos and refined by Rothvoss, and a determinant version of the
+restricted invertibility principle of Bourgain and Tzafriri. We state
+the latter in the following theorem:
+
+\begin{lemma}\label{lm:rip-det}
+  Let $M$ be an $n\times n$ real positive semi-definite matrix with
+  eigenvalues $\lambda_1 \ge \ldots \ge \lambda_n$. For any integer
+  $k$, $1 \le k \le n$, there exists a set $S \subseteq [n]$ of size $k$
+  such that
+  \[\det(M_{S,S}) \ge  \frac{\lambda_1 \ldots \lambda_k}{{n \choose k}}.\]
+\end{lemma}
+
+Lemma~\ref{lm:rip-det} follows from a more general lemma, which we
+introduce after some more notation. For a vector $x \in
+\R^n_{\ge 0}$, let $x_{(i)}$ denote the $i$-th largest coordinate of
+$x$, i.e.~$x_{(1)} \ge x_{(2)} \ge \ldots \ge x_{(n)}$ is a
+non-increasing re-ordering of the coordinates of $x$ . We say that
+$x$ is majorized by $y$, denoted $x \lesssim y$, when the following
+conditions are satisfied:
+\begin{align*}
+  \sum_{i = 1}^{j}x_{(i)} &\le   \sum_{i = 1}^{j}y_{(i)} \ \ \ \forall j:
+  1 \le j \le n-1;\\
+  \sum_{i = 1}^{n}x_{(i)} &=  \sum_{i = 1}^{n}y_{(i)}.
+\end{align*}
+
+
+We can now state our general version of a restricted invertibility
+principle for determinants.
+\begin{lemma}\label{lm:rip-general}
+  Let $M$ be an $n\times n$ real positive semi-definite matrix with
+  eigenvalues $\lambda_1 \ge \ldots \ge \lambda_n$. Let $\mu \in
+  \R^n_{\ge 0}$ be such that $\lambda \lesssim \mu$. Then, for any
+  integer $k$, $1 \le k \le n$, there exists a set $S \subseteq [n]$
+  of size $k$ such that 
+  $\det(M_{S,S}) \ge \frac{p_k(\mu)}{{n\choose k}}$, where
+  $p_k$ is the degree $k$ elementary symmetric polynomial in $n$
+  variables. 
+\end{lemma}
+\begin{proof}
+  We use the following classical fact:
+  \begin{equation*}
+    \sum_{S \subset [n]: |S| = k}\det(M_{S,S}) = p_k(\lambda).
+  \end{equation*}
+  To verify this equation, consider the coefficient of $t^{n-k}$ in
+  the polynomial $\det(M + tI)$. Calculating the coefficient using the
+  Leibniz formula for the determinant gives the left hand side;
+  calculating it using $\det(M + tI) = (\lambda_1 +
+  t)\ldots(\lambda_n + t)$ gives the right hand side.
+
+  The other classical fact we use is the Schur concavity of elementary
+  symmetric polynomial, i.e.~the implication $\lambda \lesssim \mu
+  \implies p_k(\lambda) \ge p_k(\mu)$. This can be verified using the
+  well-known criterion for Schur concavity $\forall i, j \in [n],
+  i\neq j: (x_i - x_j)\left(\frac{\partial p_k}{\partial x_i} -
+    \frac{\partial p_k}{\partial x_i} \right) \le 0$.
+
+  These two facts together, and averaging, imply the lemma:
+  \[
+  \max_{S \subset [n]: |S| = k}\det(M_{S,S}) \ge
+  \frac{1}{{n\choose k}} \sum_{S \subset [n]: |S| = k}\det(M_{S,S}) 
+  =  \frac{p_k(\lambda)}{{n\choose k}} 
+  \ge  \frac{p_k(\mu)}{{n\choose k}} .
+  \]
+\end{proof}
+
+\begin{proof}[Proof of Lemma~\ref{lm:rip-det}]
+  Let $\nu \eqdef \lambda_{k+1} +\ldots + \lambda_n$ and define a
+  vector $\mu \in \R_{\ge 0}^n$ by $\mu_i \eqdef \lambda_i + \frac{\nu}{k}$ for
+  $1 \le i \le k$ and $\mu_i \eqdef 0$ for $i > k$. It's easily
+  verified that
+  $\lambda \lesssim \mu$, and, by Lemma~\ref{lm:rip-general}, there
+  exists a set $S \subseteq[n]$ of size $k$ such that
+  \[
+  \det(M_{S,S}) \ge \frac{p_k(\mu)}{{n\choose k}} = \frac{(\lambda_1 +
+    \frac{\nu}{k}) \ldots (\lambda_k + \frac{\nu}{k})}{{n\choose k}} 
+  \ge \frac{\lambda_1 \ldots \lambda_k}{{n \choose k}}.
+  \]
+  This proves the lemma.
+\end{proof}
+
+We have the following geometric reformulation of
+Lemma~\ref{lm:rip-det}.
+
+\begin{corollary}\label{cor:ellipsoids}
+  Let $E$ be an a centered ellipsoid in $\R^n$, and let $k$ be an
+  integer such that $1 \le k \le n$. For a set $S \subseteq [n]$, let
+  $Q_S$ denote the orthogonal projection onto $\lspan\{e_i: i \in
+  S\}$, where $e_1, \ldots, e_n$ is the standard basis of
+  $\R^n$. Then,
+  \[
+  \sup_Q \vol_k(Q(E)) \le
+  {n \choose k}
+  \max_{S \subseteq [n]: |S| = k}\vol_k(Q_S(E)),
+  \]
+  where the supremum on the left hand side is over rank $k$ orthogonal
+  projections $Q$.
+\end{corollary}
+\begin{proof}
+  Let $E = T(B_2^n)$, where $B_2^n$ is the unit Euclidean ball in
+  $\R^n$, and $T$ is a linear map. Write $M$ for the matrix of $TT^*$
+  with respect to the standard basis, and let $\lambda_1 \ge \ldots
+  \ge \lambda_n$ be its eigenvalues. For any rank $k$ orthogonal
+  projection $Q$, $\frac{\vol_k(Q(E))^2}{\kappa_k^2}$ equals the product
+  the $k$ nonzero eigenvalues of $QTT^*Q = QMQ$. By the Cauchy interlace
+  theorem, it follows that $\sup_Q \vol_k(Q(E)) = \lambda_1 \ldots
+  \lambda_k$. It also follows that for any set $S \subseteq [n]$ of
+  size $k$, $\vol_k(Q_S(E)) = \det(M_{S,S})$. Now the corollary
+  is immediate from Lemma~\ref{lm:rip-det}. 
+\end{proof}
+
+Corollary~\ref{cor:ellipsoids} is most interesting for $k$
+proportional to $n$, in which case it says that the volume of the
+largest projection of the ellipsoid, and the volume of the largest
+\emph{coordinate} projection are equal up to a factor exponential in
+the dimension. Using $M$-ellipsoids, we can show this statement holds
+for arbitrary symmetric convex bodies. The following theorem is due to
+V.~Milman~\cite{Milman86-reverseBM}.
+
+\begin{theorem}\label{thm:M-ellips}
+  There exists an absolute constant $C$ such that for any centrally
+  symmetric convex body $K$ in $\R^n$ we can find an ellipsoid $E$ in
+  $\R^n$ (called the $M$-ellipsoid associated with $K$) for which
+  \[
+  \max\{N(K, E), N(E, K)\} \le C^n. 
+  \]
+  Above $N(K, L)$ is the covering number, i.e.~the minimum number of
+  translates of $L$ needed to cover $K$.
+\end{theorem}
+
+\begin{corollary}\label{cor:M-ellips}
+  There exists an absolute constant $C$ such that for any centrally
+  symmetric convex body $K$ in $\R^n$ there exists an ellipsoid $E$ in
+  $\R^n$ such that for any rank $k$ orthogonal projection $Q$, 
+  \[
+  C^{-n} \le \frac{\vol_k(Q(E))}{\vol_k(Q(K))} \le C^n.
+  \]
+\end{corollary}
+\begin{proof}
+  We have
+  \begin{align*}
+    \vol_k(Q(E)) &\le N(Q(E), Q(K)) \cdot \vol_k(Q(K))\\
+    &\le N(E, K) \cdot \vol_k(Q(K))\\
+    &\le C^n \vol_k(Q(K)).
+  \end{align*}
+  The reverse inequality follows by symmetry. 
+\end{proof}
+
+Corollary~\ref{cor:M-ellips} is well-known, and was noted, for
+example, in~\cite{MTJ03}.
+
+We are now ready to state a variant of Corollary~\ref{cor:ellipsoids}
+for general convex bodies. 
+
+\begin{lemma}\label{lm:coordproj}
+  There exists a constant $C_0$ such that the following holds. Let $K$
+  be a symmetric convex body in $\R^n$, and let $k$ be an integer, $1
+  \le k \le n$. Then,
+  \[
+  \sup_Q \vol_k(Q(K)) \le 
+  C_0^n {n \choose k} 
+  \max_{S \subset [n]: |S|  = k} \vol_k(Q_S(K)),
+  \]
+  where the supremum on the left hand side is over rank $k$ orthogonal
+  projections, and $Q_S$ denotes, as before, the orthogonal projection
+  onto $\lspan\{e_i: i \in S\}$. 
+\end{lemma}
+\begin{proof}
+  Follows by applying Corollary~\ref{cor:ellipsoids} to the
+  $M$-ellipsoid $E$ of $K$, and using Corollary~\ref{cor:M-ellips}:
+  \begin{align*}
+    \sup_Q \vol_k(Q(K)) &\le C^n \sup_Q \vol_k(Q(E))\\
+    &\le C^n {n \choose k} \max_{S \subseteq [n]: |S| = k}
+    \vol_k(Q_S(E))\\
+    &\le C^{2n} {n \choose k} \max_{S \subseteq [n]: |S| = k}
+    \vol_k(Q_S(K)).
+  \end{align*}
+  Setting $C_0 = C^2$ finishes the proof. 
+\end{proof}
+
+\cut{
+\begin{proof}
+  Let $M \eqdef \cov(K)$, and denote the eigenvalues of $M$ by
+  $\lambda_1 \ge \ldots \ge \lambda_n$. Observe that $\cov(Q(K)) =
+  QMQ$. It's a classical fact in linear algebra that, for any
+  orthogonal projection $Q$ of rank $k$, $\det(QMQ) \le \lambda_1
+  \ldots \lambda_k$. This, and the fact that $L_{K'} \ge L_{B_2^n} =
+  c_0$ for any convex body $K'$, and a universal constant $c_0$
+  independent of the dimension, show that
+  \begin{equation}\label{eq:cov-estimate}
+    \sup \vol_{k}(Q(B_Y^\circ))
+    = \sup \frac{\det(QMQ)}{L^k_{Q(K)}}
+    \le C_0^k\lambda_1\ldots \lambda_k,
+  \end{equation}
+  where $C_0 = \frac{1}{c_0}$, and the supremum is over rank $k$
+  orthogonal projections $Q$, as in the statement of the lemma. 
+  
+  Let now $S \subseteq [n]$ be the set of size $k$ guaranteed by
+  Lemma~\ref{lm:rip-det}. Because $M_{S,S} = Q_S M Q_S$ is the
+  covariance of $Q_S(K)$, we have:
+  \begin{equation}\label{eq:rip-estimate}
+  \lambda_1\ldots \lambda_k
+  \le
+  {n\choose k}\det(M_{S,S})
+  =
+  {n\choose  k} L^k_{Q_S(K)}\vol_k(Q_S(K)).
+  \end{equation}
+  Combining \eqref{eq:cov-estimate} and \eqref{eq:rip-estimate} proves
+  the lemma. 
+\end{proof}
+Lemma~\ref{lm:coordproj} is the only place where estimates on
+isotropic constants come in.}
+
+Next we state a result of Rothvoss~\cite{rothvoss-giann}, which
+strengthens a vector balancing theorem of
+Giannopoulos~\cite{giannop}. We use the notation $\gamma_n$ for the
+standard Gaussian measure on $\R^n$. We use $\gamma_W$ to denote the
+standard Gaussian measure on a subspace $W$ of $\R^n$.
+\begin{theorem}\label{thm:giann}
+  There exists a constant $\delta_0 > 0$, such that for any $\delta <
+  \delta_0$ there exists an $\eta = \eta(\delta) > 0$ for which the
+  following holds. Let $W$ be a subspace of $\R^n$ of dimension at
+  least $(1 - \delta)n$, let $K$ be a convex body in $\R^n$ such that
+  $\gamma_W(K\cap W) \ge e^{-\delta n}$, and let $y \in [0,1]^n$. Then there
+  exists a vector $x \in (y + K) \cap [-1, 1]^n$ such that $|\{i: -1 <
+  x_i < 1\}| \le (1-\eta)n$.
+\end{theorem}
+
+Our final tool is the volume number theorem of Milman and
+Pisier~\cite{MP-volnum}. More precisely,
+we use the main lemma in the proof of the theorem, as presented
+in~\cite{Pisier-book}. 
+
+\begin{theorem}\label{thm:volnum}
+  For any $\delta > 0$ there exists a $C_1 = C_1(\delta)$ such that
+  the following holds. Let $Z$ be a standard Gaussian random variable
+  in $\R^n$ and let $Y$ be a normed space defined on $\R^n$ with
+  $K$-convexity constant $K(Y)$. There exists an orthogonal projection
+  $P$ of rank at least $(1-\delta)n$ and an integer $k \ge c_1\delta
+  n$ such that
+  \begin{align*}
+  \left(\E \|P(Z)\|_Y^2\right)^{1/2} 
+  &\le 
+  C_1K(Y)\sqrt{n}
+  \sup \frac{\vol_{k}(Q(B_Y^\circ))^{1/k}}{\kappa_k^{1/k}},
+%  &\le
+%  C_1(1 + \log n)\sqrt{n}
+%  \sup \frac{\vol_{k}(Q(B_Y^\circ))^{1/k}}{\kappa_k^{1/k}},
+  \end{align*}
+  where the supremum is over orthogonal projections $Q$ of rank $k$,
+  and $c_1 >0$ is an absolute constant.
+\end{theorem}
+
+We have everything we need to prove our main technical lemma:
+\begin{lemma}\label{lm:partial}
+  There exist constants $C_2$ and $\eta >0$ such that the following
+  holds. Let $Y$ be a normed space defined on $\R^n$ with
+  $K$-convexity constant $K(Y)$.  Then for any $y \in [-1, 1]^n$ there
+  exists a vector $x \in [-1,1]^n$ such that $\|x-y\|_Y \le
+  C_2K(Y)\vollb((e_i)_{i=1}^n, Y)$ and $|\{i: -1 < x_i < 1\}| \le
+  (1-\eta)n$.
+\end{lemma}
+\begin{proof}
+  Let $\delta_0$ be as in Theorem~\ref{thm:giann} and pick some
+  $\delta < \delta_0$. Let $c_1$ and $C = C(\delta)$ be as in
+  Theorem~\ref{thm:volnum}, so that, by the theorem, there exists an
+  orthogonal projection $P$ of rank at least $(1-\delta)n$ and an
+  integer $k \ge c_1 \delta n$, so that, if $Z$ is a standard Gaussian
+  random variable in $\R^n$, then
+  \begin{equation}\label{eq:volnum}
+    \left(\E \|P(Z)\|_Y^2\right)^{1/2} \le
+    C_1K(Y)\sqrt{n}
+    \sup \frac{\vol_{k}(Q(B_Y^\circ))^{1/k}}{\kappa_k^{1/k}},
+  \end{equation}
+  with the supremum taken over orthogonal projections of rank
+  $k$. Applying Lemma~\ref{lm:coordproj} to $B_Y^\circ$, we get that
+  \begin{equation}\label{eq:santalo}
+    \sup \frac{\vol_{k}(Q(B_Y^\circ))^{1/k}}{\kappa_k^{1/k}}
+    \le 
+    C_0^{n/k}{n \choose k}   \max_{S \subset [n]: |S|  = k} \frac{\vol_k(Q_S(B_Y^\circ))}{\kappa_k^{1/k}}
+    \le 
+    C_0^{n/k}{n \choose k}  \max_{S \subset [n]: |S|  = k} \frac{\kappa_k^{1/k}}{\vol_k(Q_{S}(B_Y))^{1/k}}.
+  \end{equation}
+  The final inequality above is implied by the Santalo-Blaschke inequality.
+  
+
+  Combining \eqref{eq:volnum} and \eqref{eq:santalo}, we have that
+  \[
+  \left(\E \|P(Z)\|_Y^2\right)^{1/2} \le
+  C_0^{n/k} C_1 K(Y)   {n\choose  k}^{1/k}  \sqrt{n}
+  \max_{S \subseteq [n]: |S| = k}
+  \frac{\kappa_k^{1/k}}{\vol_k(Q_{S}(B_Y))^{1/k}}.
+  \]
+  By standard estimates, $\kappa_k^{1/k} \le C_3 k^{-1/2} \le C_3
+  (c_1\delta n)^{-1/2}$ for a constant $C_3$. Moreover, ${n \choose
+    k}^{1/k} \le \frac{n}{k} \le \frac{1}{c_1\delta}$. Therefore, for a
+  constant $C_4$ that depends only on $\delta$,
+  \[
+  \left(\E \|P(Z)\|_Y^2\right)^{1/2} \le \rho \eqdef
+  C_4K(Y) \max_{S: |S| = k}\frac{1}{\vol_k(Q_{S}(B_Y))^{1/k}}.
+  \]
+  Let $W$ be the range of $P$, and observe that $P(Z)$ is distributed
+  according to the measure $\gamma_W$. Let $K \eqdef
+  \frac{\rho}{\sqrt{1 - e^{-\delta}}} (B_Y \cap W)$. By Chebyshev's inequality,
+  $\gamma_W(K) \ge e^{-\delta} \ge e^{-\delta n}$. The lemma is now
+  implied by Theorem~\ref{thm:giann} for $\eta = \eta(\delta)$ and
+  $C_2 =   \frac{C_4}{\sqrt{1 - e^{-\delta}}}$. 
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:tightness}]
+  The first inequality is just \eqref{eq:vol-lb}. We prove the second
+  inequality. In this proof we will use the following
+  fact. Let $x \in [-1, 1]^N$; then there exist signs $\eps_1, \ldots,
+  \eps_N$ such that  
+  \begin{equation}\label{eq:lindisc}
+  \left\|\sum_{i = 1}^N{(\eps_i - x_i) u_i} \right\|_Y
+  \le 
+  2 \beta((u_i)_{i = 1}^N, Y).
+  \end{equation}
+  This fact is proved in the paper of Lovasz, Spencer and
+  Vesztergombi~\cite{LSV}. One consequence is that
+  \[
+  \beta((u_i)_{i=1}^N, Y) \le 2 \max_S \beta((u_i)_{i \in S}, Y),
+  \]
+  where the maximum is over sets $S$ such that the vectors $(u_i)_{i \in S}$ 
+  are linearly independent. Indeed, the linear program
+  \begin{align*}
+    &\sum_{i = 1}^N x_i u_i = 0,\\
+    &-1 \le x_i \le 1 \ \ \ \forall i \in [N],
+  \end{align*}
+  has a basic feasible solution $x$ such that the vectors $(u_i)_{i \in
+    S}$, $S \eqdef \{i: -1 <  x_i < 1\}$, are linearly independent.
+  Combining with \eqref{eq:lindisc}, we get that 
+  \[
+  \beta_0((u_i)_{i = 1}^N, Y) 
+  \le 
+  \min_{\eps \in \{-1, 1\}^S} \left\| \sum_{i \in S}{(\eps_i -  x_i)u_i}\right\|_Y
+  \le 
+  2 \beta((u_i)_{i \in S}, Y).
+  \]
+  The claim follows since $\beta((u_i)_{i = 1}^N, Y) = \max_{R
+    \subseteq [N]}{\beta_0((u_i)_R, Y)}$ by definition. 
+
+  The above discussion implies that we only need to prove the theorem
+  for linearly independent vectors $u_1, \ldots, u_N$,  $N \le n$.  We further
+  claim that we only need to consider the standard basis $e_1, \ldots,
+  e_n$. First, observe that we can assume $N = n$: otherwise we can
+  replace $Y$ with the normed subspace of $Y$ spanned by $u_1, \ldots,
+  u_N$, without changing $\beta((u_i)_{i = 1}^n, Y)$ or
+  $\vollb((u_i)_{i = 1}^n, Y)$. Then, we can further take an
+  invertible linear map $T$ such that $T(e_i) = u_i$ for every $i \in
+  [n]$, and we have that $\beta((u_i)_{i = 1}^n, Y) = \beta((e_i)_{i =
+    1}^n, Y \circ T)$ and $\vollb((u_i)_{i = 1}^n, Y) =
+  \vollb((e_i)_{i = 1}^n, Y \circ T)$, where $Y\circ T$ is the norm
+  given by $\|x\|_{Y \circ T} = \|T(x)\|_Y$. This proves the claim.
+
+  To finish the proof of the theorem, then, we need to show that, for every norm $Y$
+  defined on $\R^n$, 
+  \[
+  \beta((e_i)_{i = 1}^n, Y) \le CK(Y)(1+\log n) \vollb((e_i)_{i = 1}^n, Y).
+  \]
+  By Lemma~\ref{lm:partial}, there exists a vector $x \in [-1,1]^n$
+  such that $\|x\|_Y \le C_2K(Y)\vollb((e_i)_{i=1}^n, Y)$ and
+  the set $S \eqdef \{i: -1 < x_i < 1\}$ has size at most
+  $(1-\eta)n$.
+  It follows that 
+  \begin{align*}
+    \beta_0((e_i)_{i = 1}^n, Y) &\le C_2K(Y)\vollb((e_i)_{i=1}^n, Y)
+    + 
+    \min_{\eps \in \{-1, 1\}^S}\left\|\sum_{i \in S}{(\eps_i -  x_i)e_i}\right\|_Y
+  \end{align*}
+  To bound the second term on the right, we can apply Lemma~\ref{lm:partial} to the
+  subspace $Y'$ of $Y$ spanned by $(e_i)_{i \in S}$ and the vector $y
+  \eqdef Q_S(x)$, and we get that there exists a vector $x' \in
+  [-1,1]^S$ such that 
+  \[
+  \|x' - y\|_{Y'} \le C_2K(Y)\vollb((e_i)_{i\in S}, Y')
+  \le C_2K(Y)\vollb((e_i)_{i=1}^n, Y),  
+  \]
+  and $S' \eqdef \{i \in S: -1 < x'_i < 1\}$ has size at most
+  $(1-\eta)^2n$. It follows that 
+  \[
+  \beta_0((e_i)_{i = 1}^n, Y) \le 2C_2K(Y)\vollb((e_i)_{i=1}^n, Y)
+  + 
+  \min_{\eps \in \{-1, 1\}^{S'}}\left\|\sum_{i \in S'}{(\eps_i -  x'_i)e_i}\right\|_Y.
+  \]
+  Continuing in this fashion, we eventually get an inequality of the
+  form
+  \[
+  \beta_0((e_i)_{i = 1}^n, Y) \le C_2\lceil \log_{1/(1-\eta)}n\rceil\cdot
+  K(Y)\vollb((e_i)_{i=1}^n, Y)
+  + \min_{\eps \in \{-1, 1\}}\|(\eps - z)e_j\|_Y,
+  \]
+  for some $z \in [-1, 1]$ and some $j \in [n]$. The second term on
+  the right hand side is easily seen to be bounded by
+  $\vollb((e_i)_{i=1}^n, Y)$, and this finishes the proof.
+\end{proof}
+
+It should be possible to make Theorem~\ref{thm:tightness} constructive in the
+following sense: there exists a randomized polynomial time algorithm
+which, given vectors $u_1, \ldots, u_N$, and oracle access to $B_Y$,
+computes signs $\eps_1, \ldots, \eps_N$ such that 
+\[
+\left\|\sum_{i = 1}^N{\eps_i u_i}\right\|_Y \le  
+C(1+\log n)^2\vollb((u_i)_{i = 1}^N, Y). 
+\]
+%Theorem~\ref{thm:giann} has constructive variants, and the main thing
+%to verify is whether Theorem~\ref{thm:volnum} is also constructive, in
+%the sense that the orthogonal projection $P$ can be efficiently
+%computed given a separation oracle for $B_Y$. This seems quite
+%likely. 
+
+\medskip\noindent
+\textbf{Question}:
+\begin{itemize}
+\item Can we compute $\vollb((u_i)_{i = 1}^N, Y)$ efficiently, given
+  oracle access to $B_Y$?
+\end{itemize}
+
+\section{Convex Hulls}
+
+Here we show that the volume lower bound is maximized at the extreme
+points of a convex set.
+
+\begin{theorem}\label{thm:conv-hull}
+  Let $v_1, \ldots, v_m$ be points in $\R^n$, and let $K \eqdef
+  \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. Then, for any normed
+  space $Y$ on $\R^n$, 
+  \[
+  \sup_{u_1, \ldots, u_n \in K}\vollb((u_i)_{i = 1}^N, Y)
+  \le
+  \vollb((v_i)_{i = 1}^m, Y).
+  \]
+\end{theorem}
+
+We will use a theorem of K.~Ball~\cite{Ball88}.
+
+\begin{theorem}\label{thm:ball-logconcave}
+  Let $f: \R^k \to [0, \infty)$ be an even logarithmically concave
+  function such that $0 < \int_{\R^k} f < \infty$. Then, for any $p
+  \ge 1$, 
+  \[
+  \|x\|_{f,p} \eqdef 
+  \begin{cases}
+    \left(\int_0^\infty f(rx) r^{p-1}dr\right)^{-1/p}, &x \neq 0,\\
+    0, &x = 0.
+  \end{cases}
+  \]
+  defines a norm on $\R^k$. 
+\end{theorem}
+
+
+\begin{proof}[Proof of Theorem~\ref{thm:conv-hull}]
+  It is enough to show that, for any integer $k$ between $1$ and $n$,
+  if we keep $u_1, \ldots, u_{k-1} \in \R^n$ fixed, and for any $x\in
+  \R^n$ define $G_x$ to be the Gram matrix of the vectors $u_1,
+  \ldots, u_{k-1}, x$, then the function $g: \R^n \to [0, \infty)$
+  defined by
+  \[
+  g(x) = \frac{\det(G_x)^{1/(2)}}{\vol_k(B_Y \cap \lspan\{u_1,
+    \ldots, u_{k-1}, x\})}
+  \]
+  achieves its maximum on $K$ at an extreme point. Furthermore, this
+  follows immediately if $g$ is convex. Below we prove the convexity
+  of $g$.
+
+  Let $G$ be the Gram matrix of $u_1, \ldots, u_{k-1}$, and let $W =
+  \lspan\{u_1, \ldots, u_{k-1}\}$. Denote by $P_{W^\perp}$ the
+  orthogonal projection onto the orthogonal complement of $W$.
+  Observe first that
+  \[
+  g(x) = \frac{\det(G)^{1/2}\|P_{W^\perp}x\|_2}{\vol_k(B_Y \cap (W +
+    \lspan\{x\}))}. 
+  \]
+  To show that that $g$ is convex, it is enough to show that it is
+  convex on $W^\perp$.  For $x \in W^\perp$, define $f(x) \eqdef
+  \vol_{k}(B_Y \cap (W + x))$. By the Brunn-Minkowski inequality and
+  symmetry of $B_Y$, $f$ is en even log-concave function on
+  $W^\perp$. Notice that
+  \[
+  \vol_{k+1}(B_Y \cap  (W + \lspan\{x\}))
+  = 
+  \int_{-\infty}^\infty{f(tx/\|x\|_2)dt} 
+  = 
+  2\|x\|_2 \int_{0}^\infty{f(tx)dt}.
+  \]
+  Therefore, 
+  \[
+  g(x) = 
+  \frac{\|x\|_2}{\vol_{k+1}(B_Y \cap  (W + \lspan\{x\}))}
+  = 
+  \frac{1}{2\int_{0}^\infty{f(tx)dt}}
+  = \frac{1}{2}\|x\|_{f,1}
+  \]
+  is a norm on $W^\perp$, by Theorem~\ref{thm:ball-logconcave} (after
+  identifying $W^\perp$ with $\R^{n-k+1}$), and, therefore, convex. The
+  theorem follows.
+\end{proof}
+
+
+Let $v_1, \ldots, v_m \in \R^n$ and define a norm $X$ on $\R^n$ with
+unit ball $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. By
+Theorem~\ref{thm:tightness}, we have that 
+\[
+1 \le \frac{\beta(X, Y)}{\sup_{u_1, \ldots, u_n \in
+    B_X}\vollb((u_i)_{i = 1}^n, Y)} \le C K(Y)(1+\log n).
+\]
+Theorem~\ref{thm:conv-hull} allows us to write the stronger inequality
+\[
+1 \le \frac{\beta(X, Y)}{\vollb((v_i)_{i = 1}^m, Y)} \le C K(Y)(1+\log n).
+\]
+This also implies that
+\begin{equation}\label{eq:beta-conv-hull}
+\beta(X, Y) \le CK(Y)(1+\log n) \beta((v_i)_{i = 1}^m, Y),
+\end{equation}
+i.e.~the vector balancing constant does not increase much when we take
+convex hulls. 
+
+\medskip\noindent
+\textbf{Questions}:
+\begin{itemize}
+\item Does \eqref{eq:beta-conv-hull} hold with $CK(Y)(1+\log n)$
+  replaced by a fixed constant?
+\item Is there a more direct proof of \eqref{eq:beta-conv-hull}?
+\end{itemize}
+
+\section{The Factorization Approach}
+
+In the inductive proof of Theorem~\ref{thm:tightness} we need to keep
+alternating between computing Gaussian estimates based on volume
+information, and applying Theorem~\ref{thm:giann}, as we induct on
+lower dimensional subspaces. One downside of this (except the
+complexity of the proof) is that the proof is not too useful in
+computing $\beta(X, Y)$. Next we explore a different approach, which
+aims at separating computing a Gaussian estimate from volume
+information, on one hand, and the vector balancing argument on the
+other. The approach is a (significant) generalization of the one used
+in~\cite{disc-gamma2}. 
+
+Recall that for an operator $S:\ell_2^n \to Y$, where $Y$ is a Banach
+space, we define the $\ell$-norm as
+\[
+\ell(S) \eqdef \left( \int \|u(x)\|_Y^2 d\gamma_n(x) \right)^{1/2},
+\]
+where $\gamma_n$ is the standard Gaussian measure on $\R^n$. The dual
+norm is defined for an opartor $R: Y \to \ell_2^n$ by 
+\[
+\ell^*(R) = \sup\{\tr(RS): S: \ell_2^n \to Y, \ell(S) \le 1\}.
+\]
+
+Let $X$ and $Y$ be normed spaces defined on $\R^n$, and let $U:X \to
+Y$ be a linear operator. We define a factorization constant
+\[
+\lambda(U) \eqdef \inf \{\ell(S)\|T\|: T: X \to \ell_2^n, S: \ell_2^n
+\to Y, U = ST\}.
+\]
+
+\medskip\noindent
+\textbf{Questions}:
+\begin{itemize}
+\item Is $\lambda$ a norm? (Probably not.) A quasi-norm? (Probably yes.)
+\end{itemize}
+
+
+We have the following theorem.
+
+\begin{theorem}\label{thm:factorization}
+  There exists a constant $C$ such that for any two $n$-dimensional
+  normed spaces $X, Y$ we have
+  \[
+  \beta(X,Y) \le C\lambda(I_{X,Y}),
+  \]
+  where $I_{X,Y}:X \to Y$ is the formal identity operator. 
+\end{theorem}
+
+The theorem is a consequence of the following result by Banaszczyk~\cite{bana}.
+\begin{theorem}\label{thm:bana}
+  Let $K$ be a convex body in $\R^n$ such that $\gamma_n(K) \ge
+  \frac12$. Then, for any sequence of vectors $v_1, \ldots, v_N \in
+  B_2^n$, there exist signs $\eps_1, \ldots, \eps_N$ such that
+  \[
+  \sum_{i = 1}^N{\eps_i v_i}\in 5K.
+  \]
+\end{theorem}
+
+\begin{proof}[Proof of Theorem~\ref{thm:factorization}]
+  Let $u_1, \ldots, u_N \in B_X$ be arbitrary, and let $T:X \to
+  \ell_2^n$, $S:\ell_2^n \to Y$ be such that $\ell(S)\le
+  \lambda(I_{X,Y}) + \eps$ and $\|T\| \le 1$. For $i \in \{1, \ldots,
+  N\}$, define $v_i \eqdef Tu_i$; by assumption, $v_i \in B_2^n$ for
+  all $i$. Let $K = \sqrt{2}\ell(S) S^{-1}(B_Y)$, and let
+  $\|\cdot\|_K$ be the norm with unit ball $K$. Observe that for any
+  $x \in \R^n$, $\|x\|_K = \frac{1}{\sqrt{2}\ell(S)}\|Sx\|_Y$. By
+  Chebyshev's inequality,
+  \[
+  1 - \gamma_n(K) \le \int \|x\|_K^2 d\gamma_n(x)
+  =
+  \frac{1}{2\ell(S)^2} \int \|Sx\|_Y^2 d\gamma_n(x)
+  = \frac{1}{2}.
+  \]
+  We can, therefore, apply Theorem~\ref{thm:bana}, and have that there
+  exist signs $\eps_1, \ldots, \eps_N$ such that 
+  \[
+  \sum_{i =1}^N{\eps_i v_i} \in 5K
+  \iff
+  \sum_{i = 1}^N{\eps_i ST u_i} \in (5\sqrt{2}\ell(S))B_Y
+  \iff 
+  \left\|\sum_{i = 1}^N{\eps_i u_i}\right\|_Y \le 5\sqrt{2}(\lambda(I_{X,Y})
+    + \eps).
+  \]
+  Sending $\eps$ to $0$ and taking a supremum over
+  $u_1, \ldots, u_N \in B_X$  finishes the proof.
+\end{proof}
+
+We would like to prove that the inequality
+Theorem~\ref{thm:factorization} holds in the reverse direction as
+well, up to a poly-logarithmic factor, i.e.~to show that
+$\lambda(I_{X,Y}) \le (\log n)^{O(1)}\beta(X,Y)$.
+
+\subsection{Convex Formulation}
+
+The factorization constant $\lambda(I_{X,Y})$ can be formulated as the
+solution to a convex optimization problem, i.e.~as the infimum of a
+convex function over a convex domain. This fact is useful in that it
+allows applying generic convex optimization techniques to compute
+$\lambda(I_{X,Y})$ given appropriate access to the unit balls of $X$
+and $Y$. It will also be useful in deriving a dual formulation of
+$\lambda(I_{X,Y})$ in the subsequent section. 
+
+We will use the notation $\nu(A)$ for the nuclear norm of an operator
+$A:\ell_2^n \to \ell_2^n$, i.e.~the sum of its singular values. We say
+an operator $M:\R^n \to \R^n$ is positive definite if $\langle x,
+Mx\rangle = \langle Mx, x\rangle > 0$ for all nonzero $x \in \R^n$,
+and we denote $M \succ 0$.  
+
+
+In the following lemma we define a
+function which playes a key role in our development, and we derive
+some of its properties.
+
+\begin{lemma}\label{lm:obj-f}
+  Let $X$ and $Y$ be two normed spaces defined on $\R^n$. Let $f$ be
+  the function that maps a positive definite operator $M: X \to X^*$
+  to
+  \[
+  f(M) \eqdef  \ell(I_{X,Y}M^{-1/2}),
+  \]
+  where $M^{-1/2}:\ell_2^n \to X$ is the unique positive definite operator such that
+  $M^{-1/2}(M^{-1/2})^* = M^{-1}$. Then
+  \begin{itemize}
+  \item $f$ is a differentiable convex function on $\{M: M \succ 0\}$;
+  \item $f$ is given by the formula
+    \begin{equation}\label{eq:f-formula}
+    f(M) = \sup\{\tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}): 
+    R: Y \to \ell_2^n, \ell^*(R) \le 1\};
+    \end{equation}
+  \item the derivative of $f$ at $M$ is 
+    \begin{equation}\label{eq:f-derivative}
+    \nabla f(M) = 
+    -\frac{1}{2} (RI_{X,Y})^{-1} ((RI_{X,Y})^{-*} M (RI_{X,Y})^{-1})^{-3/2} (RI_{X,Y})^{-*},
+    \end{equation}
+    where $R: Y \to \ell_2^n$, $\ell^*(R) \le 1$ is such that $f(M) = 
+    \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$.
+  \end{itemize}
+\end{lemma}
+
+First we need an auxiliary lemma. 
+
+\begin{lemma}\label{lm:invertible}
+  Let $Y$ be an $n$-dimensional normed space, and let $S:\ell_2^n \to
+  Y$ be an invertible linear operator. Then any operator $R:Y \to
+  \ell^2_n$ such that $\tr(RS) = \ell(S)$ is invertible.
+\end{lemma}
+\begin{proof}
+  Assume for contradiction that $R$ is not invertible, i.e.~it has a
+  non-trivial kernel. Then, if $P$ is the orthogonal projection onto
+  the kernel of $R$, we have $\ell(S) = \tr(RS) = \tr(R(I-P)S) \le
+  \ell((I-P)S)$. Let $k$ be the dimension of the kernel of $R$, $W$ be
+  the $k$-dimensional linear subspace such that $S(W)$ is the kernel
+  of $R$, and let $K = S^{-1}(B_Y)$. Using integration by parts,
+  we have
+  \begin{align*}
+  \ell((I-P)S)^2 &= \int_{t = 0}^\infty (1-\gamma_{n-k}(\sqrt{t}K\cap W^\perp))dt\\
+  \ell(S)^2 &= \int_{t = 0}^\infty (1-\gamma_n(\sqrt{t}K))dt\\
+  &= \int_{t = 0}^\infty \int_{W}(1-\gamma_{n-k}(\sqrt{t}K \cap (y + W^\perp))d\gamma_{k}(y))dt
+  \end{align*}
+  By the logconcavity of Gaussian measure and the symmetry of $K$,
+  $\gamma_{n-k}(\sqrt{t}K \cap (y + W^\perp)) \le \gamma_{n-k}(\sqrt{t}K \cap
+  W^\perp)$ for all $y \in W$, and, for all $y$ outside a
+  compact set we have $\gamma_{n-k}(\sqrt{t}K \cap (y + W^\perp)) = 0 <
+  \gamma_{n-k}(\sqrt{t}K \cap W^\perp)$. Therefore, $\ell((I-P)S) < \ell(S)$, a
+  contradiction.
+\end{proof}
+
+\begin{proof}[Proof of Lemma~\ref{lm:obj-f}]
+  We begin with the proof of differentiability. Since $\| \cdot \|_Y$
+  is Lipschitz, by Rademacher's theorem it is almost everywhere
+  differentiable. Therefore, for any invertible operator $A:\ell_2^n
+  \to Y$, the function $g_x(A) = \|Ax\|_Y$ is differentiable in $A$
+  for almost all $x$. Also, the function $h$ that maps positive
+  definite operators $M$ on $\R^n$ to the principle square root
+  $M^{-1/2}$ of $M^{-1}$ has a Frechet derivative $Dh$. Using the
+  dominated convergence theorem and the chain rule, we can show that
+  the derivative of $f$ at $M$ is
+  \[
+  \nabla f(M) = \frac{1}{f(M)} \int Dh(M)^*(\nabla g_x(M^{-1/2})) d\gamma_n(x).
+  \]
+  Above, $Dh(M)^*$ is the dual of the linear operator $Dh(M)$. This
+  completes the proof of differentiability. 
+
+  Next we prove the identity \eqref{eq:f-formula}. Observe that
+  for any orthogonal transformation $U$ and any transformation $A:
+  \ell_2^n \to Y$, $\ell(AU) = \ell(A)$ by the rotational invariance
+  of the Gaussian measure. Therefore, 
+  \begin{align*}
+  \ell(I_{X,Y}M^{-1/2}) &= \sup\{\ell(I_{X,Y}M^{-1/2}U): U \text{ orthogonal}\}\\
+  &= \sup\{\tr(RI_{X,Y}M^{-1/2}U): R:Y\to\ell_2^n, \ell^*(R) \le 1, U \text{ orthogonal}\}\\
+  &= \sup\{\nu(RI_{X,Y}M^{-1/2}): R:Y\to\ell_2^n, \ell^*(R) \le 1\}\\
+  &= \sup\{\tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}): R:Y\to\ell_2^n, \ell^*(R) \le  1\}. 
+  \end{align*}
+  Given this formula, in order to prove convexity, it is enough to
+  prove that for any operator $A:X \to \ell^n_2$, the function
+  $\tr((AM^{-1}A^*)^{1/2})$ is convex in $M$ for $M$ positive
+  definite. We use a standard argument based on majorization, which we
+  sketch next.  By continuity, we may assume that $A$ is invertible,
+  so that $AM^{-1}A^* = (A^{-*}MA^{-1})^{-1}$; let us denote $B =
+  A^{-1}$. Let $\alpha \in (0,1)$ be arbitrary, and let $M_1, M_2$ be
+  two positive definite operators on $\R^n$. Let $\mu$ map a
+  self-adjoint operator on $\R^n$ to the vector of its eigenvalues. It
+  is well-known that $\mu(B^*(\alpha M_1 + (1-\alpha)M_2)B)$ is
+  majorized by $\alpha \mu(B^*M_1B) + (1-\alpha) \mu(B^*M_2B)$. Let
+  $g$ be the function defined on vectors $x \in \R^n$ with positve
+  coordinates by $g(x) = \sum_{i=1}^n{x_i^{-1/2}}$. It is easy to
+  verify that $g$ is convex and Schur-convex, so
+  \[
+  g(\mu(B^*(\alpha M_1 + (1-\alpha)M_2)B))
+  \le
+  g(\alpha \mu(B^*M_1B) + (1-\alpha) \mu(B^*M_2B))
+  \le 
+  \alpha g(\mu(B^*M_1B)) + (1-\alpha) g(\mu(B^*M_2B)).
+  \]
+  Since the left hand side above equals   
+  \[
+  \tr((B^*(\alpha M_1 + (1-\alpha)M_2)B)^{-1/2})
+  = 
+  \tr((A(\alpha M_1 + (1-\alpha)M_2)^{-1}A^*)^{1/2}),
+  \]
+  and the right hand side equals
+  \[
+  \alpha \tr((B^*M_1B)^{-1/2}) +  (1- \alpha) \tr((B^*M_2B)^{-1/2})
+  = 
+  \alpha \tr((AM_1^{-1}A^*)^{1/2}) +  (1- \alpha) \tr((AM_2^{-1}A^*)^{1/2}),
+  \]
+  we have established convexity.   
+
+  From \eqref{eq:f-formula}, we can see that the subgradient of
+  $f$ at $M$ is
+  \begin{align*}
+  \partial f(M) &= \mathrm{conv}
+  \{\nabla_M \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}):\\
+  &\hspace{10em}
+  R: Y \to \ell_2^n, \ell^*(R) \le 1,
+  f(M) = \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})\}\\
+  &= 
+  \mathrm{conv}\{
+  -\frac{1}{2} 
+  (RI_{X,Y})^{-1} ((RI_{X,Y})^{-*} M (RI_{X,Y})^{-1})^{-3/2} (RI_{X,Y})^{-*}:\\ 
+  &\hspace{10em}
+  R: Y \to \ell_2^n, \ell^*(R) \le 1, 
+  f(M) = \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})\}.
+  \end{align*}
+  Above we used the fact that $\nabla \tr(X^{-1/2}) =
+  -\frac{1}{2}X^{-3/2}$ for any positive definite $X$
+  (see~\cite{Lewis95}), and Lemma~\ref{lm:invertible}, which implies
+  that any $R$ satisfying $f(M) =
+  \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$ is invertible. Since $f$
+  is differentiable, we have that $\partial f(M)$ is a singleton set,
+  i.e.~
+  \[
+  \nabla f(M) = 
+  -\frac{1}{2} (RI_{X,Y})^{-1} ((RI_{X,Y})^{-*} M (RI_{X,Y})^{-1})^{-3/2} (RI_{X,Y})^{-*}
+  \]
+  for the an invertible operator $R: Y \to \ell_2^n$, such that
+  $\ell^*(R) \le 1$ and $f(M) =
+  \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$. This finishes the proof
+  of the lemma.
+\end{proof}
+
+We are now ready to formulate $\lambda(I_{X,Y})$ as a convex
+minimization problem. 
+
+\begin{theorem}\label{thm:fact-convex}
+  For any two $n$-dimensional normed spaces $X$ and $Y$, and the
+  formal identity $I_{X,Y}:X \to Y$, $\lambda(I_{X,Y})$ equals
+  \begin{align}
+    &\inf %\ell(M^{-1/2})
+    f(M)  \label{eq:fact-obj}\\
+    &\text{s.t.}\notag\\
+    &M: X \to X^*,\|M\| \le 1\label{eq:fact-constr}\\
+    &M \succ 0.\label{eq:fact-psd}
+  \end{align}
+  The function $f$ is the one defined in Lemma~\ref{lm:obj-f}.
+  %$M^{-1/2}$ is the inverse of the principle square root
+  %$M^{1/2}$ of $M$, and is taken as an operator from $\ell_2$ to $Y$. 
+
+  Moreover, the objective \eqref{eq:fact-obj} and the constraints
+  \eqref{eq:fact-constr}--\eqref{eq:fact-psd} are convex in $M$.
+\end{theorem}
+\begin{proof}
+  The convexity of the constraints
+  \eqref{eq:fact-constr}--\eqref{eq:fact-psd} is apparent from the
+  definition, and the convexity of the objective was proved in
+  Lemma~\ref{lm:obj-f}. We proceed to show that the value of
+  \eqref{eq:fact-obj}--\eqref{eq:fact-psd} equals $\lambda(I_{X,Y})$.
+
+  Let $T:X \to \ell_2^n$ and $S:\ell_2^n \to Y$, $ST = I_{X,Y}$ be a
+  factorization achieving $\lambda(I_{X,Y})$ such that $\|T\| = 1$ and
+  $\ell(S) = \lambda(I_{X,Y})$. Then we claim that $M \eqdef T^*T$
+  satisfies \eqref{eq:fact-constr}--\eqref{eq:fact-psd} and achieves
+  value $\ell(S)$, so the value of
+  \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is at most
+  $\ell(S) = \lambda(I_{X,Y})$. Indeed, $M$ is clearly positive semidefinite,
+  and must be positive definite, as $T$ is
+  invertible. Furthermore, since $\|T\|\le 1$, we have that for any $x
+  \in B_X$,
+  \[\langle x, Mx \rangle = \langle Tx, Tx\rangle =
+  \|Tx\|^2_2 \le 1.\] 
+  On the other hand, since $M$ is self-adjoint,
+  $\|M\| = \sup\{\langle x, Mx\rangle: x \in B_X\}$, and we have shown
+  that $\|M\| \le 1$. Since $M^{-1} = T^{-1}T^{-*}$, we have that
+  there exists an orthogonal transformation $U$ such that $M^{-1/2} =
+  T^{-1}U$. By the rotational invariance of the Gaussian measure, 
+  \[
+  \ell(I_{X,Y}M^{-1/2}) = 
+  \ell(I_{X,Y}  T^{-1}U) = 
+  \ell(I_{X,Y}  T^{-1})  = \ell(S) = \lambda(I_{X,Y}).
+  \]
+  This finishes the proof of the claim that the value of
+  \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is at most $\lambda(I_{X,Y})$
+  
+  Next we prove the reverse inequality. Given a feasible solution $M$
+  to \eqref{eq:fact-obj}--\eqref{eq:fact-psd}, we can construct a
+  factorization $S \eqdef I_{X,Y}M^{-1/2}$, $T \eqdef M^{1/2}$ of
+  $I_{X,Y}$, where $M^{1/2}$ is the principle square root of $M$ and
+  $M^{-1/2}$ is its inverse. By
+  \eqref{eq:fact-constr}--\eqref{eq:fact-psd}, for any $x \in B_X$ we have
+  \[
+  \|Tx\|^2_2 = \langle Tx, Tx\rangle = \langle x, Mx \rangle  \le
+  1,\] so $\|T\| \le 1$. Moreover, $\ell(S) = f(M)$ by
+  definition. This proves that the value of
+  \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is at least
+  $\lambda(I_{X,Y})$, and, since we already showed that it is also at
+  most $\lambda(I_{X,Y})$, the two are equal.
+\end{proof}
+
+\subsection{Dual Formulation}
+
+
+Next we give a dual formulation of $\lambda(I_{X,Y})$ as a
+supremum over ``dual certificates''. Such a formulation is very useful
+in reversing the inequality in Theorem~\ref{thm:factorization},
+because it allows us to reduce such a proof to relating the dual
+certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
+
+\begin{theorem}\label{thm:dual}
+  Let $X$ and $Y$ be two $n$-dimensional normed
+  spaces, such that the unit ball of $X$ is $B_X = \mathrm{conv}\{\pm
+  v_1, \ldots, \pm v_m\}$. Then $\lambda(I_{X,Y})$ equals
+  \begin{align}
+    &\sup \tr((RI_{X,Y}(\sum_{i = 1}^m{p_i v_i \otimes  v_i})I_{Y^*,X^*}R^*)^{1/3})^{3/2}\label{eq:dual-obj}\\
+    \text{s.t.}\notag\\
+    &R: Y \to \ell_2^n, \ell^*(R) \le 1 \label{eq:dual-ellstar}\\
+    &\sum_{i = 1}^m{p_i} = 1\label{eq:dual-prob}\\
+    &p_1, \ldots, p_m \ge 0. \label{eq:dual-nonneg}
+  \end{align}
+\end{theorem}
+\begin{proof}
+  Since $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$, we can can
+  rewrite \eqref{eq:fact-obj}--\eqref{eq:fact-psd} as
+  \begin{align}
+    &\inf f(M)\ \ \ 
+    \text{s.t.}\label{eq:poly-obj}\\
+    &\langle v_i, Mv_i\rangle \le 1 \ \ \forall i \in [m]\\
+    &M \succ 0\label{eq:poly-psd},
+  \end{align}
+  By Theorem~\ref{thm:fact-convex} this is a convex minimization problem
+  and its value equals $\lambda(I_{X,Y})$.
+
+  Recall that the conjugate function $f^*$ is defined on self-adjoint
+  linear operators $Q:\R^n \to \R^n$ by:
+  \[
+  f^*(Q) \eqdef \sup\{\tr(QM) - f(M): M \succ 0\}.
+  \]
+  Since $f^*(Q)$ is the supremum of affine functions, it is convex and
+  lower semicontinuous. The set on which $f^*$ takes a finite value is
+  called its domain. The significance of $f^*$ is the fact
+  \begin{equation}\label{eq:lagrange}
+  \lambda(I_{X,Y}) = 
+  \sup\left\{-\sum_{i = 1}^m{q_i} - 
+    f^*\left(-\sum_{i = 1}^m{q_i v_i\otimes v_i}\right):
+      q_1, \ldots, q_m \ge 0\right\}.
+  \end{equation}
+  This follows from the duality theory of convex optimization, since
+  \eqref{eq:poly-obj}--\eqref{eq:poly-psd} satisfies Slater's
+  condition, which in this case reduces to just checking the existence
+  of a feasible $M$ (see~\cite[Chapter 5]{BoydV04}). We proceed to
+  compute $f^*(Q)$.
+
+  It is easy to see that unless $-Q \succeq 0$, $f^*(Q) = \infty$,
+  and, conversely, if $-Q \succeq 0$, $f^*(Q) \le 0 <
+  \infty$. Therefore, the domain of $f^*$ is $\{Q: -Q \succeq 0\}$. We
+  will first handle the case $-Q \succ 0$, and then we will extend our
+  formula for $f^*(Q)$ to $-Q \succeq 0$ by continuity. Assume then
+  that $-Q \succ 0$. As $f$ is a differentiable convex function, the
+  range of the gradient mapping $\nabla f$ includes the relative
+  interior of the domain of $f^*$, i.e.~the set of linear operators
+  $\{X: -X \succ 0\}$ (see Corollary~26.4.1.~in~\cite{Rockafellar});
+  from \eqref{eq:f-derivative} it is also apparent that $\nabla f(M)$
+  is negative definite for any positive definite $M$, so the range of
+  the gradient mapping is exactly $\{X: -X \succ 0\}$. This means that
+  the equation $\nabla f(M) = Q$ has a solution over $M \succ 0$, and
+  $f^*(Q)$ is achieved at this solution. Let $M$ be the solution, and
+  let $R:Y \to \ell_2^n$ be the invertible map such that $\ell^*(R)
+  \le 1$ and $f(M) = \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$. Let
+  $A = RI_{X,Y}$; $\nabla f(M) = Q$ implies
+  \[
+  (A^{-*} M A^{-1})^{-3/2} = -2 AQA^*,
+  \]
+  and, therefore,
+  \begin{align*}
+    f^*(Q) &= \tr(QM) - \tr((AM^{-1}A^*)^{1/2})\\
+    &= \tr((AQA^*)(A^{-*}MA^{-1})) -   \tr((A^{-*}MA^{-1})^{-1/2})\\
+    &= -\frac{3}{2^{2/3}} \tr((-AQA^*)^{1/3}).
+  \end{align*}
+  We have proved that
+  \begin{equation}\label{eq:conjugate-lb}
+  f^*(Q) \ge 
+  \inf\left\{ -\frac{3}{2^{2/3}} \tr((-RI_{X,Y}QI_{Y^*,X^*}R^*)^{1/3}):
+  R:Y \to \ell_2^n,\ell^*(R) \le 1\right\},
+  \end{equation}
+  for any $Q:X^*\to X$ such that $-Q \succ 0$.  Let $\mathcal{D}$ be
+  the set of invertible maps $R:Y \to \ell_2^n$ such that $\ell^*(R)
+  \le 1\}$. By \eqref{eq:f-formula} and the definition of the
+  conjugate function $f^*$ we also have
+  \begin{align*}
+  f^*(Q) &= 
+  \sup_{M: M \succ 0} 
+  \inf_{R \in \mathcal{D}}
+  \tr(QM) - \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})\\
+  &\le
+  \inf_{R \in \mathcal{D}}
+  \sup_{M: M \succ 0} 
+  \tr(QM) - \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}).
+  \end{align*}
+  For any $R \in \mathcal{D}$, the supremum on the right hand side
+  equals the value at $Q$ of the conjugate $h^*_R$ of the
+  function $h_R(M) = \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$. A
+  calculation analogous to the one above shows that $h_R^*(Q) =
+  -\frac{3}{2^{2/3}}
+  \tr((-RI_{X,Y}QI_{Y^*,X^*}R^*)^{1/3})$. Therefore,
+  \[
+    f^*(Q) \le
+    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-(RI_{X,Y}QI_{Y^*,X^*}R^*)^{1/3}):
+    R:Y \to \ell_2^n,\ell^*(R) \le 1\right\},
+  \]
+  and, together with \eqref{eq:conjugate-lb}, we have established 
+  \begin{equation}
+    \label{eq:conjugate}
+    f^*(Q) =
+    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-(RI_{X,Y}QI_{Y^*,X^*}R^*)^{1/3}):
+    R:Y \to \ell_2^n,\ell^*(R) \le 1\right\},
+  \end{equation}
+  for any $Q:X^*\to X$ such that $-Q \succ 0$. Since $f^*$ is a
+  a proper lower-semicontinuous function, it is continuous on any
+  line segment contained in its domain by Corollary
+  7.5.1.~in~\cite{Rockafellar}. Therefore, \eqref{eq:conjugate}
+  holds for any $Q \succeq 0$ as well. 
+  
+  By \eqref{eq:lagrange} and \eqref{eq:conjugate}, 
+  \[
+  \lambda(I_{X,Y}) = 
+  \sup\left\{-\sum_{i = 1}^m{q_i} 
+    + \frac{3}{2^{2/3}} \tr((-(RI_{X,Y}(\sum_{i = 1}^m{q_i  v_i\otimes v_i})I_{Y^*,X^*}R^*)^{1/3}):
+    R:Y \to \ell_2^n,\ell^*(R) \le 1,
+    q_1, \ldots, q_m \ge 0\right\}.
+  \]
+  Let us write $q = tp$ where $t \ge 0$ is a real number, $p_1,
+  \ldots, p_m \ge 0$, and $\sum_i p_i = 1$. Then we can rewrite the
+  equation above as
+  \[
+  \lambda(I_{X,Y}) = 
+  \sup\left\{-t + 
+    \frac{3t^{1/3}}{2^{2/3}} \tr((-(RI_{X,Y}(\sum_{i = 1}^m{p_i  v_i\otimes v_i})I_{Y^*,X^*}R^*)^{1/3}):
+    t, p_1, \ldots, p_m \ge 0, \sum_{i=1}^m p_i = 1\right\}.
+  \]
+  Maximizing over $t$ finishes the proof. 
+\end{proof}
+
+\cut{
+Let, as before, $X$ be an $n$-dimensional normed spaces, and
+let $U:X\to \ell_2^n$ be an invertible linear tranformation. Consider the
+function
+\begin{align}
+  f(X) \eqdef &\inf \tr((UM^{-1}U^*)^{1/2}) \label{eq:single-obj}\\
+  &\text{s.t.}\notag\\
+  &M: X \to X^*,\|M\| \le 1\label{eq:single-constr}\\
+  &M \succ 0.\label{eq:single-psd}.
+\end{align}
+In the proof of Theorem~\ref{thm:fact-convex} we already established
+that this is a convex optimization problem, i.e.~that the objective
+function $\tr((UM^{-1}U^*)^{1/2})$ and the constraints
+\eqref{eq:single-constr}--\eqref{eq:single-psd} are convex in $M$. We
+can formulate $f(X)$ dually as a supremum using standard
+techniques. 
+
+\begin{lemma}\label{lm:duality-single}
+  Let $X$ be an $n$-dimensional normed spaces, whose unit ball $B_X$
+  is the convex hull of $\pm v_1, \ldots, \pm v_m$. Then,
+  \[
+  f(X) = \sup\left\{\tr((U(\sum_{i = 1}^m{p_i v_i \otimes  v_i})U^*)^{1/3})^{3/2}:
+  p_1, \ldots, p_m \ge 0, \sum_{i = 1}^m{p_i} = 1\right\}. 
+  \]
+\end{lemma}
+\begin{proof}
+  Since $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$, we can
+  rewrite \eqref{eq:single-constr}--\eqref{eq:single-psd} as 
+  \begin{align}
+    f(X) \eqdef &\inf \tr((UM^{-1}U^*)^{1/2}) \label{eq:sing2-obj}\\
+    &\text{s.t.}\notag\\
+    &\langle v_i, Mv_i\rangle \le 1 \ \ \forall i \in [m]\label{eq:sing2-constr}\\
+    &M \succ 0\label{eq:sing2-psd}.
+  \end{align}
+  
+  Define the function $g(M) = \tr((UM^{-1}U^*)^{1/2})$ on positive
+  definite $M$. Recall that the conjugate function $g^*$ is defined
+  by:
+  \[
+  g^*(Q) \eqdef \sup\{\tr(QM) - g(M): M \succ 0\}.
+  \]
+  Since $g^*(Q)$ is the supremum of affine functions, it is
+  convex. The set on which $g^*$ takes a finite value is called its
+  domain. The significance of $g^*$ is the fact
+  \[
+  f(X) = \sup\left\{-\sum_{i = 1}^m{q_i} - g^*\left(-\sum_{i = 1}^m{q_i
+      v_i\otimes v_i}\right):
+      q_1, \ldots, q_m \ge 0\right\}.
+  \]
+  This follows from the duality theory of convex optimization, and the fact
+  that \eqref{eq:sing2-obj}--\eqref{eq:sing2-psd} satisfy Slater's
+  condition (see~\cite[Chapter 5]{BoydV04}). We proceed to compute
+  $g^*(Q)$.
+
+  Let us consider again the function $h(x) = \sum_{i =
+    1}^m{x^{-1/2}}$, defined for vectos $x \in \R^n$ with positive
+  coordinates (denoted $x > 0$ below). By an elementary calculation,
+  the conjugate function
+  \[
+  h^*(y) = \sup\{\langle x, y \rangle - h(x): x >0\}
+  \]
+  equals $h^*(y) = -\frac{3}{2^{2/3}} \sum_{i = 1}^m{(-y_i)^{1/3}}$ for
+  vectors $y$ with non-positive coordinates, and $\infty$ for all other
+  $y$. Let, as before, the function $\mu$ map a self-adjoint operator
+  to its vector of eigenvalues. Then, by an observation of Lewis,
+  generalizing a theorem of von Neumann, $(h\otimes \mu)^* = h^*
+  \otimes \mu$, where $h\otimes \mu$ is the composition of $h$ and
+  $\mu$, defined over positive definite operators. We have thus
+  established that for any positive semidefinite $Q$, 
+  \[
+  \sup\{-\tr(QM) - tr(M^{-1/2}): M \succ 0\}
+  = 
+ -\frac{3}{2^{2/3}} \tr((-Q)^{1/3}). 
+  \]
+  We are now ready to compute $g^*$. Since $U$ is invertible, we can
+  write $UM^{-1}U^* = (U^{-*}MU^{-1})^{-1}$; let us denote $V =
+  U^{-1}$ from now on. Then, for any positive semidefinite $Q$,
+  \begin{align*}
+    g^*(-Q) &= \sup\{ -\tr(QM) - g(M): M \succ 0\}\\
+    &= \sup\{ -\tr((UQU^*)(V^*MV)) - tr((V^*MV)^{-1/2}): M \succ 0\}\\
+    &=  \frac{3}{2^{2/3}} \tr((-UQU^*)^{1/3}). 
+  \end{align*}
+  Therefore,
+  \[
+  f(X) = \sup\left\{-\sum_{i = 1}^m{q_i} 
+    + \frac{3}{2^{2/3}} \tr((U(\sum_{i = 1}^m{q_i  v_i\otimes v_i})U^*)^{1/3}):
+    q_1, \ldots, q_m \ge 0\right\}.
+  \]
+  Finally, let us write $q = tp$ where $t \ge 0$ is a real number,
+  $p_1, \ldots, p_m \ge 0$, and $\sum_i p_i = 1$. Then we can rewrite
+  the equation above as
+  \[
+  f(X) = \sup\left\{-t
+    + \frac{3t^{1/3}}{2^{2/3}} \tr((U(\sum_{i = 1}^m{p_i  v_i\otimes v_i})U^*)^{1/3}):
+    t, p_1, \ldots, p_m \ge 0, \sum_{i=1}^m p_i = 1\right\}.
+  \]
+  Optimizing over $t$ finishes the proof. 
+\end{proof}
+
+By Theorem~\ref{thm:fact-convex}, 
+\[
+\lambda(I_{X,Y}) = 
+\inf_{M \in \mathcal{D}_X} \sup_{R \in \mathcal{D}_X} 
+\tr(RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}),
+\]
+where $\mathcal{D}_X \eqdef \{M: X \to X^*, \|M\|\le 1, M \succ 0\}$
+and $\mathcal{D}_Y \eqdef \{R: Y \to \ell_2^n, \ell^*(R) \le
+1\}$. \emph{Suppose} that the following min-max equality holds
+\begin{equation}
+  \label{eq:minmax}
+  \inf_{M \in \mathcal{D}_X} \sup_{R \in \mathcal{D}_X} 
+  \tr(RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})
+  = 
+  \sup_{R \in \mathcal{D}_X} \inf_{M \in \mathcal{D}_X} 
+  \tr(RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}).
+\end{equation}
+(\textbf{I haven't been able to prove this: it does not seem to follow
+  from standard minmax theorems like Sion's. Ideas?}) Then, by
+Lemma~\ref{lm:duality-single}, the right hand side above equals 
+\begin{align}
+  &\sup \tr((U(\sum_{i = 1}^m{p_i v_i \otimes  v_i})U^*)^{1/3})^{3/2}\label{eq:dual-obj}\\
+  \text{s.t.}\notag\\
+  &R: Y \to \ell_2^n, \ell^*(R) \le 1 \label{eq:dual-ellstar}\\
+  &\sum_{i = 1}^m{p_i} = 1\label{eq:dual-prob}\\
+  &p_1, \ldots, p_m \ge 0. \label{eq:dual-nonneg}
+\end{align}
+In summary, we have the following lemma.
+
+\begin{lemma}
+  Let $X$ and $Y$ be two $n$-dimensional normed
+  spaces, such that the unit ball of $X$ is $B_X = \mathrm{conv}\{\pm
+  v_1, \ldots, \pm v_m\}$. Then $\lambda(I_{X,Y})$ equals
+  the value of \eqref{eq:dual-obj}--\eqref{eq:dual-nonneg} if and only
+  if equation \eqref{eq:minmax} holds. 
+\end{lemma} }%end of cut
+
+\subsection{Characterizing $\beta(X,Y)$ in terms of $\lambda(I_{X,Y})$}
+
+Here we use Theorem~\ref{thm:dual} to prove the reverse of the
+inequality in Theorem~\ref{thm:factorization}. 
+
+\begin{theorem}\label{thm:fact-vollb}
+  There exists a constant $C$ such that the following holds. Let $X$
+  and $Y$ be two $n$-dimensional normed spaces, such that the unit
+  ball of $X$ is $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. Then
+  \[
+  \lambda(I_{X,Y}) \le C K(Y) (1 + \log n)^{3/2} \vollb((v_i)_{i =
+    1}^m, Y),
+  \]
+  where $I_{X,Y}:X \to Y$ is the formal identity operator, and $K(Y)$
+  is the $K$-convexity constant of $Y$. 
+\end{theorem}
+
+In the proof of Theorem~\ref{thm:fact-vollb} we use covering/packing
+numbers and Sudakov's inequality. For two compact sets $K$ and $L$, we
+use $N(K,L)$ for the covering number, i.e.~the minimum number of translates of
+$L$ needed to cover $K$. We also recall the definition of the entropy
+number $e_k(u)$ of an operator $u:X \to Y$:
+\[
+e_k(u) = \inf\{\varepsilon: N(u(B_X), \varepsilon B_Y) \le 2^{k-1}\}. 
+\]
+In this notation, the dual Sudakov inequality says that there exists a
+constant $C$ such that for any $u:\ell_2^n \to X$
+\begin{equation}
+  \label{eq:sudakov}
+  \max_{k = 1}^n \sqrt{k}e_k(u) \le C\ell(u). 
+\end{equation}
+
+We also use the basic volumetric lower estimate on entropy numbers
+\begin{equation}
+  \label{eq:entropy-vol}
+  e_k(u) \ge \frac{\vol_k(Pu(B_X))^{1/k}}{2\vol_k(P(B_Y))^{1/k}},
+\end{equation}
+valid for any $u:X \to Y$ and any rank $k$ orthogonal projection $P$.
+
+We also make use of a weighted version of
+Lemma~\ref{lm:rip-det}.  
+
+\begin{lemma}\label{lm:rip-det-weighted}
+  Let $u_1, \ldots, u_m \in \R^n$, and let $c_1, \ldots, c_m \ge 0$,
+  $\sum_{i = 1}^mc_i = 1$. Let $\lambda_1 \ge \ldots \ge \lambda_n$ be
+  the eigenvalues of $\sum_{i=1}^m{c_i u_i \otimes u_i}$, and let $G$
+  be the Gram matrix of $u_1, \ldots, u_m$. For any
+  integer $k$ such that $1 \le k \le n$, there exists a set $S
+  \subseteq [m]$ of size $k$ such that 
+  \[
+  \frac{\det(G_{S,S})}{k!} \ge\lambda_1 \ldots \lambda_k. 
+  \]
+\end{lemma}
+\begin{proof}
+  Consider the matrix $H = (\sqrt{c_ic_j}\langle u_i, u_j
+  \rangle)_{i,j = 1}^m$. This matrix has the same nonzero eigenvalues as
+  $\sum_{i=1}^m{c_i u_i \otimes u_i}$, and, therefore,
+  \[
+  \sum_{S \subseteq [m]: |S| = k}{\left(\prod_{i \in S}{c_i}\right)\det(G_{S,S})}
+  = \sum_{S \subseteq [m]: |S| = k}\det(H_{S,S}) = p_{k,n}(\lambda),
+  \]
+  where $p_{k,n}$ is the degree $k$ elementary symmetric polynomial in $n$
+  variables. (See the proof of Lemma~\ref{lm:rip-det} for a
+  justification of the final equality.) Therefore, 
+  \[
+  \max_{S \subseteq [m]: |S| = k}\det(G_{S,S}) 
+  \ge \frac{p_{k,n}(\lambda)}{p_{k,m}(c)}. 
+  \]
+  We can show that $p_{k,n}(\lambda) \ge \lambda_1 \ldots \lambda_k$
+  as in the proof of Lemma~\ref{lm:rip-det}. I.e.~we define a
+  vector $\mu \in \R^n_{\ge 0}$ that majorizes $\lambda$ by $\mu_i
+  \eqdef \lambda_i + \nu$ for $i \in [k]$ and $\mu_i = 0$ for $i > k$,
+  where $\nu \eqdef \frac{1}{k}\sum_{i = k+1}^n{\lambda_i}$. Then, by
+  the Schur concavity of $p_{k,n}$,
+  \[
+  p_{k,n}(\lambda) \ge p_{k,n}(\mu) \ge \lambda_1 \ldots \lambda_k.
+  \]
+  Similarly, observe that the vector $d \in \R^m_{\ge 0}$ with coordinates $d_i =
+  \frac{1}{m}$ is majorized by $c$, and, therefore, 
+  \[
+  p_{k,m}(c) \le p_{k,m}(d) = \frac{1}{m^k} {m \choose k} \le \frac{1}{k!}.
+  \]
+  Combining the inequalities finishes the proof. 
+\end{proof}
+
+Finally, we use the following elementary inequality, valid for an
+absolute constant $C$, and any sequence $x_1 \ge x_2 \ge \ldots \ge
+x_n \ge 0$ of non-negative reals
+\begin{equation}
+  \label{eq:DFE} %Daniel's Favorite Inequality
+  \sum_{i = 1}^n{x_i} \le C(1+\log n) 
+  \max_{k = 1}^n k \left(\prod_{i = 1}^k{x_i}\right)^{1/k}.
+\end{equation}
+
+\begin{proof}[Proof of Theorem~\ref{thm:fact-vollb}]
+  By Theorem~\ref{thm:dual}, there exists an operator $R: \ell_2^n \to
+  Y$, $\ell^*(R) \le 1$ and non-negative reals $p_1, \ldots, p_m \ge
+  0$, $\sum_{i = 1}^m{p_i} = 1$, such that 
+  \[
+  \lambda(I_{X,Y})^{2/3} 
+  = \tr((RI_{X,Y}(\sum_{i = 1}^m{p_i v_i  \otimes  v_i})I_{Y^*,X^*}R^*)^{1/3})
+  = \tr((\sum_{i = 1}^m{p_i RI_{X,Y}(v_i)  \otimes  RI_{X,Y}(v_i)})^{1/3}).
+  \]
+  Let $u_i \eqdef RI_{X,Y}(v_i)$, and let $\lambda_1 \ge \ldots \ge
+  \lambda_n \ge 0$ be the eigenvalues of $\sum_{i = 1}^m{p_i u_i
+    \otimes u_i}$, so that $\lambda(I_{X,Y})^{2/3} = \sum_{i =
+    1}^n{\lambda_i^{1/3}}$. Applying \eqref{eq:DFE} to $x_i \eqdef
+  \lambda_i^{1/3}$, we have that there exists an integer $k$, $1 \le k
+  \le n$, such that
+  \[
+  \lambda(I_{X,Y})^{2/3} \le C_0 (1+\log n) k (\lambda_1 \ldots \lambda_k)^{1/(3k)},
+  \]
+  for an absolute constant $C_0$. Now, by
+  Lemma~\ref{lm:rip-det-weighted}, we have that there exists a set $S
+  \subseteq [m]$ of size $k$ such that
+  \[
+  (\lambda_1 \ldots \lambda_k)^{1/k} \le
+  \frac{\det(H_{S,S})^{1/k}}{(k!)^{1/k}},
+  \]
+  where $H$ is the Gram matrix of $u_1, \ldots, u_m$. By Stirling's
+  estimate, this implies that 
+  \begin{equation}\label{eq:fact-det}
+  \lambda(I_{X,Y})^{2/3} \le C_1 (1+\log n) k^{2/3} \det(H_{S,S})^{1/(3k)},
+  \end{equation}
+  for an absolute constant $C_1$. 
+
+  To finish the proof, we relate the right hand side of
+  \eqref{eq:fact-det} to the volume lower bound. Let $V:\R^S \to W$ be
+  the operator defined by $V(x) \eqdef \sum_{i \in S}{x_i v_i}$ and let $T$
+  be the restriction of $RI_{X,Y}$ to $W \eqdef \lspan\{v_i: i \in
+  S\}$. Then, 
+  \begin{equation}\label{eq:det-product}
+  \det(H_{S,S}) = \det(TVV^*T^*) = \det(V)^2\det(T^*)^2 =
+  \det(G_{S,S}) \det(T^*)^2,
+  \end{equation}
+  where $G$ is the Gram matrix of $v_1, \ldots, v_m$. Furthermore,
+  \begin{align*}
+  |\det(T^*)|^{1/k} =
+  \frac{\vol_k(P_WR^*(B_2^n))^{1/k}}{\vol_k(B_2^k)^{1/k}}
+  &= \frac{\vol_k(P_WR^*(B_2^n))^{1/k}}{\vol_k(P_WB_Y^\circ)^{1/k}} \cdot 
+  \frac{\vol_k(P_WB_Y^\circ)^{1/k}}{\vol_k(B_2^k)^{1/k}}\\
+  &\le 2e_k(R^*) \cdot 
+  \frac{\vol_k(P_WB_Y^\circ)^{1/k}}{\vol_k(B_2^k)^{1/k}},
+  \end{align*}
+  where $P_W:Y^* \to Y^*/W^\perp$ is the orthogonal projection onto
+  the subspace $W$, which we identify with $Y^*/W^\perp$ in the natural
+  way. The last inequality follows from the volume
+  estimate~\eqref{eq:entropy-vol}. Applying \eqref{eq:sudakov} to the
+  first term on the right hand side, and Santalo's inequality to the
+  second, we have that, for an absolute constants $C_2$,
+  \[
+  |\det(T^*)|^{1/k} \le C_2 \frac{\ell(R^*)}{\sqrt{k}} \cdot
+  \frac{\vol_k(B_2^k)^{1/k}}{\vol_k(B_Y \cap W)^{1/k}}. 
+  \]
+  Finally, by $K$-convexity $\ell(R^*) \le K(Y) \ell^*(R) \le
+  K(Y)$. Together with a basic estimate for $\vol_k(B_2^k)^{1/k}$, we
+  have that 
+  \[
+  |\det(T^*)|^{1/k} \le C_3\ \frac{K(Y)}{k\vol_k(B_Y \cap W)^{1/k}},
+  \]
+  for to an absolute constant $C_3$. Combining with \eqref{eq:fact-det} and
+  \eqref{eq:det-product}, we have, for an absolute constant $C_4$,
+  \[
+  \lambda(I_{X,Y}) \le C_4K(Y) (1+\log n)^{3/2}  
+  \frac{\det(G_{S,S})^{1/(2k)}}{\vol_k(B_Y \cap W)^{1/k}}
+  \le C_4 K(Y) (1+\log n)^{3/2}  
+  \vollb((v_i)_{i =  1}^m, Y),
+  \]
+  as required.
+\end{proof}
+
+Combining \eqref{eq:vol-lb} and
+Theorems~\ref{thm:factorization}~and~\ref{thm:fact-vollb},
+we have the following
+
+\begin{corollary}
+  Let $Y$ be a normed space defined on $\R^n$, $u_1, \ldots, u_N \in
+  \R^n$, and let $X$ be the norm on $\R^n$ with unit ball $B_X
+  \eqdef\mathrm{conv}\{\pm u_1, \ldots, \pm u_N\}$. Then, for absolute
+  constants $C, C'$,
+  \[
+  \beta((u_i)_{i = 1}^N, Y) \le \beta(X,Y)
+  \le C \lambda(I_{X,Y})
+  \le C' K(Y) (1+\log n)^{3/2}  \beta((u_i)_{i = 1}^N, Y).
+  \]
+\end{corollary}
+
+\bibliographystyle{alpha}
+\bibliography{Discrepancy}
+\end{document}
