@@ -1,10 +1,23 @@
 \documentclass[12pt]{article}
 
-\usepackage[margin=1in]{geometry}
-
 \usepackage{amsfonts,amsmath,amsthm,amssymb}
 \usepackage{amsthm}
 
+\newif\ifbigfont\bigfonttrue
+%\newif\ifbigfont\bigfontfalse
+
+\ifbigfont
+
+\usepackage[right=.5in,left=.5in,top=.6in,bottom=.6in]{geometry}
+\usepackage[17pt]{extsizes}
+\usepackage{newpxmath,newpxtext}
+
+\else
+
+\usepackage[margin=1in]{geometry}
+\usepackage{newpxmath,newpxtext}
+
+\fi
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}[theorem]{Definition}
@@ -47,7 +60,17 @@
 \ifnotes
 \usepackage{color}
 %\definecolor{mygrey}{gray}{0.50}
+
+\ifbigfont
+
+\newcommand{\notename}[2]{{\textcolor{red}{{\bf (#1:} {#2}{\bf ) }}}}
+
+\else
+
 \newcommand{\notename}[2]{{\textcolor{red}{\footnotesize{\bf (#1:} {#2}{\bf ) }}}}
+
+\fi
+
 \newcommand{\noteswarning}{{\begin{center} {\Large WARNING: NOTES ON}\end{center}}}
 \newcommand{\knote}[1]{{\notename{Kunal}{#1}}}
 \newcommand{\nnote}[1]{{\notename{Nicole}{#1}}}
@@ -100,9 +123,12 @@ discrepancy and hereditary discrepancy into $Y$ as follows:
 \Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{Y};\\
 \hd((u_i)_{i = 1}^N, Y) &\eqdef \max_{S \subseteq  [N]}{\disc((u_i)_S, Y)}.
 \end{align*}
-It follows trivially from the definitions that $\vb(X, Y) =
-\sup\{\hd((u_i)_{i = 1}^N, Y)\}$, where the supremum is taken over all
-finite sequence of vectors from the unit ball of $X$.
+It follows trivially from the definitions that 
+\[
+\vb(X, Y) = \sup\{\hd((u_i)_{i = 1}^N, Y)\},
+\]
+where the supremum is taken over all finite sequence of vectors from the unit
+ball of $X$.
 
 % For a non-singular matrix $A \in \R^{n \times k}$, we define $\detb(A) :=
 % \det(A^\T A)^{1/2}$.  
@@ -134,10 +160,13 @@ which can be computed by $\vol_k(A[0,1)^k) = \det(A^\T A)^{1/2}$.  Letting $U =
 on $\hd((u_i)_{i = 1}^N, Y)$:
 \begin{equation}
   \label{eq:vol-lb}
-  \hd((u_i)_{i = 1}^N, Y) \ge \vollb((u_i)_{i = 1}^N, Y) \eqdef
+\begin{split}
+  \hd((u_i)_{i = 1}^N, Y) &\ge \vollb((u_i)_{i = 1}^N, Y) \\
+                          &\eqdef
   \max_{k \in [n]} \max_{S \subseteq [N]: |S| = k}
 \frac{\det(U_S^\T U_S)^{1/(2k)}}{\vol_{k}(B_Y \cap
 \lspan\{u_i: i \in S\})^{1/k}},
+\end{split}
 \end{equation}
 where $U_S$ corresponds to the columns of $U$ indexed by $S$.
 
@@ -182,9 +211,9 @@ the discrepancy of so-called partial colorings. This allows us to easily recover
 Theorem~\ref{thm:tightness} using $O(\log n)$ partial coloring phases in the
 standard way. We state our technical result below, restricted to the case where
 the vectors are aligned with the standard basis. We note that since the output
-norm is general, this is essentialy without loss of generality. 
+norm is general, this is essentially without loss of generality. 
 
-\begin{lemma}[Partial Colorings] \label{lem:partial-via-volume}
+\begin{lemma}[Partial Colorings via Volume] \label{lem:partial-via-volume}
 There exists a universal constant $C \geq 1, \eps_0, \delta \in (0,1)$, such that
 for any $y \in [-1,1]^n$ and symmetric convex body $K \subseteq \R^n$ satisfying
 $\forall S \subseteq [n]$, $|S| = \ceil{\delta n}$, $\vol_{|S|}(K_S) \geq 1$, there
@@ -202,7 +231,7 @@ given $u_1,\dots,u_N \in \R^n$ and a norm space $Y$ on $\R^n$, it suffices to
 show that $\disc((u_i)_{i=1}^N) \leq C(1+\log n)\vollb((u_i)_{i=1}^N,Y)$.  
 
 To begin, we compute a basic solution to the linear program $\sum_{i=1}^N x_i
-u_i = 0$, $x \in [-1,1]^N$. After relabelling, we may assume the variables not
+u_i = 0$, $x \in [-1,1]^N$. After relabeling, we may assume the variables not
 hitting their $\set{-1,1}$ bounds are $x_1,\dots,x_l$, noting that if there are
 no such variables we already have a $0$ discrepancy coloring. Since
 $x$ is basic, we know that the vectors $u_1,\dots,u_l$ must be linearly
@@ -210,27 +239,33 @@ independent. Therefore, we may apply a invertible linear
 transformation $T:\R^n \rightarrow \R^n$ sending $u_1,\dots,u_l$ to
 $e_1,\dots,e_l$. In particular, letting $Y'$ be the norm space with unit ball $K
 := TB_Y$, we have that 
-\[
-\disc((u_i)_{i=1}^N,Y) \leq \min_{z \in \set{-1,1}^l} \|\sum_{i=1}^l z_i e_i +
-\sum_{i=l+1}^n x_i\|_{Y'} = \min_{z \in \set{-1,1}^l} \|\sum_{i=1}^l (z_i-x_i)e_i\|_{Y'}, 
-\] 
+\begin{align*}
+\disc((u_i)_{i=1}^N,Y) &\leq \min_{z \in \set{-1,1}^l} \|\sum_{i=1}^l z_i e_i +
+\sum_{i=l+1}^N x_i T u_i\|_{Y'} \\
+                &= \min_{z \in \set{-1,1}^l} \|\sum_{i=1}^l (z_i-x_i)e_i\|_{Y'}, 
+\end{align*}
 Furthermore, a direct computation shows that
 \[
 \vollb((u_i)_{i=1}^l,Y) = \vollb((e_i)_{i=1}^l,Y') = \max_{S \subseteq [l]}
 \vol_{|S|}(K_S)^{-1/|S|} \text{ .}
 \] 
-Let us assume that we have computed $M > 0$ satisfying $M/2 \leq
-\vollb((e_i)_{i=1}^l,Y') \leq M$. From here, it suffices to compute $z \in
+Let us assume that we have computed $M > 0$ satisfying 
+\[
+M/2 \leq \vollb((e_i)_{i=1}^l,Y') \leq M. 
+\]
+From here, it suffices to compute $z \in
 \set{-1,1}^l$ such that $\sum_{i=1}^l (z_i-x_i) e_i \in O(\log n M) K$. Note
 that by assumption on $M$, $\vol(MK_S) \geq 1, \forall S \subseteq [l]$.
-Therefore, repeatly applying Lemma~\ref{lem:partial-via-volume} on $MK$, letting $x^0 := x$ we compute a sequence
+Therefore, repeatedly applying Lemma~\ref{lem:partial-via-volume} on $MK$, letting $x^0 := x$ we compute a sequence
 $x^1,\dots,x^T \in [-1,1]^l$, $T = \lceil \log l/\eps_0
-\rceil = O(\log n)$, such that 
-\[
-\sum_{i=1}^l (x^t_i-x^{t-1}_i)e_i \in O(M) K \quad \text{ and } \quad |\set{i
-\in [l]:
-x^t_i \in (-1,1)}| \leq (1-\eps_0)|\set{i \in [l]: x^{t-1}_i \in (-1,1)}|, \forall t \in [T] .
-\]
+\rceil = O(\log n)$, such that $\forall t \in [T]$, we have that
+
+\begin{enumerate}
+\item $\sum_{i=1}^l (x^t_i-x^{t-1}_i)e_i \in O(M) K$.
+\item $|\set{i \in [l]: x^t_i \in (-1,1)}| \leq (1-\eps_0)|\set{i \in [l]:
+x^{t-1}_i \in (-1,1)}|$.
+\end{enumerate}
+
 By our choice of $T$, it is direct to check that $x^T \in \set{-1,1}^l$ and by
 the triangle inequality that $\sum_{i=1}^l (x^T_i-x^0_i)e_i \in T M K = O(\log n
 M) K$. Thus, setting $z = x^T$ satisfies the requirements.
@@ -249,23 +284,19 @@ for any $S \subseteq [l]$,$|S|=k$, we see
 \]
 In particular, we get that $M_1 \leq \vollb((e_i)_{i=1}^l,Y') \leq l M_1$.
 Hence, as input to the stage above we may successively try the values $M_1
-2^k$, $k \in \set{0,\dots,\log l}$, stopping the first time we find a valid
+2^k$, $k \in \set{0,\dots,\log_2 l}$, stopping the first time we find a valid
 coloring. 
 \end{proof}
 
-The above theorem should be viewed as a volumetric analogue of a theorem of
-Rothvoss~\cite{rothvoss-giann}, who both extended and made algorithmic vector
-balancing results of Giannopolous~\cite{giannop}. \dnote{I would like to say
-something about how you probably can't get this type of result using the
-determinant lower bound. In particular, you lose a log there even for partial
-coloring in $\ell_\infty$. I think this is better save for the intro, where its
-easier to compare things.} Before stating Rothvoss' theorem, we first give the
-straightforward reduction from Theorem~\ref{thm:tightness} to
-Lemma~\ref{lem:partial-via-volume}. 
+Lemma~\ref{lem:partial-via-volume} should be viewed as a volumetric analogue of
+a theorem of Rothvoss~\cite{rothvoss-giann}, who both extended and made
+algorithmic vector balancing results of Giannopolous~\cite{giannop}. \dnote{I
+would like to say something about how you probably can't get this type of result
+using the determinant lower bound. In particular, you lose a log there even for
+partial coloring in $\ell_\infty$. I think this is better save for the intro,
+where its easier to compare things.} We state a slight variant of~\cite[Lemma 9]{rothvoss-giann} below.
 
-We state a slight variant of~\cite[Lemma 9]{rothvoss-giann} below.
-
-\begin{theorem}\label{thm:roth-giann}
+\begin{theorem}[Partial Colorings via Gaussian Measure]\label{thm:roth-giann}
 Let $0 < \eps \leq 1/60000$ and $\delta = \frac{3}{2}\eps \log_2
 \frac{1}{\eps}$. Let $K \subseteq \R^n$ be a symmetric convex body and assume
 that for some subspace $H \subseteq \R^n$ of dimension at least $(1-\delta)n$,
@@ -314,7 +345,7 @@ $C = O(\eta(\delta)) = O(1)$, as needed.
 The above theorem provides a useful and different route for proving that a body
 (or at least a large section of it) has exponentially small Gaussian measure. In
 the context of discrepancy, to the authors knowledge, only two main techniques
-were used to prove such bounds, neither of which is applicable in the above
+were used to prove such bounds, neither of which is directly applicable in the above
 setting. The first technique consists of combining chaining techniques and
 moment bounds, which can generally only measure when the body has Gaussian
 measure close to $1/2$.  This approach loses the leverage we have in only
@@ -330,24 +361,34 @@ equals) the intersection of ``simpler'' symmetric convex bodies $K_1,\dots,K_T$
 
 In contrast, our proof of the $e^{-\delta n}$ lower bounds on Gaussian measure
 in the above theorem proceeds via a direct covering argument. Namely, if one can
-show that $e^{\delta n}$ translates of $K$ cover the Euclidean ball of radius
+show that $e^{\delta n-1}$ translates of $K$ cover the Euclidean ball of radius
 $\sqrt{n}$, which has Gaussian measure $\geq 1/2$, then one can directly deduce
-that $\gamma_n(K) \geq \frac{1}{2} e^{-\eps n}$, since for a symmetric convex
-body the central translate maximizes Gaussian measure. We will adopt this
-strategy on a section of $K$, which is chosen to align with the longest axes of a
-so-called regular M-ellipsoid for $K$. The volumetric condition in
-Lemma~\ref{lem:partial-via-volume} will in fact be used to guarantee that these
-axes have length $\Omega(\sqrt{n})$. We recall that an
-M-ellipsoid~\cite{Milman86-reverseBM} $E$ of $K$ is an ellipsoid which
-approximates $K$ well from the perspective of covering, i.e.~$2^{O(n)}$ shifts
-of $K$ suffice to cover $E$ and vice verse. We recall the precise
-definition below. 
+that 
+\[
+1 \leq 2\gamma_n(\sqrt{n}B_2^n) \leq 2N(\sqrt{n} B_2^n,K) \max_{t \in \R^n}
+\gamma_n(K+t) \leq e^{\delta n} \gamma_n(K) ,
+\]
+where we have used that $\max_{t \in \R^n} \gamma_n(K+t) = \gamma_n(K)$ for a
+centrally symmetric convex body, which follows by the symmetry and logconcavity
+of Gaussian measure. We will adopt this strategy on a section of $K$, which is
+chosen to align with the longest axes of a so-called regular M-ellipsoid for
+$K$. The volumetric condition in Lemma~\ref{lem:partial-via-volume} will in fact
+be used to guarantee that these axes have length $\Omega(\sqrt{n})$, which makes
+the above strategy plausible. We recall that an M-ellipsoid~ $E$ of $K$ is an
+ellipsoid which approximates $K$ well from the perspective of covering,
+i.e.~$2^{O(n)}$ shifts of $K$ suffice to cover $E$ and vice versa. The existence
+of such ellipsoids was first proven by Milman~\cite{Milman86-reverseBM}. We give
+precise definitions below. 
 
-For any two sets $A,B \subseteq \R^n$, define $N(A,B) = \min \set{|\Lambda|:
-\Lambda \subset \R^n, A \subseteq \Lambda+B}$.  to be the minimum number of
-shifts of $B$ needed to cover $A$. The following theorem of
-Pisier~\cite{Pisier-book}, gives the existence of M-ellipsoids whose covering
-estimates have polynomial decay. 
+For any two sets $A,B \subseteq \R^n$, let 
+\[
+N(A,B) = \min \set{|\Lambda|: \Lambda \subset \R^n, A \subseteq \Lambda+B} ,
+\]
+denote the minimum number of shifts of $B$ needed to cover $A$. The following
+theorem of Pisier~\cite{Pisier-book}, gives the existence of M-ellipsoids whose
+covering estimates have polynomial decay. The decay estimate will be used to
+make the Gaussian measure of the large section of $K$ we find as close to $1$ as
+we like after a sufficient scaling. 
 
 \begin{theorem}[Regular M-ellipsoid]
 There exists an absolute constant $c_0 > 0$, such that any $0 < \alpha < 2$,
@@ -369,125 +410,132 @@ Let $K \subseteq \R^n$ be a symmetric convex body. Then $\vol_n(K)
 an origin centered ellipsoid. 
 \end{theorem}
 
-We will also need to be able to bound the volumes of general projections to
-volumes of coordinate projections. We will require this only for ellipsoids, for
-which we begin with the so-called restricted invertibility principle for
-determinants. 
+To show that the axes of the M-ellipsoid of $K$ are long, we will need to relate
+the axis lengths to the volumes of coordinate projections of the polar
+ellipsoid. For this, purpose we will require the following formula for
+coordinate projection volumes. 
+
+\begin{lemma}\label{lem:ellipsoid-volumes}
+Let $E := E(Q) \subseteq \R^n$ be an origin center ellipsoid. Then, for any
+$S \subseteq [n]$, $|S| = k$, we have that 
+\[
+\vol_k(\pi_S(E^\circ)) = \kappa_k \det(Q_{S,S})^{1/2} \text{ .}
+\]
+\end{lemma}
+\begin{proof}
+Recall that $E^\circ = E(Q^{-1}) = Q^{1/2} B_2^n$, where $Q^{1/2}$ is the
+positive definite square root of $Q$. To begin, we recall that the support
+function of $E^\circ$ can be computed by
+\begin{align*}
+h_{E^\circ}(w) &:= \max_{y \in E^\circ} \inner{w}{y} 
+               = \max_{z \in B_2^n} \inner{w}{Q^{1/2} z} 
+               = \|Q^{1/2} w\| = \sqrt{w^\T Q w}.
+\end{align*}
+Let $W_S = \lspan(e_i: i \in S)$. Note that by construction, $\pi_S(E^\circ)
+\subseteq W_S$ and $h_{\pi_S(E^\circ)}(w) = h_{E}(w)$, $\forall w \in W_S$.
+Furthermore, by duality, among convex bodies these conditions uniquely define $\pi_S(E^\circ)$. 
+
+Let $s_1 < s_2 < \dots < s_k$ elements of $S$ and let $P_S =
+(e_{s_1},\dots,e_{s_k})$, note that $P_S P_S^\T = \pi_S$. Let $T = P_S
+(Q_{S,S})^{1/2} \in \R^{n \times k}$. We now show that $TB_2^k = \pi_S(E^\circ)$
+using the aforementioned conditions. Clearly $TB_2^k \subseteq W_S$ since
+$\lspan(P_S) = W_S$. For $w \in W_S$, letting $w_S = (w_{s_1},\dots,w_{s_k})^\T$
+denote the restriction to the coordinates in $S$, we have that 
+\begin{align*}
+h_{TB_2^k}(w) &= \max_{z \in B_2^k} \inner{T^\T w}{z} 
+              = \max_{z \in B_2^k} \inner{(Q_{S,S})^{1/2} w_S}{x} \\ 
+              &= \sqrt{w_S^\T Q_{S,S} w_S} = \sqrt{w^\T Q w} ,
+\end{align*} 
+where the last equality follows since $w_i = 0$ for $i \notin S$. Thus
+$\pi_S(E^\circ) = TB_2^k$ as claimed. To compute volume, we have that
+\begin{align*}
+\vol_k(TB_2^k) &= \kappa_k \det(T^\T T)^{1/2} 
+               = \kappa_k \det((Q_{S,S})^{1/2} (P_S^\T P_S)
+(Q_{S,S})^{1/2})^{1/2} \\
+               &= \kappa_k \det(Q_{S,S})^{1/2} \text{ ,}
+\end{align*}
+as needed.
+\end{proof}
+
+The next lemma we will need is an analogue of the restricted invertibility
+principle in the context of determinants (which is much simpler in this case).
 
 \begin{lemma}\label{lm:rip-det}
-  Let $M$ be an $n\times n$ real positive semi-definite matrix with
+  Let $Q$ be an $n\times n$ real positive semi-definite matrix with
   eigenvalues $\lambda_1 \ge \ldots \ge \lambda_n$. For any integer
   $k$, $1 \le k \le n$, there exists a set $S \subseteq [n]$ of size $k$
   such that
-  \[\prod_{i=1}^k \lambda_i \leq \binom{n}{k} \det(M_{S,S}).\]
+  \[\prod_{i=1}^k \lambda_i \leq \binom{n}{k} \det(Q_{S,S}).\]
 \end{lemma}
 \begin{proof}
 To prove the lemma, we will rely on the classical identity for applying the
 elementary symmetric polynomials to the eigen values of $M$:
 \begin{equation*}
- \sum_{S \subset [n]: |S| = k}\det(M_{S,S}) = p_k(\lambda) := 
-\sum_{S \in [n],|S|=k} \prod_{i \in S} \lambda_i.
+\sum_{S \in [n],|S|=k} \prod_{i \in S} \lambda_i := p_k(\lambda) = \sum_{S \subset [n]: |S| = k}\det(Q_{S,S}).
 \end{equation*}
 To verify this equation, consider the coefficient of $t^{n-k}$ in the polynomial
-$\det(M + tI)$. Calculating the coefficient using the Leibniz formula for the
-determinant gives the left hand side; calculating it using $\det(M + tI) =
-(\lambda_1 + t)\ldots(\lambda_n + t)$ gives the right hand side. Since the eigen
+$\det(Q + tI)$. Calculating the coefficient using the Leibniz formula for the
+determinant gives the right hand side; calculating it using $\det(Q + tI) =
+(\lambda_1 + t)\ldots(\lambda_n + t)$ gives the left hand side. Since the eigen
 values are all non-negative, we get that
 \[
 \prod_{i=1}^k \lambda_i \leq p_k(\lambda) =  
- \sum_{S \subseteq [n]: |S|=k} \det(M_{S,S}) \leq \binom{n}{k} \max_{S
-\subseteq [n]: |S|=k} \det(M_{S,S}),
+ \sum_{S \subseteq [n]: |S|=k} \det(Q_{S,S}) \leq \binom{n}{k} \max_{S
+\subseteq [n]: |S|=k} \det(Q_{S,S}),
 \]
 as needed.
-\end{proof}
-
-We now derive the desired inequality for ellipsoids using the above lemma.
-
-\begin{corollary}\label{cor:ellipsoids}
-Let $E \subseteq \R^n$ be an origin center ellipsoid. Then, for $k \in [n]$, we
-have that
-\[
-\sup_{W: \dim(W)=k} \vol_k(\pi_W(E)) \le \binom{n}{k}^{1/2}
-  \max_{S \subseteq [n]: |S| = k} \vol_k(\pi_S(E)),
-\]
-where the left hand side is the maximum over $k$-dimensional linear subspaces $W$.
-\end{corollary}
-\begin{proof}
-Let us first express $E := E(Q^{-1})$ for $Q$ an $n \times n$ positive definite
-matrix. For a $k$-dimensional subspace $W$, we use the well-known identity
-\[
-\vol_k(\pi_W(E))^2 = \det(O_W^\T Q O_W) \kappa^2_k,
-\]
-where $O_W$ is any matrix whose columns form an orthogonal basis of $W$. To
-verify this, write $\pi_W Q \pi_W = T T^\T$ for $T \in \R^{n \times k}$, check
-that $T B_2^k = \pi_W(E)$ (they have the same support function), and that
-$\det(T^\T T) = \det(O_W^\T Q O_W)$. Note that if $W = \lspan(e_i: i \in S)$,
-then $\det(O_W^\T Q O_W) = \det(Q_{S,S})$.
-
-Let $\lambda_1 \geq \dots \geq \lambda_n > 0$ denote the eigen values of $Q$.
-Since the eigen values $\lambda_1',\dots,\lambda_k'$ of $O_W^\T Q O_W$ satisfy
-$\lambda_i' \leq \lambda_i$, $\forall i \in [k]$, we have that 
-\[
-\vol_k(\pi_W(E))^2 \leq \kappa_k^2 \prod_{i=1}^k \lambda_i, 
-\]
-which holds at equality when $W$ is the eigenspace associated with
-$\lambda_1,\dots,\lambda_k$. Thus, to prove the lemma, we must show that
-\[
-\prod_{i=1}^k \lambda_i \leq \binom{n}{k} \max_{S \subseteq [n], |S|=k}
-\det(Q_{S,S}) \text{ ,}
-\]
-which is precisely the statement of Lemma~\ref{lm:rip-det}.
 \end{proof}
 
 We now have all the ingredients needed to prove our main geometric estimate,
 which concludes this section.
 
 \begin{proof}[Proof of Theorem~\ref{thm:gauss-via-volume}]
-Let $E := E(A)$ denote a $1$-regular M-ellipsoid for $K$ and let $\sigma :=
-\sigma(1)$. Let $\lambda_1 \geq \dots \geq \lambda_n > 0$ denote
+Let $E := E(Q)$ denote a $1$-regular M-ellipsoid for $K$ and let $\sigma :=
+\sigma(1)$. Let $l_1 \geq \dots \geq l_n > 0$ denote
 the length of the principal axes of $E$, where we recall that
-$\lambda_n^{-2}\geq \dots \geq \lambda_1^{-2} > 0$ are the eigen values of $A$.
+$l_n^{-2}\geq \dots \geq l_1^{-2} > 0$ are then the eigen values of $Q$.
 
 By the Blashke-Santal{\'o} inequality, for all $S \subseteq
-[n]$, $|S|=\delta n$, letting $\pi_S$ denote the coordinate projection onto
-$\lspan(e_i:i \in S)$, we have that 
+[n]$, $|S|=\delta n$, we have that 
 \[
-\vol_{\delta n}(K_S)\vol_{\delta n}(K_S^\circ) = 
+\vol_{\delta n}(K_S)\vol_{\delta n}((K_S)^\circ) = 
 \vol_{\delta n}(K_S) \vol_{\delta n}(\pi_S(K^\circ)) \leq
 \kappa_{\delta n}^2 \text{ .}
 \]
 Since we assume that $\vol_{\delta n}(K_S) \geq 1$, we get that
 $\vol_{\delta n}(\pi_S(K^\circ)) \leq \kappa_{\delta n}^2$. In particular, 
 \[
-\kappa_{\delta n} \det(A_{S,S})^{1/2} = \vol_{\delta n}(\pi_S(E^\circ)) \leq N(E^\circ,K^\circ)
+\kappa_{\delta n} \det(Q_{S,S})^{1/2} = \vol_{\delta n}(\pi_S(E^\circ)) \leq N(E^\circ,K^\circ)
 \vol_{ \delta n}(\pi_S(K^\circ)) \leq e^{\sigma n} \kappa_{\delta n}^2 \text{ .}
 \]
-By Corollary~\ref{cor:ellipsoids}, we know that
-\[
-\prod_{i=(1-\delta)n+1}^n \lambda_i^{-1} \leq \binom{n}{\delta n}^{1/2} \max_{S \subseteq
-[n],|S|=\delta n} \det(A_{S,S})^{1/2} \leq \binom{n}{\delta n}^{1/2} e^{\sigma n}
-\kappa_{\delta n} \text{ .}
-\]
+Combining Lemma~\ref{lm:rip-det} and~\ref{lem:ellipsoid-volumes}, we have that
+\begin{align*}
+\prod_{i=(1-\delta)n+1}^n l_i^{-1} &\leq \binom{n}{\delta n}^{1/2} \max_{S \subseteq
+[n],|S|=\delta n} \det(Q_{S,S})^{1/2} \\
+&= \binom{n}{\delta n}^{1/2} \max_{S \subseteq [n],|S|=\delta n}
+\vol_{\delta n}(\pi_S(E^\circ)) \kappa_{\delta n}^{-1} \\
+&\leq \binom{n}{\delta n}^{1/2} e^{\sigma n} \kappa_{\delta n} \text{ .}
+\end{align*}
 From here, we conclude that 
 \[
-\lambda_{(1-\delta)n} \geq \prod_{i=(1-\delta)n+1}^n \lambda_i^{\frac{1}{\delta
+l_{(1-\delta)n} \geq \prod_{i=(1-\delta)n+1}^n l_i^{\frac{1}{\delta
 n}} \geq \binom{n}\delta {
 n}^{-\frac{1}{2\delta n}} e^{-\frac{\sigma}{\delta }} \kappa_{\delta
 n}^{-\frac{1}{\delta n}} \geq 
 \frac{1}{e^{2\frac{\sigma}{\delta }}} \cdot \sqrt{\frac{\delta n}{2\pi e}} :=
-c(\delta) \sqrt{n} \text{ .}
+c(\delta)^{-1} \sqrt{n} \text{ .}
 \] 
 Thus, letting $H$ corresponding to the span of the first $(1-\delta)n$ principal
 axes of $E$, have that 
 \[
 \sqrt{n} (B_2^n \cap H) \subseteq c(\delta) (E \cap H). 
 \]
-Using the regularity estimate for $E$, letting $t = 2 \sigma / \delta$, we have that
-\[
+By the $1$-regularity of $E$, letting $t = 2 \sigma / \delta$, we have that
+\begin{align*}
 N(\sqrt{n} (B_2^n \cap H), 2 t c(\delta) (K \cap H))
-\leq N(c(\delta)(E \cap H), 2 t c(\delta) (K \cap H)) 
-\leq N(E, t K) \leq e^{\sigma n / t} = e^{\delta n/2} \text{ .}
-\] 
+&\leq N(c(\delta)(E \cap H), 2 t c(\delta) (K \cap H)) \\
+&\leq N(E, t K) \leq e^{\sigma n / t} = e^{\delta n/2} \text{ .}
+\end{align*}
 Since $\gamma_H(\sqrt{n} B_2^n \cap H) \geq 1/2$, setting $\eta := \eta(\delta)
 =\frac{2c(\delta)\sigma}{\delta}$, we get that $\gamma_H(\eta K \cap H) \geq
 \frac{1}{2} e^{-\delta n/2} \geq e^{-\delta n}$, as needed.
@@ -946,13 +994,13 @@ Since $\gamma_H(\sqrt{n} B_2^n \cap H) \geq 1/2$, setting $\eta := \eta(\delta)
 % %the sense that the orthogonal projection $P$ can be efficiently
 % %computed given a separation oracle for $B_Y$. This seems quite
 % %likely. 
-
-\medskip\noindent
-\textbf{Question}:
-\begin{itemize}
-\item Can we compute $\vollb((u_i)_{i = 1}^N, Y)$ efficiently, given
-  oracle access to $B_Y$?
-\end{itemize}
+% 
+% \medskip\noindent
+% \textbf{Question}:
+% \begin{itemize}
+% \item Can we compute $\vollb((u_i)_{i = 1}^N, Y)$ efficiently, given
+%   oracle access to $B_Y$?
+% \end{itemize}
 
 \section{Convex Hulls}
 
