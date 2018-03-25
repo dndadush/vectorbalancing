@@ -3,8 +3,8 @@
 \usepackage{amsfonts,amsmath,amsthm,amssymb}
 \usepackage{amsthm}
 
-\newif\ifbigfont\bigfonttrue
-%\newif\ifbigfont\bigfontfalse
+%\newif\ifbigfont\bigfonttrue
+\newif\ifbigfont\bigfontfalse
 
 \ifbigfont
 
@@ -502,10 +502,11 @@ By the Blashke-Santal{\'o} inequality, for all $S \subseteq
 \vol_{\delta n}(K_S) \vol_{\delta n}(\pi_S(K^\circ)) \leq
 \kappa_{\delta n}^2 \text{ .}
 \]
-Since we assume that $\vol_{\delta n}(K_S) \geq 1$, we get that
-$\vol_{\delta n}(\pi_S(K^\circ)) \leq \kappa_{\delta n}^2$. In particular, 
+Since we assume $\vol_{\delta n}(K_S) \geq 1$, the above implies that
+$\vol_{\delta n}(\pi_S(K^\circ)) \leq \kappa_{\delta n}^2$. The
+coordinate projections of $E^\circ$ thus have volume at most 
 \[
-\kappa_{\delta n} \det(Q_{S,S})^{1/2} = \vol_{\delta n}(\pi_S(E^\circ)) \leq N(E^\circ,K^\circ)
+\vol_{\delta n}(\pi_S(E^\circ)) \leq N(E^\circ,K^\circ)
 \vol_{ \delta n}(\pi_S(K^\circ)) \leq e^{\sigma n} \kappa_{\delta n}^2 \text{ .}
 \]
 Combining Lemma~\ref{lm:rip-det} and~\ref{lem:ellipsoid-volumes}, we have that
@@ -525,12 +526,13 @@ n}^{-\frac{1}{\delta n}} \geq
 \frac{1}{e^{2\frac{\sigma}{\delta }}} \cdot \sqrt{\frac{\delta n}{2\pi e}} :=
 c(\delta)^{-1} \sqrt{n} \text{ .}
 \] 
-Thus, letting $H$ corresponding to the span of the first $(1-\delta)n$ principal
-axes of $E$, have that 
+Letting $H$ be the span of the first $(1-\delta)n$ principal
+axes of $E$, we thus conclude that 
 \[
 \sqrt{n} (B_2^n \cap H) \subseteq c(\delta) (E \cap H). 
 \]
-By the $1$-regularity of $E$, letting $t = 2 \sigma / \delta$, we have that
+Using the $1$-regularity of $E$, letting $t = 2 \sigma / \delta$, we derive the
+following covering estimate 
 \begin{align*}
 N(\sqrt{n} (B_2^n \cap H), 2 t c(\delta) (K \cap H))
 &\leq N(c(\delta)(E \cap H), 2 t c(\delta) (K \cap H)) \\
