@@ -3,8 +3,8 @@
 \usepackage{amsfonts,amsmath,amsthm,amssymb}
 \usepackage{amsthm}
 
-%\newif\ifbigfont\bigfonttrue
-\newif\ifbigfont\bigfontfalse
+\newif\ifbigfont\bigfonttrue
+%\newif\ifbigfont\bigfontfalse
 
 \ifbigfont
 
@@ -323,11 +323,11 @@ geometric theorem of this section, which we state below:
 
 \begin{theorem}[Gaussian Measure via Volume]
 \label{thm:gauss-via-volume}
-Let $K \subseteq \R^n$ be a symmetric convex body. Take $2 \leq k \leq n$ and
+Let $K \subseteq \R^n$ be a symmetric convex body. Let $k \in \set{2,\dots,n}$ and
 let $\alpha = k/n$. Assume that $\forall S \subseteq [n]$, $|S| = \delta n \geq
-2$, $\vol_{\delta n}(K_S) \geq 1$. Then, there exists $\eta := \eta(\delta) \geq
-1$ such that there exists a linear subspace $H$ of dimension $(1-\delta)n$ for
-which $\gamma_H(\eta K) \geq e^{-\delta n}$.
+2$, $\vol_{\delta n}(K_S) \geq 1$. Then, there exists a decreasing function
+$\eta := \eta(\delta) \geq 1$ such that there exists a linear subspace $H$ of
+dimension $(1-\delta)n$ for which $\gamma_H(\eta K) \geq e^{-\delta n}$.
 \end{theorem}
 
 Lemma~\ref{lem:partial-via-volume} now follows directly combining the above with
@@ -435,8 +435,8 @@ Let $W_S = \lspan(e_i: i \in S)$. Note that by construction, $\pi_S(E^\circ)
 \subseteq W_S$ and $h_{\pi_S(E^\circ)}(w) = h_{E}(w)$, $\forall w \in W_S$.
 Furthermore, by duality, among convex bodies these conditions uniquely define $\pi_S(E^\circ)$. 
 
-Let $s_1 < s_2 < \dots < s_k$ elements of $S$ and let $P_S =
-(e_{s_1},\dots,e_{s_k})$, note that $P_S P_S^\T = \pi_S$. Let $T = P_S
+Let $s_1 < s_2 < \dots < s_k$ be the elements of $S$ and let $P_S =
+(e_{s_1},\dots,e_{s_k})$, noting that $P_S P_S^\T = \pi_S$. Let $T = P_S
 (Q_{S,S})^{1/2} \in \R^{n \times k}$. We now show that $TB_2^k = \pi_S(E^\circ)$
 using the aforementioned conditions. Clearly $TB_2^k \subseteq W_S$ since
 $\lspan(P_S) = W_S$. For $w \in W_S$, letting $w_S = (w_{s_1},\dots,w_{s_k})^\T$
@@ -447,7 +447,7 @@ h_{TB_2^k}(w) &= \max_{z \in B_2^k} \inner{T^\T w}{z}
               &= \sqrt{w_S^\T Q_{S,S} w_S} = \sqrt{w^\T Q w} ,
 \end{align*} 
 where the last equality follows since $w_i = 0$ for $i \notin S$. Thus
-$\pi_S(E^\circ) = TB_2^k$ as claimed. To compute volume, we have that
+$\pi_S(E^\circ) = TB_2^k$ as claimed. The volume can now be computed as follows:
 \begin{align*}
 \vol_k(TB_2^k) &= \kappa_k \det(T^\T T)^{1/2} 
                = \kappa_k \det((Q_{S,S})^{1/2} (P_S^\T P_S)
@@ -469,7 +469,7 @@ principle in the context of determinants (which is much simpler in this case).
 \end{lemma}
 \begin{proof}
 To prove the lemma, we will rely on the classical identity for applying the
-elementary symmetric polynomials to the eigen values of $M$:
+elementary symmetric polynomials to the eigen values of $Q$:
 \begin{equation*}
 \sum_{S \in [n],|S|=k} \prod_{i \in S} \lambda_i := p_k(\lambda) = \sum_{S \subset [n]: |S| = k}\det(Q_{S,S}).
 \end{equation*}
@@ -520,7 +520,7 @@ Combining Lemma~\ref{lm:rip-det} and~\ref{lem:ellipsoid-volumes}, we have that
 From here, we conclude that 
 \[
 l_{(1-\delta)n} \geq \prod_{i=(1-\delta)n+1}^n l_i^{\frac{1}{\delta
-n}} \geq \binom{n}\delta {
+n}} \geq \binom{n}{\delta 
 n}^{-\frac{1}{2\delta n}} e^{-\frac{\sigma}{\delta }} \kappa_{\delta
 n}^{-\frac{1}{\delta n}} \geq 
 \frac{1}{e^{2\frac{\sigma}{\delta }}} \cdot \sqrt{\frac{\delta n}{2\pi e}} :=
@@ -540,7 +540,9 @@ N(\sqrt{n} (B_2^n \cap H), 2 t c(\delta) (K \cap H))
 \end{align*}
 Since $\gamma_H(\sqrt{n} B_2^n \cap H) \geq 1/2$, setting $\eta := \eta(\delta)
 =\frac{2c(\delta)\sigma}{\delta}$, we get that $\gamma_H(\eta K \cap H) \geq
-\frac{1}{2} e^{-\delta n/2} \geq e^{-\delta n}$, as needed.
+\frac{1}{2} e^{-\delta n/2} \geq e^{-\delta n}$, as needed. Lastly, it is direct
+to verify that as defined above, $\eta$ is a decreasing function of $\delta$.
+ 
 \end{proof}
 % 
 % 
