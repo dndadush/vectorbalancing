@@ -165,7 +165,7 @@ which can be computed by $\vol_k(A[0,1)^k) = \det(A^\T A)^{1/2}$.  Banaszczyk
 established the following volumetric lower bound on hereditary discrepancy:
 
 \begin{lemma}[\cite{Bana93}]
-\label{eq:vol-lb}
+\label{lem:vol-lb}
 Let $U = (u_1,\dots,u_N) \in \R^{n \times N}$ and $K \subseteq \R^n$ be a
 symmetric convex body. For $S \subseteq [N]$, $|S| = k \in [n]$, where $(u_i)_{i
 \in S}$ are linearly independent, define  
@@ -218,7 +218,7 @@ There exists a universal constant $C \geq 1$ such that the following
 holds. Let $K \subseteq \R^n$ be a convex body $\R^n$, and let $u_1,
 \ldots, u_N \in \R^n$. Then,
 \[
-1 \le \frac{\hd((u_i)_{i = 1}^N, K)}{\vollb_{\rm h}((u_i)_{i = 1}^N, K) } \le C(1+\log n).
+\frac{1}{2} \le \frac{\hd((u_i)_{i = 1}^N, K)}{\vollb_{\rm h}((u_i)_{i = 1}^N, K) } \le C(1+\log n).
 \]
 Furthermore, there exists a polynomial time algorithm which can compute
 colorings matching the upper bound. 
@@ -245,9 +245,10 @@ We now give the straightforward reduction from Theorem~\ref{thm:tightness} to
 Lemma~\ref{lem:partial-via-volume}.
 
 \begin{proof}[Proof of Theorem~\ref{thm:tightness}]
-By~\eqref{eq:vol-lb}, we may restrict attention to the upper bound. In particular,
-given $u_1,\dots,u_N \in \R^n$ and a convex body $K$ in $\R^n$, it suffices to
-show that $\disc((u_i)_{i=1}^N) \leq C(1+\log n)\vollb_{\rm h}((u_i)_{i=1}^N,K)$.  
+By Lemma~\ref{lem:vol-lb}, we may restrict attention to the upper bound. In
+particular, given $u_1,\dots,u_N \in \R^n$ and a convex body $K$ in $\R^n$, it
+suffices to show that $\disc((u_i)_{i=1}^N) \leq C(1+\log n)\vollb_{\rm
+h}((u_i)_{i=1}^N,K)$.  
 
 To begin, we compute a basic solution to the linear program $\sum_{i=1}^N x_i
 u_i = 0$, $x \in [-1,1]^N$. After relabeling, we may assume the variables not
@@ -308,11 +309,13 @@ coloring.
 
 Lemma~\ref{lem:partial-via-volume} should be viewed as a volumetric analogue of
 a theorem of Rothvoss~\cite{rothvoss-giann}, who both extended and made
-algorithmic vector balancing results of Giannopolous~\cite{giannop}. \dnote{I
-would like to say something about how you probably can't get this type of result
-using the determinant lower bound. In particular, you lose a log there even for
-partial coloring in $\ell_\infty$. I think this is better save for the intro,
-where its easier to compare things.} We state a slight variant of~\cite[Lemma 9]{rothvoss-giann} below.
+algorithmic vector balancing results of Giannopolous~\cite{giannop}.We state a
+slight variant of~\cite[Lemma 9]{rothvoss-giann} below.
+% \dnote{I
+% would like to say something about how you probably can't get this type of result
+% using the determinant lower bound. In particular, you lose a log there even for
+% partial coloring in $\ell_\infty$. I think this is better save for the intro,
+% where its easier to compare things.} 
 
 \begin{theorem}[Partial Colorings via Gaussian Measure]\label{thm:roth-giann}
 Let $0 < \eps \leq 1/60000$ and $\delta = \frac{3}{2}\eps \log_2
