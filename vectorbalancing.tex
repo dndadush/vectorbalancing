@@ -204,7 +204,7 @@ projection onto the coordinate subspace $\lspan(e_i: i \in S)$.
 For a symmetric convex body $K \subseteq \R^n$ and subset $S \subseteq [n]$, we
 denote the coordinate section of $K$ on $S$ by $K_S \eqdef \set{x \in K: x_i =
 0, ~\forall i \notin S}$. We use $B_p^n$, $p \in [1,\infty]$, to denote the unit
-$\ell_p$ bal in dimension $n$, $B_p^S := (B_p^n)_S$ and $B_p^W := (B_p^n) \cap W$
+$\ell_p$ ball in dimension $n$, $B_p^S := (B_p^n)_S$ and $B_p^W := (B_p^n) \cap W$
 for corresponding coordinate and general sections. For a vector $x \in
 [-1,1]^n$, we write $\bnds(x) = \set{i \in [n]: x_i \in \set{-1,1}}$.
 
@@ -737,7 +737,7 @@ the conjecture we may additionally assume that $\vol_{|S|}(K_S) \geq 1$ for all
 $S \subset [n]$. This follows by noting that if there exists $S \subset [n]$
 with $\vol_{|S|}(K_S) < 1$, we may simply apply induction on $K_S$, after
 scaling it up to have volume $1$ (which only makes the task more difficult). The
-main two lemmas we can prove, from which the above results are easily follow,
+main two lemmas we can prove, from which the above results easily follow,
 are stated below. 
 
 \begin{lemma}
@@ -762,9 +762,10 @@ produced section $K_S$ now satisfies the conditions of
 Lemma~\ref{lem:cover-to-section}, from which we derive the result.  
 
 For the proof of Lemma~\ref{lem:axis-m-ell}, we use the volumetric conditions to
-show that the central axes of $E$ all have length $\Theta(\sqrt{n})$
-(complementing the $\Omega(\sqrt{n})$ lower bound from
-Theorem~\ref{thm:gauss-via-volume}), and derive the existence of the
+show that the central axes of $E$ all have length $\Theta(\sqrt{n})$,
+complementing the $\Omega(\sqrt{n})$ lower bound used in the proof of
+Theorem~\ref{thm:gauss-via-volume} under the additional assumption that
+$\vol_n(K)=1$, and derive the existence of the
 corresponding section from the Bourgain-Tzafriri restricted isometry principle
 applied to the quadratic form defining $E$. The proof of
 Lemma~\ref{lem:cover-to-section} follows relatively directly from Milman's
