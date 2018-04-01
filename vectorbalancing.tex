@@ -16,7 +16,7 @@
 \else
 
 \usepackage[margin=1in]{geometry}
-\usepackage{newpxmath,newpxtext}
+%\usepackage{newpxmath,newpxtext}
 
 \fi
 
@@ -99,7 +99,7 @@
 
 
 \begin{document}
-\title{Vector Balancing}
+\title{Balancing Vectors in Any Norm}
 \maketitle
 
 \noteswarning
@@ -199,7 +199,7 @@ $E(A)^\circ = E(A^{-1})$, and that $\vol_n(E(A)) = \kappa_n \det(A)^{-1/2}$.
 
 For a linear subspace $W \subseteq \R^n$, we denote the orthogonal projection
 onto $W$ by $\pi_W$. For $S \subseteq [n]$, we write $\pi_S$ to denote the
-projection onto the coordinate subspace $\lspan(e_i: i \in S)$.
+projection onto the coordinate subspace $\lspan\{e_i: i \in S)\}$.
 
 For a symmetric convex body $K \subseteq \R^n$ and subset $S \subseteq [n]$, we
 denote the coordinate section of $K$ on $S$ by $K_S \eqdef \set{x \in K: x_i =
@@ -472,7 +472,7 @@ h_{E^\circ}(w) &\eqdef \max_{y \in E^\circ} \inner{w}{y}
                = \max_{z \in B_2^n} \inner{w}{Q^{1/2} z} 
                = \|Q^{1/2} w\| = \sqrt{w^\T Q w}.
 \end{align*}
-Let $W_S = \lspan(e_i: i \in S)$. Note that by construction, $\pi_S(E^\circ)
+Let $W_S = \lspan\{e_i: i \in S\}$. Note that by construction, $\pi_S(E^\circ)
 \subseteq W_S$ and $h_{\pi_S(E^\circ)}(w) = h_{E}(w)$, $\forall w \in W_S$.
 Furthermore, by duality, among convex bodies these conditions uniquely define $\pi_S(E^\circ)$. 
 
@@ -632,7 +632,7 @@ into $\ell_2$.
 \label{lem:speclb}
 Let $(u_i)_{i=1}^n \in \R^n$ be linearly independent, $K \subseteq \R^n$ be a
 symmetric convex body, and $\alpha \in [0,1]$. For any subset $S \subseteq [n]$,
-$|S|=k$, letting $W_S := \lspan(u_i \in S)$, define
+$|S|=k$, letting $W_S := \lspan\{u_i: i \in S\}$, define
 \[
 \speclb((u_i)_{i \in S},K) := 
 \max \set{r \geq 0: r K \cap W_S \subseteq k \conv(\pm u_i: i \in S)}.
@@ -786,20 +786,21 @@ Here we show that the volume lower bound is maximized at the extreme
 points of a convex set.
 
 \begin{theorem}\label{thm:conv-hull}
-  Let $v_1, \ldots, v_m$ be points in $\R^n$, and let $K \eqdef
-  \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. Then, for any normed
-  space $Y$ on $\R^n$, 
+  Let $v_1, \ldots, v_m$ be points in $\R^n$, and let $C \eqdef
+  \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. Then, for symmetric
+  convex body $K$ in $\R^n$,
   \[
-  \sup_{u_1, \ldots, u_n \in K}\vollb((u_i)_{i = 1}^N, Y)
+  \sup_{u_1, \ldots, u_n \in C}\vollb((u_i)_{i = 1}^N, K)
   \le
-  \vollb((v_i)_{i = 1}^m, Y).
+  \vollb((v_i)_{i = 1}^m, K).
   \]
 \end{theorem}
 
-We will use a theorem of K.~Ball~\cite{Ball88}.
-
+We will use a theorem of K.~Ball~\cite{Ball88}, which allows us to
+define a norm associated with an arbitrary logarithmically concave
+function $f$.
 \begin{theorem}\label{thm:ball-logconcave}
-  Let $f: \R^k \to [0, \infty)$ be an even logarithmically concave
+  Let $f: \R^n \to [0, \infty)$ be an even logarithmically concave
   function such that $0 < \int_{\R^k} f < \infty$. Then, for any $p
   \ge 1$, 
   \[
@@ -809,39 +810,45 @@ We will use a theorem of K.~Ball~\cite{Ball88}.
     0, &x = 0.
   \end{cases}
   \]
-  defines a norm on $\R^k$. 
+  defines a norm on $\R^n$. 
 \end{theorem}
 
 
 \begin{proof}[Proof of Theorem~\ref{thm:conv-hull}]
   It is enough to show that, for any integer $k$ between $1$ and $n$,
   if we keep $u_1, \ldots, u_{k-1} \in \R^n$ fixed, and for any $x\in
-  \R^n$ define $G_x$ to be the Gram matrix of the vectors $u_1,
-  \ldots, u_{k-1}, x$, then the function $g: \R^n \to [0, \infty)$
-  defined by
+  \R^n$ define $U_x = (u_1, \ldots u_{k-1}, x)$, then the function $g:
+  \R^n \to [0, \infty)$ defined by
   \[
-  g(x) = \frac{\det(G_x)^{1/(2)}}{\vol_k(B_Y \cap \lspan\{u_1,
+  g(x) = \frac{\det(U_x^\T U_x)^{1/(2)}}{\vol_k(K \cap \lspan\{u_1,
     \ldots, u_{k-1}, x\})}
   \]
-  achieves its maximum on $K$ at an extreme point. Furthermore, this
-  follows immediately if $g$ is convex. Below we prove the convexity
-  of $g$.
+  achieves its maximum on $C$ at one of the extreme points $\pm v_1,
+  \ldots, \pm v_m$. Furthermore, this
+  follows immediately if $g$ is convex. Below, we
+  use Theorem~\ref{thm:ball-logconcave} to prove the convexity of $g$.
 
-  Let $G$ be the Gram matrix of $u_1, \ldots, u_{k-1}$, and let $W =
-  \lspan\{u_1, \ldots, u_{k-1}\}$. Denote by $P_{W^\perp}$ the
-  orthogonal projection onto the orthogonal complement of $W$.
-  Observe first that
+  Define the matrix $U = (u_1, \ldots, u_{k-1})$ and let $G = U^\T U$
+  be the Gram matrix of $u_1, \ldots, u_{k-1}$. Let $W =
+  \lspan\{u_1, \ldots, u_{k-1}\}$, and denote by $P_{W^\perp}$ the
+  orthogonal projection onto the orthogonal complement $W^\perp$ of $W$.
+  Since $\det(U_x^\T U_x)^{1/(2)}$ is the $k$-dimensional volume of
+  the parallelepiped formed by $u_1, \ldots, u_{k-1}, x$, and
+  $\det(G)^{1/2}$ is the $(k-1)$-dimensional volume of the
+  parallelepiped formed by $u_1, \ldots, u_{k-1}$, we have
   \[
-  g(x) = \frac{\det(G)^{1/2}\|P_{W^\perp}x\|_2}{\vol_k(B_Y \cap (W +
+  g(x) = \frac{\det(G)^{1/2}\|P_{W^\perp}x\|_2}{\vol_k(K \cap (W +
     \lspan\{x\}))}. 
   \]
-  To show that that $g$ is convex, it is enough to show that it is
+  Notice that both the numerator and the denominator on the right hand
+  side are unchanged if we replace $x$ by $P_{W^\perp}x$.
+  To show that that $g$ is convex, it is, therefore, enough to show that it is
   convex on $W^\perp$.  For $x \in W^\perp$, define $f(x) \eqdef
-  \vol_{k}(B_Y \cap (W + x))$. By the Brunn-Minkowski inequality and
-  symmetry of $B_Y$, $f$ is en even log-concave function on
-  $W^\perp$. Notice that
+  \vol_{k}(K \cap (W + x))$. By the Brunn-Minkowski inequality, and the
+  symmetry of $K$, $f$ is en even log-concave function on
+  $W^\perp$. We have
   \[
-  \vol_{k+1}(B_Y \cap  (W + \lspan\{x\}))
+  \vol_{k+1}(K \cap  (W + \lspan\{x\}))
   = 
   \int_{-\infty}^\infty{f(tx/\|x\|_2)dt} 
   = 
@@ -850,17 +857,17 @@ We will use a theorem of K.~Ball~\cite{Ball88}.
   Therefore, 
   \[
   g(x) = 
-  \frac{\|x\|_2}{\vol_{k+1}(B_Y \cap  (W + \lspan\{x\}))}
+  \frac{\det(G)^{1/2}\|x\|_2}{\vol_{k}(K \cap  (W + \lspan\{x\}))}
   = 
-  \frac{1}{2\int_{0}^\infty{f(tx)dt}}
-  = \frac{1}{2}\|x\|_{f,1}
+  \frac{\det(G)^{1/2}}{2\int_{0}^\infty{f(tx)dt}}
+  = \frac{\det(G)^{1/2}}{2}\|x\|_{f,1}
   \]
   is a norm on $W^\perp$, by Theorem~\ref{thm:ball-logconcave} (after
   identifying $W^\perp$ with $\R^{n-k+1}$), and, therefore, convex. The
   theorem follows.
 \end{proof}
 
-
+\cut{
 Let $v_1, \ldots, v_m \in \R^n$ and define a norm $X$ on $\R^n$ with
 unit ball $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. By
 Theorem~\ref{thm:tightness}, we have that 
@@ -886,57 +893,162 @@ convex hulls.
   replaced by a fixed constant?
 \item Is there a more direct proof of \eqref{eq:beta-conv-hull}?
 \end{itemize}
+}
 
 \section{The Factorization Approach}
 
 In the inductive proof of Theorem~\ref{thm:tightness} we need to keep
 alternating between computing Gaussian estimates based on volume
-information, and applying Theorem~\ref{thm:roth-giann}, as we induct on
-lower dimensional subspaces. One downside of this (except the
-complexity of the proof) is that the proof is not too useful in
-computing $\beta(X, Y)$. Next we explore a different approach, which
+information, and applying Theorem~\ref{thm:roth-giann}, as we induct
+on lower dimensional subspaces. One downside of this indirect nature
+of our proof is that it does not lead to an algorithm for computing
+the vector balancing constant $\vb(C,K)$ of two symmetric convex
+bodies $C$ and $K$, or of the hereditary discrepancy $\hd((u_i)_{i =
+  1}^N, K)$. In this section, we explore a different approach, which
 aims at separating computing a Gaussian estimate from volume
 information, on one hand, and the vector balancing argument on the
-other. The approach is a (significant) generalization of the one used
-in~\cite{disc-gamma2}. 
+other. The approach is based on recasting vector balancing in the
+language of linear operators between normed spaces, and on factoring
+such operators through Euclidean space. This factorization strategy is
+a significant generalization of the connection between the $\gamma_2$
+norm and hereditary discrepancy used in~\cite{disc-gamma2}.
 
-Recall that for an operator $S:\ell_2^n \to Y$, where $Y$ is a Banach
-space, we define the $\ell$-norm as
+Let $U:X \to Y$ be a linear operator between two finite-dimensional
+normed spaces $X = (\R^n, \| \cdot\|_X)$ and $Y = (\R^n, \| \cdot
+\|_Y)$. A natural way to define the vector balancing constant of $U$
+is
 \[
-\ell(S) \eqdef \left( \int \|u(x)\|_Y^2 d\gamma_n(x) \right)^{1/2},
+\vb(U) = \vb(U(B_X), B_Y),
 \]
-where $\gamma_n$ is the standard Gaussian measure on $\R^n$. The dual
-norm is defined for an opartor $R: Y \to \ell_2^n$ by 
+where $B_X$ and $B_Y$ are, respectively, the unit balls of $X$ and
+$Y$. Equivalently, we have
 \[
-\ell^*(R) = \sup\{\tr(RS): S: \ell_2^n \to Y, \ell(S) \le 1\}.
+\vb(U) = \sup\{\hd((Uu_i)_{i = 1}^N, B_Y)\},
+\]
+where the supremum is over all finite sequences $(u_i)_{i = 1}^N$ of
+vectors in $B_X$. If $C$ and $K$ are two centrally symmetric convex
+bodies in $\R^n$, and we define the corresponding normed spaces $X_C =
+(\R^n, \|\cdot\|_C)$ and $X_K = (\R^n, \|\cdot\|_K)$, then the vector
+balancing constant $\vb(I)$ of the identity operator $I:X_C \to X_K$
+recovers $\vb(C, K)$. 
+
+We will relate $\vb(U)$ to an efficiently computable quantity
+$\lambda(U)$, which will allow us to efficiently approximate $\vb(U)$
+(given appropriate access to the domain and range $X$ and
+$Y$). Moreover, we will see that for the operator $U:\ell_1^N \to X_K$
+given by $Ue_i = u_i$, $\lambda(U)$ also approximates $\hd((u_i)_{i =
+  1}^N, K)$.
+
+\subsection{Preliminaries}
+
+% should put all prelims in one place
+% add prelims for dual ops, Schur convexity
+
+We will almost exclusively deal with normed spaces defined on $\R^n$.
+For a normed space $X = (\R^n, \|\cdot\|_X)$ we denote by $X^*$ the
+dual space with norm $\|x^*\|_{X^*} \eqdef \sup\{\langle x, x^*
+\rangle: \|x\|_X \le 1\}$. Since we work only with finite dimensional
+spaces, we always have that $X^{**} = X$.
+
+We will use the tensor product notation $x^* \otimes y$ for the rank-1
+linear operator from a normed space $X$ to a normed space $Y$, defined
+by $(x^* \otimes y)(x) = \langle x, x^*\rangle y$, where $x^* \in X^*$
+and $y \in Y$. Note that if $X$ and $Y$ are normed spaces over $\R^n$,
+the matrix of $x^* \otimes y$ with respect to the standard basis is
+$yx^\T$. Any linear operator $A:X \to X$ on an $n$-dimensional normed
+space $X$ can be written as $A = \sum_{i = 1}^n{x^*_i \otimes y}$ for
+$x_1^*, \ldots, x_n^* \in X^*$ and $y_1, \ldots, y_n \in X$. The trace
+of $A$ is then defined by
+\[
+\tr(A) \eqdef \sum_{j = 1}^n{\langle y_j, x^*_j \rangle}.
+\]
+This abstract definition agrees with the usual one, i.e.~if the matrix
+of $A$ is $M$, then $\tr(A) = \tr(M)$. We will identify linear
+functionals  on operators $A:X \to Y$, where $X$ and $Y$ are
+$n$-dimensional, with operators $B:Y \to X$ via $f_B(A) = \tr(BA)$. 
+
+A linear operator $A: X \to X^*$ on normed space $X$ defines a bilinear
+form $B$ on $X \times X$, given by $B(x,y) = \langle x, Ay
+\rangle$. We will say that $A$ is positive definite if the
+corresponding bilinear form is symmetric and positive definite,
+i.e.~if $\langle x, Ay \rangle = \langle Ax, y\rangle$ for all $x,y
+\in X$, and $\langle x, Ax \rangle >0$
+for all nonzero $x \in X$. In the case of $\R^n$ this is equivalent to
+stating that the matrix $M$ of $A$ with respect to the standard basis
+is positive definite, i.e.~is symmetric and all its eigenvalues
+are positive. 
+
+For a positive definite operator $A:\ell_2^n \to \ell_2^n$ there
+exists a unique positive definite operator $B:\ell_2^n \to \ell_2^n$
+such that $B^*B = BB^* = B^2 = A$. We use the notation $A^{1/2}$ for
+$B$. The matrix of $A^{1/2}$ equals the usual matrix square root of
+the matrix $A$ (both with respect to the standard basis). We also use
+the shorthand notation $A^{k/2} \eqdef (A^k)^{1/2}$ for (positive or
+definite) integers $k$.
+
+We also recall that the operator norm $\|A\|$ of a linear operator
+$A:X \to Y$ is defined by 
+\[
+\|A\| = \sup\{\|Ax\|_Y: \|x\|_X \le 1\},
+\]
+where $X = (\R^n, \|\cdot\|_X)$ and $Y = (\R^n, \|\cdot\|_Y)$ are
+normed spaces. 
+
+A related norm on operarots is the nuclear norm. Here we only use the
+nuclear norm $\nu(A)$ of an operator $A:\ell_2^n \to \ell_2^n$, which
+equals the sum of its singular values. It is easy to see that
+\[
+\nu(A) = \tr((AA^*)^{1/2}).
+\]
+The nuclear norm is dual to the
+operator norm with respect to trace duality, and in particular we have
+the identity
+\[
+\nu(A) = \sup\{\tr(AO): O \text{ orthogonal transformation}\}.
 \]
 
-Let $X$ and $Y$ be normed spaces defined on $\R^n$, and let $U:X \to
-Y$ be a linear operator. We define a factorization constant
+
+
+\subsection{The Factorization Constant $\lambda$}
+
+We will use the $\ell$-norm, which has been extensively studied in the
+theory of operator ideals, and in asymptotic convex geometry. For
+a linear operator $S:\ell_2^n \to Y$, where $Y = (\R^n, \|\cdot\|_Y)$
+is a normed space, the $\ell$-norm of $S$ is defined as
 \[
-\lambda(U) \eqdef \inf \{\ell(S)\|T\|: T: X \to \ell_2^n, S: \ell_2^n
+\ell(S) \eqdef \left( \int \|S(x)\|_Y^2 d\gamma_n(x) \right)^{1/2},
+\]
+where $\gamma_n$ is the standard Gaussian measure on $\R^n$. I.e., if
+$Z$ is a standard Gaussian random variable in $\R^n$, then $\ell(S) =
+(\E \|S(Z)\|_Y^2)^{1/2}$. It is easy to verify that $\ell(\cdot)$ is a
+norm on the space of linear operators from $\ell_2^n$ to $Y$, for any
+normed space $Y$ as above. 
+
+Moreover, we can define a dual norm
+$\ell^*$ via trace duality: for any linear opartor $R:
+Y \to \ell_2^n$, we define
+\[
+\ell^*(R) \eqdef \sup\{\tr(RS): S: \ell_2^n \to Y, \ell(S) \le 1\}.
+\]
+Then $\ell$ and $\ell^*$ form a dual pair, and in particular we have
+\[
+\ell(S) = \sup\{\tr(RS): R:Y\to\ell_2^n, \ell^*(R) \le 1\}.
+\]
+
+We now define the main object of study in this section. Let $X$ and
+$Y$ be normed spaces defined on $\R^n$, and let $U:X \to Y$ be a
+linear operator. We define a factorization constant
+\[
+\lambda(U) \eqdef \inf \{\ell(S)\|T\|: T: X \to \ell_2^n,\ S: \ell_2^n
 \to Y, U = ST\}.
 \]
+In other words, $\lambda(U)$ is the minimum of $\ell(S)\|T\|$ over all
+ways to factor $U$ through $\ell_2^n$ as $U = ST$.
 
-\medskip\noindent
-\textbf{Questions}:
-\begin{itemize}
-\item Is $\lambda$ a norm? (Probably not.) A quasi-norm? (Probably yes.)
-\end{itemize}
-
-
-We have the following theorem.
-
-\begin{theorem}\label{thm:factorization}
-  There exists a constant $C$ such that for any two $n$-dimensional
-  normed spaces $X, Y$ we have
-  \[
-  \beta(X,Y) \le C\lambda(I_{X,Y}),
-  \]
-  where $I_{X,Y}:X \to Y$ is the formal identity operator. 
-\end{theorem}
-
-The theorem is a consequence of the following result by Banaszczyk~\cite{bana}.
+Our  motivation for defining $\lambda(U)$ is that it captures,
+informally speaking, the best possible way to apply a vector balancing
+theorem of Banaszczyk~\cite{bana} in order to get upper bounds on the
+vector balancing constant. Let us first recall Banaszczyk's theorem.
 \begin{theorem}\label{thm:bana}
   Let $K$ be a convex body in $\R^n$ such that $\gamma_n(K) \ge
   \frac12$. Then, for any sequence of vectors $v_1, \ldots, v_N \in
@@ -946,12 +1058,26 @@ The theorem is a consequence of the following result by Banaszczyk~\cite{bana}.
   \]
 \end{theorem}
 
-\begin{proof}[Proof of Theorem~\ref{thm:factorization}]
+
+We have the following theorem, which shows that $\lambda(U)$ is, up to
+constants, an upper bound on $\vb(U)$ for any operator $U$. 
+
+\begin{theorem}\label{thm:factorization}
+  There exists a constant $C$ such that for any linear operator $U:X
+  \to Y$ between two normed spaces $X, Y$ over $\R^n$, we have
+  \[
+  \vb(U) \le C\lambda(U).
+  \]
+\end{theorem}
+\begin{proof}
+  We may assume that $U$ is invertible, or otherwise we can replace
+  $Y$ with its subspace restricted to the range of $U$. 
   Let $u_1, \ldots, u_N \in B_X$ be arbitrary, and let $T:X \to
-  \ell_2^n$, $S:\ell_2^n \to Y$ be such that $\ell(S)\le
-  \lambda(I_{X,Y}) + \eps$ and $\|T\| \le 1$. For $i \in \{1, \ldots,
-  N\}$, define $v_i \eqdef Tu_i$; by assumption, $v_i \in B_2^n$ for
-  all $i$. Let $K = \sqrt{2}\ell(S) S^{-1}(B_Y)$, and let
+  \ell_2^n$, $S:\ell_2^n \to Y$ be such that $\ell(S)\le \lambda(U) +
+  \eps$ and $\|T\| \le 1$. For $i \in \{1, \ldots, N\}$, define $v_i
+  \eqdef Tu_i$; since $\|T\| \le 1$ by assumption, we have $v_i \in
+  B_2^n$ for all $i$. Let $K = \sqrt{2}\ell(S) S^{-1}(B_Y)$, and let,
+  as usual,
   $\|\cdot\|_K$ be the norm with unit ball $K$. Observe that for any
   $x \in \R^n$, $\|x\|_K = \frac{1}{\sqrt{2}\ell(S)}\|Sx\|_Y$. By
   Chebyshev's inequality,
@@ -975,55 +1101,110 @@ The theorem is a consequence of the following result by Banaszczyk~\cite{bana}.
   $u_1, \ldots, u_N \in B_X$  finishes the proof.
 \end{proof}
 
-We would like to prove that the inequality
-Theorem~\ref{thm:factorization} holds in the reverse direction as
-well, up to a poly-logarithmic factor, i.e.~to show that
-$\lambda(I_{X,Y}) \le (\log n)^{O(1)}\beta(X,Y)$.
+Theorem~\ref{thm:factorization} refines and generalizes the connection
+between the $\gamma_2$ norm and hereditary discrepancy
+from~\cite{disc-gamma2}. The $\gamma_2$ norm of an operator $U:X \to
+Y$ is defined by
+\[
+\gamma_2(U) = \inf\{\|S\| \|T\|:  T: X \to \ell_2^n,\ S: \ell_2^n
+\to Y, U = ST\}.
+\]
+In~\cite{disc-gamma2}, the authors studied the special case in which
+$X = \ell_1^n$ and $Y = \ell_\infty^m$. In that case, it is easy to
+see that, for an absolute constant $C$, 
+\begin{equation}
+  \label{eq:ell-vs-opnorm}
+ \ell(S) \le C\sqrt{1 + \log m} \cdot\|S\|,
+\end{equation}
+for any operator $S: \ell_2^n \to \ell_\infty^m$. Therefore,
+for any $U:\ell_1^n \to \ell_\infty^m$, we have $\lambda(U) \le
+C\sqrt{1 + \log m}\cdot \gamma_2(U)$. This inequality and
+Theorem~\ref{thm:factorization} recover the upper bound on hereditary
+discrepancy in terms of the $\gamma_2$ norm
+from~\cite{disc-gamma2}. However, \eqref{eq:ell-vs-opnorm} is often
+not tight, and Theorem~\ref{thm:factorization} provides a tighter
+upper bound. In particular, we will show that $\lambda$ gives an
+improved approximation to the hereditary discrepancy. 
+
+Our goal in the remainder of the section is to prove that the
+inequality in Theorem~\ref{thm:factorization} holds in the reverse
+direction as well, up to a poly-logarithmic factor, i.e.~to show that
+$\lambda(U) \le (\log n)^{O(1)}\vb(U)$. Moreover, we will show that,
+under reasonable assumptions, $\lambda(U)$ can be computed
+efficiently.
 
 \subsection{Convex Formulation}
 
-The factorization constant $\lambda(I_{X,Y})$ can be formulated as the
+
+The factorization constant $\lambda(U)$ can be formulated as the
 solution to a convex optimization problem, i.e.~as the infimum of a
 convex function over a convex domain. This fact is useful in that it
 allows applying generic convex optimization techniques to compute
-$\lambda(I_{X,Y})$ given appropriate access to the unit balls of $X$
-and $Y$. It will also be useful in deriving a dual formulation of
-$\lambda(I_{X,Y})$ in the subsequent section. 
+$\lambda(U)$ given appropriate access to the unit balls of $X$ and
+$Y$. It will also be useful in deriving a dual formulation of
+$\lambda(U)$, which we then use to show that the upper bound in
+Theorem~\ref{thm:factorization} is approximately tight.
 
-We will use the notation $\nu(A)$ for the nuclear norm of an operator
-$A:\ell_2^n \to \ell_2^n$, i.e.~the sum of its singular values. We say
-an operator $M:\R^n \to \R^n$ is positive definite if $\langle x,
-Mx\rangle = \langle Mx, x\rangle > 0$ for all nonzero $x \in \R^n$,
-and we denote $M \succ 0$.  
+In what follows we fix two $n$-dimensional normed spaces $X = (\R^n,
+\|\cdot\|_X)$ and $Y = (\R^n,\|\cdot\|_Y)$, and an invertible linear
+operator $U:X \to Y$. Note that restricting to spaces of equal
+dimension and to invertible operators is without loss of generality,
+because we can restrict $U$ to the orthogonal complement of its
+kernel, and replace $Y$ with the subspace given by the range of
+$U$. 
 
+We first define a function $f$ on positive definite operators which
+will be the objective of our convex optimization formulation of
+$\lambda(U)$. The definition is as follows: for any positive definite
+operator $A:X \to X^*$, we set
+\begin{equation}
+  \label{eq:obj-def}
+  f(A) \eqdef \ell(UT^{-1}),
+\end{equation}
+where $T:X \to \ell_2^n$ is an invertible linear operator such that $T^*T = A$. 
 
-In the following lemma we define a
-function which playes a key role in our development, and we derive
-some of its properties.
+A couple of clarifications are in order. First, we claim that such an
+operator $T$ exists, by the positive definiteness of $A$. Indeed, we
+can choose a basis $e_1, \ldots, e_n$ of $X$, and a corresponding dual
+basis $e_1^*, \ldots, e_n^*$ of $X^*$, and define $M$ to be the matrix
+of $A$ with respect to these bases. Then $M$ is a positive definite
+matrix, so it admits a Cholesky decomposition $M = L^\T L$. We can
+then define $T$ to be the operator whose matrix with respect to $e_1,
+\ldots, e_n$ and the standard basis of $\ell_2^n$ is $L$; the matrix
+of the dual operator $T^*$ is $L^\T$, so we have $T^*T = A$ as required.
 
+A second concern is whether $f(A)$ is well-defined. To see that this
+is the case, observe that $A = T^*T = S^*S$ implies that there is an
+orthogonal transformation $O:\ell_2^n \to \ell_2^n$ for which $S =
+OT$.  Then, $S^{-1} = T^{-1}O^{-1}$, and, for a standard Gaussian
+random variable $Z$,
+\[
+\ell(US^{-1}) = (\E\|UT^{-1}O^{-1}Z\|_Y^2)^{1/2} =
+(\E\|UT^{-1}Z\|_Y^2)^{1/2}
+= \ell(UT^{-1}),
+\]
+where we used the fact that $O^{-1}Z$ and $Z$ are identically
+distributed because $O^{-1}$ is an orthogonal transformation. 
+
+The following lemma collects some key technical properties of the function $f$.
 \begin{lemma}\label{lm:obj-f}
-  Let $X$ and $Y$ be two normed spaces defined on $\R^n$. Let $f$ be
-  the function that maps a positive definite operator $M: X \to X^*$
-  to
-  \[
-  f(M) \eqdef  \ell(I_{X,Y}M^{-1/2}),
-  \]
-  where $M^{-1/2}:\ell_2^n \to X$ is the unique positive definite operator such that
-  $M^{-1/2}(M^{-1/2})^* = M^{-1}$. Then
-  \begin{itemize}
-  \item $f$ is a differentiable convex function on $\{M: M \succ 0\}$;
+  The following statements hold for the function $f$ defined on
+  positive definite operators $A:X \to X^*$ as in \eqref{eq:obj-def}:
+ \begin{itemize}
+  \item $f$ is a differentiable convex function on positive definite
+    operators $A:X \to X^*$;
   \item $f$ is given by the formula
     \begin{equation}\label{eq:f-formula}
-    f(M) = \sup\{\tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}): 
+    f(A) = \sup\{\tr((RUA^{-1}U^*R^*)^{1/2}): 
     R: Y \to \ell_2^n, \ell^*(R) \le 1\};
     \end{equation}
-  \item the derivative of $f$ at $M$ is 
+  \item the derivative of $f$ at $A$ is 
     \begin{equation}\label{eq:f-derivative}
-    \nabla f(M) = 
-    -\frac{1}{2} (RI_{X,Y})^{-1} ((RI_{X,Y})^{-*} M (RI_{X,Y})^{-1})^{-3/2} (RI_{X,Y})^{-*},
+    \nabla f(A) = 
+    -\frac{1}{2} (RU)^{-1} ((RU)^{-*} A (RU)^{-1})^{-3/2} (RU)^{-*},
     \end{equation}
-    where $R: Y \to \ell_2^n$, $\ell^*(R) \le 1$ is such that $f(M) = 
-    \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$.
+    where $R: Y \to \ell_2^n$, $\ell^*(R) \le 1$ is such that $f(A) = 
+    \tr((RUA^{-1}U^*R^*)^{1/2})$.
   \end{itemize}
 \end{lemma}
 
@@ -1032,7 +1213,7 @@ First we need an auxiliary lemma.
 \begin{lemma}\label{lm:invertible}
   Let $Y$ be an $n$-dimensional normed space, and let $S:\ell_2^n \to
   Y$ be an invertible linear operator. Then any operator $R:Y \to
-  \ell^2_n$ such that $\tr(RS) = \ell(S)$ is invertible.
+  \ell_2^n$ such that $\tr(RS) = \ell(S)$ is invertible.
 \end{lemma}
 \begin{proof}
   Assume for contradiction that $R$ is not invertible, i.e.~it has a
@@ -1056,170 +1237,174 @@ First we need an auxiliary lemma.
 \end{proof}
 
 \begin{proof}[Proof of Lemma~\ref{lm:obj-f}]
-  We begin with the proof of differentiability. Since $\| \cdot \|_Y$
-  is Lipschitz, by Rademacher's theorem it is almost everywhere
-  differentiable. Therefore, for any invertible operator $A:\ell_2^n
-  \to Y$, the function $g_x(A) = \|Ax\|_Y$ is differentiable in $A$
-  for almost all $x$. Also, the function $h$ that maps positive
-  definite operators $M$ on $\R^n$ to the principle square root
-  $M^{-1/2}$ of $M^{-1}$ has a Frechet derivative $Dh$. Using the
-  dominated convergence theorem and the chain rule, we can show that
-  the derivative of $f$ at $M$ is
+  We begin with the proof of differentiability. Notice that we can
+  write $f(A)$ as
   \[
-  \nabla f(M) = \frac{1}{f(M)} \int Dh(M)^*(\nabla g_x(M^{-1/2})) d\gamma_n(x).
+  f(A) = \sqrt{2\pi \det A} \int_{\R^n} \|Ux\|_Y e^{-\frac12 \langle x, Ax\rangle}dx
   \]
-  Above, $Dh(M)^*$ is the dual of the linear operator $Dh(M)$. This
-  completes the proof of differentiability. 
+  The integrand is differentiable in $A$, so, by the dominated
+  convergence theorem the derivative of $f$ exists and is given by
+  differentiating under the integral sign. 
 
-  Next we prove the identity \eqref{eq:f-formula}. Observe that
-  for any orthogonal transformation $U$ and any transformation $A:
-  \ell_2^n \to Y$, $\ell(AU) = \ell(A)$ by the rotational invariance
-  of the Gaussian measure. Therefore, 
+  Next we prove the identity \eqref{eq:f-formula}. Observe that for
+  any orthogonal transformation $O:\ell_2^n \to \ell_2^n$ and any
+  operator $V: \ell_2^n \to Y$, $\ell(VO) = \ell(V)$ by the
+  rotational invariance of the Gaussian measure. Therefore,
   \begin{align*}
-  \ell(I_{X,Y}M^{-1/2}) &= \sup\{\ell(I_{X,Y}M^{-1/2}U): U \text{ orthogonal}\}\\
-  &= \sup\{\tr(RI_{X,Y}M^{-1/2}U): R:Y\to\ell_2^n, \ell^*(R) \le 1, U \text{ orthogonal}\}\\
-  &= \sup\{\nu(RI_{X,Y}M^{-1/2}): R:Y\to\ell_2^n, \ell^*(R) \le 1\}\\
-  &= \sup\{\tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}): R:Y\to\ell_2^n, \ell^*(R) \le  1\}. 
+  f(A) = \ell(UT^{-1}) &= \sup\{\ell(UT^{-1}O): O \text{ orthogonal}\}\\
+  &= \sup\{\tr(RUT^{-1}U): R:Y\to\ell_2^n, \ell^*(R) \le 1, U \text{ orthogonal}\}\\
+  &= \sup\{\nu(RUT^{-1}): R:Y\to\ell_2^n, \ell^*(R) \le 1\}\\
+  &= \sup\{\tr((RUA^{-1}U^*R^*)^{1/2}): R:Y\to\ell_2^n, \ell^*(R) \le  1\}. 
   \end{align*}
+  Moreover, since we assumed that $U$ is invertible, by
+  Lemma~\ref{lm:invertible}, we can assume that $R$ is invertible.
   Given this formula, in order to prove convexity, it is enough to
-  prove that for any operator $A:X \to \ell^n_2$, the function
-  $\tr((AM^{-1}A^*)^{1/2})$ is convex in $M$ for $M$ positive
-  definite. We use a standard argument based on majorization, which we
-  sketch next.  By continuity, we may assume that $A$ is invertible,
-  so that $AM^{-1}A^* = (A^{-*}MA^{-1})^{-1}$; let us denote $B =
-  A^{-1}$. Let $\alpha \in (0,1)$ be arbitrary, and let $M_1, M_2$ be
-  two positive definite operators on $\R^n$. Let $\mu$ map a
-  self-adjoint operator on $\R^n$ to the vector of its eigenvalues. It
-  is well-known that $\mu(B^*(\alpha M_1 + (1-\alpha)M_2)B)$ is
-  majorized by $\alpha \mu(B^*M_1B) + (1-\alpha) \mu(B^*M_2B)$. Let
-  $g$ be the function defined on vectors $x \in \R^n$ with positve
-  coordinates by $g(x) = \sum_{i=1}^n{x_i^{-1/2}}$. It is easy to
-  verify that $g$ is convex and Schur-convex, so
-  \[
-  g(\mu(B^*(\alpha M_1 + (1-\alpha)M_2)B))
-  \le
-  g(\alpha \mu(B^*M_1B) + (1-\alpha) \mu(B^*M_2B))
-  \le 
-  \alpha g(\mu(B^*M_1B)) + (1-\alpha) g(\mu(B^*M_2B)).
-  \]
+  prove that for any invertible operator $V:X \to \ell^n_2$ (which, in
+  our case, equals $RU$), the function $\tr((VA^{-1}V^*)^{1/2})$ is
+  convex in $A$ for $A:X\to X^*$ positive definite. Then, we would
+  have that $f(A)$ is a supremum of convex functions, and, therefore,
+  convex.  The convexity of $\tr((VA^{-1}V^*)^{1/2})$ follows from a
+  standard argument based on majorization, which we give next.  Since
+  $V$ is invertible, we have $VA^{-1}V^* = (V^{-*}AV^{-1})^{-1}$, and
+  $\tr((VA^{-1}V^*)^{1/2}) = \tr(((V^{-*}AV^{-1})^{-1/2})$. Let
+  $\alpha \in (0,1)$ be arbitrary, and let $A_1, A_2$ be two positive
+  definite operators from $X$ to $X^*$. Let $\mu$ be the function that
+  maps a self-adjoint operator on $\ell_2^n$ to the vector of its
+  eigenvalues. By the Ky-Fan inequalities, $\mu(V^{-*}(\alpha A_1 +
+  (1-\alpha)A_2)V^{-1})$ is majorized by $\alpha \mu(V^{-*}A_1V^{-1}) + (1-\alpha)
+  \mu(V^{-*}A_2V^{-1})$. Let $g$ be the function defined on vectors $x \in
+  \R^n$ with positve coordinates by $g(x) =
+  \sum_{i=1}^n{x_i^{-1/2}}$. It is easy to verify that $g$ is convex
+  and Schur-convex, so
+  \begin{align*}
+  g(\mu(V^{-*}(\alpha A_1 + (1-\alpha)A_2)V^{-1}))
+  &\le
+  g(\alpha \mu(V^{-*}A_1V^{-1}) + (1-\alpha) \mu(V^{-*}A_2V^{-1}))\\
+  &\le 
+  \alpha g(\mu(V^{-*}A_1V^{-1})) + (1-\alpha) g(\mu(V^{-*}A_2V^{-1})).
+  \end{align*}
   Since the left hand side above equals   
   \[
-  \tr((B^*(\alpha M_1 + (1-\alpha)M_2)B)^{-1/2})
+  \tr((V^{-*}(\alpha A_1 + (1-\alpha)A_2)V^{-1})^{-1/2})
   = 
-  \tr((A(\alpha M_1 + (1-\alpha)M_2)^{-1}A^*)^{1/2}),
+  \tr((V(\alpha A_1 + (1-\alpha)A_2)^{-1}V^*)^{1/2}),
   \]
   and the right hand side equals
-  \[
-  \alpha \tr((B^*M_1B)^{-1/2}) +  (1- \alpha) \tr((B^*M_2B)^{-1/2})
-  = 
-  \alpha \tr((AM_1^{-1}A^*)^{1/2}) +  (1- \alpha) \tr((AM_2^{-1}A^*)^{1/2}),
-  \]
+  \begin{align*}
+  \alpha \tr((V^{-*}A_1V^{-1})^{-1/2}) &+  (1- \alpha) \tr((V^{-*}A_2V^{-1})^{-1/2})\\
+  &= 
+  \alpha \tr((VA_1^{-1}V^*)^{1/2}) +  (1- \alpha) \tr((VA_2^{-1}V^*)^{1/2}),
+  \end{align*}
   we have established convexity.   
+ 
 
   From \eqref{eq:f-formula}, we can see that the subgradient of
-  $f$ at $M$ is
+  $f$ at $A$ is
   \begin{align*}
-  \partial f(M) &= \mathrm{conv}
-  \{\nabla_M \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}):\\
+  \partial f(A) &= \mathrm{conv}
+  \{\nabla \tr((RUA^{-1}U^*R^*)^{1/2}):\\
   &\hspace{10em}
   R: Y \to \ell_2^n, \ell^*(R) \le 1,
-  f(M) = \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})\}\\
+  f(A) = \tr((RUA^{-1}U^*R^*)^{1/2})\}\\
+  &= 
+  \mathrm{conv}\{
+  \nabla \tr(((RU)^{-1}A(RU)^{-*})^{-1/2}):\\ 
+  &\hspace{10em}
+  R: Y \to \ell_2^n, \ell^*(R) \le 1, 
+  f(A) = \tr((RUA^{-1}U^*R^*)^{1/2})\}\\
   &= 
   \mathrm{conv}\{
   -\frac{1}{2} 
-  (RI_{X,Y})^{-1} ((RI_{X,Y})^{-*} M (RI_{X,Y})^{-1})^{-3/2} (RI_{X,Y})^{-*}:\\ 
+  (RU)^{-1} ((RU)^{-*} A (RU)^{-1})^{-3/2} (RU)^{-*}:\\ 
   &\hspace{10em}
   R: Y \to \ell_2^n, \ell^*(R) \le 1, 
-  f(M) = \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})\}.
+  f(A) = \tr((RUA^{-1}U^*R^*)^{1/2})\}.
   \end{align*}
-  Above we used the fact that $\nabla \tr(X^{-1/2}) =
-  -\frac{1}{2}X^{-3/2}$ for any positive definite $X$
-  (see~\cite{Lewis95}), and Lemma~\ref{lm:invertible}, which implies
-  that any $R$ satisfying $f(M) =
-  \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$ is invertible. Since $f$
-  is differentiable, we have that $\partial f(M)$ is a singleton set,
+  Above we used Lemma~\ref{lm:invertible}, and
+  the fact that 
+  \[
+  \nabla \tr(X^{-1/2}) =
+  -\frac{1}{2}X^{-3/2}
+  \]
+  for any positive definite $X:\ell_2^n\to\ell_2^n$ (see~\cite{Lewis95}). Since $f$ is
+  differentiable, we have that $\partial f(A)$ is a singleton set,
   i.e.~
   \[
-  \nabla f(M) = 
-  -\frac{1}{2} (RI_{X,Y})^{-1} ((RI_{X,Y})^{-*} M (RI_{X,Y})^{-1})^{-3/2} (RI_{X,Y})^{-*}
+  \nabla f(A) = 
+  -\frac{1}{2} (RU)^{-1} ((RU)^{-*} A (RU)^{-1})^{-3/2} (RU)^{-*}
   \]
   for the an invertible operator $R: Y \to \ell_2^n$, such that
-  $\ell^*(R) \le 1$ and $f(M) =
-  \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$. This finishes the proof
+  $\ell^*(R) \le 1$ and $f(A) =
+  \tr((RUA^{-1}U^*R^*)^{1/2})$. This finishes the proof
   of the lemma.
 \end{proof}
 
-We are now ready to formulate $\lambda(I_{X,Y})$ as a convex
+We are now ready to formulate $\lambda(U)$ as a convex
 minimization problem. 
 
 \begin{theorem}\label{thm:fact-convex}
-  For any two $n$-dimensional normed spaces $X$ and $Y$, and the
-  formal identity $I_{X,Y}:X \to Y$, $\lambda(I_{X,Y})$ equals
+  For any two $n$-dimensional normed spaces $X$ and $Y$, and any
+  linear operator $U:X \to Y$, $\lambda(U)$ equals
   \begin{align}
-    &\inf %\ell(M^{-1/2})
-    f(M)  \label{eq:fact-obj}\\
+    &\inf %\ell(B^{-1})
+    f(A)  \label{eq:fact-obj}\\
     &\text{s.t.}\notag\\
-    &M: X \to X^*,\|M\| \le 1\label{eq:fact-constr}\\
-    &M \succ 0.\label{eq:fact-psd}
+    &A: X \to X^*,\|A\| \le 1\label{eq:fact-constr}\\
+    &A \succ 0.\label{eq:fact-psd}
   \end{align}
-  The function $f$ is the one defined in Lemma~\ref{lm:obj-f}.
-  %$M^{-1/2}$ is the inverse of the principle square root
+  The function $f$ is the one defined in \eqref{eq:obj-def}.
+  %$B^{-1}$ is the inverse of the principle square root
   %$M^{1/2}$ of $M$, and is taken as an operator from $\ell_2$ to $Y$. 
 
   Moreover, the objective \eqref{eq:fact-obj} and the constraints
-  \eqref{eq:fact-constr}--\eqref{eq:fact-psd} are convex in $M$.
+  \eqref{eq:fact-constr}--\eqref{eq:fact-psd} are convex in $A$.
 \end{theorem}
 \begin{proof}
   The convexity of the constraints
   \eqref{eq:fact-constr}--\eqref{eq:fact-psd} is apparent from the
   definition, and the convexity of the objective was proved in
   Lemma~\ref{lm:obj-f}. We proceed to show that the value of
-  \eqref{eq:fact-obj}--\eqref{eq:fact-psd} equals $\lambda(I_{X,Y})$.
+  \eqref{eq:fact-obj}--\eqref{eq:fact-psd} equals $\lambda(U)$.
 
-  Let $T:X \to \ell_2^n$ and $S:\ell_2^n \to Y$, $ST = I_{X,Y}$ be a
-  factorization achieving $\lambda(I_{X,Y})$ such that $\|T\| = 1$ and
-  $\ell(S) = \lambda(I_{X,Y})$. Then we claim that $M \eqdef T^*T$
-  satisfies \eqref{eq:fact-constr}--\eqref{eq:fact-psd} and achieves
-  value $\ell(S)$, so the value of
+  Let $T:X \to \ell_2^n$ and $S:\ell_2^n \to Y$, $ST = U$ be a
+  factorization achieving $\lambda(U)$ such that $\|T\| = 1$ and
+  $\ell(S) = \lambda(U)$. Then we claim that $A \eqdef T^*T$
+  satisfies \eqref{eq:fact-constr}--\eqref{eq:fact-psd} and 
+  $f(A) = \ell(S) $, so the value of
   \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is at most
-  $\ell(S) = \lambda(I_{X,Y})$. Indeed, $M$ is clearly positive semidefinite,
+  $\ell(S) = \lambda(U)$. Indeed, $A$ is clearly positive semidefinite,
   and must be positive definite, as $T$ is
   invertible. Furthermore, since $\|T\|\le 1$, we have that for any $x
   \in B_X$,
-  \[\langle x, Mx \rangle = \langle Tx, Tx\rangle =
-  \|Tx\|^2_2 \le 1.\] 
-  On the other hand, since $M$ is self-adjoint,
-  $\|M\| = \sup\{\langle x, Mx\rangle: x \in B_X\}$, and we have shown
-  that $\|M\| \le 1$. Since $M^{-1} = T^{-1}T^{-*}$, we have that
-  there exists an orthogonal transformation $U$ such that $M^{-1/2} =
-  T^{-1}U$. By the rotational invariance of the Gaussian measure, 
+  \[\langle x, Ax \rangle = \langle Tx, Tx\rangle =
+  \|Tx\|^2_2 \le 1.\] On the other hand, since $A$ is self-adjoint,
+  $\|A\| = \sup\{\langle x, Ax\rangle: x \in B_X\}$, and we have shown
+  that $\|A\| \le 1$. Moreover, since $A = T^* T$, we get
   \[
-  \ell(I_{X,Y}M^{-1/2}) = 
-  \ell(I_{X,Y}  T^{-1}U) = 
-  \ell(I_{X,Y}  T^{-1})  = \ell(S) = \lambda(I_{X,Y}).
+  f(A) = \ell(UT^{-1}) = \ell(S) = \lambda(U).
   \]
   This finishes the proof of the claim that the value of
-  \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is at most $\lambda(I_{X,Y})$
+  \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is at most $\lambda(U)$.
   
-  Next we prove the reverse inequality. Given a feasible solution $M$
-  to \eqref{eq:fact-obj}--\eqref{eq:fact-psd}, we can construct a
-  factorization $S \eqdef I_{X,Y}M^{-1/2}$, $T \eqdef M^{1/2}$ of
-  $I_{X,Y}$, where $M^{1/2}$ is the principle square root of $M$ and
-  $M^{-1/2}$ is its inverse. By
-  \eqref{eq:fact-constr}--\eqref{eq:fact-psd}, for any $x \in B_X$ we have
+  Next we prove the reverse inequality. Given a feasible solution $A$
+  to \eqref{eq:fact-obj}--\eqref{eq:fact-psd}, we take an operator
+  $T:X \to \ell_2^n$ such that $A = T^* T$. Then we construct a
+  factorization $U=ST$ by setting $S = UT^{-1}$.  By
+  \eqref{eq:fact-constr}--\eqref{eq:fact-psd}, for any $x \in B_X$ we
+  have
   \[
-  \|Tx\|^2_2 = \langle Tx, Tx\rangle = \langle x, Mx \rangle  \le
-  1,\] so $\|T\| \le 1$. Moreover, $\ell(S) = f(M)$ by
+  \|Tx\|^2_2 = \langle Tx, Tx\rangle = \langle x, Ax \rangle  \le
+  1,\] so $\|T\| \le 1$. Moreover, $\ell(S) = f(A)$ by
   definition. This proves that the value of
   \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is at least
-  $\lambda(I_{X,Y})$, and, since we already showed that it is also at
-  most $\lambda(I_{X,Y})$, the two are equal.
+  $\lambda(U)$, and, since we already showed that it is also at
+  most $\lambda(U)$, the two are equal.
 \end{proof}
 
 \subsection{Dual Formulation}
 
 
-Next we give a dual formulation of $\lambda(I_{X,Y})$ as a
+Next we give a dual formulation of $\lambda(U)$ as a
 supremum over ``dual certificates''. Such a formulation is very useful
 in reversing the inequality in Theorem~\ref{thm:factorization},
 because it allows us to reduce such a proof to relating the dual
@@ -1228,9 +1413,9 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
 \begin{theorem}\label{thm:dual}
   Let $X$ and $Y$ be two $n$-dimensional normed
   spaces, such that the unit ball of $X$ is $B_X = \mathrm{conv}\{\pm
-  v_1, \ldots, \pm v_m\}$. Then $\lambda(I_{X,Y})$ equals
+  v_1, \ldots, \pm v_m\}$. Then $\lambda(U)$ equals
   \begin{align}
-    &\sup \tr((RI_{X,Y}(\sum_{i = 1}^m{p_i v_i \otimes  v_i})I_{Y^*,X^*}R^*)^{1/3})^{3/2}\label{eq:dual-obj}\\
+    &\sup \tr((RU(\sum_{i = 1}^m{p_i v_i \otimes  v_i})U^*R^*)^{1/3})^{3/2}\label{eq:dual-obj}\\
     \text{s.t.}\notag\\
     &R: Y \to \ell_2^n, \ell^*(R) \le 1 \label{eq:dual-ellstar}\\
     &\sum_{i = 1}^m{p_i} = 1\label{eq:dual-prob}\\
@@ -1241,24 +1426,24 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   Since $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$, we can can
   rewrite \eqref{eq:fact-obj}--\eqref{eq:fact-psd} as
   \begin{align}
-    &\inf f(M)\ \ \ 
+    &\inf f(A)\ \ \ 
     \text{s.t.}\label{eq:poly-obj}\\
-    &\langle v_i, Mv_i\rangle \le 1 \ \ \forall i \in [m]\\
-    &M \succ 0\label{eq:poly-psd},
+    &\langle v_i, Av_i\rangle \le 1 \ \ \forall i \in [m]\\
+    &A \succ 0\label{eq:poly-psd},
   \end{align}
   By Theorem~\ref{thm:fact-convex} this is a convex minimization problem
-  and its value equals $\lambda(I_{X,Y})$.
+  and its value equals $\lambda(U)$.
 
   Recall that the conjugate function $f^*$ is defined on self-adjoint
   linear operators $Q:\R^n \to \R^n$ by:
   \[
-  f^*(Q) \eqdef \sup\{\tr(QM) - f(M): M \succ 0\}.
+  f^*(Q) \eqdef \sup\{\tr(QA) - f(A): A \succ 0\}.
   \]
   Since $f^*(Q)$ is the supremum of affine functions, it is convex and
   lower semicontinuous. The set on which $f^*$ takes a finite value is
   called its domain. The significance of $f^*$ is the fact
   \begin{equation}\label{eq:lagrange}
-  \lambda(I_{X,Y}) = 
+  \lambda(U) = 
   \sup\left\{-\sum_{i = 1}^m{q_i} - 
     f^*\left(-\sum_{i = 1}^m{q_i v_i\otimes v_i}\right):
       q_1, \ldots, q_m \ge 0\right\}.
@@ -1266,7 +1451,7 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   This follows from the duality theory of convex optimization, since
   \eqref{eq:poly-obj}--\eqref{eq:poly-psd} satisfies Slater's
   condition, which in this case reduces to just checking the existence
-  of a feasible $M$ (see~\cite[Chapter 5]{BoydV04}). We proceed to
+  of a feasible $A$ (see~\cite[Chapter 5]{BoydV04}). We proceed to
   compute $f^*(Q)$.
 
   It is easy to see that unless $-Q \succeq 0$, $f^*(Q) = \infty$,
@@ -1278,27 +1463,27 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   range of the gradient mapping $\nabla f$ includes the relative
   interior of the domain of $f^*$, i.e.~the set of linear operators
   $\{X: -X \succ 0\}$ (see Corollary~26.4.1.~in~\cite{Rockafellar});
-  from \eqref{eq:f-derivative} it is also apparent that $\nabla f(M)$
-  is negative definite for any positive definite $M$, so the range of
+  from \eqref{eq:f-derivative} it is also apparent that $\nabla f(A)$
+  is negative definite for any positive definite $A$, so the range of
   the gradient mapping is exactly $\{X: -X \succ 0\}$. This means that
-  the equation $\nabla f(M) = Q$ has a solution over $M \succ 0$, and
-  $f^*(Q)$ is achieved at this solution. Let $M$ be the solution, and
+  the equation $\nabla f(A) = Q$ has a solution over $A \succ 0$, and
+  $f^*(Q)$ is achieved at this solution. Let $B$ be the solution, and
   let $R:Y \to \ell_2^n$ be the invertible map such that $\ell^*(R)
-  \le 1$ and $f(M) = \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$. Let
-  $A = RI_{X,Y}$; $\nabla f(M) = Q$ implies
+  \le 1$ and $f(A) = \tr((RUA^{-1}U^*R^*)^{1/2})$. Let
+  $B = RU$; $\nabla f(A) = Q$ implies
   \[
-  (A^{-*} M A^{-1})^{-3/2} = -2 AQA^*,
+  (B^{-*} A B^{-1})^{-3/2} = -2 BQB^*,
   \]
   and, therefore,
   \begin{align*}
-    f^*(Q) &= \tr(QM) - \tr((AM^{-1}A^*)^{1/2})\\
-    &= \tr((AQA^*)(A^{-*}MA^{-1})) -   \tr((A^{-*}MA^{-1})^{-1/2})\\
-    &= -\frac{3}{2^{2/3}} \tr((-AQA^*)^{1/3}).
+    f^*(Q) &= \tr(QA) - \tr((BA^{-1}B^*)^{1/2})\\
+    &= \tr((BQB^*)(B^{-*}AB^{-1})) -   \tr((B^{-*}AB^{-1})^{-1/2})\\
+    &= -\frac{3}{2^{2/3}} \tr((-BQB^*)^{1/3}).
   \end{align*}
   We have proved that
   \begin{equation}\label{eq:conjugate-lb}
   f^*(Q) \ge 
-  \inf\left\{ -\frac{3}{2^{2/3}} \tr((-RI_{X,Y}QI_{Y^*,X^*}R^*)^{1/3}):
+  \inf\left\{ -\frac{3}{2^{2/3}} \tr((-RUQU^*R^*)^{1/3}):
   R:Y \to \ell_2^n,\ell^*(R) \le 1\right\},
   \end{equation}
   for any $Q:X^*\to X$ such that $-Q \succ 0$.  Let $\mathcal{D}$ be
@@ -1307,30 +1492,30 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   conjugate function $f^*$ we also have
   \begin{align*}
   f^*(Q) &= 
-  \sup_{M: M \succ 0} 
+  \sup_{A: A \succ 0} 
   \inf_{R \in \mathcal{D}}
-  \tr(QM) - \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})\\
+  \tr(QA) - \tr((RUA^{-1}U^*R^*)^{1/2})\\
   &\le
   \inf_{R \in \mathcal{D}}
-  \sup_{M: M \succ 0} 
-  \tr(QM) - \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}).
+  \sup_{A: A \succ 0} 
+  \tr(QA) - \tr((RUA^{-1}U^*R^*)^{1/2}).
   \end{align*}
   For any $R \in \mathcal{D}$, the supremum on the right hand side
   equals the value at $Q$ of the conjugate $h^*_R$ of the
-  function $h_R(M) = \tr((RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})$. A
+  function $h_R(A) = \tr((RUA^{-1}U^*R^*)^{1/2})$. A
   calculation analogous to the one above shows that $h_R^*(Q) =
   -\frac{3}{2^{2/3}}
-  \tr((-RI_{X,Y}QI_{Y^*,X^*}R^*)^{1/3})$. Therefore,
+  \tr((-RUQU^*R^*)^{1/3})$. Therefore,
   \[
     f^*(Q) \le
-    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-(RI_{X,Y}QI_{Y^*,X^*}R^*)^{1/3}):
+    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-(RUQU^*R^*)^{1/3}):
     R:Y \to \ell_2^n,\ell^*(R) \le 1\right\},
   \]
   and, together with \eqref{eq:conjugate-lb}, we have established 
   \begin{equation}
     \label{eq:conjugate}
     f^*(Q) =
-    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-(RI_{X,Y}QI_{Y^*,X^*}R^*)^{1/3}):
+    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-(RUQU^*R^*)^{1/3}):
     R:Y \to \ell_2^n,\ell^*(R) \le 1\right\},
   \end{equation}
   for any $Q:X^*\to X$ such that $-Q \succ 0$. Since $f^*$ is a
@@ -1341,9 +1526,9 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   
   By \eqref{eq:lagrange} and \eqref{eq:conjugate}, 
   \[
-  \lambda(I_{X,Y}) = 
+  \lambda(U) = 
   \sup\left\{-\sum_{i = 1}^m{q_i} 
-    + \frac{3}{2^{2/3}} \tr((-(RI_{X,Y}(\sum_{i = 1}^m{q_i  v_i\otimes v_i})I_{Y^*,X^*}R^*)^{1/3}):
+    + \frac{3}{2^{2/3}} \tr((-(RU(\sum_{i = 1}^m{q_i  v_i\otimes v_i})U^*R^*)^{1/3}):
     R:Y \to \ell_2^n,\ell^*(R) \le 1,
     q_1, \ldots, q_m \ge 0\right\}.
   \]
@@ -1351,9 +1536,9 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   \ldots, p_m \ge 0$, and $\sum_i p_i = 1$. Then we can rewrite the
   equation above as
   \[
-  \lambda(I_{X,Y}) = 
+  \lambda(U) = 
   \sup\left\{-t + 
-    \frac{3t^{1/3}}{2^{2/3}} \tr((-(RI_{X,Y}(\sum_{i = 1}^m{p_i  v_i\otimes v_i})I_{Y^*,X^*}R^*)^{1/3}):
+    \frac{3t^{1/3}}{2^{2/3}} \tr((-(RU(\sum_{i = 1}^m{p_i  v_i\otimes v_i})U^*R^*)^{1/3}):
     t, p_1, \ldots, p_m \ge 0, \sum_{i=1}^m p_i = 1\right\}.
   \]
   Maximizing over $t$ finishes the proof. 
@@ -1364,15 +1549,15 @@ Let, as before, $X$ be an $n$-dimensional normed spaces, and
 let $U:X\to \ell_2^n$ be an invertible linear tranformation. Consider the
 function
 \begin{align}
-  f(X) \eqdef &\inf \tr((UM^{-1}U^*)^{1/2}) \label{eq:single-obj}\\
+  f(X) \eqdef &\inf \tr((UA^{-1}U^*)^{1/2}) \label{eq:single-obj}\\
   &\text{s.t.}\notag\\
-  &M: X \to X^*,\|M\| \le 1\label{eq:single-constr}\\
-  &M \succ 0.\label{eq:single-psd}.
+  &A: X \to X^*,\|A\| \le 1\label{eq:single-constr}\\
+  &A \succ 0.\label{eq:single-psd}.
 \end{align}
 In the proof of Theorem~\ref{thm:fact-convex} we already established
 that this is a convex optimization problem, i.e.~that the objective
-function $\tr((UM^{-1}U^*)^{1/2})$ and the constraints
-\eqref{eq:single-constr}--\eqref{eq:single-psd} are convex in $M$. We
+function $\tr((UA^{-1}U^*)^{1/2})$ and the constraints
+\eqref{eq:single-constr}--\eqref{eq:single-psd} are convex in $A$. We
 can formulate $f(X)$ dually as a supremum using standard
 techniques. 
 
@@ -1388,17 +1573,17 @@ techniques.
   Since $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$, we can
   rewrite \eqref{eq:single-constr}--\eqref{eq:single-psd} as 
   \begin{align}
-    f(X) \eqdef &\inf \tr((UM^{-1}U^*)^{1/2}) \label{eq:sing2-obj}\\
+    f(X) \eqdef &\inf \tr((UA^{-1}U^*)^{1/2}) \label{eq:sing2-obj}\\
     &\text{s.t.}\notag\\
-    &\langle v_i, Mv_i\rangle \le 1 \ \ \forall i \in [m]\label{eq:sing2-constr}\\
-    &M \succ 0\label{eq:sing2-psd}.
+    &\langle v_i, Av_i\rangle \le 1 \ \ \forall i \in [m]\label{eq:sing2-constr}\\
+    &A \succ 0\label{eq:sing2-psd}.
   \end{align}
   
-  Define the function $g(M) = \tr((UM^{-1}U^*)^{1/2})$ on positive
-  definite $M$. Recall that the conjugate function $g^*$ is defined
+  Define the function $g(A) = \tr((UA^{-1}U^*)^{1/2})$ on positive
+  definite $A$. Recall that the conjugate function $g^*$ is defined
   by:
   \[
-  g^*(Q) \eqdef \sup\{\tr(QM) - g(M): M \succ 0\}.
+  g^*(Q) \eqdef \sup\{\tr(QA) - g(A): A \succ 0\}.
   \]
   Since $g^*(Q)$ is the supremum of affine functions, it is
   convex. The set on which $g^*$ takes a finite value is called its
@@ -1429,16 +1614,16 @@ techniques.
   $\mu$, defined over positive definite operators. We have thus
   established that for any positive semidefinite $Q$, 
   \[
-  \sup\{-\tr(QM) - tr(M^{-1/2}): M \succ 0\}
+  \sup\{-\tr(QA) - tr(B^{-1}): A \succ 0\}
   = 
  -\frac{3}{2^{2/3}} \tr((-Q)^{1/3}). 
   \]
   We are now ready to compute $g^*$. Since $U$ is invertible, we can
-  write $UM^{-1}U^* = (U^{-*}MU^{-1})^{-1}$; let us denote $V =
+  write $UA^{-1}U^* = (U^{-*}AU^{-1})^{-1}$; let us denote $V =
   U^{-1}$ from now on. Then, for any positive semidefinite $Q$,
   \begin{align*}
-    g^*(-Q) &= \sup\{ -\tr(QM) - g(M): M \succ 0\}\\
-    &= \sup\{ -\tr((UQU^*)(V^*MV)) - tr((V^*MV)^{-1/2}): M \succ 0\}\\
+    g^*(-Q) &= \sup\{ -\tr(QA) - g(A): A \succ 0\}\\
+    &= \sup\{ -\tr((UQU^*)(V^*AV)) - tr((V^*AV)^{-1/2}): A \succ 0\}\\
     &=  \frac{3}{2^{2/3}} \tr((-UQU^*)^{1/3}). 
   \end{align*}
   Therefore,
@@ -1460,20 +1645,20 @@ techniques.
 
 By Theorem~\ref{thm:fact-convex}, 
 \[
-\lambda(I_{X,Y}) = 
-\inf_{M \in \mathcal{D}_X} \sup_{R \in \mathcal{D}_X} 
-\tr(RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}),
+\lambda(U) = 
+\inf_{A \in \mathcal{D}_X} \sup_{R \in \mathcal{D}_X} 
+\tr(RUA^{-1}U^*R^*)^{1/2}),
 \]
-where $\mathcal{D}_X \eqdef \{M: X \to X^*, \|M\|\le 1, M \succ 0\}$
+where $\mathcal{D}_X \eqdef \{A: X \to X^*, \|A\|\le 1, A \succ 0\}$
 and $\mathcal{D}_Y \eqdef \{R: Y \to \ell_2^n, \ell^*(R) \le
 1\}$. \emph{Suppose} that the following min-max equality holds
 \begin{equation}
   \label{eq:minmax}
-  \inf_{M \in \mathcal{D}_X} \sup_{R \in \mathcal{D}_X} 
-  \tr(RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2})
+  \inf_{A \in \mathcal{D}_X} \sup_{R \in \mathcal{D}_X} 
+  \tr(RUA^{-1}U^*R^*)^{1/2})
   = 
-  \sup_{R \in \mathcal{D}_X} \inf_{M \in \mathcal{D}_X} 
-  \tr(RI_{X,Y}M^{-1}I_{Y^*,X^*}R^*)^{1/2}).
+  \sup_{R \in \mathcal{D}_X} \inf_{A \in \mathcal{D}_X} 
+  \tr(RUA^{-1}U^*R^*)^{1/2}).
 \end{equation}
 (\textbf{I haven't been able to prove this: it does not seem to follow
   from standard minmax theorems like Sion's. Ideas?}) Then, by
@@ -1490,12 +1675,12 @@ In summary, we have the following lemma.
 \begin{lemma}
   Let $X$ and $Y$ be two $n$-dimensional normed
   spaces, such that the unit ball of $X$ is $B_X = \mathrm{conv}\{\pm
-  v_1, \ldots, \pm v_m\}$. Then $\lambda(I_{X,Y})$ equals
+  v_1, \ldots, \pm v_m\}$. Then $\lambda(U)$ equals
   the value of \eqref{eq:dual-obj}--\eqref{eq:dual-nonneg} if and only
   if equation \eqref{eq:minmax} holds. 
 \end{lemma} }%end of cut
 
-\subsection{Characterizing $\beta(X,Y)$ in terms of $\lambda(I_{X,Y})$}
+\subsection{Characterizing $\beta(X,Y)$ in terms of $\lambda(U)$}
 
 Here we use Theorem~\ref{thm:dual} to prove the reverse of the
 inequality in Theorem~\ref{thm:factorization}. 
@@ -1505,10 +1690,10 @@ inequality in Theorem~\ref{thm:factorization}.
   and $Y$ be two $n$-dimensional normed spaces, such that the unit
   ball of $X$ is $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. Then
   \[
-  \lambda(I_{X,Y}) \le C K(Y) (1 + \log n)^{3/2} \vollb((v_i)_{i =
+  \lambda(U) \le C K(Y) (1 + \log n)^{3/2} \vollb((v_i)_{i =
     1}^m, Y),
   \]
-  where $I_{X,Y}:X \to Y$ is the formal identity operator, and $K(Y)$
+  where $U:X \to Y$ is the formal identity operator, and $K(Y)$
   is the $K$-convexity constant of $Y$. 
 \end{theorem}
 
@@ -1594,18 +1779,18 @@ x_n \ge 0$ of non-negative reals
   Y$, $\ell^*(R) \le 1$ and non-negative reals $p_1, \ldots, p_m \ge
   0$, $\sum_{i = 1}^m{p_i} = 1$, such that 
   \[
-  \lambda(I_{X,Y})^{2/3} 
-  = \tr((RI_{X,Y}(\sum_{i = 1}^m{p_i v_i  \otimes  v_i})I_{Y^*,X^*}R^*)^{1/3})
-  = \tr((\sum_{i = 1}^m{p_i RI_{X,Y}(v_i)  \otimes  RI_{X,Y}(v_i)})^{1/3}).
+  \lambda(U)^{2/3} 
+  = \tr((RU(\sum_{i = 1}^m{p_i v_i  \otimes  v_i})U^*R^*)^{1/3})
+  = \tr((\sum_{i = 1}^m{p_i RU(v_i)  \otimes  RU(v_i)})^{1/3}).
   \]
-  Let $u_i \eqdef RI_{X,Y}(v_i)$, and let $\lambda_1 \ge \ldots \ge
+  Let $u_i \eqdef RU(v_i)$, and let $\lambda_1 \ge \ldots \ge
   \lambda_n \ge 0$ be the eigenvalues of $\sum_{i = 1}^m{p_i u_i
-    \otimes u_i}$, so that $\lambda(I_{X,Y})^{2/3} = \sum_{i =
+    \otimes u_i}$, so that $\lambda(U)^{2/3} = \sum_{i =
     1}^n{\lambda_i^{1/3}}$. Applying \eqref{eq:DFE} to $x_i \eqdef
   \lambda_i^{1/3}$, we have that there exists an integer $k$, $1 \le k
   \le n$, such that
   \[
-  \lambda(I_{X,Y})^{2/3} \le C_0 (1+\log n) k (\lambda_1 \ldots \lambda_k)^{1/(3k)},
+  \lambda(U)^{2/3} \le C_0 (1+\log n) k (\lambda_1 \ldots \lambda_k)^{1/(3k)},
   \]
   for an absolute constant $C_0$. Now, by
   Lemma~\ref{lm:rip-det-weighted}, we have that there exists a set $S
@@ -1617,14 +1802,14 @@ x_n \ge 0$ of non-negative reals
   where $H$ is the Gram matrix of $u_1, \ldots, u_m$. By Stirling's
   estimate, this implies that 
   \begin{equation}\label{eq:fact-det}
-  \lambda(I_{X,Y})^{2/3} \le C_1 (1+\log n) k^{2/3} \det(H_{S,S})^{1/(3k)},
+  \lambda(U)^{2/3} \le C_1 (1+\log n) k^{2/3} \det(H_{S,S})^{1/(3k)},
   \end{equation}
   for an absolute constant $C_1$. 
 
   To finish the proof, we relate the right hand side of
   \eqref{eq:fact-det} to the volume lower bound. Let $V:\R^S \to W$ be
   the operator defined by $V(x) \eqdef \sum_{i \in S}{x_i v_i}$ and let $T$
-  be the restriction of $RI_{X,Y}$ to $W \eqdef \lspan\{v_i: i \in
+  be the restriction of $RU$ to $W \eqdef \lspan\{v_i: i \in
   S\}$. Then, 
   \begin{equation}\label{eq:det-product}
   \det(H_{S,S}) = \det(TVV^*T^*) = \det(V)^2\det(T^*)^2 =
@@ -1658,7 +1843,7 @@ x_n \ge 0$ of non-negative reals
   for to an absolute constant $C_3$. Combining with \eqref{eq:fact-det} and
   \eqref{eq:det-product}, we have, for an absolute constant $C_4$,
   \[
-  \lambda(I_{X,Y}) \le C_4K(Y) (1+\log n)^{3/2}  
+  \lambda(U) \le C_4K(Y) (1+\log n)^{3/2}  
   \frac{\det(G_{S,S})^{1/(2k)}}{\vol_k(B_Y \cap W)^{1/k}}
   \le C_4 K(Y) (1+\log n)^{3/2}  
   \vollb((v_i)_{i =  1}^m, Y),
@@ -1677,7 +1862,7 @@ we have the following
   constants $C, C'$,
   \[
   \beta((u_i)_{i = 1}^N, Y) \le \beta(X,Y)
-  \le C \lambda(I_{X,Y})
+  \le C \lambda(U)
   \le C' K(Y) (1+\log n)^{3/2}  \beta((u_i)_{i = 1}^N, Y).
   \]
 \end{corollary}
