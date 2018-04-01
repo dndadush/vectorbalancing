@@ -2,7 +2,9 @@
 
 \usepackage{amsfonts,amsmath,amsthm,amssymb}
 \usepackage{mathtools}
+\usepackage{hyperref}
 \usepackage{amsthm}
+\usepackage{authblk}
 
 %\newif\ifbigfont\bigfonttrue
 \newif\ifbigfont\bigfontfalse
@@ -99,11 +101,172 @@
 
 
 \begin{document}
-\title{Vector Balancing}
+\title{Balancing Vectors in any Norm}
+\author[1]{Daniel Dadush
+\thanks{Email: \href{mailto:dadush@cwi.nl}{dadush@cwi.nl}.
+Supported by NWO Veni grant 639.071.510.}} 
+\author[2]{ 
+Aleksandar Nikolov
+\thanks{Email: \href{mailto:anikolov@cs.toronto.edu}{anikolov@cs.toronto.edu}.}}
+\author[3]{
+Kunal Talwar
+\thanks{Email: \href{mailto:kunal@kunaltalwar.org}{kunal@kunaltalwar.org}.}} 
+\author[4]{
+Nicole Tomczak-Jaegermann
+\thanks{Email: 
+\href{mailto: nicole.tomczak@ualberta.ca}{ nicole.tomczak@ualberta.ca}.}} 
+
+\affil[1]{\small Centrum Wiskunde \& Informatica.}
+\affil[2]{\small University of Toronto.}
+\affil[3]{\small Google Brain.}
+\affil[4]{\small University of Alberta.}
 \maketitle
 
 \noteswarning
 
+\begin{abstract}
+In the vector balancing problem, we are given $N$ vectors $v_1,..., v_N$ in an
+$n$-dimensional normed space, and our goal is to assign signs to them, so that
+the norm of their signed sum is as small as possible. The balancing constant of
+the vectors is the smallest number $\beta$, such that any subset of the vectors
+can be balanced so that their signed sum has norm at most $\beta$. The vector
+balancing constant generalizes combinatorial discrepancy, and is related to
+rounding problems in combinatorial optimization, and to the approximate
+Caratheodory theorem. We study the question of efficiently approximating the
+vector balancing constant of any set of vectors, with respect to an arbitrary
+norm. We show that the vector balancing constant can be approximated in
+polynomial time to within factors logarithmic in the dimension, and is
+characterized by (an appropriately optimized version of) a known volumetric
+lower bound. Our techniques draw on results from geometric functional analysis
+and the theory of Gaussian processes.  Our results also imply an improved
+approximation algorithm for hereditary discrepancy. 
+\end{abstract}
+
+\newpage
+
+\section{Introduction}
+
+In classical combinatorial discrepancy, one studies for various set systems,
+over the set of $\pm 1$ colorings of the elements, what is the minimum
+worst-case imbalance, known as discrepancy, one guarantee between the number of
+$+1$ and $-1$ elements in every set? The tools developed for understanding the
+discrepancy of set systems have found many applications in mathematics and
+computer science~\cite{Matousek,Chazelle}. 
+
+\paragraph{\bf Vector Balancing.} In many instances, the best known techniques
+for finding good bounds in combinatorial discrepancy were derived by working
+with more general vector balancing problems, where convex geometric techniques
+can be applied. Given symmetric convex bodies $C,K \subseteq \R^n$, the vector
+balancing constant of $C$ into $K$ is defined as 
+% i.e.~which induce the unit ball of a norm, and the
+% goal is to understand the minimum number $M \geq 0$ such that for any sequence
+% $(v_i)_{i=1}^N \in C$, there exists signs $(x_i)_{i=1}^N \in \set{-1,1}$ such
+% that $\sum_{i=1}^N x_i v_i \in M D$. The minimum $M$ is denoted $\vb(C,D)$,
+% the vector balancing constant of $C$ into $D$. 
+\[
+\vb(C, K) \eqdef \sup\Bigg\{ 
+\min_{x_1, \ldots,x_N \in \{-1, 1\}} \Bigl\|\sum_{i = 1}^N x_i
+u_i \Bigr\|_{K}: N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\}.
+\]
+
+As an example, one may consider Spencer's theorem~\cite{Spencer}, independently
+obtained by Gluskin~\cite{gluskin}, which states that every set system on $n$
+points and $n$ sets can be colored with discrepancy at most $O(\sqrt{n})$. In
+the vector balancing context, the more general statement is that
+$\vb(B_\infty^n,B_\infty^n) = O(\sqrt{n})$ (also proved
+in~\cite{Spencer,gluskin}), where we use the notation $B_p^n = \set{x \in \R^n:
+\norm{x}_p \leq 1}$, $p \in [1,\infty]$, to denote the unit ball of the $\ell_p$
+norm. To encode Spencer's theorem, we simply represent the set system using its
+incidence matrix $U \in \set{0,1}^{n \times n}$, where $U_{ji} = 1$ if element
+$i$ is in set $j$ and $0$ otherwise. Here the columns of $U$ have $\ell_\infty$
+norm $1$, and thus the sign vector $x \in \set{-1,1}^n$ satisfying $\norm{U
+x}_\infty = O(\sqrt{n})$ indeed yields the desired coloring. 
+
+Many fundamental discrepancy bounds, as well as conjectured bounds, can be
+stated in terms of vector balancing constants. The Beck-Fiala theorem, which
+bounds the discrepancy of any $t$-sparse set system by $2t-1$, i.e.~where each
+element appears in at most $t$-sets, can be recovered from the bound
+$\vb(B_1^n,B_\infty^n) < 2$~\cite{beckfiala}. The infamous Beck-Fiala conjecture,
+which asks whether the bound for $t$-sparse set systems can be improved to
+$O(\sqrt{t})$, is generalized by the K{\'o}mlos conjecture~\cite{spencer-lectures},
+which asks whether $\vb(B_2^n,B_\infty^n) = O(1)$. One of the most important
+vector balancing bounds is due to Banaszczyk~\cite{bana}, who proved that for
+any convex body $K \subseteq \R^n$ of Gaussian measure $1/2$, one has the bound
+$\vb(B_2^n,K) \leq 5$. In particular, this implies the bound of
+$\vb(B_2^n,B_\infty^n) = O(\sqrt{\log n})$ for the K{\'o}mlos conjecture. 
+
+\paragraph{\bf Discrepancy Minimization.} The original proofs of many of the
+aforementioned discrepancy upper bounds were existential, and did not come with
+efficient algorithms capable of constructing the requisite low discrepancy
+colorings. Over the last eight years, starting with the breakthrough work of
+Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem
+using random walk and semidefinite programming techniques, almost all known
+vector balancing bounds have been made algorithmic. 
+
+One of the most important discrepancy minimization techniques is known as the
+partial coloring method, which covers most of the above discrepancy results
+apart from Banaszczyk's vector balancing theorem. Given a discrepancy
+minimization problem $\min_{x \in \set{-1,1}^n} \norm{\sum_{i=1}^n x_i v_i}_\infty$,
+this method ``colors'' (i.e.~sets to $\pm 1$) at least a constant fraction of
+the remaining variables at every stage. This yields $O(\log n)$ partial coloring
+phases, where the discrepancy of the full coloring is generally upper bounded by
+the sum of discrepancies incurred in each phase. The existence of low
+discrepancy partial colorings was initially established via the pigeon hole
+principle and certain entropy bounds for random $\pm 1$ combinations of the
+vectors, known as Beck's entropy method. This method was both generalized and
+made constructive by Lovett and Meka~\cite{lovettmeka} using random walk
+techniques. The entropy method was further generalized by
+Giannopoulos~\cite{giann} to the vector balancing setting using Gaussian
+measure. Precisely, he showed that if a symmetric convex body $K \subseteq \R^n$
+has Gaussian measure at least $e^{-\delta n}$, for $\delta$ small enough, then
+for any sequence vector $v_1,\dots,v_n \in B_2^n$, there exists a partial
+coloring $x \in \set{-1,0,1}^n$, having support at least $n/2$, such that
+$\sum_{i=1}^n x_i v_i \in O(1) K$. This method was both extended and made
+constructive by Rothvoss~\cite{rothvoss-giann}, using a novel random projection
+algorithm, and a simplified algorithm was given by Eldan and Singh~\cite{ES14}.
+An important difference between the constructive and existential partial
+coloring methods, is that the constructive methods only guarantee that the
+``uncolored'' coordinates of partial coloring $x$ are in $(-1,1)$ instead of
+equal to $0$. This relaxation seems to make the constructive more versatile,
+i.e.~the conditions under which such ``fractional'' partial colorings are
+somewhat milder, without having any noticeable drawbacks in the applications. 
+
+The main alternative to the partial coloring method comes from Banaszczyk's
+vector balancing theorem~\cite{bana}. Comparing to Giannopoulos, Banaszczyk can
+find a full coloring when $K$ has gaussian measure $1/2$ instead of a partial
+coloring when the measure is $2^{-O(n)}$. Banaszczyk's method was only very
+recently made constructive in the sequence of works~\cite{BDG16,DGLN16,BDGL18}.
+In particular,~\cite{DGLN16} showed an equivalence of Banaszcyzk's theorem to
+the existence of certain subgaussian signing distributions, and~\cite{BDGL18}
+gave a random walk algorithm to build such distributions.
+
+\subsection{Nearly Optimal Vector Balancing and Hereditary Discrepancy}
+
+Given the powerful tools that have been developed for discrepancy minimization,
+a natural question is whether they can be used to get optimal or nearly optimal
+bounds for any vector balancing problem. That is, can we efficiently compute
+colorings achieving discrepancy $\approx \vb(C,K)$, for any two symmetric convex
+bodies $C,K$? Furthermore, can we approximate the value $\vb(C,K)$ directly?
+
+These questions have indeed been studied, however most directly in the context
+of hereditary discrepancy, which we presently define. Given a sequence $(u_1,
+\ldots, u_N)$ of vectors in $\R^n$, we define the discrepancy and hereditary
+discrepancy with respect to $K$ as follows:
+\begin{align*}
+\disc((u_i)_{i = 1}^N,K) &\eqdef \min_{\eps_1, \ldots,\eps_N \in
+  \{-1, 1\}}
+\Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{K};\\
+\hd((u_i)_{i = 1}^N, K) &\eqdef \max_{S \subseteq  [N]}{\disc((u_i)_S, K)}.
+\end{align*}
+It follows trivially from the definitions that 
+\[
+\vb(C, K) = \sup\{\hd((u_i)_{i = 1}^N, K)\},
+\]
+where the supremum is taken over all finite sequence of vectors in $C$.
+
+\subsection{Approximating Hereditary Discrepancy}
+
+\subsection{Application to Approximate Caratheodory} 
 
 \section{Definitions and Statement of the Volume Lower Bound}
 
@@ -161,28 +324,30 @@ where the supremum is taken over all finite sequence of vectors in $C$.
 For vectors $x,y \in \R^n$, we define $\inner{x}{y} = x^\T y$ to be the standard
 inner product in $\R^n$. For a matrix $A \in \R^{n \times k}$, we will be
 interested in the volume of the parallelepiped generated by the columns of $A$,
-which can be computed by $\vol_k(A[0,1)^k) = \det(A^\T A)^{1/2}$.  Banaszczyk
+which can be computed by $\vol_k(A[0,1)^k) = \det(A^\T A)^{1/2}$. Banaszczyk
 established the following volumetric lower bound on hereditary discrepancy:
 
 \begin{lemma}[\cite{Bana93}]
 \label{lem:vol-lb}
 Let $U = (u_1,\dots,u_N) \in \R^{n \times N}$ and $K \subseteq \R^n$ be a
 symmetric convex body. For $S \subseteq [N]$, $|S| = k \in [n]$, where $(u_i)_{i
-\in S}$ are linearly independent, define  
+\in S}$ are linearly independent, define \dnote{realized that we can simplify
+the formula.}  
 \begin{equation}
 \label{eq:vol-lb}
 \vollb((u_i)_{i \in S}, K) 
-                         \eqdef \frac{\det(U_S^\T U_S)^{1/(2k)}}{\vol_{k}(K \cap
-\lspan\{u_i: i \in S\})^{1/k}}.
+                         \eqdef \vol_k(\set{x \in \R^k: U_S x \in K})^{-1/k}.
 \end{equation}
 where $U_S$ denotes the columns of $U$ indexed by $S$. Then, letting
-\[
-\vollb_{\rm h}((u_i)_{i=1}^N, K) \eqdef \max_{\substack{S \subseteq [N] \\ {\rm
-rank}(U_S) = |S|}} \vollb((u_i)_{i \in S},K),
-\]
+\begin{align*}
+\vollb^{\rm h}_k((u_i)_{i=1}^N, K) &\eqdef \max_{\substack{S \subseteq [N] \\ {\rm
+rank}(U_S) = k}} \vollb((u_i)_{i \in S},K),~\forall k \in [n], \\
+\vollb^{\rm h}((u_i)_{i=1}^N, K) &\eqdef \max_{k \in [n]}
+\vollb^{\rm h}_k((u_i)_{i=1}^N,K),
+\end{align*}
 we have that
 \[
-\hd((u_i)_{i=1}^N,K) \geq \frac{1}{2} \vollb_{\rm h}((u_i)_{i=1}^N,K) .
+\hd((u_i)_{i=1}^N,K) \geq \vollb^{\rm h}((u_i)_{i=1}^N,K) .
 \]
 \end{lemma}
 
@@ -214,14 +379,18 @@ In this section, we will show that the volume lower bound \eqref{eq:vol-lb} is
 tight within a logarithmic factor. 
 
 \begin{theorem}\label{thm:tightness}
-There exists a universal constant $C \geq 1$ such that the following
-holds. Let $K \subseteq \R^n$ be a convex body $\R^n$, and let $u_1,
-\ldots, u_N \in \R^n$. Then,
-\[
-\frac{1}{2} \le \frac{\hd((u_i)_{i = 1}^N, K)}{\vollb_{\rm h}((u_i)_{i = 1}^N, K) } \le C(1+\log n).
-\]
-Furthermore, there exists a polynomial time algorithm which can compute
-colorings matching the upper bound. 
+There exists a universal constant $C \geq 1$ such that the following holds. Let
+$K \subseteq \R^n$ be a convex body $\R^n$, and let $u_1, \ldots, u_N \in \R^n$.
+Then, the following holds:
+\begin{enumerate}
+\item $1 \le \frac{\hd((u_i)_{i = 1}^N, K)}{\vollb^{\rm h}((u_i)_{i = 1}^N, K)} 
+         \le C(1+\log n)$.\\
+\item $\hd((u_i)_{i = 1}^N, K) \leq C \sum_{k=1}^n \frac{1}{k} \vollb^{\rm
+h}_k((u_i)_{i=1}^N,K)$.
+\end{enumerate}
+Furthermore, there exists a polynomial time algorithm which can compute a
+coloring of $(u_i)_{i=1}^N$ of $K$-discrepancy at most $C(\log n+1)\vollb^{\rm
+h}((u_i)_{i=1}^N,K)$. \dnote{Fix the proof to show the above.} 
 \end{theorem}
 
 The main technical result of this section is that the volume lower bound,
@@ -247,7 +416,7 @@ Lemma~\ref{lem:partial-via-volume}.
 \begin{proof}[Proof of Theorem~\ref{thm:tightness}]
 By Lemma~\ref{lem:vol-lb}, we may restrict attention to the upper bound. In
 particular, given $u_1,\dots,u_N \in \R^n$ and a convex body $K$ in $\R^n$, it
-suffices to show that $\disc((u_i)_{i=1}^N) \leq C(1+\log n)\vollb_{\rm
+suffices to show that $\disc((u_i)_{i=1}^N) \leq C(1+\log n)\vollb^{\rm
 h}((u_i)_{i=1}^N,K)$.  
 
 To begin, we compute a basic solution to the linear program $\sum_{i=1}^N x_i
@@ -265,12 +434,12 @@ $e_1,\dots,e_l$. In particular, letting $K' := TK$, we have that
 \end{align*}
 Furthermore, a direct computation shows that
 \[
-\vollb_{\rm h}((u_i)_{i=1}^l,Y) = \vollb_{\rm h}((e_i)_{i=1}^l,K') = \max_{S \subseteq [l]}
+\vollb^{\rm h}((u_i)_{i=1}^l,Y) = \vollb^{\rm h}((e_i)_{i=1}^l,K') = \max_{S \subseteq [l]}
 \vol_{|S|}(K'_S)^{-1/|S|} \text{ .}
 \] 
 Let us assume that we have computed $M > 0$ satisfying 
 \[
-M/2 \leq \vollb_{\rm h}((e_i)_{i=1}^l,K') \leq M. 
+M/2 \leq \vollb^{\rm h}((e_i)_{i=1}^l,K') \leq M. 
 \]
 From here, it suffices to compute $z \in
 \set{-1,1}^l$ such that $\sum_{i=1}^l (z_i-x_i) e_i \in O(\log n M) K'$. Note
@@ -301,7 +470,7 @@ for any $S \subseteq [l]$,$|S|=k$, we see that
 \vol_k(l M_1 K'_S) \geq \vol_{k}(l \cdot {\rm conv}(\pm e_i: i \in S)) = \frac{(2l)^k}{k!}
  \geq 1 \text{ .}
 \]
-In particular, we get that $M_1 \leq \vollb_{\rm h}((e_i)_{i=1}^l,K') \leq l M_1$.
+In particular, we get that $M_1 \leq \vollb^{\rm h}((e_i)_{i=1}^l,K') \leq l M_1$.
 Hence, as input to the stage above we may successively try the values $M_1
 2^k$, $k \in \set{0,\dots,\log_2 l}$, stopping the first time we find a valid
 coloring. 
@@ -309,8 +478,9 @@ coloring.
 
 Lemma~\ref{lem:partial-via-volume} should be viewed as a volumetric analogue of
 a theorem of Rothvoss~\cite{rothvoss-giann}, who both extended and made
-algorithmic vector balancing results of Giannopolous~\cite{giannop}.We state a
+algorithmic vector balancing results of Giannopoulos~\cite{giannop}. We state a
 slight variant of~\cite[Lemma 9]{rothvoss-giann} below.
+
 % \dnote{I
 % would like to say something about how you probably can't get this type of result
 % using the determinant lower bound. In particular, you lose a log there even for
@@ -608,7 +778,7 @@ and
 We recall that (repeated applications) of Lemma~\ref{lem:partial-via-volume}
 implies the upper bound
 \[
-\hd_{1/2}((u_i)_{i=1}^N,K) \leq O(1) \vollb_{\rm h}((u_i)_{i=1}^N,K).
+\hd_{1/2}((u_i)_{i=1}^N,K) \leq O(1) \vollb^{\rm h}((u_i)_{i=1}^N,K).
 \]
 Here we conjecture that the reverse inequality should also hold.
 
@@ -618,7 +788,7 @@ There exists a universal constant $c \geq 1$, such that for any $n \in \N$,
 $u_1,\dots,u_n \in \R^n$ linearly independent and symmetric convex body $K
 \subseteq \R^n$: 
 \begin{equation}
-\vollb_{\rm h}((u_i)_{i=1}^n,K) \leq c \hd_{1/2}((u_i)_{i=1}^n,K)
+\vollb^{\rm h}((u_i)_{i=1}^n,K) \leq c \hd_{1/2}((u_i)_{i=1}^n,K)
 \end{equation}
 \end{conjecture}
 
@@ -644,13 +814,13 @@ Then, we have that
 \end{equation}
 In particular, defining
 \[
-\speclb_{\rm h}((u_i)_{i=1}^n,K) := \max_{S \subseteq [n]} \speclb((u_i)_{i \in
+\speclb^{\rm h}((u_i)_{i=1}^n,K) := \max_{S \subseteq [n]} \speclb((u_i)_{i \in
 S},K)
 \]
 we have that
 \begin{equation}
 \label{eq:hd-spec-lb}
-\hd_{\alpha}((u_i)_{i=1}^n,K) \geq \alpha \speclb_{\rm h}((u_i)_{i=1}^n,K).
+\hd_{\alpha}((u_i)_{i=1}^n,K) \geq \alpha \speclb^{\rm h}((u_i)_{i=1}^n,K).
 \end{equation}
 \end{lemma}
 \begin{proof}
@@ -680,27 +850,27 @@ Since $u_x \in \beta K$ and $r K \subseteq n \conv(\pm u_i: i
 The desired inequality now follows by rearranging.
 \end{proof}
 
-We note that as with $\vollb_{\rm h}$, one may extend the $\speclb_{\rm h}$ to
+We note that as with $\vollb^{\rm h}$, one may extend the $\speclb^{\rm h}$ to
 an arbitrary sequence of vectors $(u_i)_{i=1}^N$, however one must take care to
 optimize only over subsets of linearly independent vectors, since otherwise the
 conclusion of Lemma~\ref{lem:speclb} is false.
 
 Given the above, it suffices to prove Conjecture~\ref{conj:partial-volume} with
-$\hd_{1/2}$ replaced by $\speclb_{\rm h}$. The resulting stronger conjecture has a
+$\hd_{1/2}$ replaced by $\speclb^{\rm h}$. The resulting stronger conjecture has a
 very natural geometric interpretation which we expand on below. For
 $(u_i)_{i=1}^n \in \R^n$ linearly independent and $K \subseteq \R^n$ a symmetric
 convex body, letting $T$ denote the linear map sending $(u_i)_{i=1}^n$ to
 $(e_i)_{i=1}^n$, it is direct to check that $\tau((u_i)_{i=1}^n,K) =
-\tau((e_i)_{i=1}^n,TK)$ for $\tau \in \set{\speclb_{\rm h},\vollb_{\rm h}}$.
+\tau((e_i)_{i=1}^n,TK)$ for $\tau \in \set{\speclb^{\rm h},\vollb^{\rm h}}$.
 Thus, for the purpose of the conjecture, it suffices to consider the setting
 where the vectors are the standard basis. In this setting, we see that
 \[
-\speclb_{\rm h}((e_i)_{i=1}^n,K) = \max_{S \subseteq [n]} \max \set{r \geq
+\speclb^{\rm h}((e_i)_{i=1}^n,K) = \max_{S \subseteq [n]} \max \set{r \geq
 0: r K_S \subseteq |S| B_1^S} 
 \]
 and that 
 \[
-\vollb_{\rm h}((e_i)_{i=1}^n,K) = \max_{S \subseteq [n]}
+\vollb^{\rm h}((e_i)_{i=1}^n,K) = \max_{S \subseteq [n]}
 \vol_{|S|}(K_S)^{-1/|S|} \text{ .} 
 \]
 The goal is now to show that for every $S_0 \subseteq [n]$, there exists $S_1
