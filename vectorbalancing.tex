@@ -1112,8 +1112,8 @@ given by $Ue_i = u_i$, $\lambda(U)$ also approximates $\hd((u_i)_{i =
 
 \subsection{Preliminaries}
 
-% should put all prelims in one place
-% add prelims for dual ops, Schur convexity
+\snote{Put all prelims in one place, and add prelims for dual
+  operator, Schur convexity, $K$-convexity.}
 
 We will almost exclusively deal with normed spaces defined on $\R^n$.
 For a normed space $X = (\R^n, \|\cdot\|_X)$ we denote by $X^*$ the
@@ -1138,24 +1138,27 @@ of $A$ is $M$, then $\tr(A) = \tr(M)$. We will identify linear
 functionals  on operators $A:X \to Y$, where $X$ and $Y$ are
 $n$-dimensional, with operators $B:Y \to X$ via $f_B(A) = \tr(BA)$. 
 
-A linear operator $A: X \to X^*$ on normed space $X$ defines a bilinear
-form $B$ on $X \times X$, given by $B(x,y) = \langle x, Ay
+A linear operator $A: X \to X^*$ on normed space $X$ defines a
+bilinear form $B$ on $X \times X$, given by $B(x,y) = \langle x, Ay
 \rangle$. We will say that $A$ is positive definite if the
 corresponding bilinear form is symmetric and positive definite,
 i.e.~if $\langle x, Ay \rangle = \langle Ax, y\rangle$ for all $x,y
-\in X$, and $\langle x, Ax \rangle >0$
-for all nonzero $x \in X$. In the case of $\R^n$ this is equivalent to
-stating that the matrix $M$ of $A$ with respect to the standard basis
-is positive definite, i.e.~is symmetric and all its eigenvalues
-are positive. 
+\in X$, and $\langle x, Ax \rangle >0$ for all nonzero $x \in X$; $A$
+is positive semidefinite if instead we have $\langle x, Ax \rangle \ge
+0.$ In the case of $\R^n$ this is equivalent to stating that the matrix
+$M$ of $A$ with respect to the standard basis is positive definite,
+i.e.~is symmetric and all its eigenvalues are positive. We write $A
+\succ 0$ to denote that $A$ is positive definite, and $A \succeq 0$ to
+denote that it is positive semidefinite. 
 
-For a positive definite operator $A:\ell_2^n \to \ell_2^n$ there
-exists a unique positive definite operator $B:\ell_2^n \to \ell_2^n$
-such that $B^*B = BB^* = B^2 = A$. We use the notation $A^{1/2}$ for
-$B$. The matrix of $A^{1/2}$ equals the usual matrix square root of
-the matrix $A$ (both with respect to the standard basis). We also use
-the shorthand notation $A^{k/2} \eqdef (A^k)^{1/2}$ for (positive or
-definite) integers $k$.
+For a positive definite operator $A:\ell_2^n \to \ell_2^n$, and a
+positive integer $k$, there exists a unique positive definite operator
+$B:\ell_2^n \to \ell_2^n$ such that $B^k = A$. We use the notation
+$A^{1/k}$ for $B$. We also use the shorthand notation $A^{\ell/k} \eqdef
+(A^\ell)^{1/k}$ for (positive or negative) integers
+$\ell$. Equivalently, we can derive $A^{\ell/k}$ by raising every
+eigenvalue of $A$ to the power $\ell/k$ in the spectral decomposition
+of $A$.
 
 We also recall that the operator norm $\|A\|$ of a linear operator
 $A:X \to Y$ is defined by 
@@ -1235,7 +1238,7 @@ constants, an upper bound on $\vb(U)$ for any operator $U$.
 
 \begin{theorem}\label{thm:factorization}
   There exists a constant $C$ such that for any linear operator $U:X
-  \to Y$ between two normed spaces $X, Y$ over $\R^n$, we have
+  \to Y$ between two $n$-dimensional normed spaces $X, Y$, we have
   \[
   \vb(U) \le C\lambda(U).
   \]
@@ -1299,10 +1302,40 @@ improved approximation to the hereditary discrepancy.
 
 Our goal in the remainder of the section is to prove that the
 inequality in Theorem~\ref{thm:factorization} holds in the reverse
-direction as well, up to a poly-logarithmic factor, i.e.~to show that
-$\lambda(U) \le (\log n)^{O(1)}\vb(U)$. Moreover, we will show that,
-under reasonable assumptions, $\lambda(U)$ can be computed
-efficiently.
+direction as well, as captured in the following theorem.
+
+\begin{theorem}\label{thm:fact-vollb}
+  There exists a constant $C$ such that the following holds. Let $X$
+  and $Y$ be two $n$-dimensional normed spaces and let $U:X \to Y$ be
+  a linear operator between them.
+  %, such that the unit
+  %ball of $X$ is $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. 
+  Then
+  \[
+  \lambda(U) \le C K(Y) (1 + \log n)^{3/2} \sup\{\vollb((v_i)_{i =
+    1}^N, B_Y)\},
+  \]
+  where $K(Y) = O(\log n)$ is the $K$-convexity constant of $Y$, and
+  the supremum is taken over sequences $(v_i)_{i = 1}^N$ of extreme
+  points of the unit ball $B_X$ of $X$.
+\end{theorem}
+
+Theorems~\ref{thm:factorization}~and~\ref{thm:fact-vollb} together
+with Lemma~\ref{lem:vol-lb} give a characterization of $\vb(U)$ in
+terms of $\lambda(U)$.
+
+\begin{corollary}
+  There exists a constant $C$ such that for any two $n$-dimensional
+  normed spaces $X$ and $Y$, and any linear operator $U:X \to Y$
+  between them, we have
+  \[
+  \frac1C \le \frac{\lambda(U)}{\vb(U)} \le C K(Y) (1 + \log n)^{3/2},
+  \]
+  where $K(Y) = O(\log n)$ is the $K$-convexity constant of $Y$. 
+\end{corollary}
+
+Moreover, we will show that, under reasonable assumptions,
+$\lambda(U)$ can be computed in polynomial time.
 
 \subsection{Convex Formulation}
 
@@ -1313,8 +1346,7 @@ convex function over a convex domain. This fact is useful in that it
 allows applying generic convex optimization techniques to compute
 $\lambda(U)$ given appropriate access to the unit balls of $X$ and
 $Y$. It will also be useful in deriving a dual formulation of
-$\lambda(U)$, which we then use to show that the upper bound in
-Theorem~\ref{thm:factorization} is approximately tight.
+$\lambda(U)$, which we then use to prove Theorem~\ref{thm:fact-vollb}.
 
 In what follows we fix two $n$-dimensional normed spaces $X = (\R^n,
 \|\cdot\|_X)$ and $Y = (\R^n,\|\cdot\|_Y)$, and an invertible linear
@@ -1513,7 +1545,7 @@ First we need an auxiliary lemma.
 We are now ready to formulate $\lambda(U)$ as a convex
 minimization problem. 
 
-\begin{theorem}\label{thm:fact-convex}
+\begin{lemma}\label{lm:fact-convex}
   For any two $n$-dimensional normed spaces $X$ and $Y$, and any
   linear operator $U:X \to Y$, $\lambda(U)$ equals
   \begin{align}
@@ -1529,7 +1561,7 @@ minimization problem.
 
   Moreover, the objective \eqref{eq:fact-obj} and the constraints
   \eqref{eq:fact-constr}--\eqref{eq:fact-psd} are convex in $A$.
-\end{theorem}
+\end{lemma}
 \begin{proof}
   The convexity of the constraints
   \eqref{eq:fact-constr}--\eqref{eq:fact-psd} is apparent from the
@@ -1575,16 +1607,26 @@ minimization problem.
 \subsection{Dual Formulation}
 
 
-Next we give a dual formulation of $\lambda(U)$ as a
-supremum over ``dual certificates''. Such a formulation is very useful
-in reversing the inequality in Theorem~\ref{thm:factorization},
-because it allows us to reduce such a proof to relating the dual
-certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
+Next we give a dual formulation of $\lambda(U)$ as a supremum over
+``dual certificates''. Such a formulation is useful in proving
+Theorem~\ref{thm:fact-vollb}, because it allows us to reduce such a
+proof to relating the dual certificates to the terms in the volume
+lower bound~\eqref{eq:vol-lb}. If we can show that every dual
+certificate bounds from below one of the terms of the volume lower
+bound up to polylogarithmic factors, then we can conclude that
+$\lambda(U)$ also bounds the volume lower bound from below. 
 
+The derivation of the dual formulation from the
+convex program \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is mostly
+routine using Lagrange duality (see,
+e.g.~\cite{BoydV04}). Nevertheless, because of the complicated nature
+of our objective, the derivation is quite technical. The dual
+formulation we use is given in the following theorem.
 \begin{theorem}\label{thm:dual}
-  Let $X$ and $Y$ be two $n$-dimensional normed
-  spaces, such that the unit ball of $X$ is $B_X = \mathrm{conv}\{\pm
-  v_1, \ldots, \pm v_m\}$. Then $\lambda(U)$ equals
+  Let $X$ and $Y$ be two $n$-dimensional normed spaces, such that the
+  unit ball of $X$ is $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm
+  v_m\}$. Then, for any linear operator $U:X \to Y$, $\lambda(U)$
+  equals
   \begin{align}
     &\sup \tr((RU(\sum_{i = 1}^m{p_i v_i \otimes  v_i})U^*R^*)^{1/3})^{3/2}\label{eq:dual-obj}\\
     \text{s.t.}\notag\\
@@ -1602,11 +1644,11 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
     &\langle v_i, Av_i\rangle \le 1 \ \ \forall i \in [m]\\
     &A \succ 0\label{eq:poly-psd},
   \end{align}
-  By Theorem~\ref{thm:fact-convex} this is a convex minimization problem
+  By Lemma~\ref{lm:fact-convex} this is a convex minimization problem
   and its value equals $\lambda(U)$.
 
-  Recall that the conjugate function $f^*$ is defined on self-adjoint
-  linear operators $Q:\R^n \to \R^n$ by:
+  The conjugate function $f^*$ of $f$ is defined on self-adjoint
+  linear operators $Q:X^* \to X$ by:
   \[
   f^*(Q) \eqdef \sup\{\tr(QA) - f(A): A \succ 0\}.
   \]
@@ -1631,17 +1673,21 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   will first handle the case $-Q \succ 0$, and then we will extend our
   formula for $f^*(Q)$ to $-Q \succeq 0$ by continuity. Assume then
   that $-Q \succ 0$. As $f$ is a differentiable convex function, the
-  range of the gradient mapping $\nabla f$ includes the relative
+  range of the derivative $\nabla f$ includes the relative
   interior of the domain of $f^*$, i.e.~the set of linear operators
   $\{X: -X \succ 0\}$ (see Corollary~26.4.1.~in~\cite{Rockafellar});
   from \eqref{eq:f-derivative} it is also apparent that $\nabla f(A)$
   is negative definite for any positive definite $A$, so the range of
-  the gradient mapping is exactly $\{X: -X \succ 0\}$. This means that
-  the equation $\nabla f(A) = Q$ has a solution over $A \succ 0$, and
-  $f^*(Q)$ is achieved at this solution. Let $B$ be the solution, and
-  let $R:Y \to \ell_2^n$ be the invertible map such that $\ell^*(R)
-  \le 1$ and $f(A) = \tr((RUA^{-1}U^*R^*)^{1/2})$. Let
-  $B = RU$; $\nabla f(A) = Q$ implies
+  $\nabla f(A)$ is exactly $\{X: -X \succ 0\}$. This means that
+  the equation 
+  \[
+  0 = \nabla(\tr(QA) - f(A)) = Q - \nabla f(A)
+  \]
+  has a solution over $A \succ 0$, and $f^*(Q)$ is achieved at this
+  solution. Fix $A:X \to X^*$ to be a solution to this equation, and
+  let and let $R:Y \to \ell_2^n$ be an invertible map such that
+  $\ell^*(R) \le 1$ and $f(A) = \tr((RUA^{-1}U^*R^*)^{1/2})$. For $B =
+  RU$, $\nabla f(A) = Q$ and \eqref{eq:f-derivative} imply
   \[
   (B^{-*} A B^{-1})^{-3/2} = -2 BQB^*,
   \]
@@ -1659,7 +1705,7 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   \end{equation}
   for any $Q:X^*\to X$ such that $-Q \succ 0$.  Let $\mathcal{D}$ be
   the set of invertible maps $R:Y \to \ell_2^n$ such that $\ell^*(R)
-  \le 1\}$. By \eqref{eq:f-formula} and the definition of the
+  \le 1$. By \eqref{eq:f-formula} and the definition of the
   conjugate function $f^*$ we also have
   \begin{align*}
   f^*(Q) &= 
@@ -1672,21 +1718,23 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   \tr(QA) - \tr((RUA^{-1}U^*R^*)^{1/2}).
   \end{align*}
   For any $R \in \mathcal{D}$, the supremum on the right hand side
-  equals the value at $Q$ of the conjugate $h^*_R$ of the
-  function $h_R(A) = \tr((RUA^{-1}U^*R^*)^{1/2})$. A
-  calculation analogous to the one above shows that $h_R^*(Q) =
-  -\frac{3}{2^{2/3}}
-  \tr((-RUQU^*R^*)^{1/3})$. Therefore,
+  equals the value at $Q$ of the conjugate $h^*_R$ of the function
+  $h_R(A) = \tr((RUA^{-1}U^*R^*)^{1/2})$. A calculation analogous to
+  the one above for $f^*$ shows that $h_R^*(Q) = -\frac{3}{2^{2/3}}
+  \tr((-RUQU^*R^*)^{1/3})$. 
+  \snote{This is sketchy, but I feel that repeating the same
+    calculations for almost the same function is not worth it.}
+  Therefore,
   \[
     f^*(Q) \le
-    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-(RUQU^*R^*)^{1/3}):
+    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-RUQU^*R^*)^{1/3}):
     R:Y \to \ell_2^n,\ell^*(R) \le 1\right\},
   \]
   and, together with \eqref{eq:conjugate-lb}, we have established 
   \begin{equation}
     \label{eq:conjugate}
     f^*(Q) =
-    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-(RUQU^*R^*)^{1/3}):
+    \inf\left\{ -\frac{3}{2^{2/3}} \tr((-RUQU^*R^*)^{1/3}):
     R:Y \to \ell_2^n,\ell^*(R) \le 1\right\},
   \end{equation}
   for any $Q:X^*\to X$ such that $-Q \succ 0$. Since $f^*$ is a
@@ -1696,183 +1744,31 @@ certificates to the terms in the volume lower bound~\eqref{eq:vol-lb}.
   holds for any $Q \succeq 0$ as well. 
   
   By \eqref{eq:lagrange} and \eqref{eq:conjugate}, 
-  \[
+  \begin{multline}
   \lambda(U) = 
-  \sup\left\{-\sum_{i = 1}^m{q_i} 
-    + \frac{3}{2^{2/3}} \tr((-(RU(\sum_{i = 1}^m{q_i  v_i\otimes v_i})U^*R^*)^{1/3}):
-    R:Y \to \ell_2^n,\ell^*(R) \le 1,
-    q_1, \ldots, q_m \ge 0\right\}.
-  \]
-  Let us write $q = tp$ where $t \ge 0$ is a real number, $p_1,
-  \ldots, p_m \ge 0$, and $\sum_i p_i = 1$. Then we can rewrite the
+  \sup \biggl\{-\sum_{i = 1}^m{q_i} 
+  + \frac{3}{2^{2/3}} \tr\Bigl(\Bigl(-RU\Bigl(\sum_{i = 1}^m{q_i  v_i\otimes  v_i}\Bigr)U^*R^*\Bigr)^{1/3}\Bigr):\\
+  R:Y \to \ell_2^n,\ell^*(R) \le 1,
+  q_1, \ldots, q_m \ge 0\biggr\}.
+  \end{multline}
+  Let us write $q = tp$ where $t \ge 0$ is a real number, and $p_1,
+  \ldots, p_m \ge 0$ satisfy $\sum_i p_i = 1$. Then we can rewrite the
   equation above as
   \[
   \lambda(U) = 
   \sup\left\{-t + 
-    \frac{3t^{1/3}}{2^{2/3}} \tr((-(RU(\sum_{i = 1}^m{p_i  v_i\otimes v_i})U^*R^*)^{1/3}):
+    \frac{3t^{1/3}}{2^{2/3}} \tr\Bigl(\Bigl(-RU\Bigl(\sum_{i = 1}^m{p_i  v_i\otimes v_i}\Bigr)U^*R^*\Bigr)^{1/3}\Bigr):
     t, p_1, \ldots, p_m \ge 0, \sum_{i=1}^m p_i = 1\right\}.
   \]
   Maximizing over $t$ finishes the proof. 
 \end{proof}
 
-\cut{
-Let, as before, $X$ be an $n$-dimensional normed spaces, and
-let $U:X\to \ell_2^n$ be an invertible linear tranformation. Consider the
-function
-\begin{align}
-  f(X) \eqdef &\inf \tr((UA^{-1}U^*)^{1/2}) \label{eq:single-obj}\\
-  &\text{s.t.}\notag\\
-  &A: X \to X^*,\|A\| \le 1\label{eq:single-constr}\\
-  &A \succ 0.\label{eq:single-psd}.
-\end{align}
-In the proof of Theorem~\ref{thm:fact-convex} we already established
-that this is a convex optimization problem, i.e.~that the objective
-function $\tr((UA^{-1}U^*)^{1/2})$ and the constraints
-\eqref{eq:single-constr}--\eqref{eq:single-psd} are convex in $A$. We
-can formulate $f(X)$ dually as a supremum using standard
-techniques. 
+\subsection{Proof of Theorem~\ref{thm:fact-vollb}}
 
-\begin{lemma}\label{lm:duality-single}
-  Let $X$ be an $n$-dimensional normed spaces, whose unit ball $B_X$
-  is the convex hull of $\pm v_1, \ldots, \pm v_m$. Then,
-  \[
-  f(X) = \sup\left\{\tr((U(\sum_{i = 1}^m{p_i v_i \otimes  v_i})U^*)^{1/3})^{3/2}:
-  p_1, \ldots, p_m \ge 0, \sum_{i = 1}^m{p_i} = 1\right\}. 
-  \]
-\end{lemma}
-\begin{proof}
-  Since $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$, we can
-  rewrite \eqref{eq:single-constr}--\eqref{eq:single-psd} as 
-  \begin{align}
-    f(X) \eqdef &\inf \tr((UA^{-1}U^*)^{1/2}) \label{eq:sing2-obj}\\
-    &\text{s.t.}\notag\\
-    &\langle v_i, Av_i\rangle \le 1 \ \ \forall i \in [m]\label{eq:sing2-constr}\\
-    &A \succ 0\label{eq:sing2-psd}.
-  \end{align}
-  
-  Define the function $g(A) = \tr((UA^{-1}U^*)^{1/2})$ on positive
-  definite $A$. Recall that the conjugate function $g^*$ is defined
-  by:
-  \[
-  g^*(Q) \eqdef \sup\{\tr(QA) - g(A): A \succ 0\}.
-  \]
-  Since $g^*(Q)$ is the supremum of affine functions, it is
-  convex. The set on which $g^*$ takes a finite value is called its
-  domain. The significance of $g^*$ is the fact
-  \[
-  f(X) = \sup\left\{-\sum_{i = 1}^m{q_i} - g^*\left(-\sum_{i = 1}^m{q_i
-      v_i\otimes v_i}\right):
-      q_1, \ldots, q_m \ge 0\right\}.
-  \]
-  This follows from the duality theory of convex optimization, and the fact
-  that \eqref{eq:sing2-obj}--\eqref{eq:sing2-psd} satisfy Slater's
-  condition (see~\cite[Chapter 5]{BoydV04}). We proceed to compute
-  $g^*(Q)$.
-
-  Let us consider again the function $h(x) = \sum_{i =
-    1}^m{x^{-1/2}}$, defined for vectos $x \in \R^n$ with positive
-  coordinates (denoted $x > 0$ below). By an elementary calculation,
-  the conjugate function
-  \[
-  h^*(y) = \sup\{\langle x, y \rangle - h(x): x >0\}
-  \]
-  equals $h^*(y) = -\frac{3}{2^{2/3}} \sum_{i = 1}^m{(-y_i)^{1/3}}$ for
-  vectors $y$ with non-positive coordinates, and $\infty$ for all other
-  $y$. Let, as before, the function $\mu$ map a self-adjoint operator
-  to its vector of eigenvalues. Then, by an observation of Lewis,
-  generalizing a theorem of von Neumann, $(h\otimes \mu)^* = h^*
-  \otimes \mu$, where $h\otimes \mu$ is the composition of $h$ and
-  $\mu$, defined over positive definite operators. We have thus
-  established that for any positive semidefinite $Q$, 
-  \[
-  \sup\{-\tr(QA) - tr(B^{-1}): A \succ 0\}
-  = 
- -\frac{3}{2^{2/3}} \tr((-Q)^{1/3}). 
-  \]
-  We are now ready to compute $g^*$. Since $U$ is invertible, we can
-  write $UA^{-1}U^* = (U^{-*}AU^{-1})^{-1}$; let us denote $V =
-  U^{-1}$ from now on. Then, for any positive semidefinite $Q$,
-  \begin{align*}
-    g^*(-Q) &= \sup\{ -\tr(QA) - g(A): A \succ 0\}\\
-    &= \sup\{ -\tr((UQU^*)(V^*AV)) - tr((V^*AV)^{-1/2}): A \succ 0\}\\
-    &=  \frac{3}{2^{2/3}} \tr((-UQU^*)^{1/3}). 
-  \end{align*}
-  Therefore,
-  \[
-  f(X) = \sup\left\{-\sum_{i = 1}^m{q_i} 
-    + \frac{3}{2^{2/3}} \tr((U(\sum_{i = 1}^m{q_i  v_i\otimes v_i})U^*)^{1/3}):
-    q_1, \ldots, q_m \ge 0\right\}.
-  \]
-  Finally, let us write $q = tp$ where $t \ge 0$ is a real number,
-  $p_1, \ldots, p_m \ge 0$, and $\sum_i p_i = 1$. Then we can rewrite
-  the equation above as
-  \[
-  f(X) = \sup\left\{-t
-    + \frac{3t^{1/3}}{2^{2/3}} \tr((U(\sum_{i = 1}^m{p_i  v_i\otimes v_i})U^*)^{1/3}):
-    t, p_1, \ldots, p_m \ge 0, \sum_{i=1}^m p_i = 1\right\}.
-  \]
-  Optimizing over $t$ finishes the proof. 
-\end{proof}
-
-By Theorem~\ref{thm:fact-convex}, 
-\[
-\lambda(U) = 
-\inf_{A \in \mathcal{D}_X} \sup_{R \in \mathcal{D}_X} 
-\tr(RUA^{-1}U^*R^*)^{1/2}),
-\]
-where $\mathcal{D}_X \eqdef \{A: X \to X^*, \|A\|\le 1, A \succ 0\}$
-and $\mathcal{D}_Y \eqdef \{R: Y \to \ell_2^n, \ell^*(R) \le
-1\}$. \emph{Suppose} that the following min-max equality holds
-\begin{equation}
-  \label{eq:minmax}
-  \inf_{A \in \mathcal{D}_X} \sup_{R \in \mathcal{D}_X} 
-  \tr(RUA^{-1}U^*R^*)^{1/2})
-  = 
-  \sup_{R \in \mathcal{D}_X} \inf_{A \in \mathcal{D}_X} 
-  \tr(RUA^{-1}U^*R^*)^{1/2}).
-\end{equation}
-(\textbf{I haven't been able to prove this: it does not seem to follow
-  from standard minmax theorems like Sion's. Ideas?}) Then, by
-Lemma~\ref{lm:duality-single}, the right hand side above equals 
-\begin{align}
-  &\sup \tr((U(\sum_{i = 1}^m{p_i v_i \otimes  v_i})U^*)^{1/3})^{3/2}\label{eq:dual-obj}\\
-  \text{s.t.}\notag\\
-  &R: Y \to \ell_2^n, \ell^*(R) \le 1 \label{eq:dual-ellstar}\\
-  &\sum_{i = 1}^m{p_i} = 1\label{eq:dual-prob}\\
-  &p_1, \ldots, p_m \ge 0. \label{eq:dual-nonneg}
-\end{align}
-In summary, we have the following lemma.
-
-\begin{lemma}
-  Let $X$ and $Y$ be two $n$-dimensional normed
-  spaces, such that the unit ball of $X$ is $B_X = \mathrm{conv}\{\pm
-  v_1, \ldots, \pm v_m\}$. Then $\lambda(U)$ equals
-  the value of \eqref{eq:dual-obj}--\eqref{eq:dual-nonneg} if and only
-  if equation \eqref{eq:minmax} holds. 
-\end{lemma} }%end of cut
-
-\subsection{Characterizing $\beta(X,Y)$ in terms of $\lambda(U)$}
-
-Here we use Theorem~\ref{thm:dual} to prove the reverse of the
-inequality in Theorem~\ref{thm:factorization}. 
-
-\begin{theorem}\label{thm:fact-vollb}
-  There exists a constant $C$ such that the following holds. Let $X$
-  and $Y$ be two $n$-dimensional normed spaces, such that the unit
-  ball of $X$ is $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. Then
-  \[
-  \lambda(U) \le C K(Y) (1 + \log n)^{3/2} \vollb((v_i)_{i =
-    1}^m, Y),
-  \]
-  where $U:X \to Y$ is the formal identity operator, and $K(Y)$
-  is the $K$-convexity constant of $Y$. 
-\end{theorem}
-
-In the proof of Theorem~\ref{thm:fact-vollb} we use covering/packing
-numbers and Sudakov's inequality. For two compact sets $K$ and $L$, we
-use $N(K,L)$ for the covering number, i.e.~the minimum number of translates of
-$L$ needed to cover $K$. We also recall the definition of the entropy
-number $e_k(u)$ of an operator $u:X \to Y$:
+Here we use Theorem~\ref{thm:dual} to prove
+Theorem~\ref{thm:fact-vollb}.  In the proof, we use covering/packing
+numbers and Sudakov's inequality. We also recall the definition of the
+entropy number $e_k(u)$ of an operator $u:X \to Y$:
 \[
 e_k(u) = \inf\{\varepsilon: N(u(B_X), \varepsilon B_Y) \le 2^{k-1}\}. 
 \]
