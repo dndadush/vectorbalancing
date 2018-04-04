@@ -49,6 +49,7 @@
 \newcommand{\set}[1]{\left\{ #1 \right\}}
 
 \DeclareMathOperator{\vollb}{volLB}
+\DeclareMathOperator{\detlb}{detLB}
 \DeclareMathOperator{\disc}{disc}
 \DeclareMathOperator{\hd}{hd}
 \DeclareMathOperator{\vb}{vb}
@@ -59,6 +60,7 @@
 \DeclareMathOperator{\speclb}{specLB}
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\bnds}{bounds}
+\DeclareMathOperator{\rank}{rk}
 
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 
@@ -143,21 +145,22 @@ and the theory of Gaussian processes.  Our results also imply an improved
 approximation algorithm for hereditary discrepancy. 
 \end{abstract}
 
-\newpage
+\newpage 
 
 \section{Introduction}
 
 In classical combinatorial discrepancy, one studies for various set systems,
 over the set of $\pm 1$ colorings of the elements, what is the minimum
 worst-case imbalance, known as discrepancy, one guarantee between the number of
-$+1$ and $-1$ elements in every set? The tools developed for understanding the
-discrepancy of set systems have found many applications in mathematics and
-computer science~\cite{Matousek,Chazelle}. 
+$+1$ and $-1$ elements in every set? The tools developed for deriving bounds on
+the discrepancy of set systems have found many applications in mathematics and
+computer science~\cite{Matousek,Chazelle}, from the study of pseudorandomness,
+to communication complexity, and most recently, to approximation algorithms. 
 
-\paragraph{\bf Vector Balancing.} In many instances, the best known techniques
-for finding good bounds in combinatorial discrepancy were derived by working
-with more general vector balancing problems, where convex geometric techniques
-can be applied. Given symmetric convex bodies $C,K \subseteq \R^n$, the vector
+\paragraph{\bf Vector Balancing} In many instances, the best known techniques for finding
+good bounds in combinatorial discrepancy were derived by working with more
+general vector balancing problems, where convex geometric techniques can be
+applied. Given symmetric convex bodies $C,K \subseteq \R^n$, the vector
 balancing constant of $C$ into $K$ is defined as 
 % i.e.~which induce the unit ball of a norm, and the
 % goal is to understand the minimum number $M \geq 0$ such that for any sequence
@@ -166,9 +169,10 @@ balancing constant of $C$ into $K$ is defined as
 % the vector balancing constant of $C$ into $D$. 
 \[
 \vb(C, K) \eqdef \sup\Bigg\{ 
-\min_{x_1, \ldots,x_N \in \{-1, 1\}} \Bigl\|\sum_{i = 1}^N x_i
-u_i \Bigr\|_{K}: N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\}.
+\min_{x \in \set{-1,1}^N} \Bigl\|\sum_{i = 1}^N x_i
+u_i \Bigr\|_{K}: N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\},
 \]
+where $\norm{x}_K := \min \set{s \geq 0: x \in sK}$ is the norm induced by $K$.
 
 As an example, one may consider Spencer's theorem~\cite{Spencer}, independently
 obtained by Gluskin~\cite{gluskin}, which states that every set system on $n$
@@ -181,13 +185,13 @@ norm. To encode Spencer's theorem, we simply represent the set system using its
 incidence matrix $U \in \set{0,1}^{n \times n}$, where $U_{ji} = 1$ if element
 $i$ is in set $j$ and $0$ otherwise. Here the columns of $U$ have $\ell_\infty$
 norm $1$, and thus the sign vector $x \in \set{-1,1}^n$ satisfying $\norm{U
-x}_\infty = O(\sqrt{n})$ indeed yields the desired coloring. 
+x}_\infty = O(\sqrt{n})$ indeed yields the desired coloring.   
 
 Many fundamental discrepancy bounds, as well as conjectured bounds, can be
 stated in terms of vector balancing constants. The Beck-Fiala theorem, which
 bounds the discrepancy of any $t$-sparse set system by $2t-1$, i.e.~where each
 element appears in at most $t$-sets, can be recovered from the bound
-$\vb(B_1^n,B_\infty^n) < 2$~\cite{beckfiala}. The infamous Beck-Fiala conjecture,
+$\vb(B_1^n,B_\infty^n) < 2$~\cite{beckfiala}. The Beck-Fiala conjecture,
 which asks whether the bound for $t$-sparse set systems can be improved to
 $O(\sqrt{t})$, is generalized by the K{\'o}mlos conjecture~\cite{spencer-lectures},
 which asks whether $\vb(B_2^n,B_\infty^n) = O(1)$. One of the most important
@@ -196,76 +200,218 @@ any convex body $K \subseteq \R^n$ of Gaussian measure $1/2$, one has the bound
 $\vb(B_2^n,K) \leq 5$. In particular, this implies the bound of
 $\vb(B_2^n,B_\infty^n) = O(\sqrt{\log n})$ for the K{\'o}mlos conjecture. 
 
+\paragraph{\bf Hereditary Discrepancy.} While vector balancing gives useful
+worst-case bounds, one is often interested in understanding the discrepancy
+guarantees one can get for instances derived from a fixed set of vectors, known
+as hereditary discrepancy. Given vectors $(u_i)_{i=1}^N$ in $\R^n$, the
+discrepancy and hereditary discrepancy with respect to a symmetric convex body
+$K \subseteq \R^n$ are defined as:
+\begin{align*}
+\disc((u_i)_{i = 1}^N,K) &\eqdef \min_{\eps_1, \ldots,\eps_N \in
+  \{-1, 1\}}
+\Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{K};\\
+\hd((u_i)_{i = 1}^N, K) &\eqdef \max_{S \subseteq [N]}{\disc((u_i)_{i \in S}, K)}.
+\end{align*}
+
+When convenient, we will also use the notation $\hd(U,K) :=
+\hd((u_i)_{i=1}^N,K)$, where $U := (u_1,\dots,u_N) \in \R^{n \times N}$, and
+$\disc(U_S,K) := \disc((u_i)_{i \in S},K)$ for any subset $S \subseteq [N]$.  In
+the context of set systems, $\ell_\infty$ hereditary discrepancy corresponds to
+the worst-case discrepancy of any element induced subsystem, which gives a
+robust notion of how low discrepancy a set system is. As an interesting example,
+a set system has $\ell_\infty$ hereditary discrepancy $1$ if and only if its
+incidence matrix is totally unimodular. 
+
+Beyond set systems, hereditary discrepancy can also usefully bound the
+worst-case ``error'' required for rounding a fractional LP solution to an
+integral one. More precisely, given any solution $y \in \R^n$ to a linear
+programming relaxation $Ax \leq b$, $x \in [0,1]^n$, with $A \in \R^{m \times
+n}, b \in \R^m$, of a binary IP, and given any norm $\norm{\cdot}$ on $\R^m$
+measuring ``constraint violation'', one can ask what guarantees can be given on
+$\min_{x \in \set{0,1}^n} \norm{A(y-x)}$? Using a well-known reduction of
+Lov{\'a}sz, Spencer and Vesztergombi~\cite{LSV}, this error can be bounded by
+$\hd(A,K)$ where $K$ is unit ball of $\norm{\cdot}$. Furthermore,
+this reduction guarantees that $x$ agrees with $y$ on its integer coordinates.
+Note that we have the freedom to choose the norm $\norm{\cdot}$ so that the
+error bounds meaningfully relate to the structure of the problem. Indeed, much
+work has been done on the achievable ``error profiles'' one can obtain
+algorithmically, e.g.~for which $\Delta \in \R^m_{> 0}$ we can always find $x
+\in \set{0,1}^m$ satisfying $|A(y-x)| \leq \Delta$, $\forall y \in [0,1]^m$?
+Note that the feasibility of an error profile can be recovered from a bound of
+$1$ on the hereditary discrepancy with respect to the weighted $\ell_\infty$
+norm $\norm{y-x}_{\Delta} = \max_{i \in [m]} |y_i-x_i|/\Delta_i$.  Indeed, in
+many instances, this is (at least implicitly) how these bounds are proved. These
+error profile bounds have been fruitfully leveraged for problems where small
+``additive violations'' to the constraints are either allow or can be repaired.
+In particular, they were used in for the recent $O(\log n)$-additive
+approximation for bin packing~\cite{HobergRothvoss17}, an additive approximation
+scheme for the train delivery problem~\cite{R12}, and additive approximations of
+the degree bounded matroid basis problem~\cite{BN15}. 
+
 \paragraph{\bf Discrepancy Minimization.} The original proofs of many of the
 aforementioned discrepancy upper bounds were existential, and did not come with
 efficient algorithms capable of constructing the requisite low discrepancy
 colorings. Over the last eight years, starting with the breakthrough work of
 Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem
 using random walk and semidefinite programming techniques, almost all known
-vector balancing bounds have been made algorithmic. 
+bounds have been made algorithmic. 
 
 One of the most important discrepancy minimization techniques is known as the
 partial coloring method, which covers most of the above discrepancy results
-apart from Banaszczyk's vector balancing theorem. Given a discrepancy
-minimization problem $\min_{x \in \set{-1,1}^n} \norm{\sum_{i=1}^n x_i v_i}_\infty$,
-this method ``colors'' (i.e.~sets to $\pm 1$) at least a constant fraction of
-the remaining variables at every stage. This yields $O(\log n)$ partial coloring
-phases, where the discrepancy of the full coloring is generally upper bounded by
-the sum of discrepancies incurred in each phase. The existence of low
-discrepancy partial colorings was initially established via the pigeon hole
-principle and certain entropy bounds for random $\pm 1$ combinations of the
-vectors, known as Beck's entropy method. This method was both generalized and
-made constructive by Lovett and Meka~\cite{lovettmeka} using random walk
-techniques. The entropy method was further generalized by
-Giannopoulos~\cite{giann} to the vector balancing setting using Gaussian
-measure. Precisely, he showed that if a symmetric convex body $K \subseteq \R^n$
-has Gaussian measure at least $e^{-\delta n}$, for $\delta$ small enough, then
-for any sequence vector $v_1,\dots,v_n \in B_2^n$, there exists a partial
-coloring $x \in \set{-1,0,1}^n$, having support at least $n/2$, such that
-$\sum_{i=1}^n x_i v_i \in O(1) K$. This method was both extended and made
-constructive by Rothvoss~\cite{rothvoss-giann}, using a novel random projection
-algorithm, and a simplified algorithm was given by Eldan and Singh~\cite{ES14}.
-An important difference between the constructive and existential partial
-coloring methods, is that the constructive methods only guarantee that the
-``uncolored'' coordinates of partial coloring $x$ are in $(-1,1)$ instead of
-equal to $0$. This relaxation seems to make the constructive more versatile,
-i.e.~the conditions under which such ``fractional'' partial colorings are
-somewhat milder, without having any noticeable drawbacks in the applications. 
+apart from Banaszczyk's vector balancing theorem. This method was first
+primarily applied to $\ell_\infty$ discrepancy minimization problems of the form
+\[
+\min_{x \in \set{-1,1}^n} \Big\|\sum_{i=1}^n x_i v_i\Big\|_\infty, \text{ where
+} (v_i)_{i=1}^n \in \R^m.
+\]
+As before, the goal is not to solve such problems near-optimally but instead to find
+solutions satisfying a guaranteed error bound. The partial coloring method
+solves this problem phases, where at each phase it ``colors'' (i.e.~sets to $\pm
+1$) at least a constant fraction of the remaining uncolored variables.  This
+yields $O(\log n)$ partial coloring phases, where the discrepancy of the full
+coloring is generally upper bounded by the sum of discrepancies incurred in each
+phase. The existence of low discrepancy partial colorings, i.e.~which color half
+the variables, was initially established via the pigeon hole principle and
+certain entropy bounds for random $\pm 1$ combinations of the vectors, known as
+Beck's entropy method. In particular, the entropy method gave a general
+sufficient condition for the feasibility of any error profile (as above) with
+respect to partial colorings. This method was made constructive by Lovett and
+Meka~\cite{lovettmeka} using random walk techniques. The entropy method was
+further generalized by Giannopoulos~\cite{giann} to the general vector balancing
+setting using Gaussian measure. Precisely, he showed that if a symmetric convex
+body $K \subseteq \R^n$ has Gaussian measure at least $2^{-c n}$, for
+$c$ small enough, then for any sequence vector $v_1,\dots,v_n \in B_2^n$,
+there exists a partial coloring $x \in \set{-1,0,1}^n$, having support at least
+$n/2$, such that $\sum_{i=1}^n x_i v_i \in O(1) K$. This method was made
+constructive by Rothvoss~\cite{rothvoss-giann}, using a random projection
+algorithm, and later by Eldan and Singh~\cite{ES14} who used the solution of a
+random linear maximization problem. An important difference between the
+constructive and existential partial coloring methods, is that the constructive
+methods only guarantee that the ``uncolored'' coordinates of a partial coloring
+$x$ are in $(-1,1)$ instead of equal to $0$. This relaxation seems to make the
+constructive methods more robust, i.e.~the conditions under which such ``fractional''
+partial colorings are somewhat milder, without having noticeable drawbacks in most
+applications. 
 
 The main alternative to the partial coloring method comes from Banaszczyk's
-vector balancing theorem~\cite{bana}. Comparing to Giannopoulos, Banaszczyk can
-find a full coloring when $K$ has gaussian measure $1/2$ instead of a partial
-coloring when the measure is $2^{-O(n)}$. Banaszczyk's method was only very
-recently made constructive in the sequence of works~\cite{BDG16,DGLN16,BDGL18}.
-In particular,~\cite{DGLN16} showed an equivalence of Banaszcyzk's theorem to
-the existence of certain subgaussian signing distributions, and~\cite{BDGL18}
-gave a random walk algorithm to build such distributions.
+vector balancing theorem~\cite{bana}. Comparing to Giannopoulos, when the input
+norm is $\ell_2$ Banaszczyk's method proves the existence of a full coloring when
+$K$ has gaussian measure $1/2$ compared to a partial coloring when $K$ has measure
+$2^{-cn}$.  Banaszczyk's method was only very recently made constructive in
+the sequence of works~\cite{BDG16,DGLN16,BDGL18}. In particular,~\cite{DGLN16}
+showed an equivalence of Banaszcyzk's theorem to the existence of certain
+subgaussian signing distributions, and~\cite{BDGL18} gave a random walk
+algorithm to build such distributions.
 
-\subsection{Nearly Optimal Vector Balancing and Hereditary Discrepancy}
+\subsection{Nearly Optimal Approximations for Vector Balancing and Hereditary
+Discrepancy}
 
-Given the powerful tools that have been developed for discrepancy minimization,
-a natural question is whether they can be used to get optimal or nearly optimal
-bounds for any vector balancing problem. That is, can we efficiently compute
-colorings achieving discrepancy $\approx \vb(C,K)$, for any two symmetric convex
-bodies $C,K$? Furthermore, can we approximate the value $\vb(C,K)$ directly?
+Given the powerful tools that have been developed above, a natural question is
+whether they can be extended to get nearly optimal bounds for any vector
+balancing or hereditary discrepancy problem. More precisely, we will be
+interested in the following computational and mathematical questions: 
 
-These questions have indeed been studied, however most directly in the context
-of hereditary discrepancy, which we presently define. Given a sequence $(u_1,
-\ldots, u_N)$ of vectors in $\R^n$, we define the discrepancy and hereditary
-discrepancy with respect to $K$ as follows:
-\begin{align*}
-\disc((u_i)_{i = 1}^N,K) &\eqdef \min_{\eps_1, \ldots,\eps_N \in
-  \{-1, 1\}}
-\Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{K};\\
-\hd((u_i)_{i = 1}^N, K) &\eqdef \max_{S \subseteq  [N]}{\disc((u_i)_S, K)}.
-\end{align*}
-It follows trivially from the definitions that 
+\begin{enumerate}
+\item Given vectors $(u_i)_{i=1}^N$ and a symmetric convex body $K$ in $\R^n$,
+can we (a) efficently compute a coloring whose $K$-discrepancy is approximately
+bounded by $\hd((u_i)_{i=1}^N,K)$? (b) efficiently approximate $\hd((u_i)_{i=1}^N,K)$?
+\item Given two symmetric convex bodies $C,K \subseteq \R^n$, does $\vb(C,K)$
+admit a ``good'' characterization? Namely, are there simple certificates which
+certify nearly tight upper and lower bounds on $\vb(C,K)$?
+\end{enumerate}
+
+To begin, a few remarks are in order.  Firstly, question 2 can be inefficiently
+encoded as question 1b, by letting $(u_i)_{i=1}^N$ denote a sufficiently fine
+net of $C$. For question 1a, one may be tempted to ask whether we can directly
+compute a coloring whose $K$-discrepancy is approximately
+$\disc((u_i)_{i=1}^N,K)$ instead of $\hd((u_i)_{i=1}^N,K)$. Unfortunately, even
+for $K = B_\infty^n$ and $(u_i)_{i=1}^n \in [-1,1]^n$, it is NP-hard to
+distinguish whether $\disc((u_i)_{i=1}^n,B_\infty^n)$ is $0$ or
+$\Omega(\sqrt{n})$ (note that $O(\sqrt{n})$ is guaranteed by Spencer's theorem),
+thus one cannot hope for any non-trivial approximation guarantee in this
+context. We now discuss prior work on these questions and then continue with our
+main results. 
+
+\paragraph{Prior work.} For both questions, prior work has mostly dealt with the
+case of $\ell_\infty$ or $\ell_2$ discrepancy. Bounds on vector balancing
+constants for some combinations of $\ell_p$ to $\ell_q$ have also been studied,
+as described earlier, however without a unified approach. The question of
+obtaining near-optimal results for general vector balancing and hereditary
+discrepancy problems has on the other hand not been studied before. 
+
+In terms of coloring algorithms, Bansal~\cite{Bansal10} gave a partial coloring
+based random walk algorithm which on $U \in \R^{m \times n}$, produces a full
+coloring of $\ell_\infty$ discrepancy at most $O(\sqrt{\log m \log \rank(U)}
+\hd(U,B_\infty^m))$, where $\rank(U)$ is the rank of $U$. Recently,
+Larsen~\cite{Larsen17} gave an algorithm for the $\ell_2$ norm achieving
+discrepancy $O(\sqrt{\rank(U)}\hd(U,B_2^m))$. 
+
+In terms of certifying lower bounds on $\hd(U,B_\infty^m))$, the main tool has
+been the so-called determinant lower bound of~\cite{LSV}, where it was shown that
 \[
-\vb(C, K) = \sup\{\hd((u_i)_{i = 1}^N, K)\},
+\hd(U,B_\infty^m) \geq \detlb(U) := \max_k \max_B \frac{1}{2}|\det(B)|^{1/k}
+\]       
+where the maximum is over $k \times k$ submatrices $B$ of $U$.
+Matousek~\cite{Matousek11}, built upon the results of~\cite{Bansal10} to show that 
+\[
+\hd(U,B_\infty^m) \leq O(\sqrt{\log m} \log^{3/2}(\rank(U)) \detlb(U)).
 \]
-where the supremum is taken over all finite sequence of vectors in $C$.
+For certifying tight upper bounds,~\cite{NT15,disc-gamma2} showed that
+$\gamma_2$ norm of $U$, defined by 
+\[
+\gamma_2(U) := \min \set{\|A\|_{2 \rightarrow \infty} \|B\|_{1 \rightarrow 2}: U
+= A B, A \in \R^{m \times k}, B \in \R^{k \times n}, k \in \N}  
+\]
+where $\|A\|_{2 \rightarrow 1}$ is the maximum $\ell_2$ norm of any row of $A$,
+and $\|B\|_{1 \rightarrow 2}$ is the maximum $\ell_2$ norm of any column of $B$,
+satisfies
+\begin{equation}
+\Omega(\gamma_2(U)/\log(\rank(U))) \leq \detlb(U) \leq \hd(U,B_\infty^m) \leq O(\sqrt{\log m} \gamma_2(U)) 
+\end{equation}
+which implies a $O(\sqrt{\log m} \log \rank(U))$ approximation to $\ell_\infty$
+hereditary discrepancy. For the context of $\ell_2$, it is in fact not hard to
+extract from the techniques of~\cite{NT15,disc-gamma2} a $O(\log
+\rank(U))$-approximation to $\hd(U,B_2^m)$. In essence, all of the above
+techniques implicitly replace the $\ell_\infty$ norm via an averaged version of
+$\ell_2$, where one optimizes over the averaging coefficients, which makes the
+$\ell_2$ norm by itself an easier special case of the analysis
+in~\cite{NT15,disc-gamma2}.
 
-\subsection{Approximating Hereditary Discrepancy}
+\paragraph{\bf Moving to general norms.} While at first glance it may seem that
+the above techniques for $\ell_\infty$ do not apply to more general norms, this
+is in some sense deceptive. Notwithstanding complexity considerations, every
+norm can be isometrically embedded into $\ell_\infty$, where in particular any
+polyhedral norm with $m$ facets can be embedded into $B^m_\infty$. Vice versa,
+starting from $U \in \R^{m \times k}$, with $\rank(U) = n$ and rank
+factorization $U = A B$, is it direct to verify $\hd(U,B^m_\infty) = \hd(B,K)$,
+where $K = \set{x \in \R^n: |Ax| \leq 1}$ is an $n$-dimensional symmetric
+polytope with $m$ facets. Thus, for any $B \in \R^{n \times k}$, one can
+equivalently restate the guarantees of~\cite{Bansal10} as yielding colorings of
+discrepancy $O(\sqrt{\log m \log n} \hd(B,K))$ and of~\cite{disc-gamma2} as a
+$O(\sqrt{\log m}\log n)$ approximation to $\hd(B,K)$ for any $n$-dimensional
+symmetric polytope $K$ with $m$ facets. Thus, the main question is whether there
+exist corresponding approximation algorithms which depend only
+polygarithmically on the dimension of the norm and not on the complexity its
+representation. 
+
+We note that polynomial bounds in $n$ for general $K$ can be achieved by simply
+approximating $K$ by a sandwiching ellipsoid $E \subseteq K \subseteq \sqrt{n}
+E$ and applying the corresponding results for $\ell_2$, which yield $O(\sqrt{n
+\log n})$ and $O(\sqrt{n}\log n)$ approximations respectively. Interestingly,
+these guarantees are identical to what can be achieved by replacing $K$ by a
+symmetric polytope with $3^n$ facets, which can achieve a sandwiching factor of
+$2$, and applying the $\ell_\infty$ results.
+
+\paragraph{\bf Results.} Our main results are that indeed such polylogarithmic
+approximations are possible. In particular, we give a polynomial time algorithms for
+computing colorings of discrepancy $O(\log n \hd(B,K))$ and approximating
+$\hd(B,K)$ up to $O(\log^{2.5} n)$ factor, assuming $K$ is represented by an
+appropriate oracle.  For this purpose, we show that Rothvoss' partial coloring
+algorithm~\cite{rothvoss-giann} is nearly optimal for hereditary discrepancy in
+general norms, and provide a substantially tighter factorization
+approach~\cite{disc-gamma2} for hereditary discrepancy. As part of our analyzes,
+we give novel methods for relating volumes to Gaussian measure, which may be of
+independent interest. 
 
 \subsection{Application to Approximate Caratheodory} 
 
