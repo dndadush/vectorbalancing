@@ -112,11 +112,11 @@ Aleksandar Nikolov
 \thanks{Email: \href{mailto:anikolov@cs.toronto.edu}{anikolov@cs.toronto.edu}.}}
 \author[3]{
 Kunal Talwar
-\thanks{Email: \href{mailto:kunal@kunaltalwar.org}{kunal@kunaltalwar.org}.}} 
+\thanks{Email: \href{mailto:kunal@google.com}{kunal@google.com}.}} 
 \author[4]{
 Nicole Tomczak-Jaegermann
 \thanks{Email: 
-\href{mailto: nicole.tomczak@ualberta.ca}{ nicole.tomczak@ualberta.ca}.}} 
+\href{mailto:nicole.tomczak@ualberta.ca}{nicole.tomczak@ualberta.ca}.}} 
 
 \affil[1]{\small Centrum Wiskunde \& Informatica.}
 \affil[2]{\small University of Toronto.}
@@ -131,7 +131,7 @@ Nicole Tomczak-Jaegermann
 In the vector balancing problem, we are given $N$ vectors $v_1,..., v_N$ in an
 $n$-dimensional normed space, and our goal is to assign signs to them, so that
 the norm of their signed sum is as small as possible. The balancing constant of
-the vectors is the smallest number $\beta$, such that any subset of the vectors
+a set of vectors is the smallest number $\beta$, such that any subset of the set
 can be balanced so that their signed sum has norm at most $\beta$. The vector
 balancing constant generalizes combinatorial discrepancy, and is related to
 rounding problems in combinatorial optimization, and to the approximate
@@ -149,13 +149,15 @@ approximation algorithm for hereditary discrepancy.
 
 \section{Introduction}
 
-In classical combinatorial discrepancy, one studies for various set systems,
-over the set of $\pm 1$ colorings of the elements, what is the minimum
-worst-case imbalance, known as discrepancy, one guarantee between the number of
-$+1$ and $-1$ elements in every set? The tools developed for deriving bounds on
+The discrepancy of a set system is defined as the minimum, over the set of $\pm 1$ colorings of the elements, of the imbalance between the number of $+1$ and $-1$ elements in the most imbalanced set. Classical combinatorial discrepancy theory studies bounds on the discrepancy of set systems, in terms of their structure. 
+%In classical combinatorial discrepancy, one studies for various set systems,
+%over the set of $\pm 1$ colorings of the elements, what is the minimum
+%worst-case imbalance, known as discrepancy, one guarantee between the number of
+%$+1$ and $-1$ elements in every set? 
+The tools developed for deriving bounds on
 the discrepancy of set systems have found many applications in mathematics and
 computer science~\cite{Matousek,Chazelle}, from the study of pseudorandomness,
-to communication complexity, and most recently, to approximation algorithms. 
+to communication complexity, and most recently, to approximation algorithms and privacy. 
 
 \paragraph{\bf Vector Balancing} In many instances, the best known techniques for finding
 good bounds in combinatorial discrepancy were derived by working with more
@@ -251,10 +253,11 @@ the degree bounded matroid basis problem~\cite{BN15}.
 \paragraph{\bf Discrepancy Minimization.} The original proofs of many of the
 aforementioned discrepancy upper bounds were existential, and did not come with
 efficient algorithms capable of constructing the requisite low discrepancy
-colorings. Over the last eight years, starting with the breakthrough work of
-Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem
-using random walk and semidefinite programming techniques, almost all known
-bounds have been made algorithmic. 
+colorings. %Over the last eight years, starting with the breakthrough work of
+%Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem
+%using random walk and semidefinite programming techniques, almost all known
+%bounds have been made algorithmic. 
+Starting wiht the breakthrough work of Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem using random walk and semidefinite programming techniques, nearly all known bounds have been made algorithmic in the last eight years.
 
 One of the most important discrepancy minimization techniques is known as the
 partial coloring method, which covers most of the above discrepancy results
@@ -289,7 +292,7 @@ random linear maximization problem. An important difference between the
 constructive and existential partial coloring methods, is that the constructive
 methods only guarantee that the ``uncolored'' coordinates of a partial coloring
 $x$ are in $(-1,1)$ instead of equal to $0$. This relaxation seems to make the
-constructive methods more robust, i.e.~the conditions under which such ``fractional''
+constructive methods more robust, i.e.~the conditions needed for such ``fractional''
 partial colorings are somewhat milder, without having noticeable drawbacks in most
 applications. 
 
@@ -322,15 +325,16 @@ certify nearly tight upper and lower bounds on $\vb(C,K)$?
 
 To begin, a few remarks are in order.  Firstly, question 2 can be inefficiently
 encoded as question 1b, by letting $(u_i)_{i=1}^N$ denote a sufficiently fine
-net of $C$. For question 1a, one may be tempted to ask whether we can directly
-compute a coloring whose $K$-discrepancy is approximately
-$\disc((u_i)_{i=1}^N,K)$ instead of $\hd((u_i)_{i=1}^N,K)$. Unfortunately, even
-for $K = B_\infty^n$ and $(u_i)_{i=1}^n \in [-1,1]^n$, it is NP-hard to
-distinguish whether $\disc((u_i)_{i=1}^n,B_\infty^n)$ is $0$ or
-$\Omega(\sqrt{n})$ (note that $O(\sqrt{n})$ is guaranteed by Spencer's theorem),
-thus one cannot hope for any non-trivial approximation guarantee in this
-context. We now discuss prior work on these questions and then continue with our
-main results. 
+net of $C$. Thus ``good'' characterizations for hereditary discrepancy transfer
+over to vector balancing, and thus we will mostly focus on the former. For
+question 1a, one may be tempted to ask whether we can directly compute a
+coloring whose $K$-discrepancy is approximately $\disc((u_i)_{i=1}^N,K)$ instead
+of $\hd((u_i)_{i=1}^N,K)$. Unfortunately, even for $K = B_\infty^n$ and
+$(u_i)_{i=1}^n \in [-1,1]^n$, it is NP-hard to distinguish whether
+$\disc((u_i)_{i=1}^n,B_\infty^n)$ is $0$ or $\Omega(\sqrt{n})$ (note that
+$O(\sqrt{n})$ is guaranteed by Spencer's theorem), thus one cannot hope for any
+non-trivial approximation guarantee in this context. We now discuss prior work
+on these questions and then continue with our main results. 
 
 \paragraph{Prior work.} For both questions, prior work has mostly dealt with the
 case of $\ell_\infty$ or $\ell_2$ discrepancy. Bounds on vector balancing
@@ -382,13 +386,13 @@ the above techniques for $\ell_\infty$ do not apply to more general norms, this
 is in some sense deceptive. Notwithstanding complexity considerations, every
 norm can be isometrically embedded into $\ell_\infty$, where in particular any
 polyhedral norm with $m$ facets can be embedded into $B^m_\infty$. Vice versa,
-starting from $U \in \R^{m \times k}$, with $\rank(U) = n$ and rank
+starting from $U \in \R^{m \times N}$, with $\rank(U) = n$ and rank
 factorization $U = A B$, is it direct to verify $\hd(U,B^m_\infty) = \hd(B,K)$,
 where $K = \set{x \in \R^n: |Ax| \leq 1}$ is an $n$-dimensional symmetric
-polytope with $m$ facets. Thus, for any $B \in \R^{n \times k}$, one can
+polytope with $m$ facets. Thus, for any $U \in \R^{n \times N}$, one can
 equivalently restate the guarantees of~\cite{Bansal10} as yielding colorings of
-discrepancy $O(\sqrt{\log m \log n} \hd(B,K))$ and of~\cite{disc-gamma2} as a
-$O(\sqrt{\log m}\log n)$ approximation to $\hd(B,K)$ for any $n$-dimensional
+discrepancy $O(\sqrt{\log m \log n} \hd(U,K))$ and of~\cite{disc-gamma2} as a
+$O(\sqrt{\log m}\log n)$ approximation to $\hd(U,K)$ for any $n$-dimensional
 symmetric polytope $K$ with $m$ facets. Thus, the main question is whether there
 exist corresponding approximation algorithms which depend only
 polygarithmically on the dimension of the norm and not on the complexity its
@@ -403,15 +407,42 @@ symmetric polytope with $3^n$ facets, which can achieve a sandwiching factor of
 $2$, and applying the $\ell_\infty$ results.
 
 \paragraph{\bf Results.} Our main results are that indeed such polylogarithmic
-approximations are possible. In particular, we give a polynomial time algorithms for
-computing colorings of discrepancy $O(\log n \hd(B,K))$ and approximating
-$\hd(B,K)$ up to $O(\log^{2.5} n)$ factor, assuming $K$ is represented by an
-appropriate oracle.  For this purpose, we show that Rothvoss' partial coloring
-algorithm~\cite{rothvoss-giann} is nearly optimal for hereditary discrepancy in
-general norms, and provide a substantially tighter factorization
-approach~\cite{disc-gamma2} for hereditary discrepancy. As part of our analyzes,
-we give novel methods for relating volumes to Gaussian measure, which may be of
-independent interest. 
+approximations are possible. In particular, for $U \in \R^{n \times N}$ and $K
+\subseteq \R^n$ a symmetric convex body, we give randomized polynomial time
+algorithms for computing colorings of discrepancy $O(\log n \hd(U,K))$ and
+approximating $\hd(U,K)$ up to $O(\log^{2.5} n)$ factor, assuming $K$ is
+represented by an appropriate oracle. Furthermore, if $K$ is a polyhedral norm
+with at most $m$ facets, our approximation algorithm for $\hd(U,K)$ always does
+better than the $\gamma_2$ approach, and hence achieves an $O(\min \set{\log n
+\sqrt{\log m}, \log^{2.5} n})$ approximation. To achieve these results, we show
+that Rothvoss' partial coloring algorithm~\cite{rothvoss-giann} is nearly
+optimal for hereditary discrepancy in general norms by showing near-tightness
+with respect to a known volumetric lower bound, and we provide a substantially
+tighter factorization approach~\cite{disc-gamma2} for hereditary discrepancy.
+Our analyzes rely on combining tools from convex geometry and discrepancy in a
+novel way. In particular, we give a new way to prove lower bounds on Gaussian
+measure using only volumetric information, which could be of independent
+interest.  Furthermore, we make a natural geometric conjecture which would imply
+that Rothvoss' algorithm is some sense optimal for finding partial colorings in
+any norm, and prove the conjecture for the special case of $\ell_2$.
+
+Comparing to prior work, our coloring algorithm and hereditary discrepancy
+approximation algorithm give uniformly better (or at at least no worse)
+guarantees in every setting which has been studied\footnote{To recover Larsen's
+hereditary guarantee for $\ell_2$ coloring, we require a minor modification of
+Rothvoss' algorithm}. Our methods provide a unified approach for studying
+discrepancy in arbitrary norms, and have no dependence on the description
+complexity of the output norm.
+
+As mentioned above, our approximate characterization of hereditary discrepancy
+transfers seemlessly to the vector balancing setting. The slightly more accurate
+statement is that neither the volumetric lower bound we rely upon nor our
+factorization based upper bound ``see'' the difference between vector balancing
+and hereditary discrepancy, that is both bounds remain invariant when replacing
+$\hd(U,K)$ and $\vb(\conv(\pm u_i: i \in [N]),K)$, where we note that clearly
+$\hd(U,K) \leq \vb(\conv(\pm u_i: i \in [N]),K)$. This has the interesting and
+rather non-obvious implication that $\vb(\conv(\pm u_i: i \in [N]),K) \leq
+O(\log n) \hd(U,K)$. 
 
 \subsection{Application to Approximate Caratheodory} 
 
@@ -536,7 +567,7 @@ Then, the following holds:
 h}_k((u_i)_{i=1}^N,K)$.
 \end{enumerate}
 Furthermore, there exists a polynomial time algorithm which can compute a
-coloring of $(u_i)_{i=1}^N$ of $K$-discrepancy at most $C(\log n+1)\vollb^{\rm
+coloring of $(u_i)_{i=1}^N$ of $K$-discrepancy at most $C(1 + \log n)\vollb^{\rm
 h}((u_i)_{i=1}^N,K)$. \dnote{Fix the proof to show the above.} 
 \end{theorem}
 
@@ -581,7 +612,7 @@ $e_1,\dots,e_l$. In particular, letting $K' := TK$, we have that
 \end{align*}
 Furthermore, a direct computation shows that
 \[
-\vollb^{\rm h}((u_i)_{i=1}^l,Y) = \vollb^{\rm h}((e_i)_{i=1}^l,K') = \max_{S \subseteq [l]}
+\vollb^{\rm h}((u_i)_{i=1}^l,K) = \vollb^{\rm h}((e_i)_{i=1}^l,K') = \max_{S \subseteq [l]}
 \vol_{|S|}(K'_S)^{-1/|S|} \text{ .}
 \] 
 Let us assume that we have computed $M > 0$ satisfying 
@@ -589,7 +620,7 @@ Let us assume that we have computed $M > 0$ satisfying
 M/2 \leq \vollb^{\rm h}((e_i)_{i=1}^l,K') \leq M. 
 \]
 From here, it suffices to compute $z \in
-\set{-1,1}^l$ such that $\sum_{i=1}^l (z_i-x_i) e_i \in O(\log n M) K'$. Note
+\set{-1,1}^l$ such that $\sum_{i=1}^l (z_i-x_i) e_i \in O(M\log n) K'$. Note
 that by assumption on $M$, $\vol(MK'_S) \geq 1, \forall S \subseteq [l]$.
 Therefore, repeatedly applying Lemma~\ref{lem:partial-via-volume} on $MK'$, letting $x^0 := x$ we compute a sequence
 $x^1,\dots,x^T \in [-1,1]^l$, $T = \lceil \log l/\eps_0
@@ -602,8 +633,7 @@ x^{t-1}_i \in (-1,1)}|$.
 \end{enumerate}
 
 By our choice of $T$, it is direct to check that $x^T \in \set{-1,1}^l$ and by
-the triangle inequality that $\sum_{i=1}^l (x^T_i-x^0_i)e_i \in T M K' = O(\log n
-M) K'$. Thus, setting $z = x^T$ satisfies the requirements.
+the triangle inequality that $\sum_{i=1}^l (x^T_i-x^0_i)e_i \in T M K' = O(M\log n) K'$. Thus, setting $z = x^T$ satisfies the requirements.
 
 We now discuss the computation of $M$. We first note that 
 \[
@@ -691,7 +721,7 @@ While there are examples where the volume lower bound is a $O(\log n)$ factor
 off from hereditary discrepancy (e.g.~$3$ permutations), we conjecture that the
 volume lower bound actually characterizes a hereditary version of partial
 coloring discrepancy. Namely, if the volume lower bound is $D$, we conjecture
-that there exists a subset vectors for which every (fractional) partial coloring
+that there exists a subset of vectors for which every (fractional) partial coloring
 has discrepancy $\Omega(D)$. Recall that Lemma~\ref{lem:partial-via-volume}
 gives the other direction, i.e.~that there always exist partial colorings of
 discrepancy $O(D)$. If this conjecture were true, then Rothvoss' algorithm,
@@ -702,7 +732,7 @@ subsection.
 Comparing to prior works, Theorem~\ref{thm:gauss-via-volume} provides a useful
 and different route for proving that a body (or at least a large section of it)
 has exponentially small Gaussian measure. In the context of discrepancy, to the
-authors knowledge, only two main techniques were used to prove such bounds,
+authors' knowledge, only two main techniques were used to prove such bounds,
 neither of which is directly applicable in the above setting. The first
 technique consists of combining chaining techniques and moment bounds, which can
 generally only measure when the body has Gaussian measure close to $1/2$.  This
@@ -757,16 +787,18 @@ $\vol_n(E)=\vol_n(K)$, such that for all $t \geq 1$
 \max \set{N(K,tE),N(E,tK),N(K^\circ,tE^\circ),N(E^\circ,tK^\circ)} \leq
 e^{\sigma(\alpha) n / t^\alpha} \text{ .}
 \]
+Such an ellipsoid will be referred to as an $\alpha$-regular M-ellipsoid.
 \end{theorem}
 
 To relate volumes of sections of $K$ to corresponding projection of $K^\circ$,
 we will need the following well-known inequality:
 
 \begin{theorem}[Blashke-Santal{\'o}]\label{thm:santalo} 
-Let $K \subseteq \R^n$ be a symmetric convex body. Then $\vol_n(K)
+Let $K \subseteq \R^n$ be a symmetric convex body. Then $\vol_n(K)\cdot
 \vol_n(K^\circ) \leq \kappa_n^2$, where equality holds if and only if $K$ is
-an origin centered ellipsoid. 
+an origin centered ellipsoid. Here $\kappa_n = \vol_n(B_2^n)$.
 \end{theorem}
+
 
 To show that the axes of the M-ellipsoid of $K$ are long, we will need to relate
 the axis lengths to the volumes of coordinate projections of the polar
@@ -801,7 +833,7 @@ $\lspan(P_S) = W_S$. For $w \in W_S$, letting $w_S = (w_{s_1},\dots,w_{s_k})^\T$
 denote the restriction to the coordinates in $S$, we have that 
 \begin{align*}
 h_{TB_2^k}(w) &= \max_{z \in B_2^k} \inner{T^\T w}{z} 
-              = \max_{z \in B_2^k} \inner{(Q_{S,S})^{1/2} w_S}{x} \\ 
+              = \max_{z \in B_2^k} \inner{(Q_{S,S})^{1/2} w_S}{z} \\ 
               &= \sqrt{w_S^\T Q_{S,S} w_S} = \sqrt{w^\T Q w} ,
 \end{align*} 
 where the last equality follows since $w_i = 0$ for $i \notin S$. Thus
@@ -2110,7 +2142,7 @@ function $f$.
   u_{k-1}, x)$.  To prove the theorem, it is enough to show that the
   function $g: \R^n \to [0, \infty)$ defined by
   \[
-  %g(x) = \frac{\det(U_x^\T U_x)^{1/(2)}}{\vol_k(K \cap \lspan\{u_1,
+  %g(x) = \frac{\det(U_x^\T U_x)^{1/2}}{\vol_k(K \cap \lspan\{u_1,
   %  \ldots, u_{k-1}, x\})}
   g(x) = \vollb((u_1, \ldots, u_{k-1}, x), K)^k 
   = \frac{1}{\vol_k(\{a \in \R^k: U_x a \in K\})}
