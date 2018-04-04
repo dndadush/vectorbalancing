@@ -3,6 +3,7 @@
 \usepackage{amsfonts,amsmath,amsthm,amssymb}
 \usepackage{mathtools}
 \usepackage{hyperref}
+\usepackage{thmtools, thm-restate}
 \usepackage{amsthm}
 \usepackage{authblk}
 
@@ -306,8 +307,7 @@ showed an equivalence of Banaszcyzk's theorem to the existence of certain
 subgaussian signing distributions, and~\cite{BDGL18} gave a random walk
 algorithm to build such distributions.
 
-\subsection{Nearly Optimal Approximations for Vector Balancing and Hereditary
-Discrepancy}
+\subsection{Approximating Vector Balancing and Hereditary Discrepancy}
 
 Given the powerful tools that have been developed above, a natural question is
 whether they can be extended to get nearly optimal bounds for any vector
@@ -326,15 +326,16 @@ certify nearly tight upper and lower bounds on $\vb(C,K)$?
 To begin, a few remarks are in order.  Firstly, question 2 can be inefficiently
 encoded as question 1b, by letting $(u_i)_{i=1}^N$ denote a sufficiently fine
 net of $C$. Thus ``good'' characterizations for hereditary discrepancy transfer
-over to vector balancing, and thus we will mostly focus on the former. For
-question 1a, one may be tempted to ask whether we can directly compute a
-coloring whose $K$-discrepancy is approximately $\disc((u_i)_{i=1}^N,K)$ instead
-of $\hd((u_i)_{i=1}^N,K)$. Unfortunately, even for $K = B_\infty^n$ and
-$(u_i)_{i=1}^n \in [-1,1]^n$, it is NP-hard to distinguish whether
-$\disc((u_i)_{i=1}^n,B_\infty^n)$ is $0$ or $\Omega(\sqrt{n})$ (note that
-$O(\sqrt{n})$ is guaranteed by Spencer's theorem), thus one cannot hope for any
-non-trivial approximation guarantee in this context. We now discuss prior work
-on these questions and then continue with our main results. 
+over to vector balancing, and thus we restrict for now the discussion to the
+former. For question 1a, one may be tempted to ask whether we can directly
+compute a coloring whose $K$-discrepancy is approximately
+$\disc((u_i)_{i=1}^N,K)$ instead of $\hd((u_i)_{i=1}^N,K)$. Unfortunately, even
+for $K = B_\infty^n$ and $(u_i)_{i=1}^n \in [-1,1]^n$, it is NP-hard to
+distinguish whether $\disc((u_i)_{i=1}^n,B_\infty^n)$ is $0$ or
+$\Omega(\sqrt{n})$ (note that $O(\sqrt{n})$ is guaranteed by Spencer's theorem),
+thus one cannot hope for any non-trivial approximation guarantee in this
+context. We now discuss prior work on these questions and then continue with our
+main results. 
 
 \paragraph{Prior work.} For both questions, prior work has mostly dealt with the
 case of $\ell_\infty$ or $\ell_2$ discrepancy. Bounds on vector balancing
@@ -366,20 +367,19 @@ $\gamma_2$ norm of $U$, defined by
 \gamma_2(U) := \min \set{\|A\|_{2 \rightarrow \infty} \|B\|_{1 \rightarrow 2}: U
 = A B, A \in \R^{m \times k}, B \in \R^{k \times n}, k \in \N}  
 \]
-where $\|A\|_{2 \rightarrow 1}$ is the maximum $\ell_2$ norm of any row of $A$,
+where $\|A\|_{2 \rightarrow \infty}$ is the maximum $\ell_2$ norm of any row of $A$,
 and $\|B\|_{1 \rightarrow 2}$ is the maximum $\ell_2$ norm of any column of $B$,
 satisfies
 \begin{equation}
 \Omega(\gamma_2(U)/\log(\rank(U))) \leq \detlb(U) \leq \hd(U,B_\infty^m) \leq O(\sqrt{\log m} \gamma_2(U)) 
 \end{equation}
 which implies a $O(\sqrt{\log m} \log \rank(U))$ approximation to $\ell_\infty$
-hereditary discrepancy. For the context of $\ell_2$, it is in fact not hard to
-extract from the techniques of~\cite{NT15,disc-gamma2} a $O(\log
-\rank(U))$-approximation to $\hd(U,B_2^m)$. In essence, all of the above
-techniques implicitly replace the $\ell_\infty$ norm via an averaged version of
-$\ell_2$, where one optimizes over the averaging coefficients, which makes the
-$\ell_2$ norm by itself an easier special case of the analysis
-in~\cite{NT15,disc-gamma2}.
+hereditary discrepancy. For the context of $\ell_2$, it was shown in~\cite{NT15}
+that a relaxation of $\gamma_2$ yields an $O(\log \rank(U))$-approximation to
+$\hd(U,B_2^m)$. We note that part of the strategy of~\cite{NT15,disc-gamma2}
+is to replace the $\ell_\infty$ norm via an averaged version of $\ell_2$, where
+one optimizes over the averaging coefficients, which makes the $\ell_2$ norm by
+itself an easier special case.
 
 \paragraph{\bf Moving to general norms.} While at first glance it may seem that
 the above techniques for $\ell_\infty$ do not apply to more general norms, this
@@ -393,58 +393,194 @@ polytope with $m$ facets. Thus, for any $U \in \R^{n \times N}$, one can
 equivalently restate the guarantees of~\cite{Bansal10} as yielding colorings of
 discrepancy $O(\sqrt{\log m \log n} \hd(U,K))$ and of~\cite{disc-gamma2} as a
 $O(\sqrt{\log m}\log n)$ approximation to $\hd(U,K)$ for any $n$-dimensional
-symmetric polytope $K$ with $m$ facets. Thus, the main question is whether there
-exist corresponding approximation algorithms which depend only
-polygarithmically on the dimension of the norm and not on the complexity its
-representation. 
+symmetric polytope $K$ with $m$ facets. A natural question is therefore
+whether there exists corresponding coloring and approximation algorithms whose
+guarantees depend only polygarithmically on the dimension of the norm and not on
+the complexity its representation. 
 
 We note that polynomial bounds in $n$ for general $K$ can be achieved by simply
 approximating $K$ by a sandwiching ellipsoid $E \subseteq K \subseteq \sqrt{n}
 E$ and applying the corresponding results for $\ell_2$, which yield $O(\sqrt{n
-\log n})$ and $O(\sqrt{n}\log n)$ approximations respectively. Interestingly,
-these guarantees are identical to what can be achieved by replacing $K$ by a
-symmetric polytope with $3^n$ facets, which can achieve a sandwiching factor of
-$2$, and applying the $\ell_\infty$ results.
+\log n})$ coloring and $O(\sqrt{n}\log n)$ approximations guarantees
+respectively. Interestingly, these guarantees are identical to what can be
+achieved by replacing $K$ by a symmetric polytope with $3^n$ facets, which can
+achieve a sandwiching factor of $2$, and applying the $\ell_\infty$ results.
 
-\paragraph{\bf Results.} Our main results are that indeed such polylogarithmic
-approximations are possible. In particular, for $U \in \R^{n \times N}$ and $K
-\subseteq \R^n$ a symmetric convex body, we give randomized polynomial time
-algorithms for computing colorings of discrepancy $O(\log n \hd(U,K))$ and
-approximating $\hd(U,K)$ up to $O(\log^{2.5} n)$ factor, assuming $K$ is
-represented by an appropriate oracle. Furthermore, if $K$ is a polyhedral norm
-with at most $m$ facets, our approximation algorithm for $\hd(U,K)$ always does
-better than the $\gamma_2$ approach, and hence achieves an $O(\min \set{\log n
+\subsection{Results} 
+Our main results are that such polylogarithmic approximations are indeed
+possible. In particular, given $U \in \R^{n \times N}$ and a symmetric convex
+body $K \subseteq \R^n$ (by an appropriate oracle), we give randomized
+polynomial time algorithms for computing colorings of discrepancy $O(\log n
+\hd(U,K))$ and approximating $\hd(U,K)$ up to $O(\log^{2.5} n)$ factor.
+Furthermore, if $K$ is a polyhedral norm with at most $m$ facets, our
+approximation algorithm for $\hd(U,K)$ always achieves a tighter approximation
+factor than the $\gamma_2$ bound, and hence gives an $O(\min \set{\log n
 \sqrt{\log m}, \log^{2.5} n})$ approximation. To achieve these results, we show
 that Rothvoss' partial coloring algorithm~\cite{rothvoss-giann} is nearly
-optimal for hereditary discrepancy in general norms by showing near-tightness
-with respect to a known volumetric lower bound, and we provide a substantially
-tighter factorization approach~\cite{disc-gamma2} for hereditary discrepancy.
-Our analyzes rely on combining tools from convex geometry and discrepancy in a
-novel way. In particular, we give a new way to prove lower bounds on Gaussian
-measure using only volumetric information, which could be of independent
-interest.  Furthermore, we make a natural geometric conjecture which would imply
-that Rothvoss' algorithm is some sense optimal for finding partial colorings in
-any norm, and prove the conjecture for the special case of $\ell_2$.
+optimal for general hereditary discrepancy by showing near-tightness with
+respect to a volumetric lower bound of Banaszczyk~\cite{Bana93}, and we provide
+a substantially tighter factorization approach~\cite{disc-gamma2} for hereditary
+discrepancy / vector balancing. To analyze these approaches we rely on a novel
+combination of tools from convex geometry and discrepancy. In particular, we
+give a new way to prove lower bounds on Gaussian measure using only volumetric
+information, which could be of independent interest. Furthermore, we make a
+natural geometric conjecture which would imply that Rothvoss' algorithm is some
+sense optimal for finding partial colorings in any norm, and prove the
+conjecture for the special case of $\ell_2$.
 
-Comparing to prior work, our coloring algorithm and hereditary discrepancy
-approximation algorithm give uniformly better (or at at least no worse)
-guarantees in every setting which has been studied\footnote{To recover Larsen's
-hereditary guarantee for $\ell_2$ coloring, we require a minor modification of
-Rothvoss' algorithm}. Our methods provide a unified approach for studying
-discrepancy in arbitrary norms, and have no dependence on the description
-complexity of the output norm.
+Comparing to prior work, our coloring and hereditary discrepancy
+approximation algorithms give uniformly better (or at at least no worse)
+guarantees in almost every setting which has been studied. Furthermore our
+methods provide a unified approach for studying discrepancy in arbitrary norms,
+which we expect to have further applications.
 
 As mentioned above, our approximate characterization of hereditary discrepancy
-transfers seemlessly to the vector balancing setting. The slightly more accurate
-statement is that neither the volumetric lower bound we rely upon nor our
-factorization based upper bound ``see'' the difference between vector balancing
-and hereditary discrepancy, that is both bounds remain invariant when replacing
-$\hd(U,K)$ and $\vb(\conv(\pm u_i: i \in [N]),K)$, where we note that clearly
-$\hd(U,K) \leq \vb(\conv(\pm u_i: i \in [N]),K)$. This has the interesting and
-rather non-obvious implication that $\vb(\conv(\pm u_i: i \in [N]),K) \leq
-O(\log n) \hd(U,K)$. 
+transfers seemlessly to the vector balancing setting (note that the
+approximation bounds do not depend on $N$). We note that these characterizations
+easily imply lower and upper bounds for $\vb(B_p^n,B_q^n)$ for any $p,q \in
+[1,\infty]$, which are tight with an $O(\min \set{q,\sqrt{\log n}})$ factor.
+While not novel, they perhaps illustrate the utility of the general approach.  
+
+Interestingly, our results imply a tighter relationship between vector balancing
+and hereditary discrepancy than one might initially expect. That is,
+neither the volumetric lower bound we use nor our factorization based upper
+bound ``see'' the difference between them. More precisely, both bounds remain
+invariant when replacing $\hd(U,K)$ by $\vb(\conv(\pm u_i: i \in [N]),K)$. This
+has the relatively non-obvious implication that 
+\begin{equation}
+\label{eq:hd-to-conv}
+\hd(U,K) \leq \vb(\conv(\pm u_i: i \in [N]),K) \leq O(\log n) \hd(U,K).
+\end{equation}
+We believe it is an interesting question to understand whether a polylogarithmic
+separation indeed exists between the above quantities (we are currently unaware
+of any examples), as it would give a tangible geometric obstruction for tighter
+approximations.    
+
+\subsection{Techniques}
+
+Starting with hereditary discrepancy, to push beyond the limitations of prior
+approaches the first two tasks at hand are: (1) find a stronger lower bound and
+(2) develop techniques to avoid the ``union bound''. Fortunately, a solution to the
+first problem was already given by Banaszczyk\cite{Bana93}, which we present in
+slightly adapted form below.
+
+\begin{lemma}[Volume Lower Bound]
+\label{lem:vol-lb}
+Let $U=(u_1,\dots,u_N) \in \R^{n \times N}$ and $K \subseteq \R^n$ be a
+symmetric convex body. For $k \in [n]$, $S \subseteq [N]$, $|S| = k$, define
+\dnote{move proof to prelims / appendix}  
+\begin{equation}
+\label{eq:vol-lb}
+\vollb((u_i)_{i \in S},K) \eqdef \vollb(U_S, K) \eqdef \vol_k(\{x \in \R^k: U_S x \in K\})^{-1/k}.
+\end{equation}
+Then, we have that
+\begin{equation}
+\label{eq:vol-lbh}
+\vollb^{\rm h}(U,K) \eqdef \max_{S \subseteq [N], |S| \in [n]} \vollb(U_S,K)
+\leq \hd(U,K). 
+\end{equation}
+\end{lemma}
+\begin{proof}
+For $S \subseteq [N]$, $|S| = k \in [n]$, let $C = \set{x \in \R^k: U_S x \in
+K}$. It is direct to verify $\hd((e_i)_{i=1}^k,C) = \hd(U_S,K) \leq \hd(U,K)$,
+where $(e_i)_{i=1}^k$ is the standard basis of $\R^k$. Thus, it suffices to
+show that $\hd((e_i)_{i=1}^k,C) \geq \vol_k(C)^{-1/k}$. For $x \in \R^k$, $A
+\subseteq \R^k$ finite, let $d(x,A) := \min_{a \in A} \norm{a-x}_C$
+denote the minimum distance between $x$ and $A$ under the \\ (semi-)norm induced by
+$C$. From here, we apply the standard reduction from linear discrepancy to
+hereditary discrepancy~\cite{LSV}, to get
+\begin{align*}
+\max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \max_{x \in [0,1]^n}
+d(x,\{0,\tfrac12,1\}^k) + \max_{x' \in \{0,\tfrac12,1\}} d(x',\set{0,1}^n) \\
+&\leq \frac{1}{2} \max_{x \in [0,1]^k} d(x,\set{0,1}^k) + \frac{1}{2}
+\hd((e_i)_{i=1}^k,C) \\
+&\Rightarrow \\
+\max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \hd((e_i)_{i=1}^k,C).
+\end{align*}
+Let $r = \hd((e_i)_{i=1}^k,C)$, we in particular have that $[0,1]^k \subseteq
+\set{0,1}^k + rC$. Thus
+\begin{align*}
+\vol_k(rC) &\geq \vol_s(\cup_{x \in \set{0,1}^k} rC \cap (-x+[0,1)^k)) 
+             = \vol_k(\cup_{x \in \set{0,1}^k} (rC+x) \cap [0,1)^k) \\
+             &= \vol_k((\set{0,1}^k+rC) \cap [0,1)^k) 
+              \geq \vol_k([0,1)^k) = 1 .
+\end{align*}
+In particular, $r \geq \vol_k(C)^{-1/k}$ as needed.
+\end{proof}
+
+We note that the volume lower bound extends in the obvious way to vector
+balancing. In particular, for two symmetric convex bodies $C,K \subseteq \R^n$,
+\begin{equation}
+\label{eq:vol-lb-vb}
+\vollb^{\rm h}(C,K) \eqdef \sup \set{\vollb((u_i)_{i=1}^k,K):k \in [n],
+u_1,\dots,u_k \in C} \geq \vb(C,K).
+\end{equation}
+
+The above lower bound can be substantially stronger than the determinant lower
+bound for $\ell_\infty$ discrepancy. As a simple example, let $U \in \R^{2^n
+\times n}$ be the matrix having a row for each vector in $\set{-1,1}^n$. Since
+$U$ has rank $n$, the determinant lower bound is restricted to $k \times k$
+matrices for $k \in [n]$. Hadamard's inequality implies for any $k \times k$
+matrix $B$ with $\pm 1$ entries that $|\det(B)|^{1/k} \leq \sqrt{k} \leq
+\sqrt{n}$. A moments thought however, reveals that for $x \in \R^n$,
+$\norm{Ux}_\infty = \norm{x}_1$ and hence any coloring $x \in \set{-1,1}$ must
+have discrepancy $\norm{x}_1 = n$. Using the previous logic, the volume lower
+bound to the full system yields by standard estimates
+\[
+\vollb(U,B^m_\infty) = \vol_n(\set{x \in \R^n: \norm{x}_1 \leq 1})^{-1/n}
+= \vol_n(B_1^n)^{-1/n} = (n!/2^n)^{1/n} \geq n/(2e), 
+\]
+which is essentially tight. The above example gives hope that the volume lower
+bound can circumvent any dependency on the facet complexity of the norm. The
+next theorem shows that indeed this is the case:
+
+\begin{restatable}[Tightness of the Volume Lower Bound]{theorem}{tightvollb} 
+\label{thm:tightness}
+For any $U \in \R^{n \times N}$ and symmetric convex body $K$ in $\R^n$, we have that
+\begin{equation}
+\label{eq:tightness}
+\vollb^{\rm h}(U,K) \leq \hd(U,K) \leq O(\log n) \vollb^{\rm h}(U,K) \text{ ,}
+\end{equation}
+Furthermore, there exists a randomized polynomial time algorithm that computes a
+coloring of $U$ with $K$-discrepancy $O(\log n \vollb^{\rm h}(U,K))$, given a
+membership oracle for $K$. 
+\end{restatable}
+
+We note that the above immediately implies the corresponding approximate
+tightness of the volume lower bound for vector balancing. The above bound can
+also be shown to be tight. In particular, it can be shown that for 
+the 3-permutations example from~\cite{NNN12}, which has $\ell_\infty$
+discrepancy $\Omega(\log n)$, the volume lower bound is $O(1)$. The computations for
+this are somewhat technical, so we defer a detailed discussion to the full
+version. As mentioned previously, an interesting property is that it remains
+invariant under taking convex hulls, namely $\vollb^{\rm h}(\conv(\pm U),K) =
+\vollb^{\rm h}(U,K)$. This is proved in section~\ref{sec:conv-hulls}, using a
+theorem of Ball~\cite{Ball88} to show that the volume lower bound is essentially
+convex, and hence maximized at extreme points.
+
+Our proof of Theorem~\ref{thm:tightness} is algorithmic and relies on Rothvoss'
+constructive version of the vector balancing theorem of
+Giannopoulos~\cite{giann}. These theorems directly rely on Gaussian measure
+estimates of the feasible region and avoid having to argue about the discrepancy
+incurred by each ``facet'' independently. We recall that the approach of
+Bansal~\cite{Bansal10} is to initiate a random walk for which the variance of
+the increments in the direction of each facet can be controlled by hereditary
+discrepancy. Due to this local view, and potentially complex dependencies
+between constraints, one is left with little choice but to do a union bound over
+all constraints, yielding $O(\sqrt{\log m})$ type dependencies when $m$ is the
+number of constraints. While the Gaussian measure approaches can avoid these
+problems, one is left with the non-trivial task of showing that the relevant
+Gaussian measures are indeed large.
+
+\dnote{TODO: finish explaining Rothvoss}
+
+\dnote{TODO: talk about factorization approach}
 
 \subsection{Application to Approximate Caratheodory} 
+
+\subsection{Organization}
+
+\dnote{TODO?}
 
 \section{Definitions and Statement of the Volume Lower Bound}
 
@@ -505,29 +641,6 @@ interested in the volume of the parallelepiped generated by the columns of $A$,
 which can be computed by $\vol_k(A[0,1)^k) = \det(A^\T A)^{1/2}$. Banaszczyk
 established the following volumetric lower bound on hereditary discrepancy:
 
-\begin{lemma}[\cite{Bana93}]
-\label{lem:vol-lb}
-Let $U = (u_1,\dots,u_N) \in \R^{n \times N}$ and $K \subseteq \R^n$ be a
-symmetric convex body. For $S \subseteq [N]$, $|S| = k \in [n]$, where $(u_i)_{i
-\in S}$ are linearly independent, define \dnote{realized that we can simplify
-the formula.}  
-\begin{equation}
-\label{eq:vol-lb}
-\vollb((u_i)_{i \in S}, K) 
-                         \eqdef \vol_k(\set{x \in \R^k: U_S x \in K})^{-1/k}.
-\end{equation}
-where $U_S$ denotes the columns of $U$ indexed by $S$. Then, letting
-\begin{align*}
-\vollb^{\rm h}_k((u_i)_{i=1}^N, K) &\eqdef \max_{\substack{S \subseteq [N] \\ {\rm
-rank}(U_S) = k}} \vollb((u_i)_{i \in S},K),~\forall k \in [n], \\
-\vollb^{\rm h}((u_i)_{i=1}^N, K) &\eqdef \max_{k \in [n]}
-\vollb^{\rm h}_k((u_i)_{i=1}^N,K),
-\end{align*}
-we have that
-\[
-\hd((u_i)_{i=1}^N,K) \geq \vollb^{\rm h}((u_i)_{i=1}^N,K) .
-\]
-\end{lemma}
 
 \section{Preliminaries}
 
@@ -556,20 +669,21 @@ for corresponding coordinate and general sections. For a vector $x \in
 In this section, we will show that the volume lower bound \eqref{eq:vol-lb} is
 tight within a logarithmic factor. 
 
-\begin{theorem}\label{thm:tightness}
-There exists a universal constant $C \geq 1$ such that the following holds. Let
-$K \subseteq \R^n$ be a convex body $\R^n$, and let $u_1, \ldots, u_N \in \R^n$.
-Then, the following holds:
-\begin{enumerate}
-\item $1 \le \frac{\hd((u_i)_{i = 1}^N, K)}{\vollb^{\rm h}((u_i)_{i = 1}^N, K)} 
-         \le C(1+\log n)$.\\
-\item $\hd((u_i)_{i = 1}^N, K) \leq C \sum_{k=1}^n \frac{1}{k} \vollb^{\rm
-h}_k((u_i)_{i=1}^N,K)$.
-\end{enumerate}
-Furthermore, there exists a polynomial time algorithm which can compute a
-coloring of $(u_i)_{i=1}^N$ of $K$-discrepancy at most $C(1 + \log n)\vollb^{\rm
-h}((u_i)_{i=1}^N,K)$. \dnote{Fix the proof to show the above.} 
-\end{theorem}
+\tightvollb*
+% \begin{theorem}\label{thm:tightness}
+% There exists a universal constant $C \geq 1$ such that the following holds. Let
+% $K \subseteq \R^n$ be a convex body $\R^n$, and let $u_1, \ldots, u_N \in \R^n$.
+% Then, the following holds:
+% \begin{enumerate}
+% \item $1 \le \frac{\hd((u_i)_{i = 1}^N, K)}{\vollb^{\rm h}((u_i)_{i = 1}^N, K)} 
+%          \le C(1+\log n)$.\\
+% \item $\hd((u_i)_{i = 1}^N, K) \leq C \sum_{k=1}^n \frac{1}{k} \vollb^{\rm
+% h}_k((u_i)_{i=1}^N,K)$.
+% \end{enumerate}
+% Furthermore, there exists a polynomial time algorithm which can compute a
+% coloring of $(u_i)_{i=1}^N$ of $K$-discrepancy at most $C(1 + \log n)\vollb^{\rm
+% h}((u_i)_{i=1}^N,K)$. \dnote{Fix the proof to show the above.} 
+% \end{theorem}
 
 The main technical result of this section is that the volume lower bound,
 restricted to subsets of size at least $\Omega(n)$, is in fact an upper bound on
@@ -1065,7 +1179,7 @@ also assume that $\vol_n(K)=1$. In this case~\eqref{eq:conj-simple}, and hence
 Conjecture~\ref{conj:partial-volume}, directly reduces to the following
 geometric conjecture.
 
-\begin{conjecture}[Restricted Isometry Principle for Convex Bodies]
+\begin{conjecture}[Restricted Invertibility Principle for Convex Bodies]
 \label{conj:conv-restr-iso} There exists an absolute constant $c \geq 1$, such
 for any $n \in \N$, symmetric convex body $K \subseteq \R^n$ of volume $1$,
 there exists $S \subseteq [n]$ such that $K_S \subseteq c |S| B_1^S$.
@@ -1118,7 +1232,7 @@ show that the central axes of $E$ all have length $\Theta(\sqrt{n})$,
 complementing the $\Omega(\sqrt{n})$ lower bound used in the proof of
 Theorem~\ref{thm:gauss-via-volume} under the additional assumption that
 $\vol_n(K)=1$, and derive the existence of the
-corresponding section from the Bourgain-Tzafriri restricted isometry principle
+corresponding section from the Bourgain-Tzafriri restricted invertibility principle
 applied to the quadratic form defining $E$. The proof of
 Lemma~\ref{lem:cover-to-section} follows relatively directly from Milman's
 quotient of subspace (QS) theorem, which states that there exists a projection
@@ -2097,6 +2211,7 @@ We also make use of a weighted version of Lemma~\ref{lm:rip-det}.
 \end{proof}
 
 \section{Convex Hulls}
+\label{sec:conv-hulls}
 
 \snote{I still want to add to this and use it to claim that
   Theorem~\ref{thm:fact-vollb} gives an approximate to $\hd$. It is
