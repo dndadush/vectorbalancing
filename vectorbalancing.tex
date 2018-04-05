@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 
 \usepackage{amsfonts,amsmath,amsthm,amssymb}
 \usepackage{mathtools}
@@ -146,7 +146,13 @@ and the theory of Gaussian processes.  Our results also imply an improved
 approximation algorithm for hereditary discrepancy. 
 \end{abstract}
 
-\newpage 
+\textbf{Keywords.}  Discrepancy, Convex Geometry, Gaussian Measure, M-ellipsoid.
+
+\thispagestyle{empty}
+
+\newpage
+
+\setcounter{page}{1}
 
 \section{Introduction}
 
@@ -415,18 +421,21 @@ polynomial time algorithms for computing colorings of discrepancy $O(\log n
 Furthermore, if $K$ is a polyhedral norm with at most $m$ facets, our
 approximation algorithm for $\hd(U,K)$ always achieves a tighter approximation
 factor than the $\gamma_2$ bound, and hence gives an $O(\min \set{\log n
-\sqrt{\log m}, \log^{2.5} n})$ approximation. To achieve these results, we show
-that Rothvoss' partial coloring algorithm~\cite{rothvoss-giann} is nearly
+\sqrt{\log m}, \log^{2.5} n})$ approximation. To achieve these results, we first
+show that Rothvoss' partial coloring algorithm~\cite{rothvoss-giann} is nearly
 optimal for general hereditary discrepancy by showing near-tightness with
-respect to a volumetric lower bound of Banaszczyk~\cite{Bana93}, and we provide
-a substantially tighter factorization approach~\cite{disc-gamma2} for hereditary
-discrepancy / vector balancing. To analyze these approaches we rely on a novel
-combination of tools from convex geometry and discrepancy. In particular, we
-give a new way to prove lower bounds on Gaussian measure using only volumetric
-information, which could be of independent interest. Furthermore, we make a
-natural geometric conjecture which would imply that Rothvoss' algorithm is some
-sense optimal for finding partial colorings in any norm, and prove the
-conjecture for the special case of $\ell_2$.
+respect to a volumetric lower bound of Banaszczyk~\cite{Bana93}. Second, we show
+that the ``best possible way'' to apply Banaszcyzk's vector balancing
+theorem~\cite{bana} for the purpose of upper bounding $\hd(U,K)$ can be
+encoded as a convex program, and prove that this bound is tight to within an
+$O(\log^{2.5} n)$ factor. As a consequence, we show that Banaszczyk's theorem is
+essentially ``universal'' for vector balancing. To analyze these approaches we
+rely on a novel combination of tools from convex geometry and discrepancy. In
+particular, we give a new way to prove lower bounds on Gaussian measure using
+only volumetric information, which could be of independent interest.
+Furthermore, we make a natural geometric conjecture which would imply that
+Rothvoss' algorithm is a hereditary sense optimal for finding partial colorings
+in any norm, and prove the conjecture for the special case of $\ell_2$.
 
 Comparing to prior work, our coloring and hereditary discrepancy
 approximation algorithms give uniformly better (or at at least no worse)
@@ -448,7 +457,7 @@ bound ``see'' the difference between them. More precisely, both bounds remain
 invariant when replacing $\hd(U,K)$ by $\vb(\conv(\pm u_i: i \in [N]),K)$. This
 has the relatively non-obvious implication that 
 \begin{equation}
-\label{eq:hd-to-conv}
+\label{eq:hd-to-vb}
 \hd(U,K) \leq \vb(\conv(\pm u_i: i \in [N]),K) \leq O(\log n) \hd(U,K).
 \end{equation}
 We believe it is an interesting question to understand whether a polylogarithmic
@@ -530,9 +539,11 @@ bound to the full system yields by standard estimates
 \vollb(U,B^m_\infty) = \vol_n(\set{x \in \R^n: \norm{x}_1 \leq 1})^{-1/n}
 = \vol_n(B_1^n)^{-1/n} = (n!/2^n)^{1/n} \geq n/(2e), 
 \]
-which is essentially tight. The above example gives hope that the volume lower
-bound can circumvent any dependency on the facet complexity of the norm. The
-next theorem shows that indeed this is the case:
+which is essentially tight. 
+
+\paragraph{\bf From Volume to Coloring.} The above example gives hope that the
+volume lower bound can circumvent bad dependencies on the facet complexity of
+the norm. Our first main result, shows that indeed this is the case:
 
 \begin{restatable}[Tightness of the Volume Lower Bound]{theorem}{tightvollb} 
 \label{thm:tightness}
@@ -548,29 +559,59 @@ membership oracle for $K$.
 
 We note that the above immediately implies the corresponding approximate
 tightness of the volume lower bound for vector balancing. The above bound can
-also be shown to be tight. In particular, it can be shown that for 
-the 3-permutations example from~\cite{NNN12}, which has $\ell_\infty$
-discrepancy $\Omega(\log n)$, the volume lower bound is $O(1)$. The computations for
-this are somewhat technical, so we defer a detailed discussion to the full
-version. As mentioned previously, an interesting property is that it remains
-invariant under taking convex hulls, namely $\vollb^{\rm h}(\conv(\pm U),K) =
-\vollb^{\rm h}(U,K)$. This is proved in section~\ref{sec:conv-hulls}, using a
-theorem of Ball~\cite{Ball88} to show that the volume lower bound is essentially
-convex, and hence maximized at extreme points.
+also be shown to be tight. In particular, the counterexample to the
+3-permutations conjecture from~\cite{NNN12}, which has $\ell_\infty$ discrepancy
+$\Omega(\log n)$, can be shown to have volume lower bound $O(1)$. The
+computations for this are somewhat technical, so we defer a detailed discussion
+to the full version. As mentioned previously, an interesting property of the
+volume lower bound is its invariance under taking convex hulls, namely $\vollb^{\rm
+h}(\conv(\pm U),K) = \vollb^{\rm h}(U,K)$. In combination with
+Theorem~\ref{thm:tightness}, this establishes the claimed
+inequality~\ref{eq:hd-to-vb}. This invariance is proved in
+section~\ref{sec:conv-hulls}, where we use a theorem of Ball~\cite{Ball88} to
+show that the volume lower bound is essentially convex, and hence maximized at
+extreme points.
 
-Our proof of Theorem~\ref{thm:tightness} is algorithmic and relies on Rothvoss'
-constructive version of the vector balancing theorem of
-Giannopoulos~\cite{giann}. These theorems directly rely on Gaussian measure
-estimates of the feasible region and avoid having to argue about the discrepancy
-incurred by each ``facet'' independently. We recall that the approach of
-Bansal~\cite{Bansal10} is to initiate a random walk for which the variance of
-the increments in the direction of each facet can be controlled by hereditary
-discrepancy. Due to this local view, and potentially complex dependencies
-between constraints, one is left with little choice but to do a union bound over
-all constraints, yielding $O(\sqrt{\log m})$ type dependencies when $m$ is the
-number of constraints. While the Gaussian measure approaches can avoid these
-problems, one is left with the non-trivial task of showing that the relevant
-Gaussian measures are indeed large. We explain our approach to this presently.
+Our proof of Theorem~\ref{thm:tightness} is algorithmic, and relies on iterated
+applications of Rothvoss' partial coloring algorithm. We now explain the high
+level strategy and the differences with respect to prior approaches. 
+
+For simplicity of the presentation, we shall assume that $U=(e_1,\dots,e_n) \in
+\R^{n \times n}$ and that the volume lower bound $\vollb^{\rm h}((e_i)_{i=1}^n,K)=1$.
+This can be (approximately) achieved by applying a standard reduction to the
+case where $U$ is non-singular, so $N \leq n$, ``folding'' $U$ into $K$, and
+appropriately guessing the volume lower bound (see section~\ref{sec:tightness}
+for full details). With these assumptions, our goal is now to find a coloring $x \in
+\set{-1,1}^n \in O(\log n) K$. 
+
+When $K$ is a symmetric polytope $|Ax| \leq 1$, with $m$ facets, the approach of
+Bansal~\cite{Bansal10} is to initiate a random walk on the coordinates which
+tries to hit boundary of the cube $[-1,1]^n$ before it hits the constraints of
+an appropriate scaling of $K$. The walk is ``sticky'', so when hits
+a boundary of $[-1,1]^n$, i.e.~a variable has been colored, the corresponding
+variable stays fixed. The hereditary guarantee comes from being able to compute
+increments whose variance with respect to each constraint is at most
+$\hd((e_i)_{i=1}^n,K)^2$, while the variance along all active coordinate
+directions is at least $1$ (i.e.~we want to hit cube constraints faster).
+Unfortunately this walk only directly provides local control on the discrepancy
+of each constraint, since correlations between constraints can be complex. The
+main strategy to control ``global'' discrepancy was thus to apply the union
+bound over all constraints, yielding $O(\sqrt{\log m})$ style dependencies (due
+to subgaussian style concentration). 
+
+To avoid the ``union bound'', we instead use Rothvoss' partial coloring
+algorithm, which simply samples a random Gaussian vector $X \in \R^n$ and
+computes the closest point in Euclidean distance $x$ to $X$ in $K \cap [-1,1]^n$
+as the candidate partial coloring. As long as $K$ has ``large enough'' Gaussian
+measure, Rothvoss shows that $x$ has at least a constant fraction of its
+components at $\pm 1$. While this method can in essence better leverage the
+geometry of $K$ than Bansal's method (in particular, it does need an explicit
+description of $K$), it is apriori unclear why Gaussian measure should be large
+enough in the present context.  
+
+Our main technical result in this context, is to show that
+$\vollb((e_i)_{i=1}^n,K) \leq 1$, then there exists a section $K$ of dimension
+nearly $n$ which Gaussian measure is at least $2^{-O(n)}$. 
 
 \dnote{TODO: finish explaining Rothvoss}
 
@@ -665,6 +706,7 @@ for corresponding coordinate and general sections. For a vector $x \in
 [-1,1]^n$, we write $\bnds(x) = \set{i \in [n]: x_i \in \set{-1,1}}$.
 
 \section{Tightness of the Volume Lower Bound}
+\label{sec:tightness}
 
 In this section, we will show that the volume lower bound \eqref{eq:vol-lb} is
 tight within a logarithmic factor. 
@@ -784,8 +826,7 @@ Let $0 < \eps \leq 1/60000$ and $\delta = \frac{3}{2}\eps \log_2
 that for some subspace $H \subseteq \R^n$ of dimension at least $(1-\delta)n$,
 we have that $\gamma_H(K) \geq e^{-\delta n}$. Then for any $y \in (-1,1)^n$,
 there exists a polynomial time algorithm which with high probability finds $x
-\in [-1,1]^n$ satisfying $|\bnds(y)| \geq \eps n/2$ and
-$x-y \in CK$.
+\in [-1,1]^n$ satisfying $|\bnds(y)| \geq \eps n/2$ and $x-y \in K$.
 \end{theorem}
 
 We recall that Rothvoss' algorithm, for the special case $y = 0$ (the general
