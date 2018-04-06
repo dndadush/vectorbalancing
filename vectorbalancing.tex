@@ -1351,9 +1351,8 @@ operator. Define
 \vollb_k^{\rm h}(U) \eqdef
 \sup\bigl\{\vol_k\bigl(\set{a \in \R^k: \|UV a\|_Y \le 1}\bigr)^{-1/k}\bigr\},
 \]
-where the supremum is over all invertible operators $V:\ell_2^k \to X$ such that
-$\|V(e_i)\|_X \le 1$ for all standard basis vectors $e_i$ of
-$\R^n$. Then, letting 
+where the supremum is over all operators $V:\ell_1^k \to X$ of
+operator norm $1$ and rank $k$. Then, letting
 \[
 \vollb^{\rm h}(U) \eqdef \max_{k \in [n]} \vollb_k^{\rm h}(U),
 \]
@@ -1362,14 +1361,21 @@ we have that
 \vb(U) \geq \vollb^{\rm h}(U).
 \]
 \end{lemma}
-Lemma~\ref{lem:vol-lb-oper} is just a reformulation of
-Lemma~\ref{lem:vol-lb} in the language of linear operators. 
-
+\begin{proof}
+  The lemma is just a reformulation of Lemma~\ref{lem:vol-lb} in the
+  language of linear operators. Because 
+  \[
+  \max_{i = 1}^k{\|Ve_i\|_X} = \|V\| = 1,
+  \]
+  the points $u_1, \ldots, u_k$ defined by $u_i = V e_i$ lie in $B_X$,
+  where $e_i$ is the $i$-th standard basis vector of $X$. Then the
+  lemma follows directly from Lemma~\ref{lem:vol-lb} with $C = B_X$
+  and $K = \{x \in X: Ux \in B_Y\}$. 
+\end{proof}
 
 \subsection{Preliminaries}
 
-\snote{Put all prelims in one place, and add prelims for dual
-  operator, Schur convexity, $K$-convexity.}
+\snote{Put all prelims in one place, Schur convexity}
 
 To every finite dimensional normed space $(X, \|\cdot\|)$ over $\R$ we
 associate its dual space $(X^*, \|\cdot\|_*)$ defined over linear maps
@@ -1379,7 +1385,7 @@ notation $\langle x, x^*\rangle$ means ``the functional $x^*$ applied
 to $x$'', i.e.~$x^*(x)$. For any finite dimensional space $X$ we have
 $X^{**} = X$. Any vector $y \in \R^n$ gives a linear functional over
 $\ell_2^n$ via the standard inner product, i.e. $\langle x, y \rangle
-= \sum_{i = 1}^n{x_i y_i}$, and by the Cauchy-Scwarz inequality this
+= \sum_{i = 1}^n{x_i y_i}$, and by the Cauchy-Schwarz inequality this
 linear functional has norm equal to $\|y\|_2$. For this reason, we can
 identify $(\ell_2^n)^*$ with $\ell_2^n$, and for $x, y \in \R^n$
 identify $\langle x , y \rangle$ with the standard inner product.
@@ -1467,8 +1473,58 @@ $U$, and $U$ by the induced operator $\tilde{U}:X/W \to U(X)$ which
 sends $x+W$ to $Ux$. It is straightforward to check that this not
 change any of the quantities we study.
 
-We will use the $\ell$-norm, which has been extensively studied in the
-theory of operator ideals, and in asymptotic convex geometry (see
+In this section we reduce all upper bounds on vector balancing
+constants to the following deep theorem of Banaszczyk.
+\begin{theorem}[\cite{bana}]\label{thm:bana}
+  Let $K$ be a convex body in $\R^n$ such that $\gamma_n(K) \ge
+  \frac12$. Then, $\vb(B_2^n, K) \le 5$.
+\end{theorem}
+
+As a warm-up, let us see how we can use Theorem~\ref{thm:bana} to get
+nearly tight bounds on $\vb(B^n_p, B^n_q)$, or, equivalently, on
+$\vb(I)$, where $I:\ell_p^n \to \ell_q^n$ is the identity. For any
+$x_1, \ldots, x_N \in B_p^n$, the points defined by $u_i \eqdef
+{x_i}/{\max\{1, n^{1/2 -1/p}\}}$ lie in $B_2^n$ and we can apply
+Banaszczyk's theorem to them and the convex body $K \eqdef C \sqrt{q}
+n^{1/q} B_q^n$, which has Gaussian
+measure at least $\frac12$ as long as we choose $C$ to be a large
+enough constant. We get that there exist signs $\eps_1, \ldots, \eps_N
+\in \{-1, 1\}$ such that 
+\[
+\left\|\sum_{i = 1}^N{u_i}\right\|_K \le 5
+\iff
+\left\|\sum_{i = 1}^N{x_i}\right\|_q \le
+ 5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}. 
+\]
+In other words, we have that 
+\[
+\vb(B_p^n, B_q^n) = \vb(I) \le
+5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}.
+\]
+The volume lower bound (Lemmas~\ref{lem:vol-lb},\ref{lem:vol-lb-oper})
+can be used to show that this bound is tight up to the $O(\sqrt{q})$
+factor. Indeed one can show that $B_p^n$ contains $n$ vectors $u_1,
+\ldots u_n$ such that the matrix $U \eqdef  (u_1, \ldots, u_n)$ has
+determinant $\det(U) \ge e^{-1}  \max\{1, n^{1/2 -1/p}\}$
+(see~\cite{Ball89}~or~\cite{N15}). By standard estimates,
+$\vol(B_q^n)^{1/n} \ge c n^{1/q}$ for an absolute constant
+$c >0$. Plugging these estimates into Lemma~\ref{lem:vol-lb} shows
+$\vb(B_p, B_q) \ge c' \max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}$ for a
+constant $c' > 0$. 
+
+One take away from the example above is that Theorem~\ref{thm:bana}
+can be used for balancing vectors in the unit ball $B_X$ of any norm
+$X$ by appropriately ``embedding'' $B_X$ into $B_2^n$. In the case
+$\ell^n_p$ and $\ell^n_q$, this embedding just corresponds to
+rescaling the unit ball $B_p^n$. For general norms this does not
+necessarily make sense. However, we can instead choose a linear map $T:X \to
+\ell_2^n$ so that $T(B_X) \subseteq B_2^n$, i.e.~$\|T\| \le 1$. Our
+approach is based on this idea, and, in particular, on choosing such a
+map $T$ optimally.
+
+To capture the intution above into a definition, we will use the
+$\ell$-norm, which has been extensively studied in the theory of
+operator ideals, and in asymptotic convex geometry (see
 e.g.~\cite{TJ-book,Pisier-book,AGM-book}). For a linear operator
 $S:\ell_2^n \to Y$, where $Y = (\R^n, \|\cdot\|_Y)$ is a normed space,
 the $\ell$-norm of $S$ is defined as
@@ -1490,33 +1546,33 @@ Then $\ell$ and $\ell^*$ form a dual pair, and in particular we have
 \[
 \ell(S) = \sup\{\tr(RS): R:Y\to\ell_2^n, \ell^*(R) \le 1\}.
 \]
+For a finite dimensional space $Y$, both suprema above are achieved.
 An in-depth discussion of the $\ell$ norm can be found, for example,
 in the book~\cite{TJ-book}.
 
+
+
 We now define the main object of study in this section. Let $X$ and
-$Y$ be normed spaces defined on $\R^n$, and let $U:X \to Y$ be a
+$Y$ be $n$-dimensional normed spaces, and let $U:X \to Y$ be a
 linear operator. We define a factorization constant
 \[
 \lambda(U) \eqdef \inf \{\ell(S)\|T\|: T: X \to \ell_2^n,\ S: \ell_2^n
 \to Y, U = ST\}.
 \]
 In other words, $\lambda(U)$ is the minimum of $\ell(S)\|T\|$ over all
-ways to factor $U$ through $\ell_2^n$ as $U = ST$.
+ways to factor $U$ through $\ell_2^n$ as $U = ST$. A standard
+compactness argument shows that the infimum is in fact achieved. 
 
-Our  motivation for defining $\lambda(U)$ is that it captures,
-informally speaking, the best possible way to apply a vector balancing
-theorem of Banaszczyk~\cite{bana} in order to get upper bounds on the
-vector balancing constant. Let us first recall Banaszczyk's theorem.
-\begin{theorem}\label{thm:bana}
-  Let $K$ be a convex body in $\R^n$ such that $\gamma_n(K) \ge
-  \frac12$. Then, for any sequence of vectors $u_1, \ldots, u_N \in
-  B_2^n$, there exist signs $\eps_1, \ldots, \eps_N$ such that
-  \[
-  \sum_{i = 1}^N{\eps_i u_i}\in 5K.
-  \]
-\end{theorem}
-
-
+\cut{It is
+also worth noting that we can choose the operator $T$ to map $X$ to
+$\ell_2^m$, and $S$ to map $\ell_2^m$ to $Y$, for any $m \ge
+\rank(U)$, without changing the value of $\lambda(U)$. The reason is
+that, if we choose $W$ to be the subspace of $\R^m$ of dimension $r
+\eqdef \rank(U)$ such that $S(W)$ equals the range of $U$, then we can
+replace $S$ with $S\pi$ and $T$ with $\pi T$, where $\pi:\ell_2^m
+\to\ell_2^{r}$ is the orthogonal projection that sends $W$ to
+$\R^{r}$. This is still a factorization of $U$ and the norms $\ell(S)$
+and $\|T\|$ remain unchanged.}
 We have the following theorem, which shows that $\lambda(U)$ is, up to
 constants, an upper bound on $\vb(U)$ for any operator $U$. 
 
@@ -1528,21 +1584,19 @@ constants, an upper bound on $\vb(U)$ for any operator $U$.
   \]
 \end{theorem}
 \begin{proof}
-  As mentioned above, we can assume $U$ to be invertible.
-  Let $x_1, \ldots, x_N \in B_X$ be arbitrary, and let $T:X \to
-  \ell_2^n$, $S:\ell_2^n \to Y$ be such that $ST = U$, $\ell(S)\le \lambda(U) +
-  \eps$ and $\|T\| \le 1$. For $i \in \{1, \ldots, N\}$, define $u_i
-  \eqdef Tx_i$; since $\|T\| \le 1$ by assumption, we have $u_i \in
-  B_2^n$ for all $i$. Let $K = \sqrt{2}\ell(S) S^{-1}(B_Y)$, and let,
-  as usual,
-  $\|\cdot\|_K$ be the norm with unit ball $K$. Observe that for any
-  $x \in \R^n$, $\|x\|_K = \frac{1}{\sqrt{2}\ell(S)}\|Sx\|_Y$. By
-  Chebyshev's inequality,
+  As mentioned above, we can assume $U$ to be invertible.  Let $x_1,
+  \ldots, x_N \in B_X$ be arbitrary, and let $T:X \to \ell_2^n$,
+  $S:\ell_2^n \to Y$ be such that $ST = U$, $\ell(S)\le \lambda(U)$
+  and $\|T\| \le 1$. For $i \in \{1, \ldots, N\}$, define $u_i \eqdef
+  Tx_i$; since $\|T\| \le 1$ by assumption, we have $u_i \in B_2^n$
+  for all $i$. Let $K = \sqrt{2}\ell(S) S^{-1}(B_Y)$, and let, as
+  usual, $\|\cdot\|_K$ be the norm with unit ball $K$. Observe that
+  for any $x \in \R^n$, $\|x\|_K =
+  \frac{1}{\sqrt{2}\ell(S)}\|Sx\|_Y$. By Chebyshev's inequality, for a
+  standard Gaussian $Z$,
   \[
-  1 - \gamma_n(K) \le \int \|x\|_K^2 d\gamma_n(x)
-  =
-  \frac{1}{2\ell(S)^2} \int \|Sx\|_Y^2 d\gamma_n(x)
-  = \frac{1}{2}.
+  1 - \gamma_n(K)  \le \E\|Z\|_K^2 
+  =   \frac{1}{2\ell(S)^2} \E\|Z\|_Y^2 = \frac12.
   \]
   We can, therefore, apply Theorem~\ref{thm:bana}, and have that there
   exist signs $\eps_1, \ldots, \eps_N$ such that 
@@ -1552,13 +1606,11 @@ constants, an upper bound on $\vb(U)$ for any operator $U$.
   \left\|\sum_{i =1}^N{\eps_i u_i}\right\|_K \le 5
   %\sum_{i = 1}^N{\eps_i ST x_i} \in (5\sqrt{2}\ell(S))B_Y
   &\iff 
-  \left\|\sum_{i = 1}^N{\eps_i Su_i}\right\|_Y \le 5\sqrt{2}(\lambda(U)
-  + \eps)\\
-  &\iff   \left\|\sum_{i = 1}^N{\eps_i Ux_i}\right\|_Y \le 5\sqrt{2}(\lambda(U) + \eps),
+  \left\|\sum_{i = 1}^N{\eps_i Su_i}\right\|_Y \le 5\sqrt{2}\lambda(U)\\
+  &\iff   \left\|\sum_{i = 1}^N{\eps_i Ux_i}\right\|_Y \le 5\sqrt{2}\lambda(U)b,
   \end{align*}
   where we used that $Su_i = STx_i = Ux_i$.
-  Sending $\eps$ to $0$ and taking a supremum over
-  $x_1, \ldots, x_N \in B_X$  finishes the proof.
+  This completes the proof.
 \end{proof}
 
 Theorem~\ref{thm:factorization} refines and generalizes the connection
@@ -1570,21 +1622,38 @@ Y$ is defined by
 \to Y, U = ST\}.
 \]
 In~\cite{disc-gamma2}, the authors studied the special case in which
-$X = \ell_1^n$ and $Y = \ell_\infty^m$. In that case, it is easy to
-see that, for an absolute constant $C$, 
+$X = \ell_1^n$ and $Y = \ell_\infty^m$. In that case, $\|S\|$ is the
+largest Euclidean norm of a column in the matrix of $S$, and $\|T\|$
+is the largest Euclidean norm of a row of the matrix of $T$. It then
+follows from standard concentration of measure arguments that, for an absolute constant $C$,
 \begin{equation}
   \label{eq:ell-vs-opnorm}
- \ell(S) \le C\sqrt{1 + \log m} \cdot\|S\|,
+  \|S\| \le \ell(S) \le C\sqrt{1 + \log m} \cdot\|S\|,
 \end{equation}
 for any operator $S: \ell_2^n \to \ell_\infty^m$. Therefore,
-for any $U:\ell_1^n \to \ell_\infty^m$, we have $\lambda(U) \le
-C\sqrt{1 + \log m}\cdot \gamma_2(U)$. This inequality and
-Theorem~\ref{thm:factorization} recover the upper bound on hereditary
-discrepancy in terms of the $\gamma_2$ norm
-from~\cite{disc-gamma2}. However, \eqref{eq:ell-vs-opnorm} is often
+for any $U:\ell_1^n \to \ell_\infty^m$, we have 
+\[
+\gamma_2(U) \le \lambda(U) \le C\sqrt{1 + \log m}\cdot \gamma_2(U).
+\]
+This inequality and Theorem~\ref{thm:factorization} recover the upper
+bound on hereditary discrepancy in terms of the $\gamma_2$ norm
+from~\cite{disc-gamma2}. It also shows that $\lambda$ provides at
+least as good an approximation to hereditary discrepancy as $\gamma_2$.
+However, \eqref{eq:ell-vs-opnorm} is often
 not tight, and Theorem~\ref{thm:factorization} provides a tighter
-upper bound. In particular, we will show that $\lambda$ gives an
-improved approximation to the hereditary discrepancy. 
+upper bound.
+
+Another interesting special case is $X = \ell_1^n$ and $Y =
+\ell_2^m$. Since for any $S:\ell_2^n\to \ell_2^n$, $\ell(S) =
+\|S\|_{HS}$, where $\|A\|_{HS} = \tr(SS^*)^{1/2}$ is the
+Hilbert-Schmidt norm of $A$, we have
+\[
+\lambda(U) = \inf\{\|S\|_{HS}\|T\|: 
+T: \ell_1^n \to \ell_2^n,\ S: \ell_2^n \to \ell_2^n, U = ST\}.
+\]
+This function was studied by two of the authors in~\cite{NT15}, where
+they showed that it approximates hereditary discrepancy with respect
+to $\ell_2^n$ up to a factor of $O(\log n)$. 
 
 Our goal in the remainder of the section is to prove that the
 inequality in Theorem~\ref{thm:factorization} holds in the reverse
@@ -1601,14 +1670,23 @@ direction as well, as captured in the following theorem.
   \lambda(U) \le C K(Y) (1 + \log n)^{3/2}\vollb^{\rm h}(U),
   \]
   where $K(Y) = O(\log n)$ is the $K$-convexity constant of $Y$.
-  \footnote{See Section~\ref{sect:fact-pf} for a definition of $K(Y)$.}
+  \footnote{See Section~\ref{sect:fact-pf} for a definition of
+    $K(Y)$.}  
+  
+  Moreover, there exists an integer $k\le n$, and a rank $k$ operator
+  $V:\ell_1^k\to X$ of operator norm $1$ so that for any standard
+  basis vector $e_i$, $Ve_i$ is an extreme point of $B_X$, and
+  \[
+  \lambda(U) \le C K(Y) (1 + \log n)^{3/2}
+  \vol_k\bigl(\set{a \in \R^k: \|UV a\|_Y \le 1}\bigr)^{-1/k}.
+  \]
 \end{theorem}
 
 Theorems~\ref{thm:factorization}~and~\ref{thm:fact-vollb} together
 with Lemma~\ref{lem:vol-lb} give a characterization of $\vb(U)$ in
 terms of $\lambda(U)$.
 
-\begin{corollary}
+\begin{corollary}\label{cor:vb-apx}
   There exists a constant $C$ such that for any two $n$-dimensional
   normed spaces $X$ and $Y$, and any linear operator $U:X \to Y$
   between them, we have
@@ -1618,24 +1696,73 @@ terms of $\lambda(U)$.
   where $K(Y) = O(\log n)$ is the $K$-convexity constant of $Y$. 
 \end{corollary}
 
-Moreover, we will show that, under reasonable assumptions on how we
-are given access to the normed spaces $X$ and $Y$, $\lambda(U)$ can be
-computed in polynomial time.
+The statement after ``moreover'' in Theorem~\ref{thm:fact-vollb}
+allows us to also show that $\lambda(U)$ approximately characterizes
+hereditary discrepancy as well.
+\begin{corollary}\label{cor:hd-apx}
+  Given a sequence of vectors $(u_i)_{i = 1}^N$ in $\R^n$ and a convex
+  body $K$ in $\R^n$, define $X$ to be the normed space with
+  unit ball $B_X = \conv\{\pm u_1, \ldots \pm u_N\}$, $Y$ to be
+  the normed space with unit ball $K$, and $I:X \to Y$ to be the
+  identity map. Then, for an absolute constant $C$,
+  \[
+  \frac{\lambda(I)}{C K(Y) (1 + \log n)^{3/2}} 
+  \le \hd((u_i)_{i = 1}^N, K) \le \vb(I) 
+  \le C \lambda(I)
+  \]
+\end{corollary}
+\begin{proof}
+ The inequality $\hd((u_i)_{i = 1}^N, K) \le \vb(I)$ is trivial from
+ the definitions, and then the final inequality follows from
+ Theorem~\ref{thm:factorization}. For the first inequality, observe
+ that the points $Ve_1, \ldots, Ve_k$ belong to $(u_i)_{i = 1}^n$, so
+ there is some subset $S \subseteq [N]$ of size $k$ for which
+ $(Ve_i)_{i = 1}^k$ equals $(u_i)_{i \in S}$ (possibly after
+ rearrangement), so that 
+ \[
+ \vol_k\bigl(\set{a \in \R^k: \|UV a\|_Y \le 1}\bigr)^{-1/k} =
+ \vollb((u_i)_{i \in S}, K).
+ \]
+ Then, the first inequality follows from Lemma~\ref{lem:vol-lb} and
+ the statement after ``moreover'' in Theorem~\ref{thm:fact-vollb}.
+\end{proof}
 
-\subsection{Convex Formulation}
+Finally, in Section~\ref{sect:fact-alg} we show that, under reasonable
+assumptions on how we are given access to the normed spaces $X$ and
+$Y$, $\lambda(U)$ can be computed in polynomial time. Given
+Corollaries~\ref{cor:vb-apx}~and~\ref{cor:hd-apx}, this also implies a
+polynomial time approximation algorithm for vector balancing and
+hereditary discrepancy with arbitrary norms. 
 
+\subsection{Convex And Dual Formulations}
 
 The factorization constant $\lambda(U)$ can be formulated as the
 solution to a convex optimization problem, i.e.~as the infimum of a
-convex function over a convex domain. This fact is useful in that it
+convex function over a convex domain. This fact is useful since it
 allows applying generic convex optimization techniques to compute
 $\lambda(U)$ given appropriate access to the unit balls of $X$ and
 $Y$. It will also be useful in deriving a dual formulation of
 $\lambda(U)$, which we then use to prove Theorem~\ref{thm:fact-vollb}.
 
-We first define a function $f$ on positive definite operators which
-will be the objective of our convex optimization formulation of
-$\lambda(U)$. The definition is as follows: for any positive definite
+The most immediate way to formulate $\lambda(U)$ as an optimization
+problem is 
+\begin{align*}
+  &\inf %\ell(B^{-1})
+  \ell(UT^{-1})\\
+  &\text{s.t.}\\
+  &T:X \to\ell_2^n,\|T\| \le 1\\
+  &A \succ 0.
+\end{align*}
+Unfortunately, this optimization problem is not convex in $T$: the
+value of the objective function is finite for any nonzero $T$, but
+infinite for $0 = \frac12(T + (-T))$, for example. The key observation
+that allows us to circumvent this issue is that the objective function
+is completely determined by the operator $A \eqdef T^*T$, and is in
+fact convex in $A$. 
+
+
+The objective function $f(A)$ of our convex optimization formulation of
+$\lambda(U)$ is then defined as follows: for any positive definite
 operator $A:X \to X^*$, we set
 \begin{equation}
   \label{eq:obj-def}
@@ -1666,14 +1793,276 @@ random variable $Z$,
 where we used the fact that $O^{-1}Z$ and $Z$ are identically
 distributed because $O^{-1}$ is an orthogonal transformation. 
 
+Having defined the objective function, we are now ready to specify our
+convex optimization problem for $\lambda(U)$.
+\begin{restatable}{lemma}{factconvex}
+  \label{lm:fact-convex}
+  For any two $n$-dimensional normed spaces $X$ and $Y$, and any
+  invertible linear operator $U:X \to Y$, $\lambda(U)$ equals
+  \begin{align}
+    &\inf  f(A)  \label{eq:fact-obj}\\
+    &\text{s.t.}\notag\\
+    &A: X \to X^*,\|A\| \le 1\label{eq:fact-constr}\\
+    &A \succ 0.\label{eq:fact-psd}
+  \end{align}
+  The function $f$ is the one defined in \eqref{eq:obj-def}.
+
+  Moreover, the objective \eqref{eq:fact-obj} and the constraints
+  \eqref{eq:fact-constr}--\eqref{eq:fact-psd} are convex in $A$.
+\end{restatable}
+
+In addition to allowing us to efficiently compute $\lambda(U)$, the
+optimization problem \eqref{eq:fact-obj}--\eqref{eq:fact-psd} makes it
+possible to use Lagrange duality to derive a dual formulation of
+$\lambda(U)$ as a supremum over ``dual certificates''. Such a
+formulation is useful in proving Theorem~\ref{thm:fact-vollb}, because
+it allows us to reduce the proof to relating the dual certificates
+to the terms in the volume lower bound~\eqref{eq:vol-lb}. If we can
+show that every dual certificate bounds from below one of the terms of
+the volume lower bound (up to factors polynomial in $\log n$), then we
+can conclude that $\lambda(U)$ also bounds the volume lower bound from
+below.
+
+The dual formulation of $\lambda(U)$ is given in the following lemma. 
+\begin{restatable}{lemma}{dual}
+  \label{lm:dual}
+  Let $X$ and $Y$ be two $n$-dimensional normed spaces, such that the
+  unit ball of $X$ is $B_X = \mathrm{conv}\{\pm x_1, \ldots, \pm
+  x_m\}$. Then, for any linear operator $U:X \to Y$, $\lambda(U)$
+  equals
+  \begin{align}
+    &\sup \tr((RU(\sum_{i = 1}^m{p_i x_i \otimes  x_i})U^*R^*)^{1/3})^{3/2}\label{eq:dual-obj}\\
+    \text{s.t.}\notag\\
+    &R: Y \to \ell_2^n, \ell^*(R) \le 1 \label{eq:dual-ellstar}\\
+    &\sum_{i = 1}^m{p_i} = 1\label{eq:dual-prob}\\
+    &p_1, \ldots, p_m \ge 0. \label{eq:dual-nonneg}
+  \end{align}
+\end{restatable}
+
+We prove Lemmas~\ref{lm:fact-convex}~and~\ref{lm:dual} in
+Section~\ref{sect:fact-proofs}. Before doing so, we use them to prove
+Theorem~\ref{thm:fact-vollb} in the following section. 
+
+\subsection{Proof of Theorem~\ref{thm:fact-vollb}}
+\label{sect:fact-pf}
+
+We will use Lemma~\ref{lm:dual} to prove Theorem~\ref{thm:fact-vollb}.
+In the proof, we need to relate the objective function
+\eqref{eq:dual-obj} of the dual formulation to volumetric information
+about $X$ and $Y$. We do so in two steps. In the first step, we
+consider a soluion $R, p$ of
+\eqref{eq:dual-obj}--\eqref{eq:dual-nonneg}, and, using purely
+linearly algebraic techniques, we find a subset $S$ of $\{1, \ldots,
+m\}$ so that the Gram matrix of the vectors $(RUx_i)_{i \in S}$ has large
+determinant  in relation to the value of
+\eqref{eq:dual-obj}. This allows us to define an operator $V$ from
+$\ell_1^k$ (for  $k = |S|$) to $X$ so that the set
+$V^*U^*R^*(B_2^n))$ has large volume. In the second step of the proof
+we give a lower bound on the volume of the set $V^*U^*(B_Y)$ in terms
+of the volume of $V^*U^*R^*(B_2^n))$. Here we use classical
+connections between the $\ell^*$ norm and the $\ell$ norm (via
+$K$-convexity) and between the $\ell$ norm and covering numbers (via
+the dual Sudakov inequality). Since $V^*U^*(B_Y)$ is polar to the set
+$\{a: \|UVa\|_Y \le 1\}$ appearing in the volume lower bound, we can
+finish the proof by appealing to the Blaschke-Santal\'o inequality.
 
 
-\cut{
+In the context of linear operators it is often convenient use to the
+notion of entropy numbers instead of covering numbers.  The entropy
+number $e_k(A)$ of a linear operator $A:X \to Y$ is defined by
+\[
+e_k(u) = \inf\{\varepsilon: N(u(B_X), \varepsilon B_Y) \le 2^{k-1}\}. 
+\]
+It is well known that covering numbers give both upper and lower
+estimates for the supremum of a Gaussian process. Here we use the dual
+Sudakov inequality, which in the language of entropy numbers has the
+following simple form: there exists a constant $C$ such that for any
+linear operator $A:\ell_2^n \to X$, we have
+\begin{equation}
+  \label{eq:sudakov}
+  \max_{k = 1}^n \sqrt{k}e_k(u) \le C\ell(u). 
+\end{equation}
+This inequality is due to~\cite{PTJ85}. See \cite[Section
+3.3]{LT91-book} for an easy proof. 
 
-}
+Another important tool in the proof of Theorem\ref{thm:fact-vollb} is
+$K$-convexity, introduced by Maurey and Pisier~\cite{MP76}. The
+$K$-convexity constant $K(Y)$ of an $n$-dimensional normed space $Y$
+is the infimum over all constants $K$ for which the inequality
+\begin{equation}
+  \label{eq:K-conv-def}
+\ell(A^*) \le K\ell^*(A)
+\end{equation}
+holds for every operator $A:Y \to \ell_2^n$. (See
+\cite{Pisier-book} or \cite{TJ-book} for an equivalent definition.)
+An important estimate of Pisier~\cite{P80} shows that that there
+exists an absolute constant $C$ such that for any $n$-dimensional
+normed space $Y$, 
+\begin{equation}
+  \label{eq:K-conv-Pisier}
+  K(Y) \le C(1+\log d(Y,\ell_2^n))\le C(1+\log n).
+\end{equation}
+Above $d(Y, \ell_2^n)$ is he Banach-Mazur distance between $Y$ and
+$\ell_2^n$, equal to the minimum of $\|T\| \|T^{-1}\|$ over linear
+operators $T:Y \to \ell_2^n$. Equivalently, it is equal to the
+smallest $d$ for which there exists a linear operator $T$ such that
+$B_2^n \subseteq T(B_Y) \subseteq d B_2^n$. For any $n$-dimensional
+normed space $Y$, $d(Y,\ell_2^n)$ is bounded by $\sqrt{n}$ by John's
+theorem, which implies the second inequality.
 
+We also make use of a weighted version of Lemma~\ref{lm:rip-det}.
+\snote{try to reconcile and combine with Lemma~\ref{lm:rip-det}.}
+\begin{lemma}\label{lm:rip-det-weighted}
+  Let $u_1, \ldots, u_m \in \R^n$, and let $p_1, \ldots, p_m \ge 0$,
+  $\sum_{i = 1}^mp_i = 1$. Let $\lambda_1 \ge \ldots \ge \lambda_n$ be
+  the eigenvalues of the matrix $\sum_{i=1}^m{p_i u_i^\T u_i}$, and
+  let $G$ be the Gram matrix of $u_1, \ldots, u_m$, i.e.~$g_{ij} =
+  \langle u_i, u_j\rangle$. For any integer $k$ such that $1 \le k \le
+  n$, there exists a set $S \subseteq [m]$ of size $k$ such that
+  \[
+  \frac{\det(G_{S,S})}{k!} \ge\lambda_1 \ldots \lambda_k. 
+  \]
+\end{lemma}
+\begin{proof}
+  Consider the matrix $H = (\sqrt{p_ip_j}\langle u_i, u_j
+  \rangle)_{i,j = 1}^m$. This matrix has the same nonzero eigenvalues as
+  $\sum_{i=1}^m{p_i u_i^\T u_i}$, and, therefore,
+  \[
+  \sum_{S \subseteq [m]: |S| = k}{\left(\prod_{i \in S}{p_i}\right)\det(G_{S,S})}
+  = \sum_{S \subseteq [m]: |S| = k}\det(H_{S,S}) = s_{k,n}(\lambda),
+  \]
+  where $s_{k,n}$ is the degree $k$ elementary symmetric polynomial in $n$
+  variables. (See the proof of Lemma~\ref{lm:rip-det} for a
+  justification of the final equality.) Therefore, 
+  \[
+  \max_{S \subseteq [m]: |S| = k}\det(G_{S,S}) 
+  \ge \frac{s_{k,n}(\lambda)}{s_{k,m}(p)}. 
+  \]
+  We have the trivial inequality
+  \[
+  s_{k,n}(\lambda) \ge \lambda_1 \ldots \lambda_k,
+  \]
+  since $\lambda_1 \ldots \lambda_k$ is one of the terms of
+  $s_{k,n}(\lambda)$. 
+  
+  To bound $s_{k,m}(p)$ from above, observe that
+  \[
+  s_{k,m}(p) \le \frac{(p_1 + \ldots + p_k)^k}{k!} = \frac{1}{k!},
+  \]
+  since each term of $s_{k,m}(p)$ appears exactly $k!$ times in 
+  $(p_1 + \ldots + p_k)^k$.  Combining the inequalities finishes the proof. 
+\end{proof}
 
-The following lemma collects some key technical properties of the function $f$.
+\begin{proof}[Proof of Theorem~\ref{thm:fact-vollb}]
+  We can approximate the unit ball $B_X$ of $X$ arbitrarily well by a
+  symmetric polytope, so we may assume that $B_X = \mathrm{conv}\{\pm
+  x_1, \ldots, \pm x_m\}$. Then, by Lemma~\ref{lm:dual}, there exists an
+  operator $R: \ell_2^n \to Y$, $\ell^*(R) \le 1$ and non-negative
+  reals $p_1, \ldots, p_m \ge 0$, $\sum_{i = 1}^m{p_i} = 1$, such that
+  \[
+  \lambda(U)^{2/3} 
+  = \tr((RU(\sum_{i = 1}^m{p_i x_i  \otimes  x_i})U^*R^*)^{1/3})
+  = \tr((\sum_{i = 1}^m{p_i RU(x_i)  \otimes  RU(x_i)})^{1/3}).
+  \]
+  Let $u_i \eqdef RU(x_i) \in \R^n$, and let $\lambda_1 \ge \ldots \ge
+  \lambda_n \ge 0$ be the eigenvalues of $\sum_{i = 1}^m{p_i u_i
+    \otimes u_i}$, so that $\lambda(U)^{2/3} = \sum_{i =
+    1}^n{\lambda_i^{1/3}}$. We have the following elementary but very useful
+  inequality, which is an approximate reverse of the AM-GM inequality:
+  \begin{align*}
+  \sum_{i = 1}^n{\lambda_i^{1/3}} \le 
+  \sum_{i = 1}^n{\left(\prod_{j = 1}^i{\lambda_j}\right)^{1/3i}}
+  &= \sum_{i = 1}^n{\frac{1}{i} \cdot i\left(\prod_{j =   1}^i{\lambda_j}\right)^{1/3i}}\\
+  &\le \left(\sum_{i = 1}^n{\frac{1}{i}}\right) 
+  \max_{i = 1}^n{i\left(\prod_{j =   1}^i{\lambda_j}\right)^{1/3i}}.
+  \end{align*}
+  Let us fix a value $k$ so that the maximum on the right hand side is
+  achieved. Then, the above inequality implies
+  \[
+  \lambda(U)^{2/3} \le C_0 (1+\log n) k (\lambda_1 \ldots \lambda_k)^{1/(3k)},
+  \]
+  for an absolute constant $C_0$. Observe that the matrix of $\sum_{i
+    = 1}^m{p_i u_i \otimes u_i}$ with respect to the standard basis is
+  $\sum_{i = 1}^m{p_i u_i^\T u_i}$, so, by
+  Lemma~\ref{lm:rip-det-weighted},  there exists a set $S
+  \subseteq [m]$ of size $k$ such that
+  \[
+  (\lambda_1 \ldots \lambda_k)^{1/k} \le
+  \frac{\det(G_{S,S})^{1/k}}{(k!)^{1/k}},
+  \]
+  where $G$ is the Gram matrix of $u_1, \ldots, u_m$. By Stirling's
+  estimate, this implies that 
+  \begin{equation*}
+  \lambda(U)^{2/3} \le C_1 (1+\log n) k^{2/3} \det(G_{S,S})^{1/(3k)},
+  \end{equation*}
+  or, equivalently,
+  \begin{equation}\label{eq:fact-det}
+  \lambda(U)\le  C_1^{3/2} (1+\log n)^{3/2} k \det(G_{S,S})^{1/(2k)},
+  \end{equation}
+  for an absolute constant $C_1$. 
+
+  To finish the proof, we need to relate the right hand side of
+  \eqref{eq:fact-det} to the volume lower bound. Let $V:\ell_1^S \to X$ be
+  the operator defined by $V(a) \eqdef \sum_{i \in S}{a_i x_i}$, where
+  $\ell_1^S$ is the coordinate subspace of $\ell_2^n$ spanned by the standard
+  basis vectors $\{e_i: i \in S\}$. We have that 
+  \[
+  \det(G_{S,S})^{1/2} 
+  = \frac{\vol_k(RUV(B_2^n\cap \R^S))}{\vol_k(B_2^n \cap \R^S)}
+  = \frac{\vol_k(V^*U^*R^*(B^n_2\cap W))}{\vol_k(B_2^k)},
+  \]
+  where $W$ is the range of $RUV$ in $\R^n$. By the definition of
+  entropy numbers,
+  \[
+  \vol_k(V^*U^*R^*(B^n_2\cap W))\le
+  \vol_k(V^*U^*R^*(B_2^n))
+  \le 2^{k-1}e_k(R^*)^k \vol_k(V^*U^*(B_{Y^*})), 
+  \]
+  since $R^*(B_2^n)$ can be covered by $2^{k-1}$ translates of
+  $e_k(R^*)B_{Y^*}$. By \eqref{eq:sudakov} and \eqref{eq:K-conv-def}, we
+  have
+  \[
+  e_k(R^*) \le C_2 \frac{\ell(R^*)}{\sqrt{k}} 
+  \le C_2 K(Y) \frac{\ell^*(R)}{\sqrt{k}}
+  \le C_2 K(Y) \frac{1}{\sqrt{k}},
+  \]
+  for an absolute constant $C_2$. Combining the inequalities so far,
+  we have
+  \begin{align*}
+  \det(G_{S,S})^{1/2k} &\le
+  2C_2 K(Y) 
+  \frac{\vol_k(V^*U^*(B_{Y^*}))^{1/k}}{\sqrt{k}\vol_k(B_2^k)^{1/k}}\\
+  &\le
+  2C_2 K(Y)
+  \frac{\vol_k(B_2^k)^{1/k}}{\sqrt{k}\vol_k(\{a: \|UVa\|_Y\le 1\})^{1/k}},
+  \end{align*}
+  where in the final step we used the Blaschke-Santal\'{o} inequality and
+  the fact that 
+  \[
+  (V^*U^*(B_{Y^*}))^\circ = \{a: \|UVa\|_Y\le 1\}.
+  \]
+  By a standard estimate, $\frac{\vol_k(B_2^k)^{1/k}}{\sqrt{k}} \le
+   \frac{C_3}{k}$ for a constant $C_3$, and, combining with \eqref{eq:fact-det}, we get
+  \[
+  \lambda(U)\le \frac{C K(Y) (1+\log n)^{3/2} }{\vol_k(\{a: \|UVa\|_Y\le 1\})^{1/k}}
+  \le C K(Y) (1+\log n)^{3/2} \vollb^{\rm h}(U),
+  \]
+  for an absolute constant $C$, as desired. The statement after
+  ``moreover'' follows by observing that we can assume $x_1, \ldots,
+  x_m$ to be extreme points of $B_X$, and since the points $Ve_i$ are
+  a subset of them, they are extreme as well.
+\end{proof}
+
+\subsection{Proofs of Convexity and Duality}
+\label{sect:fact-proofs}
+
+In this section we supply the missing proofs of
+Lemmas~\ref{lm:fact-convex}~and~\ref{lm:dual}, i.e.~the fact that the
+convex optimization  problem \eqref{eq:fact-obj}--\eqref{eq:fact-psd}
+is indeed convex and equal to $\lambda(U)$, and also the derivation of
+the dual maximization problem. 
+
+We first prove some key technical properties of the function $f$.
 \begin{lemma}\label{lm:obj-f}
   The following statements hold for the function $f$ defined on
   positive definite operators $A:X \to X^*$ as in \eqref{eq:obj-def}:
@@ -1699,8 +2088,7 @@ operators from $X$ to $X^*$, and, via the trace, we identify such functionals wi
 operators from $X^*$ to $X$. In what follows we will, therefore, treat $\nabla
 f(A)$ as a linear operator from $X^*$ to $X$.
 
-First we need an auxiliary lemma. 
-
+Before we prove Lemma~\ref{lm:obj-f}, we need an auxiliary lemma.
 \begin{lemma}\label{lm:invertible}
   Let $Y$ be an $n$-dimensional normed space, and let $S:\ell_2^n \to
   Y$ be an invertible linear operator. Then any operator $R:Y \to
@@ -1846,27 +2234,10 @@ First we need an auxiliary lemma.
   of the lemma.
 \end{proof}
 
-We are now ready to formulate $\lambda(U)$ as a convex
-minimization problem. 
-
-\begin{lemma}\label{lm:fact-convex}
-  For any two $n$-dimensional normed spaces $X$ and $Y$, and any
-  invertible linear operator $U:X \to Y$, $\lambda(U)$ equals
-  \begin{align}
-    &\inf %\ell(B^{-1})
-    f(A)  \label{eq:fact-obj}\\
-    &\text{s.t.}\notag\\
-    &A: X \to X^*,\|A\| \le 1\label{eq:fact-constr}\\
-    &A \succ 0.\label{eq:fact-psd}
-  \end{align}
-  The function $f$ is the one defined in \eqref{eq:obj-def}.
-  %$B^{-1}$ is the inverse of the principle square root
-  %$M^{1/2}$ of $M$, and is taken as an operator from $\ell_2$ to $Y$. 
-
-  Moreover, the objective \eqref{eq:fact-obj} and the constraints
-  \eqref{eq:fact-constr}--\eqref{eq:fact-psd} are convex in $A$.
-\end{lemma}
-\begin{proof}
+We are now ready to prove Lemma~\ref{lm:fact-convex}, restated for
+convenience below.
+\factconvex*
+\begin{proof}%[Proof of Lemma~\ref{lm:fact-convex}]
   The convexity of the constraints
   \eqref{eq:fact-constr}--\eqref{eq:fact-psd} is apparent from the
   definition, and the convexity of the objective was proved in
@@ -1908,37 +2279,16 @@ minimization problem.
   most $\lambda(U)$, the two are equal.
 \end{proof}
 
-\subsection{Dual Formulation}
-
-
-Next we give a dual formulation of $\lambda(U)$ as a supremum over
-``dual certificates''. Such a formulation is useful in proving
-Theorem~\ref{thm:fact-vollb}, because it allows us to reduce such a
-proof to relating the dual certificates to the terms in the volume
-lower bound~\eqref{eq:vol-lb}. If we can show that every dual
-certificate bounds from below one of the terms of the volume lower
-bound up to polylogarithmic factors, then we can conclude that
-$\lambda(U)$ also bounds the volume lower bound from below. 
-
 The derivation of the dual formulation from the
 convex program \eqref{eq:fact-obj}--\eqref{eq:fact-psd} is mostly
 routine using Lagrange duality (see,
 e.g.~\cite{BoydV04}). Nevertheless, because of the complicated nature
-of our objective, the derivation is quite technical. The dual
-formulation we use is given in the following lemma.
-\begin{lemma}\label{lm:dual}
-  Let $X$ and $Y$ be two $n$-dimensional normed spaces, such that the
-  unit ball of $X$ is $B_X = \mathrm{conv}\{\pm x_1, \ldots, \pm  x_m\}$. Then, for any linear operator $U:X \to Y$, $\lambda(U)$
-  equals
-  \begin{align}
-    &\sup \tr((RU(\sum_{i = 1}^m{p_i x_i \otimes  x_i})U^*R^*)^{1/3})^{3/2}\label{eq:dual-obj}\\
-    \text{s.t.}\notag\\
-    &R: Y \to \ell_2^n, \ell^*(R) \le 1 \label{eq:dual-ellstar}\\
-    &\sum_{i = 1}^m{p_i} = 1\label{eq:dual-prob}\\
-    &p_1, \ldots, p_m \ge 0. \label{eq:dual-nonneg}
-  \end{align}
-\end{lemma}
-\begin{proof}
+of our objective, the derivation is quite technical. Once again, we
+restated Lemma~\ref{lm:dual}, which gives our dual formulation, for
+convenience before the proof. 
+
+\dual*
+\begin{proof}%pf of lm:dual
   Since $B_X = \mathrm{conv}\{\pm x_1, \ldots, \pm x_m\}$, we can can
   rewrite \eqref{eq:fact-obj}--\eqref{eq:fact-psd} as
   \begin{align}
@@ -2028,8 +2378,7 @@ formulation we use is given in the following lemma.
   $h_R(A) = \tr((RUA^{-1}U^*R^*)^{1/2})$. A calculation analogous to
   the one above for $f^*$ shows that $h_R^*(Q) = -\frac{3}{2^{2/3}}
   \tr((-RUQU^*R^*)^{1/3})$. 
-  \snote{This is sketchy, but I feel that repeating the same
-    calculations for almost the same function is not worth it.}
+
   Therefore,
   \[
     f^*(Q) \le
@@ -2069,210 +2418,12 @@ formulation we use is given in the following lemma.
   Maximizing over $t$ finishes the proof. 
 \end{proof}
 
-\subsection{Proof of Theorem~\ref{thm:fact-vollb}}
-\label{sect:fact-pf}
+\section{Algorithm for the Factorization Constant}
+\label{sect:fact-alg}
 
-Here we use Lemma~\ref{lm:dual} to prove Theorem~\ref{thm:fact-vollb}.
-In the proof, we use covering numbers, the dual Sudakov inequality,
-and $K$-convexity to relate the dual formulation
-\eqref{eq:dual-obj}--\eqref{eq:dual-nonneg} to the volume lower
-bound. 
 
-In the context of linear operators it is often convenient to the
-notion of entropy numbers instead of covering numbers.  The entropy
-number $e_k(A)$ of a linear operator $A:X \to Y$ is defined by
-\[
-e_k(u) = \inf\{\varepsilon: N(u(B_X), \varepsilon B_Y) \le 2^{k-1}\}. 
-\]
-It is well known that covering numbers give both upper and lower
-estimates for the supremum of a Gaussian process. Here we use the dual
-Sudakov inequality, which in the language of entropy numbers has the
-following simple form: there exists a constant $C$ such that for any
-linear operator $A:\ell_2^n \to X$, we have
-\begin{equation}
-  \label{eq:sudakov}
-  \max_{k = 1}^n \sqrt{k}e_k(u) \le C\ell(u). 
-\end{equation}
-This inequality is due to~\cite{PTJ85}. See \cite[Section
-3.3]{LT91-book} for an easy proof. 
-
-Another important tool in the proof of Theorem\ref{thm:fact-vollb} is
-$K$-convexity, introduced by Maurey and Pisier~\cite{MP76}. The
-$K$-convexity constant $K(Y)$ of an $n$-dimensional normed space $Y$
-is the infimum over all constants $K$ for which the inequality
-\begin{equation}
-  \label{eq:K-conv-def}
-\ell(A^*) \le K\ell^*(A)
-\end{equation}
-holds for every operator $A:Y \to \ell_2^n$. (See
-\cite{Pisier-book} or \cite{TJ-book} for an equivalent definition.)
-An important estimate of Pisier~\cite{P80} shows that that there
-exists an absolute constant $C$ such that for any $n$-dimensional
-normed space $Y$, 
-\begin{equation}
-  \label{eq:K-conv-Pisier}
-  K(Y) \le C(1+\log d(Y,\ell_2^n))\le C(1+\log n),
-\end{equation}
-where $d(Y, \ell_2^n) = \inf\{\|T\| \|T^{-1}\|: T:X \to \ell_2^n\}$ is
-the Banach-Mazur distance, which is bounded by $\sqrt{n}$ by John's
-theorem. 
-
-We also make use of a weighted version of Lemma~\ref{lm:rip-det}.
-\snote{I think this should just be stated once in the weighted version}
-\begin{lemma}\label{lm:rip-det-weighted}
-  Let $u_1, \ldots, u_m \in \R^n$, and let $p_1, \ldots, p_m \ge 0$,
-  $\sum_{i = 1}^mp_i = 1$. Let $\lambda_1 \ge \ldots \ge \lambda_n$ be
-  the eigenvalues of the matrix $\sum_{i=1}^m{p_i u_i^\T u_i}$, and
-  let $G$ be the Gram matrix of $u_1, \ldots, u_m$, i.e.~$g_{ij} =
-  \langle u_i, u_j\rangle$. For any integer $k$ such that $1 \le k \le
-  n$, there exists a set $S \subseteq [m]$ of size $k$ such that
-  \[
-  \frac{\det(G_{S,S})}{k!} \ge\lambda_1 \ldots \lambda_k. 
-  \]
-\end{lemma}
-\begin{proof}
-  Consider the matrix $H = (\sqrt{p_ip_j}\langle u_i, u_j
-  \rangle)_{i,j = 1}^m$. This matrix has the same nonzero eigenvalues as
-  $\sum_{i=1}^m{p_i u_i^\T u_i}$, and, therefore,
-  \[
-  \sum_{S \subseteq [m]: |S| = k}{\left(\prod_{i \in S}{p_i}\right)\det(G_{S,S})}
-  = \sum_{S \subseteq [m]: |S| = k}\det(H_{S,S}) = s_{k,n}(\lambda),
-  \]
-  where $s_{k,n}$ is the degree $k$ elementary symmetric polynomial in $n$
-  variables. (See the proof of Lemma~\ref{lm:rip-det} for a
-  justification of the final equality.) Therefore, 
-  \[
-  \max_{S \subseteq [m]: |S| = k}\det(G_{S,S}) 
-  \ge \frac{s_{k,n}(\lambda)}{s_{k,m}(p)}. 
-  \]
-  We have the trivial inequality
-  \[
-  s_{k,n}(\lambda) \ge \lambda_1 \ldots \lambda_k,
-  \]
-  since $\lambda_1 \ldots \lambda_k$ is one of the terms of
-  $s_{k,n}(\lambda)$. 
-  
-  To bound $s_{k,m}(p)$ from below, observe that the vector $d \in
-  \R^m_{\ge 0}$ with coordinates $d_i = \frac{1}{m}$ is majorized by
-  $p$. Then since $s_{k,m}$ is Schur-concave, we have,
-  \[
-  p_{k,m}(p) \le p_{k,m}(d) = \frac{1}{m^k} {m \choose k} \le \frac{1}{k!}.
-  \]
-  Combining the inequalities finishes the proof. 
-\end{proof}
-
-% Finally, we use the following elementary inequality, valid for an
-% absolute constant $C$, and any sequence $x_1 \ge x_2 \ge \ldots \ge
-% x_n \ge 0$ of non-negative reals
-% \begin{equation}
-%   \label{eq:DFE} %Daniel's Favorite Inequality
-%   \sum_{i = 1}^n{x_i} \le C(1+\log n) 
-%   \max_{k = 1}^n k \left(\prod_{i = 1}^k{x_i}\right)^{1/k}.
-% \end{equation}
-
-\begin{proof}[Proof of Theorem~\ref{thm:fact-vollb}]
-  We can approximate the unit ball $B_X$ of $X$ arbitrarily well by a
-  symmetric polytope, so we may assume that $B_X = \mathrm{conv}\{\pm
-  x_1, \ldots, \pm x_m\}$. Then, by Lemma~\ref{lm:dual}, there exists an
-  operator $R: \ell_2^n \to Y$, $\ell^*(R) \le 1$ and non-negative
-  reals $p_1, \ldots, p_m \ge 0$, $\sum_{i = 1}^m{p_i} = 1$, such that
-  \[
-  \lambda(U)^{2/3} 
-  = \tr((RU(\sum_{i = 1}^m{p_i x_i  \otimes  x_i})U^*R^*)^{1/3})
-  = \tr((\sum_{i = 1}^m{p_i RU(x_i)  \otimes  RU(x_i)})^{1/3}).
-  \]
-  Let $u_i \eqdef RU(x_i) \in \R^n$, and let $\lambda_1 \ge \ldots \ge
-  \lambda_n \ge 0$ be the eigenvalues of $\sum_{i = 1}^m{p_i u_i
-    \otimes u_i}$, so that $\lambda(U)^{2/3} = \sum_{i =
-    1}^n{\lambda_i^{1/3}}$. We have the following elementary but very useful
-  inequality, which is an approximate reverse of the AM-GM inequality:
-  \begin{align*}
-  \sum_{i = 1}^n{\lambda_i^{1/3}} \le 
-  \sum_{i = 1}^n{\left(\prod_{j = 1}^i{\lambda_j}\right)^{1/3i}}
-  &= \sum_{i = 1}^n{\frac{1}{i} \cdot i\left(\prod_{j =   1}^i{\lambda_j}\right)^{1/3i}}\\
-  &\le \left(\sum_{i = 1}^n{\frac{1}{i}}\right) 
-  \max_{i = 1}^n{i\left(\prod_{j =   1}^i{\lambda_j}\right)^{1/3i}}.
-  \end{align*}
-  Let us fix a value $k$ so that the maximum on the right hand side is
-  achieved. Then, the above inequality implies
-  \[
-  \lambda(U)^{2/3} \le C_0 (1+\log n) k (\lambda_1 \ldots \lambda_k)^{1/(3k)},
-  \]
-  for an absolute constant $C_0$. Observe that the matrix of $\sum_{i
-    = 1}^m{p_i u_i \otimes u_i}$ with respect to the standard basis is
-  $\sum_{i = 1}^m{p_i u_i^\T u_i}$, so, by
-  Lemma~\ref{lm:rip-det-weighted},  there exists a set $S
-  \subseteq [m]$ of size $k$ such that
-  \[
-  (\lambda_1 \ldots \lambda_k)^{1/k} \le
-  \frac{\det(G_{S,S})^{1/k}}{(k!)^{1/k}},
-  \]
-  where $G$ is the Gram matrix of $u_1, \ldots, u_m$. By Stirling's
-  estimate, this implies that 
-  \begin{equation*}
-  \lambda(U)^{2/3} \le C_1 (1+\log n) k^{2/3} \det(G_{S,S})^{1/(3k)},
-  \end{equation*}
-  or, equivalently,
-  \begin{equation}\label{eq:fact-det}
-  \lambda(U)\le  C_1^{3/2} (1+\log n)^{3/2} k \det(G_{S,S})^{1/(2k)},
-  \end{equation}
-  for an absolute constant $C_1$. 
-
-  To finish the proof, we need to relate the right hand side of
-  \eqref{eq:fact-det} to the volume lower bound. Let $V:\ell_2^S \to X$ be
-  the operator defined by $V(a) \eqdef \sum_{i \in S}{a_i x_i}$, where
-  $\ell_2^S$ is the coordinate subspace of $\ell_2^n$ spanned by the standard
-  basis vectors $\{e_i: i \in S\}$. We have that 
-  \[
-  \det(G_{S,S})^{1/2} 
-  = \frac{\vol_k(RUV(B_2^S))}{\vol_k(B_2^S)}
-  = \frac{\vol_k(V^*U^*R^*(B^n_2\cap W))}{\vol_k(B_2^k)},
-  \]
-  where $W$ is the range of $RUV$ in $\R^n$. By the definition of
-  entropy numbers,
-  \[
-  \vol_k(V^*U^*R^*(B^n_2\cap W))\le
-  \vol_k(V^*U^*R^*(B_2^n))
-  \le 2^{k-1}e_k(R^*)^k \vol_k(V^*U^*(B_{Y^*})), 
-  \]
-  since $R^*(B_2^n)$ can be covered by $2^{k-1}$ translates of
-  $e_k(R^*)B_{Y^*}$. By \eqref{eq:sudakov} and \eqref{eq:K-conv-def}, we
-  have
-  \[
-  e_k(R^*) \le C_2 \frac{\ell(R^*)}{\sqrt{k}} 
-  \le C_2 K(Y) \frac{\ell^*(R)}{\sqrt{k}}
-  \le C_2 K(Y) \frac{1}{\sqrt{k}},
-  \]
-  for an absolute constant $C_2$. Combining the inequalities so far,
-  we have
-  \begin{align*}
-  \det(G_{S,S})^{1/2k} &\le
-  2C_2 K(Y) 
-  \frac{\vol_k(V^*U^*(B_{Y^*}))^{1/k}}{\sqrt{k}\vol_k(B_2^k)^{1/k}}\\
-  &\le
-  2C_2 K(Y)
-  \frac{\vol_k(B_2^k)^{1/k}}{\sqrt{k}\vol_k(\{a: \|UVa\|_Y\le 1\})^{1/k}},
-  \end{align*}
-  where in the final step we used the Blaschke-Santal\'{o} inequality and
-  the fact that 
-  \[
-  (V^*U^*(B_{Y^*}))^\circ = \{a: \|UVa\|_Y\le 1\}.
-  \]
-  By a standard estimate, $\frac{\vol_k(B_2^k)^{1/k}}{\sqrt{k}} \le
-   \frac{C_3}{k}$ for a constant $C_3$, and, combining with \eqref{eq:fact-det}, we get
-  \[
-  \lambda(U)\le C K(Y) (1+\log n)^{3/2} \frac{1}{\vol_k(\{a: \|UVa\|_Y\le 1\})^{1/k}}
-  \le C K(Y) (1+\log n)^{3/2} \vollb^{\rm h}(U),
-  \]
-  for an absolute constant $C$, as desired. 
-\end{proof}
-
-\section{Convex Hulls}
+\section{The Volume Lower Bound and Convex Hulls}
 \label{sec:conv-hulls}
-
-\snote{I still want to add to this and use it to claim that
-  Theorem~\ref{thm:fact-vollb} gives an approximate to $\hd$. It is
-  not necessary, but it feels cleaner to me right now.}
 
 Here we show that the volume lower bound is maximized at the extreme
 points of a convex set.
