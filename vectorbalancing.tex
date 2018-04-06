@@ -2405,6 +2405,160 @@ convenience before the proof.
 \section{Algorithm for the Factorization Constant}
 \label{sect:fact-alg}
 
+In this section we use our convex formulation
+\eqref{eq:fact-obj}--\eqref{eq:fact-psd} of the $\lambda(U)$
+factorization constant in order to compute an approximately optimal
+factorization. In order to use known results in convex optimization,
+we need to make sure that we are optimizing a Lipschitz function over
+a sufficiently bounded feasible region, and, moreover, that we have a
+strictly feasible point. These conditions are not automatically
+satisfied for \eqref{eq:fact-obj}--\eqref{eq:fact-psd}, but we can
+modify the optimization problem so that they are, at the cost of a
+small constant factor approximation to the optimum. 
+
+In this section we assume that both normed spaces $X$ and $Y$ are
+defined over $\R^n$. We assume that the unit ball of $X$ is $B_X =
+\conv\{\pm x_1, \ldots, \pm x_m\}$, and that $X$ is specified by
+giving the points $x_1, \ldots, x_m$ as input to the algorithm. We
+assume that $Y$ is specified by an evaluation oracle, which takes a
+point $y \in \R^n$ and returns $\|y\|_Y$. Moreover, we will assume
+that $U$ is the identity map; otherwise we can define a new norm $Z$
+by $\|z\|_Z = \|Uz\|_Y$ and we have $\lambda(U) = \lambda(I)$ for the
+identity map $I:X \to Z$. An evaluation oracle for $Y$ easily gives an
+evaluation oracle for $Z$.
+
+As a first step, we transform the problem so that $B_X$ is
+well-rounded, which makes our problem well-conditioned in a sense that
+we will make precise later. To round $B_X$, we use a classical
+algorithm of Khachiyan.
+
+\begin{theorem}[\cite{Khachiyan96}]\label{thm:khach-round}
+  There exists an algorithm running in time $O(mn^2(\log n + \log \log
+  m)$ that, given a set of points $x_1, \ldots, x_m \in \R^n$,
+  computes a linear map $T$ such that 
+  \[
+  \frac{1}{2\sqrt{n}} B_2^n \subseteq T(\conv\{\pm x_1, \ldots, \pm  x_m\})
+  \subseteq
+  B_2^n.
+  \]
+\end{theorem}
+
+We compute the linear map $T$ for the extreme points $\pm x_1, \ldots,
+\pm x_m$, using the algorithm guaranteed by
+Theorem~\ref{thm:khach-round}, and apply $T$ to both $B_X$ and
+$B_Y$. I.e.~we replace $X$ with the space whose unit ball is $TB_X$,
+and $Y$ with the space whose unit ball is $TB_Y$. This does not change
+$\lambda(I)$, $\vb(I)$, or the volume lower bound. With this
+transformation, we can assume that 
+\begin{equation}\label{eq:rounded}
+  \frac{1}{2\sqrt{n}} B_2^n \subseteq B_X \subseteq B_2^n.
+\end{equation}
+
+In the rest of this section, we use the notation $A \succeq B$ for two symmetric matrices $A$ and $B$ to denote the fact
+that $A-B$ is positive semidefinite. The
+notation $A\preceq B$ is equivalent to $B \succeq A$. We also
+repeatedly use the fact that if $AA^\T \preceq BB^\T$ for two matrices
+$A$ and $B$, then, for a standard Gaussian $Z$ in $\R^n$ and any norm
+$Y$ defined on $\R^n$, $\E \|AZ\|^2_Y \leq \E \|BZ\|_Y^2$. This is
+well-known, and is due to the fact that $BZ$ is distributed
+identically to $AZ + CZ'$
+for a standard Gaussian $Z'$ independent from $Z$. Then, by Jensen's inequality,
+\[
+\E\|AZ\|^2_Y = \E\|AZ + \E[CZ']\|^2_Y
+\le \E\|AZ + CZ'\|_Y^2 = \E\|BZ\|_Y^2.
+\]
+
+
+Our first lemma shows that we can strengthen the constraints
+\eqref{eq:fact-constr}--\eqref{eq:fact-psd} without affecting the
+value of the optimization problem significantly. The stronger
+constraints will be helpful in showing that the objective is Lipschitz
+over the feasible region. 
+
+\begin{lemma}\label{lm:psd-lb}
+  Assume that $X$ and $Y$ are normed spaces over $\R^n$ such that $B_X
+  = \conv\{\pm x_1, \ldots, \pm x_m\}$, and equation
+  \eqref{eq:rounded} holds, and let $I:X \to Y$ be the identity
+  map. Then the value of the following convex optimization problem
+  over positive definite matrices $A$ is at least $\lambda(I)$ and at
+  most $\sqrt{2} \lambda(I)$:
+  \begin{align}
+    &\inf  (\E\|A^{-1/2} Z\|^2_Y)^{1/2}  \label{eq:alg-obj}\\
+    &\text{s.t.}\notag\\
+    &x_i^T A x_i \le 1 \ \ \ \forall i \in [m],\label{eq:alg-constr}\\
+    &A \succeq \frac12 I.\label{eq:alg-psd}
+  \end{align}
+  Above $A^{-1/2}$ is the unique positive definite matrix such that
+  $(A^{-1/2})^2 = A^{-1}$, and $Z$ is a standard Gaussian random
+  variable in $\R^n$.
+
+  Moreover, any positive definite matrix $A$ satisfying
+  \eqref{eq:alg-constr} also satisfies $A \preceq 4n I$. 
+\end{lemma}
+\begin{proof}
+  The objective function \eqref{eq:alg-obj} equals
+  \eqref{eq:fact-obj}, the constraints \eqref{eq:alg-constr} are
+  equivalent to \eqref{eq:fact-constr}, and \eqref{eq:alg-psd}
+  implies \eqref{eq:fact-psd}, so, trivially, the value of
+  \eqref{eq:alg-obj}--\eqref{eq:alg-psd} is at least the value of
+  \eqref{eq:fact-obj}--\eqref{eq:fact-psd}, which, by
+  Lemma~\ref{lm:fact-convex}, equals $\lambda(I)$. In the reverse
+  direction, let us take an operator $A:X\to X^*$ achieving the
+  optimal value $\lambda(I)$ in
+  \eqref{eq:fact-obj}--\eqref{eq:fact-psd}, and let us identify $A$
+  with its matrix in the standard basis. Let $\tilde{A} \eqdef \frac12(A +
+  I)$. Since $B_X \subseteq B_2^n$ by assumption, and $A$ satisfies
+  \eqref{eq:fact-constr}, we have 
+  \[
+  \frac12 x_i^T (A + I) x_i = \frac{x_i^T A x_i + \|x_i \|_2^2 }{2} 
+  \le 1,
+  \]
+  and, therefore, $\tilde{A}$ satisfies \eqref{eq:alg-constr}. Because
+  $A$ is positive definite, we have $\tilde{A} \succeq \frac12 I$, and
+  \eqref{eq:alg-psd} is also satisfied, and $\tilde{A}$ is feasible. Because
+  $\tilde{A} \succeq \frac12 A$, we have $\tilde{A}^{-1} \preceq
+  2A^{-1}$, so
+  \[
+  \E\|\tilde{A}^{-1/2} Z\|^2_Y \le 2 \E\|A^{-1/2} Z\|^2_Y =
+  2\lambda(I)^2.
+  \]
+  This shows that the value of
+  \eqref{eq:alg-obj}--\eqref{eq:alg-psd} is at most
+  $\sqrt{2}\lambda(I)$. 
+
+  The statement after ``moreover'' follows because if there exists
+  some $x \in \R^n$ for which $x^\T A x > 4n \|x\|_2^2$ then for $y =
+  \frac{x}{2\sqrt{n}\|x\|_2}$ we have $y \in B_X = \conv\{\pm x_1,
+  \ldots, \pm x_m\}$ but $x^\T A x > 1$. This would imply that for at
+  least one extreme point $x_i$ of $B_X$ we have $x^\T A x > 1$, in
+  contradiction with \eqref{eq:alg-constr}. 
+\end{proof}
+
+Our second lemma shows that the objective function \eqref{eq:alg-obj}
+is Lipschitz over the feasible region
+\eqref{eq:alg-constr}--\eqref{eq:alg-psd}.
+\begin{lemma}
+
+  For any $A, B$ satisfying \eqref{eq:alg-constr}--\eqref{eq:alg-psd},
+  \[
+  (\E\|A^{-1/2}Z\|_Y^2)^{1/2} -   (\E\|B^{-1/2}Z\|_Y^2)^{1/2} \le L \|A
+  - B\|_{HS} \lambda(I).
+  \]
+\end{lemma}
+
+We are now ready to prove our main algorithmic result. 
+\begin{theorem}
+  There exists an algorithm that, given $x_1, \ldots, x_m \in \R^n$,
+  an evaluation oracle for a norm $Y$ on $\R^n$, and
+  a linear operator $U:X \to Y$ specified by its matrix, where $X$ is
+  the space with unit ball $B_X = \conv\{\pm x_1, \ldots, \pm x_m\}$,
+  computes in time polynomial in $m$ and $n$ a factorisation $U = ST$,
+  $S:\ell_2^n \to Y$, $T:X \to \ell_2^n$,  such that 
+  \[
+  \ell(S) \|T\| \le 2\lambda(U).
+  \]
+\end{theorem}
+
 
 \section{The Volume Lower Bound and Convex Hulls}
 \label{sec:conv-hulls}
