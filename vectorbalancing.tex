@@ -2538,13 +2538,59 @@ Our second lemma shows that the objective function \eqref{eq:alg-obj}
 is Lipschitz over the feasible region
 \eqref{eq:alg-constr}--\eqref{eq:alg-psd}.
 \begin{lemma}
-
-  For any $A, B$ satisfying \eqref{eq:alg-constr}--\eqref{eq:alg-psd},
+  Under the assumptions of Lemma~\ref{lm:psd-lb}, for any $A, B$
+  satisfying \eqref{eq:alg-constr}--\eqref{eq:alg-psd} we have
   \[
-  (\E\|A^{-1/2}Z\|_Y^2)^{1/2} -   (\E\|B^{-1/2}Z\|_Y^2)^{1/2} \le L \|A
-  - B\|_{HS} \lambda(I).
+  (\E\|A^{-1/2}Z\|_Y^2)^{1/2} -   (\E\|B^{-1/2}Z\|_Y^2)^{1/2} \le 
+  16\sqrt{n}\lambda(I) \|A  - B\|_{op},
   \]
+  where $\|A - B\|_{op}$ is the largest singular value of $A-B$.
 \end{lemma}
+\begin{proof}
+  Observe that, because any $B$ which is feasible for
+  \eqref{eq:alg-constr}--\eqref{eq:alg-psd} satisfies $\frac12 I
+  \preceq A \preceq 4nI$, we have
+  \[
+  \frac{1}{2\sqrt{n}}(\E\|Z\|_Y^2)^{1/2} 
+  \le (\E\|B^{-1/2}Z\|_Y^2)^{1/2}  \le \sqrt{2} (\E\|Z\|_Y^2)^{1/2}. 
+  \]
+  Therefore, for any feasible $B$, by Lemma~\ref{lm:psd-lb}, we have
+  \[
+  \lambda(I)\le (\E\|A^{-1/2}Z\|_Y^2)^{1/2}
+  \le 4 \sqrt{n} \lambda(I).
+  \]
+  
+  Let $\delta \eqdef \|A - B\|_{op}$, and consider first the case
+  $\delta > \frac14$.  Then, 
+  \[
+  (\E\|A^{-1/2}Z\|_Y^2)^{1/2} -   (\E\|B^{-1/2}Z\|_Y^2)^{1/2} 
+  \le 
+  (\E\|A^{-1/2}Z\|_Y^2)^{1/2} \le 
+  4 \sqrt{n} \lambda(I)
+  \le 16 \sqrt{n} \lambda(I) \delta.
+  \]
+
+  Consider now the case $\delta < \frac14$. Then, $A - B \succeq
+  -\delta I$, and we have
+  \[
+  A = B + (A-B) \succeq B - \delta I \succeq (1 - 2\delta) B.
+  \]
+  Therefore, 
+  \[
+  (\E\|A^{-1/2}Z\|_Y^2)^{1/2} 
+  \le (1-2\delta)^{-1/2} (\E\|B^{-1/2}Z\|_Y^2)^{1/2}
+  \le (1+4\delta) (\E\|B^{-1/2}Z\|_Y^2)^{1/2}.
+  \]
+  Finally,
+  \[
+  (\E\|A^{-1/2}Z\|_Y^2)^{1/2} -   (\E\|B^{-1/2}Z\|_Y^2)^{1/2} 
+  \le
+  4\delta (\E\|B^{-1/2}Z\|_Y^2)^{1/2} 
+  \le
+  16\sqrt{n} \lambda(I) \delta .
+  \]
+  This completes the proof
+\end{proof}
 
 We are now ready to prove our main algorithmic result. 
 \begin{theorem}
