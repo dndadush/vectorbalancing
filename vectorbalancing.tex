@@ -67,8 +67,8 @@
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 
 % MARGIN NOTES
-\newif\ifnotes\notestrue
-%\newif\ifnotes\notesfalse
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
 
 \ifnotes
 \usepackage{color}
@@ -749,23 +749,37 @@ reader to section~\ref{sec:rip-convex} for further details and proofs.
 
 \paragraph{\bf A Factorization Approach for Vector Balancing.}   
 
-In the inductive proof of Theorem~\ref{thm:tightness} we need to keep
-alternating between computing Gaussian estimates based on volume
-information, and appealing to Rothvoss's algorithm, as we induct
-on lower dimensional subspaces. One downside of this indirect nature
-of our proof is that it does not lead to an algorithm for computing
-the vector balancing constant $\vb(C,K)$ of two symmetric convex
-bodies $C$ and $K$, or of the hereditary discrepancy $\hd((u_i)_{i =
-  1}^N, K)$. In this section, we explore a different approach, which
-aims at separating computing a Gaussian estimate from volume
-information, on one hand, and the vector balancing argument on the
-other. The approach is based on recasting vector balancing in the
-language of linear operators between normed spaces, and on factoring
-such operators through Euclidean space. This factorization strategy is
-a significant generalization of the connection between the $\gamma_2$
-norm and hereditary discrepancy used in~\cite{disc-gamma2}.
+While Theorem~\ref{thm:tightness} gives an efficient method of
+balancing a given set of vectors approximately optimally, it does not
+give an efficiently computable upper bound of the vector balancing
+constant $\vb(C,K)$ of two symmetric convex bodies $C$ and $K$, or of
+the hereditary discrepancy $\hd((u_i)_{i = 1}^N, K)$. Moreover, we are
+not aware of an efficient algorithm for computing the volume lower
+bound, which is itself a maximum over an exponential number of
+volumes. Instead we explore a different approach, which
+relies on applying Banaszczyk's vector balancing theorem in an optimal
+way in order to get an efficiently computable, and nearly tight, upper
+bound on both vector balancing constants and hereditary
+discrepancy. 
 
+Recall that Banaszczyk's vector balancing theorem states that if a
+body $K$ has Gaussian measure at least $1/2$, then $\vb(B_2^n, K) \le
+5$. The theorem gives an upper bound on $\vb(B_2^n, K)$ in terms
+of the Gaussian measure of the body $K$. In particular, if $r$ is the
+smallest number such that the Gaussian measure of $rK$ is $\frac12$,
+then the theorem tells us that $\vb(B_2^n, K) \le 5r$. To use this
+upper bound for bodies $C$ different from $B_2^n$, we find an
+optimal way to map $C$ into $B_2^n$ and then use the theorem as
+above. It turns out that the most convenient language for for this
+approach is that of linear operators between normed spaces. In
+particular, we recast the problem of mapping $C$ into $B_2^n$ as one
+of factoring a linear operator through Euclidean space. This
+factorization strategy is a significant generalization of the
+connection between the $\gamma_2$ norm and hereditary discrepancy used
+in~\cite{disc-gamma2}.
 
+Let us now introduce the generalization of vector balancing constants
+to operators. 
 Let $U:X \to Y$ be a linear operator between two $n$-dimensional
 normed spaces $(X, \| \cdot\|_X)$ and $(Y, \| \cdot\|_Y)$. A natural
 way to define the vector balancing constant of $U$ is
@@ -776,7 +790,7 @@ way to define the vector balancing constant of $U$ is
   N \in \mathbb{N}, x_1, \ldots, x_N \in B_X\right\}
 \end{equation}
 where $B_X = \{x: \|x\|_X \le 1\}$ is the unit ball of $X$. This
-definition is a generalization of the geometric one. If $C$ and
+definition is indeed a generalization of the geometric one. If $C$ and
 $K$ are two centrally symmetric convex bodies in $\R^n$, and we define
 the corresponding normed spaces $X_C = (\R^n, \|\cdot\|_C)$ and $X_K =
 (\R^n, \|\cdot\|_K)$, then the vector balancing constant $\vb(I)$ of
@@ -791,9 +805,7 @@ $Y$). Moreover, we will see that for the operator $U:\ell_1^N \to X_K$
 given by $Ue_i = u_i$, $\lambda(U)$ also approximates $\hd((u_i)_{i =
   1}^N, K)$. 
 
-Recall that Banaszczyk's vector balancing theorem states that if a
-body $K$ has Gaussian measure at least $1/2$, then $\vb(B_2^n, K) \le
-5$. As a warm-up, let us see how we can use this theorem to get
+As a warm-up, let us see how we can use this theorem to get
 nearly tight bounds on $\vb(B^n_p, B^n_q)$, or, equivalently, on
 $\vb(I)$, where $I:\ell_p^n \to \ell_q^n$ is the identity. For any
 $x_1, \ldots, x_N \in B_p^n$, the points defined by $u_i \eqdef
@@ -1275,7 +1287,7 @@ M_1 := \max_{i \in [l]} \vol_1(K'_i)^{-1} = \max_{i \in [l]} \|e_i\|_{K'} =
 \max_{i \in [l]} \|u_i\|_K \text{ ,}
 \]
 and thus the restricted maximum can be efficiently computed. Note that by
-construction ${\rm conv}(\pm e_1,\dots, \pm e_l)/M_1 \subseteq K'_{[l]}$. Thus,
+construction \[{\rm conv}\{\pm e_1,\dots, \pm e_l\}/M_1 \subseteq K'_{[l]}.\] Thus,
 for any $S \subseteq [l]$,$|S|=k$, we see that
 \[
 \vol_k(l M_1 K'_S) \geq \vol_{k}(l \cdot {\rm conv}(\pm e_i: i \in S)) = \frac{(2l)^k}{k!}
