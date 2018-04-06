@@ -273,7 +273,7 @@ colorings. %Over the last eight years, starting with the breakthrough work of
 %Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem
 %using random walk and semidefinite programming techniques, almost all known
 %bounds have been made algorithmic. 
-Starting wiht the breakthrough work of Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem using random walk and semidefinite programming techniques, nearly all known bounds have been made algorithmic in the last eight years.
+Starting with the breakthrough work of Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem using random walk and semidefinite programming techniques, nearly all known bounds have been made algorithmic in the last eight years.
 
 One of the most important discrepancy minimization techniques is Beck's
 partial coloring method, which covers most of the above discrepancy results
@@ -523,7 +523,7 @@ bound for $\ell_\infty$ discrepancy. As a simple example, let $U \in \R^{2^n
 $U$ has rank $n$, the determinant lower bound is restricted to $k \times k$
 matrices for $k \in [n]$. Hadamard's inequality implies for any $k \times k$
 matrix $B$ with $\pm 1$ entries that $|\det(B)|^{1/k} \leq \sqrt{k} \leq
-\sqrt{n}$. A moments thought however, reveals that for $x \in \R^n$,
+\sqrt{n}$. A moment's thought however, reveals that for $x \in \R^n$,
 $\norm{Ux}_\infty = \norm{x}_1$ and hence any coloring $x \in \set{-1,1}$ must
 have discrepancy $\norm{x}_1 = n$. Using the previous logic, the volume lower
 bound to the full system yields by standard estimates
@@ -775,50 +775,21 @@ way to define the vector balancing constant of $U$ is
   \biggl\|\sum_{i = 1}^N \eps_i U(x_i)\biggr\|_Y:
   N \in \mathbb{N}, x_1, \ldots, x_N \in B_X\right\}
 \end{equation}
-where $B_X = \{x: \|x\|_X \le 1\}$ is the unit ball of $X$. If $C$ and
+where $B_X = \{x: \|x\|_X \le 1\}$ is the unit ball of $X$. This
+definition is a generalization of the geometric one. If $C$ and
 $K$ are two centrally symmetric convex bodies in $\R^n$, and we define
 the corresponding normed spaces $X_C = (\R^n, \|\cdot\|_C)$ and $X_K =
 (\R^n, \|\cdot\|_K)$, then the vector balancing constant $\vb(I)$ of
-the formal identity operator $I:X_C \to X_K$ recovers $\vb(C, K)$.
+the formal identity operator $I:X_C \to X_K$ recovers $\vb(C,
+K)$. While our main goal is characterize $\vb(C, K)$, the language of
+linear operators is more natural for the factorization approach. 
 
 We will relate $\vb(U)$ to an efficiently computable quantity
 $\lambda(U)$, which will allow us to efficiently approximate $\vb(U)$
 (given appropriate access to the domain and range $X$ and
 $Y$). Moreover, we will see that for the operator $U:\ell_1^N \to X_K$
 given by $Ue_i = u_i$, $\lambda(U)$ also approximates $\hd((u_i)_{i =
-  1}^N, K)$. Once again our main tool for giving lower bounds on
-$\vb(U)$ is the volume lower bound, which we reformulate in the
-operator setting.
-
-\begin{lemma}
-\label{lem:vol-lb-oper}
-Let $(X, \|\cdot\|_X)$ and $(Y, \|\cdot\|_Y)$ be two $n$-dimensional
-normed spaces, and let $U:X \to Y$ be an invertible linear
-operator. Define
-\[
-\vollb_k^{\rm h}(U) \eqdef
-\sup\bigl\{\vol_k\bigl(\set{a \in \R^k: \|UV a\|_Y \le 1}\bigr)^{-1/k}\bigr\},
-\]
-where the supremum is over all operators $V:\ell_1^k \to X$ of
-operator norm $1$ and rank $k$. Then, letting
-\[
-\vollb^{\rm h}(U) \eqdef \max_{k \in [n]} \vollb_k^{\rm h}(U),
-\]
-we have that
-\[
-\vb(U) \geq \vollb^{\rm h}(U).
-\]
-\end{lemma}
-
-Lemma~\ref{lem:vol-lb-oper} is just a reformulation of
-Lemma~\ref{lem:vol-lb} in the language of linear operators. Because
-\[
-\max_{i = 1}^k{\|Ve_i\|_X} = \|V\| = 1,
-\]
-the points $u_1, \ldots, u_k$ defined by $u_i = V e_i$ lie in $B_X$,
-where $e_i$ is the $i$-th standard basis vector of $X$. Then the
-lemma follows directly from Lemma~\ref{lem:vol-lb} with $C = B_X$
-and $K = \{x \in X: Ux \in B_Y\}$. 
+  1}^N, K)$. 
 
 Recall that Banaszczyk's vector balancing theorem states that if a
 body $K$ has Gaussian measure at least $1/2$, then $\vb(B_2^n, K) \le
@@ -915,14 +886,8 @@ therefore, approximate $\vb(U)$ efficiently, which turns out to be
 sufficient to approximate hereditary discrepancy in arbitrary norms.
 
 The most immediate way to formulate $\lambda(U)$ as an optimization
-problem is 
-\begin{align*}
-  &\inf %\ell(B^{-1})
-  \ell(UT^{-1})\\
-  &\text{s.t.}\\
-  &T:X \to\ell_2^n,\|T\| \le 1\\
-  &A \succ 0.
-\end{align*}
+problem is to minimize $\ell(UT^{-1})$ subject over operators $T:X \to
+\ell_2^n$ and subject to the constraint $\|T\|\le 1$.
 Unfortunately, this optimization problem is not convex in $T$: the
 value of the objective function is finite for any nonzero $T$, but
 infinite for $0 = \frac12(T + (-T))$, for example. The key observation
@@ -968,10 +933,10 @@ of generality since every symmetric convex body can be approximated by
 a convex polytope. The dual formulation is as follows:
 \begin{align*}
   &\sup \tr((RU(\sum_{i = 1}^m{p_i x_i \otimes  x_i})U^*R^*)^{1/3})^{3/2}\\
-  \text{s.t.}\notag\\
+  \text{s.t.}\ \ \ 
   &R: Y \to \ell_2^n, \ell^*(R) \le 1 \\
-  &\sum_{i = 1}^m{p_i} = 1\\
-  &p_1, \ldots, p_m \ge 0. 
+  &\sum_{i = 1}^m{p_i} = 1, \ \ 
+  p_1, \ldots, p_m \ge 0. 
 \end{align*}
 Above $x_i \otimes x_i$ is the rank-1 operator from the dual space
 $X^*$ to $X$, given by $(x_i \otimes x_i)(x^*) = \langle x^*,
@@ -1857,10 +1822,46 @@ $Y$, given in \eqref{eq:vb-oper}:
   \biggl\|\sum_{i = 1}^N \eps_i U(x_i)\biggr\|_Y:
   N \in \mathbb{N}, x_1, \ldots, x_N \in B_X\right\}
 \]
-Before we present the details of our approach, we give some
-relevant preliminaries. 
 
-\subsection{Preliminaries}
+Once again our main tool for giving lower bounds on
+$\vb(U)$ is the volume lower bound, which we reformulate in the
+operator setting.
+
+\begin{lemma}
+\label{lem:vol-lb-oper}
+Let $(X, \|\cdot\|_X)$ and $(Y, \|\cdot\|_Y)$ be two $n$-dimensional
+normed spaces, and let $U:X \to Y$ be an invertible linear
+operator. Define
+\[
+\vollb_k^{\rm h}(U) \eqdef
+\sup\bigl\{\vol_k\bigl(\set{a \in \R^k: \|UV a\|_Y \le 1}\bigr)^{-1/k}\bigr\},
+\]
+where the supremum is over all operators $V:\ell_1^k \to X$ of
+operator norm $1$ and rank $k$. Then, letting
+\[
+\vollb^{\rm h}(U) \eqdef \max_{k \in [n]} \vollb_k^{\rm h}(U),
+\]
+we have that
+\[
+\vb(U) \geq \vollb^{\rm h}(U).
+\]
+\end{lemma}
+
+Lemma~\ref{lem:vol-lb-oper} is just a reformulation of
+Lemma~\ref{lem:vol-lb} in the language of linear operators. Because
+\[
+\max_{i = 1}^k{\|Ve_i\|_X} = \|V\| = 1,
+\]
+the points $u_1, \ldots, u_k$ defined by $u_i = V e_i$ lie in $B_X$,
+where $e_i$ is the $i$-th standard basis vector of $X$. Then the
+lemma follows directly from Lemma~\ref{lem:vol-lb} with $C = B_X$
+and $K = \{x \in X: Ux \in B_Y\}$. 
+
+Before we present the details of our approach, we give some
+relevant preliminaries on normed spaces and operators. 
+
+
+\subsection{Basic Concepts in Normed Spaces}
 \label{sect:fact-prelims}
 
 To every finite dimensional normed space $(X, \|\cdot\|)$ over $\R$ we
