@@ -34,6 +34,7 @@
 
 \newcommand{\cut}[1]{}
 \newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
 
 \newcommand{\R}{{\mathbb{R}}}
 \newcommand{\C}{{\mathbb{C}}}
@@ -665,9 +666,10 @@ for any $S \subseteq [n]$, $|S| = \delta n$, the sections $E_S$ and $K_S$ satisf
 n}(K_S)^{1/{\delta n}} \geq 2^{-O(1/\delta)},
 \]
 where the last inequality is by assumption. Using a form of the
-restricted invertibility principle for determinants, one can show that if all
-coordinate sections of $E$ of dimension $\delta n$ have large volume, then so
-does every section of $E$ of the same dimension.  Precisely, one gets that 
+restricted invertibility principle for determinants (see
+Lemma~\ref{lm:rip-det}), one can show that if all coordinate sections of $E$
+of dimension $\delta n$ have large volume, then so does every section of $E$ of
+the same dimension.  Precisely, one gets that 
 \[
 \min_{\dim(W)=\delta n} \vol_{\delta n}(E \cap W)^{1/\delta n} \geq \binom{n}{\delta
 n}^{-1/\delta n} \min_{|S|=\delta n} \vol_{\delta n}(E_S)^{1/\delta n} \geq
@@ -851,7 +853,7 @@ $\ell_p$ ball in dimension $n$, $B_p^S := (B_p^n)_S$ and $B_p^W := (B_p^n) \cap 
 for corresponding coordinate and general sections. For a vector $x \in
 [-1,1]^n$, we write $\bnds(x) = \set{i \in [n]: x_i \in \set{-1,1}}$.
 
-\begin{theorem}[Blashke-Santal{\'o}]\label{thm:santalo} 
+\begin{theorem}[Blaschke-Santal{\'o}]\label{thm:santalo} 
 Let $K \subseteq \R^n$ be a symmetric convex body. Then $\vol_n(K)\cdot
 \vol_n(K^\circ) \leq \kappa_n^2$, where equality holds if and only if $K$ is
 an origin centered ellipsoid. Here $\kappa_n = \vol_n(B_2^n)$.
@@ -859,17 +861,18 @@ an origin centered ellipsoid. Here $\kappa_n = \vol_n(B_2^n)$.
 
 \subsection{Restricted Invertibility}
 
-We will need the following restricted invertibility.
+We will need the a refinement of the restricted invertibility theorem of
+Bourgain and Tzafriri~\cite{bour-tza} due to Spielman and Srivastava.
 
-\begin{theorem}\label{thm:rest-inv}
+\begin{theorem}[\cite{bt-constructive}]\label{thm:rest-inv}
 Let $Q \in \R^{n \times n}$ be positive definite quadratic form and $\eps \in
-(0,1)$. Let $\lambda_1 > 0$ denote the maximum eigen value of $Q$.  For $k =
-\ceil{\eps^2 \tr(Q)/\lambda_1}$, there exists $S \subseteq [n]$, $|S|=k$, such
-that $\lambda_{\rm min}(Q_{S,S}) \geq \frac{(1-\eps)^2\tr(Q)}{n}$, where
-$\lambda_{\rm min}(Q_{S,S})$ is the minimum eigen value of $Q_{S,S}$.
+(0,1)$. Let $\lambda_1 := \lambda_1(Q) > 0$ denote the maximum eigen value of
+$Q$.  For $k = \floor{\eps^2 \tr(Q)/\lambda_1}$, there exists $S \subseteq [n]$,
+$|S|=k$, such that $\lambda_{\rm min}(Q_{S,S}) > \frac{(1-\eps)^2\tr(Q)}{n}$,
+where $\lambda_{\rm min}(Q_{S,S})$ is the minimum eigen value of $Q_{S,S}$.
 \end{theorem}
 
-The next lemma we will need is a simple determinantal analogue of the restricted
+We will also need a couple of simple determinantal analogues of the restricted
 invertibility principle.
 
 \begin{lemma}\label{lm:rip-det}
@@ -1228,7 +1231,7 @@ Let $E := E(Q)$ denote a $1$-regular M-ellipsoid for $K$ and let $\sigma :=
 the length of the principal axes of $E$, where we recall that
 $l_n^{-2}\geq \dots \geq l_1^{-2} > 0$ are then the eigen values of $Q$.
 
-By the Blashke-Santal{\'o} inequality, for all $S \subseteq
+By the Blaschke-Santal{\'o} inequality, for all $S \subseteq
 [n]$, $|S|=\delta n$, we have that 
 \[
 \vol_{\delta n}(K_S)\vol_{\delta n}((K_S)^\circ) = 
@@ -1251,14 +1254,15 @@ Combining Lemma~\ref{lm:rip-det} and~\ref{lem:ellipsoid-volumes}, we have that
 &\leq \binom{n}{\delta n}^{1/2} e^{\sigma n} \kappa_{\delta n} \text{ .}
 \end{align*}
 From here, we conclude that 
-\[
+\begin{equation}
+\label{eq:axis-long}
 l_{(1-\delta)n} \geq \prod_{i=(1-\delta)n+1}^n l_i^{\frac{1}{\delta
 n}} \geq \binom{n}{\delta 
 n}^{-\frac{1}{2\delta n}} e^{-\frac{\sigma}{\delta }} \kappa_{\delta
 n}^{-\frac{1}{\delta n}} \geq 
 \frac{1}{e^{2\frac{\sigma}{\delta }}} \cdot \sqrt{\frac{\delta n}{2\pi e}} :=
 c(\delta)^{-1} \sqrt{n} \text{ .}
-\] 
+\end{equation}
 Letting $H$ be the span of the first $(1-\delta)n$ principal
 axes of $E$, we thus conclude that 
 \[
@@ -1324,17 +1328,18 @@ into $\ell_2$.
 
 \begin{lemma}
 \label{lem:speclb}
-Let $(u_i)_{i=1}^n \in \R^n$ be linearly independent, $K \subseteq \R^n$ be a
-symmetric convex body, and $\alpha \in [0,1]$. For any subset $S \subseteq [n]$,
-$|S|=k$, letting $W_S := \lspan\{u_i: i \in S\}$, define
+Let $U=(u_1,\dots,u_n) \in \R^{n \times n}$ be linearly independent, $K
+\subseteq \R^n$ be a symmetric convex body, and $\alpha \in [0,1]$. For any
+subset $S \subseteq [n]$, $|S|=k$, letting $W_S := \lspan\{u_i: i \in S\}$,
+define
 \[
 \speclb((u_i)_{i \in S},K) := 
-\max \set{r \geq 0: r K \cap W_S \subseteq k \conv\set{\pm u_i: i \in S}}.
+\max \set{r \geq 0: r K \cap W_S \subseteq \sqrt{|S|} U_S B_2^k }.
 \]
 Then, we have that
 \begin{equation}
 \label{eq:spec-lb}
-\disc_\alpha((u_i)_{i \in S},K) \geq \alpha \speclb((u_i)_{i \in S},K).
+\disc_\alpha((u_i)_{i \in S},K) \geq \sqrt{\alpha} \speclb((u_i)_{i \in S},K).
 \end{equation}
 In particular, defining
 \[
@@ -1344,7 +1349,7 @@ S},K)
 we have that
 \begin{equation}
 \label{eq:hd-spec-lb}
-\hd_{\alpha}((u_i)_{i=1}^n,K) \geq \alpha \speclb^{\rm h}((u_i)_{i=1}^n,K).
+\hd_{\alpha}((u_i)_{i=1}^n,K) \geq \sqrt{\alpha} \speclb^{\rm h}((u_i)_{i=1}^n,K).
 \end{equation}
 \end{lemma}
 \begin{proof}
@@ -1353,23 +1358,24 @@ trivially. For~\eqref{eq:spec-lb}, by replacing $K$ by $K \cap W_S$, we may wlog
 assume that $|S|=n$ and $W_S = \R^n$. 
 
 Let $x \in [-1,1]^n$, $|\bnds(x)| \geq \alpha n$, and $u_x = \sum_{i=1}^n x_i
-u_i$. Our goal is to show that $\beta := \norm{u_x}_K \geq \alpha r$, where $r
+u_i$. Our goal is to show that $\beta := \norm{u_x}_K \geq \sqrt{\alpha} r$, where $r
 := \speclb((u_i)_{i=1}^n,K)$.
 
 Let $(u_i^*)_{i=1}^n$ denote the corresponding dual basis of
 $(u_i)_{i=1}^n$, i.e.~satisfying $\inner{u_i^*}{u_j} = 1$ if $i=j$ and $0$
 otherwise, which exists by linear independence. Now letting $v_x =
-\sum_{i=1}^n {\rm sign}(x_i) u_i^*$, it is easy to check that 
+\sum_{i=1}^n \frac{x_i}{\norm{x}_2} u_i^*$, it is easy to check that 
 \[
-\inner{v_x}{u_x} = \sum_{i=1}^n |x_i| \geq |\bnds(x)| \geq \alpha n .
+\inner{v_x}{u_x} = \norm{x}_2 \geq \sqrt{|\bnds(x)|} \geq \sqrt{\alpha n}.
 \]
-Since $u_x \in \beta K$ and $r K \subseteq n \conv\set{\pm u_i: i
-\in [n]}$, we have that
+Since $u_x \in \beta K$ and $r K \subseteq \sqrt{n} U B_2^n$, we have that
 \begin{align*}
-\alpha n \leq \beta \max_{z \in K} \inner{v_x}{z} 
-         \leq \frac{\beta}{r} n 
-               \max_{z \in \conv\set{\pm u_i: i \in [n]}} \inner{v_x}{z}
-          = \frac{\beta}{r} n .
+\sqrt{\alpha n} \leq \beta \max_{z \in K} \inner{v_x}{z} 
+         \leq \frac{\beta}{r} \sqrt{n} 
+               \max_{z \in UB_2^n} \inner{v_x}{z}
+          = \frac{\beta}{r} \sqrt{n} \max_{z \in B_2^n}
+\inner{\frac{x}{\norm{x}_2}}{z}
+ = \frac{\beta}{r} \sqrt{n} .
 \end{align*}
 The desired inequality now follows by rearranging.
 \end{proof}
@@ -1390,7 +1396,7 @@ Thus, for the purpose of the conjecture, it suffices to consider the setting
 where the vectors are the standard basis. In this setting, we see that
 \[
 \speclb^{\rm h}((e_i)_{i=1}^n,K) = \max_{S \subseteq [n]} \max \set{r \geq
-0: r K_S \subseteq |S| B_1^S} 
+0: r K_S \subseteq \sqrt{|S|} B_2^S} 
 \]
 and that 
 \[
@@ -1402,7 +1408,7 @@ The goal is now to show that for every $S_0 \subseteq [n]$, there exists $S_1
 \begin{equation}
 \label{eq:conj-simple}
 \vol_{|S_0|}(K_{S_0})^{-1/|S_0|} \leq c \max \set{r \geq 0: r K_{S_1} \subseteq
-|S_1| B_1^{|S_1|}} \text{ .}
+\sqrt{|S_1|} B_2^{|S_1|}} \text{ .}
 \end{equation}
 Since this must hold for every symmetric convex body $K$, we may assume that
 $S_0 = [n]$ (and thus $S_1 \subseteq S_0$). Furthermore, by homogeneity, we may
@@ -1417,34 +1423,111 @@ geometric conjecture.
 % there exists $S \subseteq [n]$ such that $K_S \subseteq c |S| B_1^S$.
 % \end{conjecture}
 
-Another natural, and again stronger conjecture, would be to ask for containment
-inside $c \sqrt{|S|} B_2^S \subseteq c |S| B_1^S$. We suspect that this version
-should also hold, and indeed, our evidence for the conjecture supports this
-belief. 
+Two natural weakenings of Conjecture~\ref{conj:rip-convex} are to ask whether
+(a) it holds for ellipsoids and (b) whether it holds for general bodies but with
+coordinate sections replaced by arbitrary sections. As our main evidence for the
+conjecture, we show that both statements are true. We note that (a) indeed
+implies Conjecture~\ref{conj:partial-volume} when $K$ is an ellipsoid. We state
+our results formally below.
 
-Two natural weakenings of Conjecture~\ref{conj:rip-convex} are to ask
-whether (a) it holds for ellipsoids and (b) whether it holds for general bodies
-but with coordinate sections replaced by arbitrary sections. As our main
-evidence for the conjecture, we show that both assertions indeed hold with the
-stronger containment relation with respect to $B_2^n$. We note that (a) indeed
-implies Conjecture~\ref{conj:partial-volume} when $K$ is an ellipsoid.  
+\begin{theorem}
+\label{thm:partial-conjecture}
+There exists a universal constant $c \geq 1$, such that any $n \in \N$, the
+following holds:
+\begin{enumerate}
+\item For any origin centered ellipsoid $E \subseteq \R^n$ of volume at most
+$1$, there exists $S \subseteq [n]$, $S \neq \emptyset$, such that $E_S
+\subseteq c \sqrt{|S|} B_2^S$.
+\item For any symmetric convex body $K \subseteq \R^n$ of volume at most $1$,
+there exists a linear subspace $H \subseteq \R^n$, such that $K \cap W \subseteq
+c \sqrt{W} B_2^W$.
+\end{enumerate}
+\end{theorem}
 
-Before formally stating our partial results, we give a last simplification of
-Conjecture~\ref{conj:rip-convex}. In particular, when attempting to prove
-the conjecture we may additionally assume that $\vol_{|S|}(K_S) \geq 1$ for all
-$S \subset [n]$. This follows by noting that if there exists $S \subset [n]$
-with $\vol_{|S|}(K_S) < 1$, we may simply apply induction on $K_S$, after
-scaling it up to have volume $1$ (which only makes the task more difficult). The
-main two lemmas we can prove, from which the above results easily follow,
-are stated below. 
-
+To prove the above theorem, we will need the following two lemmas.  
 \begin{lemma}
 \label{lem:axis-m-ell}
-Let $K \subseteq \R^n$ be a symmetric convex body of volume $1$ satisfying
-for all $S \subseteq [n]$, $\vol_{|S|}(K_S) \geq 1$. Let $E \subseteq \R^n$ be a
-$1$-regular M-ellipsoid of $K$. Then there exists $S \subseteq [n]$, $|S| =
-\Theta(n)$, such that $E_S \subseteq O(\sqrt{|S|}) B_2^S$.
+Let $K \subseteq \R^n$ be a symmetric convex body of volume $1$ satisfying for
+all $S \subseteq [n]$, $\vol_{|S|}(K_S) \geq 1$. Let $E \subseteq \R^n$ be a
+$1$-regular M-ellipsoid of $K$. Then there exists $S \subseteq [n]$, $|S| \geq
+a_1 n$, such that $E_S \subseteq a_2 \sqrt{|S|} B_2^S$, where $a_1,a_2 > 0$ are
+universal constants.
 \end{lemma}
+\begin{proof}
+Let $E = E(Q)$ be a $1$-regular M-ellipsoid of $K$. Recall that $N(K,E) \leq
+N(E,K) \leq e^{\sigma n}$ where $\sigma := \sigma(1)$ and that
+$\vol_n(K)=\vol_n(E)=1$. Let $\lambda_1 \geq \cdots \geq \lambda_n > 0$ denote
+the axes of the M-ellipsoid, where $1/\lambda_n^2 \geq \cdots \geq 1/\lambda^2_1
+> 0$ are the eigen value of $Q$.
+
+Recall by the proof of Theorem~\ref{thm:gauss-via-volume}
+(equation~\eqref{eq:axis-long}), we have for that 
+\begin{equation}
+\label{eq:axes-long}
+\lambda_{\ceil{(3/4)n}} \geq e^{-O(4/3)}\sqrt{n} \geq c_1 \sqrt{n}, 
+\end{equation}
+where $c_1 > 0$ is an absolute constant. 
+
+We now show that assuming $\vol_n(E)=1$, that the central axes also have length
+$O(\sqrt{n})$. Let $k = \floor{\frac{1}{4} n}$. By Lemma~\ref{lm:rip-det}
+applied to $Q^{-1}$, there exists $S \subseteq [n]$, such that
+\begin{equation}
+\label{eq:short-axes}
+\prod_{i=1}^k \lambda_i^2 \leq \binom{n}{k} \det((Q^{-1})_{S,S}). 
+\end{equation}
+
+Let $R = [n] \setminus S$. Using the fact that $(Q^{-1}_{S,S})^{-1}$ is the
+Schur complement of $Q$ with respect to $Q_{R,R}$ block, we have the identity 
+\begin{equation}
+\det(Q) = \det(Q_{R,R}) \det((Q^{-1}_{S,S})^{-1}) \Leftrightarrow
+\frac{\det(Q)^{-1}}{\det((Q_{R,R}))^{-1}} = \det((Q^{-1})_{S,S}) .
+\end{equation}
+From here, since $\vol_n(E)=1$, we have that
+\begin{equation}
+\label{eq:identity}
+\begin{split}
+\frac{\det(Q)^{-1}}{\det((Q_{R,R}))^{-1}} &= \frac{\kappa^2_{n-k}
+\vol_n(E)^2}{\kappa^2_n \vol_{n-k}(E_R)^2} = \frac{\kappa^2_{n-k}}{\kappa_n^2}
+\frac{1}{\vol_{n-k}(E_R)^2} \\
+&\leq \frac{\kappa^2_{n-k}}{\kappa_n^2} \frac{e^{2\sigma n}}{\vol_{n-k}(2K_R)^2}
+\leq \frac{\kappa^2_{n-k}}{\kappa_n^2} e^{4\sigma n}.
+\end{split}
+\end{equation}
+Combining~\eqref{eq:short-axes} and~\eqref{eq:identity}, using that $k =
+\floor{n/4}$, we get that
+\begin{equation}
+\label{eq:axes-short}
+\lambda_k \leq (\prod_{i=1}^k \lambda_i)^{1/k} \leq \binom{n}{k}^{1/(2k)}
+(\frac{\kappa_{n-k}}{\kappa_n})^{1/k} e^{2\sigma n/k} \leq c_2 \sqrt{n},
+\end{equation}
+where $c_2 \geq 1$ is an absolute constant. Given the above, we have that
+\begin{equation}
+\label{eq:axis-sandwich}
+c_1 \sqrt{n} \leq \lambda_{\ceil{(3/4)n}} \leq \lambda_{\floor{(1/4)n}} \leq c_2
+\sqrt{n} \text{ .}
+\end{equation}
+Let $W$ denote the span of axes of $E$ associated with
+$\lambda_{\floor{(1/4)n}},\dots,\lambda_{\ceil{(3/4)n}}$ and let $\pi_W$ denote
+the corresponding orthogonal projection. Let $Q' = Q^{1/2}\pi_WQ^{1/2} \preceq
+Q$, noting that $Q'$ preserves all the eigen values associated with $W$ while
+setting the others to zero. Applying Theorem~\ref{thm:rest-inv} to $Q'$ with
+$\eps=1/2$, we get a subset $S \subseteq [n]$, which by~\eqref{eq:axis-sandwich}
+and our choice of $W$ has size at least
+\[
+|S| = \frac{1}{4} \frac{\tr(Q')}{\lambda_{\rm max}(Q')} \geq c_3 n
+\]  
+where $c_3 > 0$ is an absolute constant. Furthermore,
+\[
+\lambda_{\rm \min}(Q_{S,S}) \geq \lambda_{\rm min}(Q'_{S,S}) \geq
+\frac{\tr(Q')}{n} \geq \frac{1}{2} \lambda_{\floor{(1/4)n}}^{-2} \geq c_4/n \text{ ,}
+\]
+where $c_4 > 0$ is an absolute constant. Noting that the above implies that
+$E_S \subseteq \sqrt{n/c_4} B_2^S$ completes the proof, setting $a_1 = c_3$ and
+$a_2 = 1/\sqrt{c_4}$.
+\end{proof}
+
+The next lemma is essentially a consequence of Milman's quotient of subspace
+theorem, whose proof we defer to the full version.
 
 \begin{lemma}
 \label{lem:cover-to-section}
@@ -1453,27 +1536,22 @@ Let $K \subseteq \R^n$ be a symmetric convex body such that $N(K,\sqrt{n}B_2^n)
 \Theta(n)$, such that $K \cap W \subseteq O(\sqrt{|W|}) B_2^W$.  
 \end{lemma}
 
-To derive the conjecture when $K$ is an ellipsoid, we simply apply
-Lemma~\ref{lem:axis-m-ell} with $E=K$. To derive the conjecture for general
-sections, we first apply Lemma~\ref{lem:axis-m-ell} to $K$, noting that the
-produced section $K_S$ now satisfies the conditions of
-Lemma~\ref{lem:cover-to-section}, from which we derive the result.  
+Given the above two lemmas, we can now prove our main theorem.
 
-For the proof of Lemma~\ref{lem:axis-m-ell}, we use the volumetric conditions to
-show that the central axes of $E$ all have length $\Theta(\sqrt{n})$,
-complementing the $\Omega(\sqrt{n})$ lower bound used in the proof of
-Theorem~\ref{thm:gauss-via-volume} under the additional assumption that
-$\vol_n(K)=1$, and derive the existence of the
-corresponding section from the Bourgain-Tzafriri restricted invertibility principle
-applied to the quadratic form defining $E$. The proof of
-Lemma~\ref{lem:cover-to-section} follows relatively directly from Milman's
-quotient of subspace (QS) theorem, which states that there exists a projection
-of a section of $K$ of proportional dimension which is constant factor
-isomorphic to a Euclidean ball. We remark that the main step that seems to be
-missing for the proof of Conjecture~\ref{conj:rip-convex} is a
-corresponding ``coordinate version'' of the QS theorem. As the proofs of the
-above lemmas require a fair amount of machinery, and only yield partial evidence
-for a conjecture, we defer detailed proofs to the full version.  
+\begin{proof}[Proof of Theorem~\ref{thm:partial-conjecture}]
+Firstly, for both statements, we note that we may in fact that additionally
+assume that $\vol_{|S|}(K_S) \geq 1$ for all $S \subset [n]$. This follows by
+noting that if there exists $S \subset [n]$ with $\vol_{|S|}(K_S) < 1$, we may
+simply apply induction on $K_S$, after scaling it up to have volume $1$ (which
+only makes the task more difficult). 
+
+\paragraph{\bf Proof of 1.} When $K$ is an ellipsoid, the statement follows
+immediately by applying Lemma~\ref{lem:axis-m-ell} with $E=K$. 
+
+\paragraph{\bf Proof of 2.} First apply Lemma~\ref{lem:axis-m-ell} to $K$,
+noting that the produced section $K_S$ now satisfies the conditions of
+Lemma~\ref{lem:cover-to-section}, from which we derive the result.  
+\end{proof}
 
 \section{The Factorization Approach}
 \label{sec:factorization}
