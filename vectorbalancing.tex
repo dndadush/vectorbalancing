@@ -973,8 +973,11 @@ In section~\ref{sec:prelims} we present basic definitions and preliminary
 material. In section~\ref{sec:tightness}, we present our proof of
 Theorem~\ref{thm:tightness}. In subsection~\ref{sec:rip-convex}, we present our
 partial progress on the restricted invertibility conjecture for convex bodies.
-Lastly, in section~\ref{sec:factorization}, we present the proofs for our
-factorization approach to vector balancing.
+In section~\ref{sec:factorization}, we present the proof of tightness for our
+factorization approach to vector balancing. In section~\ref{sect:fact-alg}, we
+give a polynomial time algorithm to compute the factorization constant up to a
+constant factor. In section~\ref{sec:conv-hulls}, we show that volume lower
+bound is invariant under taking convex hulls.  
 
 % \section{Definitions and Statement of the Volume Lower Bound}
 % 
@@ -1028,8 +1031,8 @@ factorization approach to vector balancing.
 We use the notation $[n] = \set{1,\dots,n}$. For vectors $x,y \in \R^n$, we
 define $\inner{x}{y} = \sum_{i=1}^n x_i y_i$ to be the standard inner product in
 $\R^n$. For a square matrix $T \in \R^{n \times n}$, we define $\tr(T) =
-\sum_{i=1}^n T_{ii}$, and a matrix $B \in \R^{n \times m}$, we define its
-transpose $B^\T_{ij} := B_{ji}$. For two sets $A,B \in \R^n$, we define their
+\sum_{i=1}^n T_{ii}$, and a matrix $M \in \R^{n \times m}$, we define its
+transpose $M^\T_{ij} := M_{ji}$. For two sets $A,B \in \R^n$, we define their
 Minkowski sum $A+B = \set{a+b: a \in A,b \in B}$.
 
 For a linear subspace $W \subseteq \R^n$, we denote the orthogonal projection
@@ -1040,8 +1043,8 @@ projection onto the coordinate subspace $\lspan\{e_i: i \in S)\}$.
 set with non-empty interior. $K$ is symmetric if $K = -K$. A symmetric convex
 body induces a norm $\norm{x}_K = \min \set{s \geq 0: x \in sK}$. If $K$
 contains the origin is its interior, the polar of $K$ is defined by $K^\circ =
-\set{x \in \R^n: \inner{x}{y} \leq 1, \forall y \in K}$. Furthermore, by duality
-theory, we have $(K^{\circ})^\circ = K$. 
+\set{x \in \R^n: \inner{x}{y} \leq 1, \forall y \in K}$. Furthermore, by convex
+duality, we have that relation $(K^{\circ})^\circ = K$. 
 
 For a subset $S \subseteq [n]$, we denote the coordinate section of $K$ on $S$
 by $K_S \eqdef \set{x \in K: x_i = 0, ~\forall i \notin S}$. 
@@ -1055,12 +1058,11 @@ general sections, where $S \subseteq [n]$ is a subset and $W \subseteq \R^n$ is
 a linear subspace. 
 
 \paragraph{\bf Probability and Measure.} We denote the $n$-dimensional Lebesgue
-measure by $\vol_n(\cdot)$. We let $\kappa_n := \vol_n(B_2^n)$ denote the volume
-of the Euclidean ball, which has well known estimate $\kappa_n^{1/n} \approx
-\sqrt{2\pi e}{n}$. 
-
-For a matrix $A \in \R^{n \times k}$, for any measurable set $S \subseteq \R^k$,
-we have $\vol_k(A S) = \det(A^\T A)^{1/2} \vol_k(S)$.  
+measure by $\vol_n(\cdot)$. Let $\kappa_n := \vol_n(B_2^n)$ denote the volume
+of the Euclidean ball, which can be estimated by $\kappa_n^{1/n} \approx
+\sqrt{\frac{2\pi e}{n}}$. For a matrix $A \in \R^{n \times k}$, for any
+measurable set $S \subseteq \R^k$, we have $\vol_k(A S) = \det(A^\T A)^{1/2}
+\vol_k(S)$.  
 
 We define $\gamma_n$ to be the standard Gaussian measure on $\R^n$, that is
 $\gamma_n(A) = \frac{1}{\sqrt{2\pi}^n} \int_A e^{-\|x\|^2/2}$. We will often use
@@ -1071,16 +1073,17 @@ subspace $H$ of $\R^n$, for which we use the notation $\gamma_H$.
 \times n}$ is symmetric if $A = A^\T$. A symmetric matrix $A \in \R^{n \times
 n}$ is positive semidefinite (PSD), written $A \succ 0$, if $x^\T A x \geq 0$
 for all $x \in \R^n$. Equivalently, it is PSD if $A$ if it is symmetric and all
-its eigen values are non-negative. $A$ is positive definite, $A \succ 0$, it is
-eigen values are all strictly positive. Every positive semidefinite matrix $A$
+its eigenvalues are non-negative. $A$ is positive definite, $A \succ 0$, it is
+eigenvalues are all strictly positive. We write $A \succeq B$ to mean $A-B
+\succeq 0$ and similarly for $A \succ B$. Every positive semidefinite matrix $A$
 has a unique positive semidefinite square root, which we denote $A^{1/2}$. 
 
 For an $n \times n$ positive definite matrix $Q$, we define the ellipsoid $E(Q)
 = \set{x \in \R^n: x^\T Q x \leq 1} = A^{-1/2} B_2^n$. The polar ellipsoid is
 $E(Q)^\circ = E(Q^{-1})$ that $\vol_n(E(Q)) = \kappa_n \det(Q)^{-1/2}$. The
 length of the principal axes of $Q$, which are aligned with the eigen vectors of
-$Q$, have length $1/\sqrt{\lambda_n} \geq \cdot \geq 1/\sqrt{\lambda_1}$, where
-$\lambda_1 \geq \cdots \lambda_n > 0$ are the eigen values of $Q$.   
+$Q$, have length $1/\sqrt{\lambda_n} \geq \cdots \geq 1/\sqrt{\lambda_1}$, where
+$\lambda_1 \geq \cdots \lambda_n > 0$ are the eigenvalues of $Q$.   
 
 \paragraph{\bf Membership Oracles.} To interact with a convex body $K \subseteq
 \R^n$, we will assume that it is given by a well-guaranteed membership oracle
@@ -1111,7 +1114,7 @@ and Tzafriri~\cite{bour-tza} due to Spielman and Srivastava.
 
 \begin{theorem}[\cite{bt-constructive}]\label{thm:rest-inv}
 Let $Q \in \R^{n \times n}$ be positive definite quadratic form and $\eps \in
-(0,1)$. Let $\lambda_1 := \lambda_1(Q) > 0$ denote the maximum eigen value of
+(0,1)$. Let $\lambda_1 := \lambda_1(Q) > 0$ denote the maximum eigenvalue of
 $Q$.  For $k = \floor{\eps^2 \tr(Q)/\lambda_1}$, there exists $S \subseteq [n]$,
 $|S|=k$, such that $\lambda_{\rm min}(Q_{S,S}) > \frac{(1-\eps)^2\tr(Q)}{n}$,
 where $\lambda_{\rm min}(Q_{S,S})$ is the minimum eigenvalue of $Q_{S,S}$.
@@ -1129,7 +1132,7 @@ invertibility principle.
 \end{lemma}
 \begin{proof}
 To prove the lemma, we will rely on the classical identity for applying the
-elementary symmetric polynomials to the eigen values of $Q$:
+elementary symmetric polynomials to the eigenvalues of $Q$:
 \begin{equation*}
 \sum_{S \in [n],|S|=k} \prod_{i \in S} \lambda_i \eqdef p_k(\lambda) = \sum_{S \subset [n]: |S| = k}\det(Q_{S,S}).
 \end{equation*}
@@ -1297,11 +1300,12 @@ slight variant of~\cite[Lemma 9]{rothvoss-giann} below.
 
 \begin{theorem}[Partial Colorings via Gaussian Measure]\label{thm:roth-giann}
 Let $0 < \eps \leq 1/60000$ and $\delta = \frac{3}{2}\eps \log_2
-\frac{1}{\eps}$. Let $K \subseteq \R^n$ be a symmetric convex body and assume
-that for some subspace $H \subseteq \R^n$ of dimension at least $(1-\delta)n$,
-we have that $\gamma_H(K) \geq e^{-\delta n}$. Then for any $y \in (-1,1)^n$,
-there exists a polynomial time algorithm which with high probability finds $x
-\in [-1,1]^n$ satisfying $|\bnds(y)| \geq \eps n/2$ and $x-y \in K$.
+\frac{1}{\eps}$. Let $K \subseteq \R^n$ be a symmetric convex body given by a
+membership oracle, and assume that for some subspace $H \subseteq \R^n$ of
+dimension at least $(1-\delta)n$, we have that $\gamma_H(K) \geq e^{-\delta n}$.
+Then for any $y \in (-1,1)^n$, there exists a polynomial time algorithm which
+with high probability finds $x \in [-1,1]^n$ satisfying $|\bnds(y)| \geq \eps
+n/2$ and $x-y \in K$.
 \end{theorem}
 
 We recall that Rothvoss' algorithm, for the special case $y = 0$ (the general
@@ -1476,7 +1480,7 @@ We now have all the ingredients needed to prove our main geometric estimate.
 Let $E := E(Q)$ denote a $1$-regular M-ellipsoid for $K$ and let $\sigma :=
 \sigma(1)$. Let $l_1 \geq \dots \geq l_n > 0$ denote
 the length of the principal axes of $E$, where we recall that
-$l_n^{-2}\geq \dots \geq l_1^{-2} > 0$ are then the eigen values of $Q$.
+$l_n^{-2}\geq \dots \geq l_1^{-2} > 0$ are then the eigenvalues of $Q$.
 
 By the Blaschke-Santal{\'o} inequality, for all $S \subseteq
 [n]$, $|S|=\delta n$, we have that 
@@ -1705,7 +1709,7 @@ Let $E = E(Q)$ be a $1$-regular M-ellipsoid of $K$. Recall that $N(K,E) \leq
 N(E,K) \leq e^{\sigma n}$ where $\sigma := \sigma(1)$ and that
 $\vol_n(K)=\vol_n(E)=1$. Let $\lambda_1 \geq \cdots \geq \lambda_n > 0$ denote
 the axes of the M-ellipsoid, where $1/\lambda_n^2 \geq \cdots \geq 1/\lambda^2_1
-> 0$ are the eigen value of $Q$.
+> 0$ are the eigenvalue of $Q$.
 
 Recall by the proof of Theorem~\ref{thm:gauss-via-volume}
 (equation~\eqref{eq:axis-long}), we have for that 
@@ -1756,7 +1760,7 @@ c_1 \sqrt{n} \leq \lambda_{\ceil{(3/4)n}} \leq \lambda_{\floor{(1/4)n}} \leq c_2
 Let $W$ denote the span of axes of $E$ associated with
 $\lambda_{\floor{(1/4)n}},\dots,\lambda_{\ceil{(3/4)n}}$ and let $\pi_W$ denote
 the corresponding orthogonal projection. Let $Q' = Q^{1/2}\pi_WQ^{1/2} \preceq
-Q$, noting that $Q'$ preserves all the eigen values associated with $W$ while
+Q$, noting that $Q'$ preserves all the eigenvalues associated with $W$ while
 setting the others to zero. Applying Theorem~\ref{thm:rest-inv} to $Q'$ with
 $\eps=1/2$, we get a subset $S \subseteq [n]$, which by~\eqref{eq:axis-sandwich}
 and our choice of $W$ has size at least
