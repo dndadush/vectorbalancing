@@ -135,15 +135,14 @@ the norm of their signed sum is as small as possible. The balancing constant of
 a set of vectors is the smallest number $\beta$, such that any subset of the set
 can be balanced so that their signed sum has norm at most $\beta$. The vector
 balancing constant generalizes combinatorial discrepancy, and is related to
-rounding problems in combinatorial optimization, and to the approximate
-Caratheodory theorem. We study the question of efficiently approximating the
-vector balancing constant of any set of vectors, with respect to an arbitrary
-norm. We show that the vector balancing constant can be approximated in
-polynomial time to within factors logarithmic in the dimension, and is
-characterized by (an appropriately optimized version of) a known volumetric
-lower bound. Our techniques draw on results from geometric functional analysis
-and the theory of Gaussian processes.  Our results also imply an improved
-approximation algorithm for hereditary discrepancy. 
+rounding problems in combinatorial optimization. We study the question of
+efficiently approximating the vector balancing constant of any set of vectors,
+with respect to an arbitrary norm. We show that the vector balancing constant
+can be approximated in polynomial time to within factors logarithmic in the
+dimension, and is characterized by (an appropriately optimized version of) a
+known volumetric lower bound. Our techniques draw on results from geometric
+functional analysis and the theory of Gaussian processes.  Our results also
+imply an improved approximation algorithm for hereditary discrepancy. 
 \end{abstract}
 
 \textbf{Keywords.}  Discrepancy, Convex Geometry, Gaussian Measure, M-ellipsoid.
@@ -352,7 +351,7 @@ discrepancy problems has on the other hand not been studied before.
 
 In terms of coloring algorithms, Bansal~\cite{Bansal10} gave a partial coloring
 based random walk algorithm which on $U \in \R^{m \times n}$, produces a full
-coloring of $\ell_\infty$ discrepancy at most $O(\sqrt{\log m \log \rank(U)}
+coloring of $\ell_\infty$ discrepancy $O(\sqrt{\log m \log \rank(U)}
 \hd(U,B_\infty^m))$, where $\rank(U)$ is the rank of $U$. Recently,
 Larsen~\cite{Larsen17} gave an algorithm for the $\ell_2$ norm achieving
 discrepancy $O(\sqrt{\rank(U)}\hd(U,B_2^m))$. 
@@ -443,13 +442,6 @@ guarantees in almost every setting which has been studied. Furthermore our
 methods provide a unified approach for studying discrepancy in arbitrary norms,
 which we expect to have further applications.
 
-As mentioned above, our approximate characterization of hereditary discrepancy
-transfers seemlessly to the vector balancing setting (note that the
-approximation bounds do not depend on $N$). We note that these characterizations
-easily imply lower and upper bounds for $\vb(B_p^n,B_q^n)$ for any $p,q \in
-[1,\infty]$, which are tight with an $O(\min \set{q,\sqrt{\log n}})$ factor.
-While not novel, they perhaps illustrate the utility of the general approach.  
-
 Interestingly, our results imply a tighter relationship between vector balancing
 and hereditary discrepancy than one might initially expect. That is,
 neither the volumetric lower bound we use nor our factorization based upper
@@ -473,49 +465,31 @@ approaches the first two tasks at hand are: (1) find a stronger lower bound and
 first problem was already given by Banaszczyk\cite{Bana93}, which we present in
 slightly adapted form below.
 
-\begin{lemma}[Volume Lower Bound]
+\begin{restatable}[Volume Lower Bound]{lemma}{vollbstat} 
 \label{lem:vol-lb}
 Let $U=(u_1,\dots,u_N) \in \R^{n \times N}$ and $K \subseteq \R^n$ be a
-symmetric convex body. For $k \in [n]$, $S \subseteq [N]$, $|S| = k$, define
-\dnote{move proof to prelims / appendix}  
+symmetric convex body. For $S \subseteq [N]$, let $U_S$ denote the columns
+of $U$ in $S$. For $k \in [n]$, define 
 \begin{equation}
 \label{eq:vol-lb}
-\vollb((u_i)_{i \in S},K) \eqdef \vollb(U_S, K) \eqdef \vol_k(\{x \in \R^k: U_S x \in K\})^{-1/k}.
+\vollb^{\rm h}_k((u_i)_{i=1}^n,K) \eqdef \vollb^{\rm h}_k(U, K) \eqdef
+\max_{S \subseteq [N],|S|=k} \vol_k(\{x \in \R^k: U_S x \in K\})^{-1/k}.
 \end{equation}
 Then, we have that
 \begin{equation}
 \label{eq:vol-lbh}
-\vollb^{\rm h}(U,K) \eqdef \max_{S \subseteq [N], |S| \in [n]} \vollb(U_S,K)
-\leq \hd(U,K). 
+\vollb^{\rm h}((u_i)_{i=1}^n,K) \eqdef \vollb^{\rm h}(U,K) \eqdef \max_{k \in [n]} \vollb^{\rm h}_k(U,K) \leq \hd(U,K). 
 \end{equation}
-\end{lemma}
-\begin{proof}
-For $S \subseteq [N]$, $|S| = k \in [n]$, let $C = \set{x \in \R^k: U_S x \in
-K}$. It is direct to verify $\hd((e_i)_{i=1}^k,C) = \hd(U_S,K) \leq \hd(U,K)$,
-where $(e_i)_{i=1}^k$ is the standard basis of $\R^k$. Thus, it suffices to
-show that $\hd((e_i)_{i=1}^k,C) \geq \vol_k(C)^{-1/k}$. For $x \in \R^k$, $A
-\subseteq \R^k$ finite, let $d(x,A) := \min_{a \in A} \norm{a-x}_C$
-denote the minimum distance between $x$ and $A$ under the \\ (semi-)norm induced by
-$C$. From here, we apply the standard reduction from linear discrepancy to
-hereditary discrepancy~\cite{LSV}, to get
-\begin{align*}
-\max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \max_{x \in [0,1]^n}
-d(x,\{0,\tfrac12,1\}^k) + \max_{x' \in \{0,\tfrac12,1\}} d(x',\set{0,1}^n) \\
-&\leq \frac{1}{2} \max_{x \in [0,1]^k} d(x,\set{0,1}^k) + \frac{1}{2}
-\hd((e_i)_{i=1}^k,C) \\
-&\Rightarrow \\
-\max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \hd((e_i)_{i=1}^k,C).
-\end{align*}
-Let $r = \hd((e_i)_{i=1}^k,C)$, we in particular have that $[0,1]^k \subseteq
-\set{0,1}^k + rC$. Thus
-\begin{align*}
-\vol_k(rC) &\geq \vol_s(\cup_{x \in \set{0,1}^k} rC \cap (-x+[0,1)^k)) 
-             = \vol_k(\cup_{x \in \set{0,1}^k} (rC+x) \cap [0,1)^k) \\
-             &= \vol_k((\set{0,1}^k+rC) \cap [0,1)^k) 
-              \geq \vol_k([0,1)^k) = 1 .
-\end{align*}
-In particular, $r \geq \vol_k(C)^{-1/k}$ as needed.
-\end{proof}
+\end{restatable}
+
+A formal proof of the above is given in the preliminaries (see
+section~\ref{sec:proof-vollb}). At a high level, the proof is a simple covering
+argument, where it is argued that for any subset $S$, $|S|=k$, every point in
+$[0,1]^k$ is at distance at most $\hd(U,K)$ from $\set{0,1}^k$ under the norm
+induced by $C := \set{x \in \R^k: U_S x \in K}$. Equivalently an $\hd(U,K)$
+scaling of $C$ placed around the points of $\set{0,1}^k$ cover $[0,1]^k$, and
+hence by a standard lattice argument must have volume at least that of
+$[0,1]^k$, namely $1$. This yields the desired lower bound after rearranging. 
 
 We note that the volume lower bound extends in the obvious way to vector
 balancing. In particular, for two symmetric convex bodies $C,K \subseteq \R^n$,
@@ -536,13 +510,13 @@ $\norm{Ux}_\infty = \norm{x}_1$ and hence any coloring $x \in \set{-1,1}$ must
 have discrepancy $\norm{x}_1 = n$. Using the previous logic, the volume lower
 bound to the full system yields by standard estimates
 \[
-\vollb(U,B^m_\infty) = \vol_n(\set{x \in \R^n: \norm{x}_1 \leq 1})^{-1/n}
+\vollb(U,B^m_\infty) \geq \vol_n(\set{x \in \R^n: \norm{x}_1 \leq 1})^{-1/n}
 = \vol_n(B_1^n)^{-1/n} = (n!/2^n)^{1/n} \geq n/(2e), 
 \]
 which is essentially tight. 
 
 \paragraph{\bf From Volume to Coloring.} The above example gives hope that the
-volume lower bound can circumvent bad dependencies on the facet complexity of
+volume lower bound can circumvent a dependency on the facet complexity of
 the norm. Our first main result, shows that indeed this is the case:
 
 \begin{restatable}[Tightness of the Volume Lower Bound]{theorem}{tightvollb} 
@@ -592,7 +566,7 @@ vectors of $U$ now correspond to the coordinate basis, it is direct to verify th
 \]  
 In particular, the assumption $\vollb^{\rm h}((e_i)_{i=1}^n,K) = 1$ implies that
 \begin{equation}
-\label{eq:main-condition}
+\label{eq:big-volume}
 \vol_{|S|}(K_S) \geq 1,~\forall S \subseteq [n]. 
 \end{equation}
 Under this condition, our goal can now be stated as finding a coloring $x \in
@@ -603,72 +577,199 @@ Bansal~\cite{Bansal10} uses a ``sticky'' random walk on the coordinates, where
 the increments are computed via an SDP to guarantee that their variance along
 any facet is at most $\hd((e_i)_{i=1}^n,K)^2$, while the variance along all
 (active) coordinate directions is at least $1$ (i.e.~we want to hit cube
-constraints faster). As this only gives probability error guarantees for each
+constraints faster). As this only gives probabilistic error guarantees for each
 constraint in isolation, a union bound is used to get a global guarantee,
-incurring a $O(\sqrt{\log m})$ dependence. 
+incurring the $O(\sqrt{\log m})$ dependence. 
 
 To avoid the ``union bound'', we instead use Rothvoss's partial coloring
 algorithm, which simply samples a random Gaussian vector $X \in \R^n$ and
 computes the closest point in Euclidean distance $x$ to $X$ in $K \cap [-1,1]^n$
 as the candidate partial coloring. As long as $K$ has ``large enough'' Gaussian
-measure (see Theorem~\ref{thm:roth-giann}), Rothvoss shows that $x$ has at least
+measure, Rothvoss shows that $x$ has at least
 a constant fraction of its components at $\pm 1$. While this method can in
 essence better leverage the geometry of $K$ than Bansal's method (in particular,
-it does need an explicit description of $K$), it is apriori unclear why Gaussian
+it does not need an explicit description of $K$), it is apriori unclear why Gaussian
 measure should be large enough in the present context. 
 
-Our main technical result, is to show that under condition~\ref{eq:big-volume},
-there exists a section $K$ of dimension nearly $n$ whose Gaussian measure is at
-least $2^{-O(n)}$ (see Theorem~\ref{thm:gauss-via-volume} for a precise
-statement). 
+Our main technical result is that if all the coordinate sections of
+$K$ have volume at least $1$ (i.e.~condition~\ref{eq:big-volume}), then there indeed
+exists a section of $K$ of dimension close to $n$, whose Gaussian measure is
+``large'' after appropriately scaling. Specifically, we show that for any
+$\delta \in (0,1)$, there exists a subspace $H$ of dimension $(1-\delta)n$ such
+that the Gaussian measure of $2^{O(1/\delta)} (K \cap H)$ is at least
+$2^{-\delta n}$ (see Theorem~\ref{thm:gauss-via-volume} for the exact
+statement). We sketch the ideas in the next subsection.
 
-This notion of ``largeness'' in fact suffices for Rothvoss's partial
-coloring algorithm. From here, we simply apply it $O(\log n)$ times to yield the
-desired full coloring. 
+The existence of a large section of $K$ with not too small Gaussian measure in
+fact suffices to run Rothvoss's partial coloring algorithm (see
+Theorem~\ref{thm:roth-giann}). Conveniently, one does not need to know the
+section explicitly, as its existence is only used in the analysis of the
+algorithm. Since condition~\ref{eq:big-volume} is hereditary, we can now
+find partial colorings of $K$-discrepancy $O(1)$ on any subset of coordinates.
+Thus, applying $O(\log n)$ partial coloring phases in the standard way yields
+the desired full coloring. 
 
-We note that the discrepancy guarantees are a natural byproduct of the
-algorithm, and do not need to be explicitly enforced as in Bansal's algorithm.  
+A useful restatement of the above is that Rothvoss's algorithm can always find
+partial colorings with discrepancy $O(1)$ times the volume
+lower bound. We note that this guarantee is a natural by-product of algorithm
+(once one has guessed the appropriate scaling), which does not need to be
+explicitly enforced as in Bansal's algorithm.
 
-\dnote{TODO: finish explaining Rothvoss}
+\paragraph{\bf Finding a section with large Gaussian measure.} We now sketch how
+to find a section of $K$ of large Gaussian measure the assumption that
+$\vol_{|S|}(K_S) \geq 1, \forall S \subseteq [n]$. The main tool we require is
+the M-ellipsoid from convex geometry~\cite{Milman86-reverseBM}. The M-ellipsoid
+$E$ of $K$ is an ellipsoid which approximates $K$ well from the perspective of
+covering, that is $2^{O(n)}$ translates of $E$ suffice to cover $K$ and vice
+versa. 
 
+The main idea is to use the volumetric assumption to show that the largest
+$(1-\delta)n$ axes of $E$, for $\delta \in (0,1)$ of our choice, have length at
+least $\sqrt{n}2^{-O(1/\delta)}$, and then use the subspace generated by these
+axes for the section of $K$ we use. On this subspace $H$, we have that a
+$2^{O(1/\delta)}$ scaling of $E \cap H$ contains the $\sqrt{n}$ ball, and thus
+by the covering estimate $2^{O(n)}$ translates of $2^{O(1/\delta)}(K \cap H)$
+covers the $\sqrt{n}$ ball. Since the $\sqrt{n}$ ball on $H$ has Gaussian
+measure at least $1/2$, the prior covering estimate indeed implies that
+$2^{O(1/\delta)}(K \cap H)$ has Gaussian measure $2^{-O(n)}$, noting that
+shifting $2^{O(1/\delta)}(K \cap H)$ away from the origin only reduces Gaussian
+measure. Using an M-ellipsoid with appropriate regularity properties (see
+Theorem~\ref{thm:reg-m}), one can scale $K \cap H$ by another $2^{O(1/\delta)}$
+factor, so that the preceding argument yields Gaussian measure at least
+$2^{-\delta n}$. 
+
+We now explain why the axes of $E$ are indeed long. By the covering estimates,
+for any $S \subseteq [n]$, $|S| = \delta n$, the sections $E_S$ and $K_S$ satisfy
+\[
+\vol_{\delta n}(E_S)^{1/{\delta n}} \geq 2^{-O(1/\delta)} \vol_{\delta
+n}(K_S)^{1/{\delta n}} \geq 2^{-O(1/\delta)},
+\]
+where the last inequality is by assumption. Using a form of the
+restricted invertibility principle for determinants, one can show that if all
+coordinate sections of $E$ of dimension $\delta n$ have large volume, then so
+does every section of $E$ of the same dimension.  Precisely, one gets that 
+\[
+\min_{\dim(W)=\delta n} \vol_{\delta n}(E \cap W)^{1/\delta n} \geq \binom{n}{\delta
+n}^{-1/\delta n} \min_{|S|=\delta n} \vol_{\delta n}(E_S)^{1/\delta n} \geq
+2^{O(-1/\delta)}.
+\]
+In particular, the above implies that the geometric average of the
+\emph{shortest} $\delta n$ axes of $E$ (corresponding to the minimum volume
+section above), must have length $\sqrt{n}2^{-O(1/\delta)}$ since the ball of
+volume $1$ in dimension $\delta n$ has radius $\Omega(\sqrt{\delta n})$. But
+then, the longest $(1-\delta) n$ axes all have have length
+$\sqrt{n}2^{-O(1/\delta)}$. This completes the proof sketch.  
+
+\paragraph{\bf The Discrepancy of Partial Colorings.} Our analysis of Rothvoss's
+algorithm opens up the tantalizing possibility that it may indeed be optimal for
+finding partial colorings in a hereditary sense. More precisely, we conjecture
+that if when run on an instance $U$ with norm ball $K$, the algorithm almost
+always produces partial colorings with $K$-discrepancy at least $D$, then there
+exists a subset of $S$ of the columns of $U$ such that every partial coloring
+of $U_S$ has discrepancy $\Omega(D)$. The starting point for this conjecture is
+our upper bound of $O(1) \vollb^{\rm h}(U,K)$, on the discrepancy of the partial
+colorings the algorithm computes. We now provide a purely geometric conjecture,
+which would imply the above ``hereditary optimality'' for Rothvoss's algorithm. 
+
+As in the last subsection, we may assume that $U=(e_1,\dots,e_n)$ is the
+standard basis of $\R^n$ and that $\vollb((e_i)_{i=1}^n,K) = 1$. To prove the
+conjecture, it suffices to show that exists some subset $S \subseteq [n]$ of
+coordinates, such that all partial colorings have $K$-discrepancy $\Omega(1)$.
+For concreteness, let us ask for partial colorings which color at least $|S|/2$
+coordinates (the precise constant will not matter). For $x \in [-1,1]^n$, define
+$\bnds(x) = \set{i \in [n]: x_i \in \set{-1,1}}$.  With this notation, our goal
+is to find $S \subseteq [n]$, such that $\forall x \in [-1,1]^S$, $|\bnds(x)|
+\geq |S|/2$, $\norm{\sum_{i \in S} x_i e_i}_K \geq \Omega(1)$.
+
+We explain the candidate geometric obstruction to low discrepancy partial
+colorings, which is a natural generalization of the so-called spectral lower
+bound for $\ell_2$ discrepancy. Assume now that for some subset $S \subseteq
+[n]$, we have that 
+\begin{equation}
+\label{eq:spec-obst-intro}
+K_S \subseteq c \sqrt{|S|} B_2^S,
+\end{equation}
+where $B_2^S := (B_2^n)_S$, for some constant $c > 0$. Since any partial
+coloring $x \in [-1,1]^S$, $|\bnds(x)|\geq |S|/2$, clearly has $\norm{x}_2 \geq
+\sqrt{|S|/2}$, we must have that
+\begin{equation}
+\label{eq:spec-lb-intro}
+\frac{1}{c\sqrt{2}} 
+\leq \Bigl\|\sum_{i \in S} x_i e_i\Bigr\|_{c\sqrt{|S|}B_2^S} 
+\leq \Bigl\|\sum_{i \in S} x_i e_i\Bigr\|_{K_S}.
+\end{equation}
+In particular, every partial coloring on $S$ has discrepancy at least $\tfrac{1}{c
+\sqrt{2}} = \Omega(1)$, as desired.
+
+Given the above, we may now reduce the conjecture to the following natural
+geometric question:
+
+\begin{restatable}[Restricted Invertibility for Convex
+Bodies]{conjecture}{ripconvex} 
+\label{conj:rip-convex-bodies}
+There exists an absolute constant $c \geq 1$, such that for any $n \in \N$
+and symmetric convex body $K \subseteq \R^n$ of volume at most $1$, there exists $S
+\subseteq [n]$, $S \neq \emptyset$, such that $K_S \subseteq c\sqrt{|S|}B_2^S$. 
+\end{restatable}
+
+To see that this indeed implies the required statement, note that if
+$\vollb((e_i)_{i=1}^n,K) = 1$, then by definition there exists $A \subseteq
+[n]$, $|A| \geq 1$, such that $\vol_{|A|}(K_A) \leq 1$. Now applying the above
+conjecture to $K_A$ yields the desired result. 
+
+Two natural relaxations of the conjectures are to ask (1) does it hold for
+ellipsoids and (2) does it hold for general sections instead of coordinate
+sections? Our main evidence for this conjecture is that indeed both these
+statements are true. We note that (1) indeed implies the optimality of
+Rothvoss's partial coloring algorithm for $\ell_2$ discrepancy. Our results here
+are slightly stronger than (1)+(2), as we in some sense manage to get ``halfway
+there'' with coordinates sections, by working with the M-ellipsoid, and only for
+the last step do we need to resort general sections. We note that the above
+conjecture is closely related to the Bourgain-Tzafriri restricted invertibility
+principle, and indeed our proof for ellipsoids reduces to it. We refer the
+reader to section~\ref{sec:rip-convex} for further details and proofs.
+
+\paragraph{\bf A Factorization Approach for Vector Balancing.}   
 \dnote{TODO: talk about factorization approach}
 
-\subsection{Application to Approximate Caratheodory} 
+As mentioned above, our approximate characterization of hereditary discrepancy
+transfers seemlessly to the vector balancing setting (note that the
+approximation bounds do not depend on $N$). We note that these characterizations
+easily imply lower and upper bounds for $\vb(B_p^n,B_q^n)$ for any $p,q \in
+[1,\infty]$, which are tight with an $O(\min \set{q,\sqrt{\log n}})$ factor.
+While not novel, they perhaps illustrate the utility of the general approach.  
 
 \subsection{Organization}
 
-\dnote{TODO?}
+In section~\ref{sec:prelims} we present basic definitions and preliminary
+material. In section~\ref{sec:tightness}, we present our proof of
+Theorem~\ref{thm:tightness}. In subsection~\ref{sec:rip-convex}, we present our
+partial progress on the restricted invertibility conjecture for convex bodies.
+Lastly, in section~\ref{sec:factorization}, we present the proofs for our
+factorization approach to vector balancing.
 
-\section{Definitions and Statement of the Volume Lower Bound}
-
-In what follows, we use we will use $\inner{\cdot}{\cdot}$ for the standard
-inner product on $\R^n$. Duality and traces are defined with respect to this
-inner product. $K^\circ$ denotes the polar of a set $K \subseteq \R^n$. We use
-$\vol_n(K)$ for the $n$-dimensional volume (standard Lebesgue measure in $\R^n$)
-of $K$ and $\kappa_n$ for the volume $B_2^n$, the unit Euclidean ball. For a
-symmetric convex body $K$, we define $\norm{x}_K = \min \set{s \geq 0: x \in sK}$
-to be the norm induced by $K$.
-
-Let $C$ and $K$ be two symmetric convex bodies in $\R^n$. We define the vector
-balancing constant of $C$ and $K$ by 
-\[
-\vb(C, K) \eqdef \sup\Bigg\{ 
-\min_{\eps_1, \ldots,\eps_N \in \{-1, 1\}} \Bigl\|\sum_{i = 1}^N \eps_i
-u_i \Bigr\|_{K}: N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\}.
-\]
-Given a sequence $(u_1, \ldots, u_N)$ of vectors in $\R^n$, we define the
-discrepancy and hereditary discrepancy with respect to $K$ as follows:
-\begin{align*}
-\disc((u_i)_{i = 1}^N,K) &\eqdef \min_{\eps_1, \ldots,\eps_N \in
-  \{-1, 1\}}
-\Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{K};\\
-\hd((u_i)_{i = 1}^N, K) &\eqdef \max_{S \subseteq  [N]}{\disc((u_i)_S, K)}.
-\end{align*}
-It follows trivially from the definitions that 
-\[
-\vb(C, K) = \sup\{\hd((u_i)_{i = 1}^N, K)\},
-\]
-where the supremum is taken over all finite sequence of vectors in $C$.
+% \section{Definitions and Statement of the Volume Lower Bound}
+% 
+% Let $C$ and $K$ be two symmetric convex bodies in $\R^n$. We define the vector
+% balancing constant of $C$ and $K$ by 
+% \[
+% \vb(C, K) \eqdef \sup\Bigg\{ 
+% \min_{\eps_1, \ldots,\eps_N \in \{-1, 1\}} \Bigl\|\sum_{i = 1}^N \eps_i
+% u_i \Bigr\|_{K}: N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\}.
+% \]
+% Given a sequence $(u_1, \ldots, u_N)$ of vectors in $\R^n$, we define the
+% discrepancy and hereditary discrepancy with respect to $K$ as follows:
+% \begin{align*}
+% \disc((u_i)_{i = 1}^N,K) &\eqdef \min_{\eps_1, \ldots,\eps_N \in
+%   \{-1, 1\}}
+% \Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{K};\\
+% \hd((u_i)_{i = 1}^N, K) &\eqdef \max_{S \subseteq  [N]}{\disc((u_i)_S, K)}.
+% \end{align*}
+% It follows trivially from the definitions that 
+% \[
+% \vb(C, K) = \sup\{\hd((u_i)_{i = 1}^N, K)\},
+% \]
+% where the supremum is taken over all finite sequence of vectors in $C$.
 
 % For a non-singular matrix $A \in \R^{n \times k}$, we define $\detb(A) :=
 % \det(A^\T A)^{1/2}$.  
@@ -692,14 +793,24 @@ where the supremum is taken over all finite sequence of vectors in $C$.
 % Here $G_{S,S}$ is the principle submatrix of $G$ whose rows and
 % columns are indexed by the set $S$.
 
+
+\section{Preliminaries}
+\label{sec:prelims}
+
+In what follows, we use we will use $\inner{\cdot}{\cdot}$ for the standard
+inner product on $\R^n$. Duality and traces are defined with respect to this
+inner product. $K^\circ$ denotes the polar of a set $K \subseteq \R^n$. We use
+$\vol_n(K)$ for the $n$-dimensional volume (standard Lebesgue measure in $\R^n$)
+of $K$ and $\kappa_n$ for the volume $B_2^n$, the unit Euclidean ball. For a
+symmetric convex body $K$, we define $\norm{x}_K = \min \set{s \geq 0: x \in sK}$
+to be the norm induced by $K$.
+
+
 For vectors $x,y \in \R^n$, we define $\inner{x}{y} = x^\T y$ to be the standard
 inner product in $\R^n$. For a matrix $A \in \R^{n \times k}$, we will be
 interested in the volume of the parallelepiped generated by the columns of $A$,
 which can be computed by $\vol_k(A[0,1)^k) = \det(A^\T A)^{1/2}$. Banaszczyk
 established the following volumetric lower bound on hereditary discrepancy:
-
-
-\section{Preliminaries}
 
 We define $\gamma_n$ to be the standard Gaussian measure on $\R^n$, that is
 $\gamma_n(A) = \frac{1}{\sqrt{2\pi}^n} \int_A e^{-\|x\|^2/2}$. We will often use
@@ -720,6 +831,38 @@ denote the coordinate section of $K$ on $S$ by $K_S \eqdef \set{x \in K: x_i =
 $\ell_p$ ball in dimension $n$, $B_p^S := (B_p^n)_S$ and $B_p^W := (B_p^n) \cap W$
 for corresponding coordinate and general sections. For a vector $x \in
 [-1,1]^n$, we write $\bnds(x) = \set{i \in [n]: x_i \in \set{-1,1}}$.
+
+\subsection{Proof of Volume Lower Bound}
+\label{sec:proof-vollb}
+
+\vollbstat*
+\begin{proof}
+For $S \subseteq [N]$, $|S| = k \in [n]$, let $C = \set{x \in \R^k: U_S x \in
+K}$. It is direct to verify $\hd((e_i)_{i=1}^k,C) = \hd(U_S,K) \leq \hd(U,K)$,
+where $(e_i)_{i=1}^k$ is the standard basis of $\R^k$. Thus, it suffices to
+show that $\hd((e_i)_{i=1}^k,C) \geq \vol_k(C)^{-1/k}$. For $x \in \R^k$, $A
+\subseteq \R^k$ finite, let $d(x,A) := \min_{a \in A} \norm{a-x}_C$
+denote the minimum distance between $x$ and $A$ under the \\ (semi-)norm induced by
+$C$. From here, we apply the standard reduction from linear discrepancy to
+hereditary discrepancy~\cite{LSV}, to get
+\begin{align*}
+\max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \max_{x \in [0,1]^n}
+d(x,\{0,\tfrac12,1\}^k) + \max_{x' \in \{0,\tfrac12,1\}} d(x',\set{0,1}^n) \\
+&\leq \frac{1}{2} \max_{x \in [0,1]^k} d(x,\set{0,1}^k) + \frac{1}{2}
+\hd((e_i)_{i=1}^k,C) \\
+&\Rightarrow \\
+\max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \hd((e_i)_{i=1}^k,C).
+\end{align*}
+Let $r = \hd((e_i)_{i=1}^k,C)$, we in particular have that $[0,1]^k \subseteq
+\set{0,1}^k + rC$. Thus
+\begin{align*}
+\vol_k(rC) &\geq \vol_s(\cup_{x \in \set{0,1}^k} rC \cap (-x+[0,1)^k)) 
+             = \vol_k(\cup_{x \in \set{0,1}^k} (rC+x) \cap [0,1)^k) \\
+             &= \vol_k((\set{0,1}^k+rC) \cap [0,1)^k) 
+              \geq \vol_k([0,1)^k) = 1 .
+\end{align*}
+In particular, $r \geq \vol_k(C)^{-1/k}$ as needed.
+\end{proof}
 
 \section{Tightness of the Volume Lower Bound}
 \label{sec:tightness}
@@ -865,12 +1008,12 @@ proportional dimension on which $K$ has large Gaussian measure.
 
 \begin{theorem}[Gaussian Measure via Volume]
 \label{thm:gauss-via-volume}
-There exists a decreasing function $\eta: (0,1) \rightarrow \R_+$ such that the
-following holds. For any $n \in \N$, $K \subseteq \R^n$ symmetric convex body,
-$2 \leq k \leq n-1$, $\alpha = k/n$, such that $\forall S \subseteq [n]$,
-$|S| = \alpha n$, $\vol_{\delta n}(K_S) \geq 1$, there exists a linear
-subspace $H$ of dimension $(1-\delta)n$ for which $\gamma_H(\eta(\delta) K) \geq
-e^{-\delta n}$.
+There exists a decreasing function $\eta: (0,1) \rightarrow \R_+$, $\eta(\delta)
+= e^{O(1/\delta)}$, such that the following holds. For any $n \in \N$, $K
+\subseteq \R^n$ symmetric convex body, $2 \leq k \leq n-1$, $\alpha = k/n$, such
+that $\forall S \subseteq [n]$, $|S| = \alpha n$, $\vol_{\delta n}(K_S) \geq 1$,
+there exists a linear subspace $H$ of dimension $(1-\delta)n$ for which
+$\gamma_H(\eta(\delta) K) \geq e^{-\delta n}$.
 \end{theorem}
 
 We note that the above theorem is primarily interesting in the case where
@@ -950,6 +1093,7 @@ make the Gaussian measure of the large section of $K$ we find as close to $1$ as
 we like after a sufficient scaling. 
 
 \begin{theorem}[Regular M-ellipsoid]
+\label{thm:reg-m}
 There exists an absolute constant $c_0 > 0$, such that any $0 < \alpha < 2$,
 letting $\sigma(\alpha) = c_0(2-\alpha)^{-1/2}$, $n \in \N$, and symmetric
 convex body $K \subseteq \R^n$, there exists an ellipsoid $E \subseteq \R^n$,
@@ -1099,12 +1243,13 @@ N(\sqrt{n} (B_2^n \cap H), 2 t c(\delta) (K \cap H))
 &\leq N(E, t K) \leq e^{\sigma n / t} = e^{\delta n/2} \text{ .}
 \end{align*}
 Since $\gamma_H(\sqrt{n} B_2^n \cap H) \geq 1/2$, setting $\eta := \eta(\delta)
-=\frac{2c(\delta)\sigma}{\delta}$, we get that $\gamma_H(\eta K \cap H) \geq
-\frac{1}{2} e^{-\delta n/2} \geq e^{-\delta n}$, as needed. Lastly, $\eta$ as
-defined above is easily checked to be decreasing in $\delta$.
+=\frac{2c(\delta)\sigma}{\delta} = e^{O(1/\delta)}$, we get that $\gamma_H(\eta K
+\cap H) \geq \frac{1}{2} e^{-\delta n/2} \geq e^{-\delta n}$, as needed. Lastly,
+$\eta$ as defined above is easily checked to be decreasing in $\delta$.
 \end{proof}
 
 \subsection{The Discrepancy of Partial Colorings}
+\label{sec:rip-convex}
 
 In this section we discuss a geometric conjecture which would imply that a tight
 relationship between the discrepancy of partial colorings and the volume lower
@@ -1301,6 +1446,7 @@ above lemmas require a fair amount of machinery, and only yield partial evidence
 for a conjecture, we defer detailed proofs to the full version.  
 
 \section{The Factorization Approach}
+\label{sec:factorization}
 
 In the inductive proof of Theorem~\ref{thm:tightness} we need to keep
 alternating between computing Gaussian estimates based on volume
