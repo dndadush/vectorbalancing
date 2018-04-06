@@ -2698,9 +2698,10 @@ identity map $I:X \to Z$. An evaluation oracle for $Y$ easily gives an
 evaluation oracle for $Z$.
 
 As a first step, we transform the problem so that $B_X$ is
-well-rounded, which makes our problem well-conditioned in a sense that
-we will make precise later. To round $B_X$, we use a classical
-algorithm of Khachiyan.
+well-rounded. Roughly speaking, this makes the problem
+well-conditioned. For example, it will allow us to determine
+$\lambda(I)$ up to a factor of $O(\sqrt{n})$. To round
+$B_X$, we use a classical algorithm of Khachiyan.
 
 \begin{theorem}[\cite{Khachiyan96}]\label{thm:khach-round}
   There exists an algorithm running in time $O(mn^2(\log n + \log \log
@@ -2743,7 +2744,7 @@ Our first lemma shows that we can strengthen the constraints
 \eqref{eq:fact-constr}--\eqref{eq:fact-psd} without affecting the
 value of the optimization problem significantly. The stronger
 constraints will be helpful in showing that the objective is Lipschitz
-over the feasible region. 
+and bounded over the feasible region. 
 
 \begin{lemma}\label{lm:psd-lb}
   Assume that $X$ and $Y$ are normed spaces over $\R^n$ such that $B_X
@@ -2772,13 +2773,17 @@ over the feasible region.
   implies \eqref{eq:fact-psd}, so, trivially, the value of
   \eqref{eq:alg-obj}--\eqref{eq:alg-psd} is at least the value of
   \eqref{eq:fact-obj}--\eqref{eq:fact-psd}, which, by
-  Lemma~\ref{lm:fact-convex}, equals $\lambda(I)$. In the reverse
-  direction, let us take an operator $A:X\to X^*$ achieving the
-  optimal value $\lambda(I)$ in
+  Lemma~\ref{lm:fact-convex}, equals $\lambda(I)$. Moreover, again by
+  Lemma~\ref{lm:fact-convex}, \eqref{eq:alg-obj}--\eqref{eq:alg-psd}
+  is a convex optimization problem. 
+  
+  To show that the value of \eqref{eq:alg-obj}--\eqref{eq:alg-psd} is
+  at most $\sqrt{2}\lambda(I)$, let us take an operator $A:X\to X^*$
+  achieving the optimal value $\lambda(I)$ in
   \eqref{eq:fact-obj}--\eqref{eq:fact-psd}, and let us identify $A$
-  with its matrix in the standard basis. Let $\tilde{A} \eqdef \frac12(A +
-  I)$. Since $B_X \subseteq B_2^n$ by assumption, and $A$ satisfies
-  \eqref{eq:fact-constr}, we have 
+  with its matrix in the standard basis. Let $\tilde{A} \eqdef
+  \frac12(A + I)$. Since $B_X \subseteq B_2^n$ by assumption, and $A$
+  satisfies \eqref{eq:fact-constr}, we have
   \[
   \frac12 x_i^T (A + I) x_i = \frac{x_i^T A x_i + \|x_i \|_2^2 }{2} 
   \le 1,
@@ -2798,9 +2803,10 @@ over the feasible region.
 
   The statement after ``moreover'' follows because if there exists
   some $x \in \R^n$ for which $x^\T A x > 4n \|x\|_2^2$ then for $y =
-  \frac{x}{2\sqrt{n}\|x\|_2}$ we have $y \in B_X = \conv\{\pm x_1,
+  \frac{x}{2\sqrt{n}\|x\|_2}$ we have $y \in \frac{1}{2\sqrt{n}}B_2^n
+  \subseteq B_X = \conv\{\pm x_1,
   \ldots, \pm x_m\}$ but $x^\T A x > 1$. This would imply that for at
-  least one extreme point $x_i$ of $B_X$ we have $x^\T A x > 1$, in
+  least one extreme point $x_i$ of $B_X$ we have $x_i^\T A x_i > 1$, in
   contradiction with \eqref{eq:alg-constr}. 
 \end{proof}
 
@@ -2817,14 +2823,17 @@ is Lipschitz over the feasible region
   where $\|A - B\|_{op}$ is the largest singular value of $A-B$.
 \end{lemma}
 \begin{proof}
-  Observe that, because any $B$ which is feasible for
+  Observe that, because any $A$ which is feasible for
   \eqref{eq:alg-constr}--\eqref{eq:alg-psd} satisfies $\frac12 I
   \preceq A \preceq 4nI$, we have
   \[
   \frac{1}{2\sqrt{n}}(\E\|Z\|_Y^2)^{1/2} 
-  \le (\E\|B^{-1/2}Z\|_Y^2)^{1/2}  \le \sqrt{2} (\E\|Z\|_Y^2)^{1/2}. 
+  \le (\E\|A^{-1/2}Z\|_Y^2)^{1/2}  \le \sqrt{2} (\E\|Z\|_Y^2)^{1/2}. 
   \]
-  Therefore, for any feasible $B$, by Lemma~\ref{lm:psd-lb}, we have
+  Therefore, for any feasible $A$, $(\E\|A^{-1/2}Z\|_Y^2)^{1/2}$ is
+  within a factor of $2\sqrt{2n}$ from the minimum of
+  \eqref{eq:alg-obj}--\eqref{eq:alg-psd}. By Lemma~\ref{lm:psd-lb}, we
+  then have
   \[
   \lambda(I)\le (\E\|A^{-1/2}Z\|_Y^2)^{1/2}
   \le 4 \sqrt{n} \lambda(I).
@@ -2862,8 +2871,36 @@ is Lipschitz over the feasible region
   This completes the proof
 \end{proof}
 
+Our final lemma verifies that, given a positive definite matrix $A$
+and an evaluation oracle for $Y$, we can approximate evaluate the objective
+\eqref{eq:alg-obj}. We do so in the natural way: we sample a random
+Gaussian $Z$ and use the oracle to compute $\|A^{-1/2}Z\|_Y$. The next
+lemma (which is standard) shows that the resulting estimate is
+concentrated around its mean. 
+
+\begin{lemma}\label{lm:concentr}
+  For any norm $Y$ on $\R^n$, $n\times n$ matrix $M$, and a
+  standard Gaussian $Z$ in $\R^n$,
+  \[
+  \Pr(|\|MZ\|_Y - \E \|MZ\|_Y| > t \E \|MZ\|_Y) \le 2e^{-4t^2/\pi^3}.
+  \]
+\end{lemma}
+\begin{proof}
+  As  usual, we can assume that $M$ is invertible (otherwise we
+  project to a subspace of $Y$) and that in fact $M = I$, by replacing
+  $Y$ with the norm $Y'$ given by $\|x\|_{Y'} = \|Mx\|_Y$. Then, we
+  have that for any $x \in \R^n$, of Euclidean norm $\|x\|_2 = 1$,
+  \[
+  \|x\|_Y = \sqrt{\frac{\pi}{2}}\E\|Z_1 x\|_Y 
+  \le \sqrt{\frac{\pi}{2}} \E\|Z\|_Y.
+  \]
+  I.e.~for all $x$ in $\R^n$, $\|x\|_Y \le
+  \left(\sqrt{\frac{\pi}{2}}\E\|Z\|_Y\right)\cdot \|x\|_2$. Then the lemma follows by
+  the Maurey-Pisier inequality (see Theorem~4.7 in \cite{Pisier-book}).
+\end{proof}
+
 We are now ready to prove our main algorithmic result. 
-\begin{theorem}
+\begin{theorem}\label{thm:alg}
   There exists an algorithm that, given $x_1, \ldots, x_m \in \R^n$,
   an evaluation oracle for a norm $Y$ on $\R^n$, and
   a linear operator $U:X \to Y$ specified by its matrix, where $X$ is
@@ -2871,9 +2908,53 @@ We are now ready to prove our main algorithmic result.
   computes in time polynomial in $m$ and $n$ a factorisation $U = ST$,
   $S:\ell_2^n \to Y$, $T:X \to \ell_2^n$,  such that 
   \[
-  \ell(S) \|T\| \le 2\lambda(U).
+  \ell(S) \|T\| \le C\lambda(U),
   \]
+  for an absolute constant $C$.
 \end{theorem}
+\begin{proof}
+  As discussed above, we can reduce to the case when $U$ is the
+  identity and $B_X$ satisfies \eqref{eq:rounded}. We are going to
+  solve the optimization problem
+  \begin{align*}
+    &\inf  \E\|A^{-1/2} Z\|_Y\\
+    &\text{s.t.}\notag\\
+    &x_i^T A x_i \le 1 \ \ \ \forall i \in [m],\\
+    &A \succeq \frac12 I.
+  \end{align*}
+  This is the same problem as \eqref{eq:alg-obj}--\eqref{eq:alg-psd},
+  but with a slightly modified objective. However, this new objective
+  is the same as \eqref{eq:alg-obj} up to a constant factor (see
+  Corollary~4.9 in \cite{Pisier-book}). By Lemma~\ref{lm:psd-lb}, any
+  feasible $A$ satisfies $\|A\|_{op} \le 4n$. Moreover, the solution
+  $\frac34 I$ is strictly feasible in the sense that any $A$
+  satisfying $\|A - \frac34 I\|_{op} \le \frac14$ satisfies the
+  constraints. Indeed, $A \succeq \frac12 I$ is immediate, and we also
+  have $A \preceq I$, which implies $x_i^\T A x_i  \le \|x_i\|_2^2 \le
+  1$, by \eqref{eq:rounded}. Then our problem reduces to optimizing a
+  convex function over a convex set with a stochastic zero-order
+  oracle with subgaussian error. A polynomial time algorithm for this
+  problem is given, for example, in Section 6 of~\cite{BelloniLNR15}.
+\end{proof}
+
+Theorem~\ref{thm:alg} and
+Corollaries~\ref{cor:vb-apx}~and~\ref{cor:hd-apx} imply that we can efficiently
+approximate both the vector balancing constant and hereditary
+discrepancy in any norm.
+
+\begin{corollary}
+  Let $x_1, \ldots, x_m$, $X$, $Y$, and $U$ be as in
+  Theorem~\ref{thm:alg}.  Then the vector
+  balancing constant $\vb(U)$ can be approximated in time
+  polynomial in $n$ and the number of vertices of $C$ up to a factor
+  of $O(K(Y)(1 + \log n)^{3/2})$, where $K(Y) = O(\log n)$ is the
+  $K$-convexity constant of $Y$.
+
+  Moreover, for any points $u_1, \ldots, u_N$, the hereditary
+  discrepancy $\hd((u_i)_{i = 1}^N, B_Y)$ can be approximated in time
+  polynomial in $n$ and $N$ up to the same factor of  $O(K(Y)(1 + \log
+  n)^{3/2})$. 
+\end{corollary}
 
 
 \section{The Volume Lower Bound and Convex Hulls}
