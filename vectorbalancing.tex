@@ -573,45 +573,61 @@ show that the volume lower bound is essentially convex, and hence maximized at
 extreme points.
 
 Our proof of Theorem~\ref{thm:tightness} is algorithmic, and relies on iterated
-applications of Rothvoss' partial coloring algorithm. We now explain the high
-level strategy and the differences with respect to prior approaches. 
+applications of Rothvoss's partial coloring algorithm. We now explain our high
+level strategy as well as the differences with respect to prior approaches. 
 
 For simplicity of the presentation, we shall assume that $U=(e_1,\dots,e_n) \in
-\R^{n \times n}$ and that the volume lower bound $\vollb^{\rm h}((e_i)_{i=1}^n,K)=1$.
-This can be (approximately) achieved by applying a standard reduction to the
-case where $U$ is non-singular, so $N \leq n$, ``folding'' $U$ into $K$, and
-appropriately guessing the volume lower bound (see section~\ref{sec:tightness}
-for full details). With these assumptions, our goal is now to find a coloring $x \in
-\set{-1,1}^n \in O(\log n) K$. 
+\R^{n \times n}$ and that the volume lower bound $\vollb^{\rm
+h}((e_i)_{i=1}^n,K)=1$. This can be (approximately) achieved by applying a
+standard reduction to the case where $U$ is non-singular, so $N \leq n$,
+``folding'' $U$ into $K$, and appropriately guessing the volume lower bound (see
+section~\ref{sec:tightness} for full details). 
 
-When $K$ is a symmetric polytope $|Ax| \leq 1$, with $m$ facets, the approach of
-Bansal~\cite{Bansal10} is to initiate a random walk on the coordinates which
-tries to hit boundary of the cube $[-1,1]^n$ before it hits the constraints of
-an appropriate scaling of $K$. The walk is ``sticky'', so when hits
-a boundary of $[-1,1]^n$, i.e.~a variable has been colored, the corresponding
-variable stays fixed. The hereditary guarantee comes from being able to compute
-increments whose variance with respect to each constraint is at most
-$\hd((e_i)_{i=1}^n,K)^2$, while the variance along all active coordinate
-directions is at least $1$ (i.e.~we want to hit cube constraints faster).
-Unfortunately this walk only directly provides local control on the discrepancy
-of each constraint, since correlations between constraints can be complex. The
-main strategy to control ``global'' discrepancy was thus to apply the union
-bound over all constraints, yielding $O(\sqrt{\log m})$ style dependencies (due
-to subgaussian style concentration). 
+For any subset $S \subseteq [n]$, let $K_S := \set{x \in K: x_i = 0, i \in [n]
+\setminus S}$ denote the coordinate section of $K$ induced by $S$. Since the
+vectors of $U$ now correspond to the coordinate basis, it is direct to verify that
+\[
+\vollb^{\rm h}((e_i)_{i=1}^n,K) = \max_{S \subseteq [n],k:=|S|}
+\vol_k(K_S)^{-1/k} .
+\]  
+In particular, the assumption $\vollb^{\rm h}((e_i)_{i=1}^n,K) = 1$ implies that
+\begin{equation}
+\label{eq:main-condition}
+\vol_{|S|}(K_S) \geq 1,~\forall S \subseteq [n]. 
+\end{equation}
+Under this condition, our goal can now be stated as finding a coloring $x \in
+\set{-1,1}^n \in O(\log n) K$.
 
-To avoid the ``union bound'', we instead use Rothvoss' partial coloring
+When $K$ is a symmetric polytope $|Ax| \leq 1$, with $m$ facets,
+Bansal~\cite{Bansal10} uses a ``sticky'' random walk on the coordinates, where
+the increments are computed via an SDP to guarantee that their variance along
+any facet is at most $\hd((e_i)_{i=1}^n,K)^2$, while the variance along all
+(active) coordinate directions is at least $1$ (i.e.~we want to hit cube
+constraints faster). As this only gives probability error guarantees for each
+constraint in isolation, a union bound is used to get a global guarantee,
+incurring a $O(\sqrt{\log m})$ dependence. 
+
+To avoid the ``union bound'', we instead use Rothvoss's partial coloring
 algorithm, which simply samples a random Gaussian vector $X \in \R^n$ and
 computes the closest point in Euclidean distance $x$ to $X$ in $K \cap [-1,1]^n$
 as the candidate partial coloring. As long as $K$ has ``large enough'' Gaussian
-measure, Rothvoss shows that $x$ has at least a constant fraction of its
-components at $\pm 1$. While this method can in essence better leverage the
-geometry of $K$ than Bansal's method (in particular, it does need an explicit
-description of $K$), it is apriori unclear why Gaussian measure should be large
-enough in the present context.  
+measure (see Theorem~\ref{thm:roth-giann}), Rothvoss shows that $x$ has at least
+a constant fraction of its components at $\pm 1$. While this method can in
+essence better leverage the geometry of $K$ than Bansal's method (in particular,
+it does need an explicit description of $K$), it is apriori unclear why Gaussian
+measure should be large enough in the present context. 
 
-Our main technical result in this context, is to show that
-$\vollb((e_i)_{i=1}^n,K) \leq 1$, then there exists a section $K$ of dimension
-nearly $n$ which Gaussian measure is at least $2^{-O(n)}$. 
+Our main technical result, is to show that under condition~\ref{eq:big-volume},
+there exists a section $K$ of dimension nearly $n$ whose Gaussian measure is at
+least $2^{-O(n)}$ (see Theorem~\ref{thm:gauss-via-volume} for a precise
+statement). 
+
+This notion of ``largeness'' in fact suffices for Rothvoss's partial
+coloring algorithm. From here, we simply apply it $O(\log n)$ times to yield the
+desired full coloring. 
+
+We note that the discrepancy guarantees are a natural byproduct of the
+algorithm, and do not need to be explicitly enforced as in Bansal's algorithm.  
 
 \dnote{TODO: finish explaining Rothvoss}
 
