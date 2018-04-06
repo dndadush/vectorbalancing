@@ -26,8 +26,8 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{conjecture}[theorem]{Conjecture}
-\newtheorem{prop}{Proposition}
-\newtheorem{lemma}{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 
 \newcommand{\heading}[1]{\vspace{1ex}\par\noindent{\bf\boldmath #1}}
@@ -134,9 +134,9 @@ $K$ in $\R^n$, and our goal is to determine the minimum number $\beta \geq 0$,
 known as the vector balancing constant from $C$ to $K$, such that for any
 sequence of vectors in $C$ there always exists a signed combination of them
 lying inside $\beta K$. Many fundamental results in discrepancy theory, such as
-the Beck-Fiala (Discrete Appl. Math `81), Spencer's ``six standard deviations
-suffice'' (Trans. Amer. Math. Soc `85) and Banaszczyk's vector balancing theorem
-(RSA `98) correspond to bounds on vector balancing
+the Beck-Fiala (Discrete Appl.~Math `81), Spencer's ``six standard deviations
+suffice'' (Trans.~Amer.~Math.~Soc `85) and Banaszczyk's vector balancing theorem
+(Random Structures \& Algorithms `98) correspond to bounds on vector balancing
 constants. 
 
 The above theorems have inspired much research in recent years within
@@ -466,11 +466,11 @@ Interestingly, our results imply a tighter relationship between vector balancing
 and hereditary discrepancy than one might initially expect. That is,
 neither the volumetric lower bound we use nor our factorization based upper
 bound ``see'' the difference between them. More precisely, both bounds remain
-invariant when replacing $\hd(U,K)$ by $\vb(\conv(\pm u_i: i \in [N]),K)$. This
+invariant when replacing $\hd(U,K)$ by $\vb(\conv\set{\pm u_i: i \in [N]},K)$. This
 has the relatively non-obvious implication that 
 \begin{equation}
 \label{eq:hd-to-vb}
-\hd(U,K) \leq \vb(\conv(\pm u_i: i \in [N]),K) \leq O(\log n) \hd(U,K).
+\hd(U,K) \leq \vb(\conv\set{\pm u_i: i \in [N]},K) \leq O(\log n) \hd(U,K).
 \end{equation}
 We believe it is an interesting question to understand whether a polylogarithmic
 separation indeed exists between the above quantities (we are currently unaware
@@ -559,7 +559,7 @@ $\Omega(\log n)$, can be shown to have volume lower bound $O(1)$. The
 computations for this are somewhat technical, so we defer a detailed discussion
 to the full version. As mentioned previously, an interesting property of the
 volume lower bound is its invariance under taking convex hulls, namely $\vollb^{\rm
-h}(\conv(\pm U),K) = \vollb^{\rm h}(U,K)$. In combination with
+h}(\conv\set{\pm U},K) = \vollb^{\rm h}(U,K)$. In combination with
 Theorem~\ref{thm:tightness}, this establishes the claimed
 inequality~\ref{eq:hd-to-vb}. This invariance is proved in
 section~\ref{sec:conv-hulls}, where we use a theorem of Ball~\cite{Ball88} to
@@ -724,9 +724,8 @@ In particular, every partial coloring on $S$ has discrepancy at least $\tfrac{1}
 Given the above, we may now reduce the conjecture to the following natural
 geometric question:
 
-\begin{restatable}[Restricted Invertibility for Convex
-Bodies]{conjecture}{ripconvex} 
-\label{conj:rip-convex-bodies}
+\begin{restatable}[Restricted Invertibility for Convex Bodies]{conjecture}{ripconvex} 
+\label{conj:rip-convex}
 There exists an absolute constant $c \geq 1$, such that for any $n \in \N$
 and symmetric convex body $K \subseteq \R^n$ of volume at most $1$, there exists $S
 \subseteq [n]$, $S \neq \emptyset$, such that $K_S \subseteq c\sqrt{|S|}B_2^S$. 
@@ -851,6 +850,53 @@ denote the coordinate section of $K$ on $S$ by $K_S \eqdef \set{x \in K: x_i =
 $\ell_p$ ball in dimension $n$, $B_p^S := (B_p^n)_S$ and $B_p^W := (B_p^n) \cap W$
 for corresponding coordinate and general sections. For a vector $x \in
 [-1,1]^n$, we write $\bnds(x) = \set{i \in [n]: x_i \in \set{-1,1}}$.
+
+\begin{theorem}[Blashke-Santal{\'o}]\label{thm:santalo} 
+Let $K \subseteq \R^n$ be a symmetric convex body. Then $\vol_n(K)\cdot
+\vol_n(K^\circ) \leq \kappa_n^2$, where equality holds if and only if $K$ is
+an origin centered ellipsoid. Here $\kappa_n = \vol_n(B_2^n)$.
+\end{theorem}
+
+\subsection{Restricted Invertibility}
+
+We will need the following restricted invertibility.
+
+\begin{theorem}\label{thm:rest-inv}
+Let $Q \in \R^{n \times n}$ be positive definite quadratic form and $\eps \in
+(0,1)$. Let $\lambda_1 > 0$ denote the maximum eigen value of $Q$.  For $k =
+\ceil{\eps^2 \tr(Q)/\lambda_1}$, there exists $S \subseteq [n]$, $|S|=k$, such
+that $\lambda_{\rm min}(Q_{S,S}) \geq \frac{(1-\eps)^2\tr(Q)}{n}$, where
+$\lambda_{\rm min}(Q_{S,S})$ is the minimum eigen value of $Q_{S,S}$.
+\end{theorem}
+
+The next lemma we will need is a simple determinantal analogue of the restricted
+invertibility principle.
+
+\begin{lemma}\label{lm:rip-det}
+  Let $Q$ be an $n\times n$ real positive semi-definite matrix with
+  eigenvalues $\lambda_1 \ge \ldots \ge \lambda_n$. For any integer
+  $k$, $1 \le k \le n$, there exists a set $S \subseteq [n]$ of size $k$
+  such that
+  \[\prod_{i=1}^k \lambda_i \leq \binom{n}{k} \det(Q_{S,S}).\]
+\end{lemma}
+\begin{proof}
+To prove the lemma, we will rely on the classical identity for applying the
+elementary symmetric polynomials to the eigen values of $Q$:
+\begin{equation*}
+\sum_{S \in [n],|S|=k} \prod_{i \in S} \lambda_i \eqdef p_k(\lambda) = \sum_{S \subset [n]: |S| = k}\det(Q_{S,S}).
+\end{equation*}
+To verify this equation, consider the coefficient of $t^{n-k}$ in the polynomial
+$\det(Q + tI)$. Calculating the coefficient using the Leibniz formula for the
+determinant gives the right hand side; calculating it using $\det(Q + tI) =
+(\lambda_1 + t)\ldots(\lambda_n + t)$ gives the left hand side. Since the eigen
+values are all non-negative, we get that
+\[
+\prod_{i=1}^k \lambda_i \leq p_k(\lambda) =  
+ \sum_{S \subseteq [n]: |S|=k} \det(Q_{S,S}) \leq \binom{n}{k} \max_{S
+\subseteq [n]: |S|=k} \det(Q_{S,S}),
+\]
+as needed.
+\end{proof}
 
 \subsection{Proof of Volume Lower Bound}
 \label{sec:proof-vollb}
@@ -1125,15 +1171,6 @@ e^{\sigma(\alpha) n / t^\alpha} \text{ .}
 Such an ellipsoid will be referred to as an $\alpha$-regular M-ellipsoid.
 \end{theorem}
 
-To relate volumes of sections of $K$ to corresponding projection of $K^\circ$,
-we will need the following well-known inequality:
-
-\begin{theorem}[Blashke-Santal{\'o}]\label{thm:santalo} 
-Let $K \subseteq \R^n$ be a symmetric convex body. Then $\vol_n(K)\cdot
-\vol_n(K^\circ) \leq \kappa_n^2$, where equality holds if and only if $K$ is
-an origin centered ellipsoid. Here $\kappa_n = \vol_n(B_2^n)$.
-\end{theorem}
-
 
 To show that the axes of the M-ellipsoid of $K$ are long, we will need to relate
 the axis lengths to the volumes of coordinate projections of the polar
@@ -1182,34 +1219,6 @@ $\pi_S(E^\circ) = TB_2^k$ as claimed. The volume can now be computed as follows:
 as needed.
 \end{proof}
 
-The next lemma we will need is a simple determinantal analogue of the restricted
-invertibility principle.
-
-\begin{lemma}\label{lm:rip-det}
-  Let $Q$ be an $n\times n$ real positive semi-definite matrix with
-  eigenvalues $\lambda_1 \ge \ldots \ge \lambda_n$. For any integer
-  $k$, $1 \le k \le n$, there exists a set $S \subseteq [n]$ of size $k$
-  such that
-  \[\prod_{i=1}^k \lambda_i \leq \binom{n}{k} \det(Q_{S,S}).\]
-\end{lemma}
-\begin{proof}
-To prove the lemma, we will rely on the classical identity for applying the
-elementary symmetric polynomials to the eigen values of $Q$:
-\begin{equation*}
-\sum_{S \in [n],|S|=k} \prod_{i \in S} \lambda_i \eqdef p_k(\lambda) = \sum_{S \subset [n]: |S| = k}\det(Q_{S,S}).
-\end{equation*}
-To verify this equation, consider the coefficient of $t^{n-k}$ in the polynomial
-$\det(Q + tI)$. Calculating the coefficient using the Leibniz formula for the
-determinant gives the right hand side; calculating it using $\det(Q + tI) =
-(\lambda_1 + t)\ldots(\lambda_n + t)$ gives the left hand side. Since the eigen
-values are all non-negative, we get that
-\[
-\prod_{i=1}^k \lambda_i \leq p_k(\lambda) =  
- \sum_{S \subseteq [n]: |S|=k} \det(Q_{S,S}) \leq \binom{n}{k} \max_{S
-\subseteq [n]: |S|=k} \det(Q_{S,S}),
-\]
-as needed.
-\end{proof}
 
 We now have all the ingredients needed to prove our main geometric estimate.
 
@@ -1320,7 +1329,7 @@ symmetric convex body, and $\alpha \in [0,1]$. For any subset $S \subseteq [n]$,
 $|S|=k$, letting $W_S := \lspan\{u_i: i \in S\}$, define
 \[
 \speclb((u_i)_{i \in S},K) := 
-\max \set{r \geq 0: r K \cap W_S \subseteq k \conv(\pm u_i: i \in S)}.
+\max \set{r \geq 0: r K \cap W_S \subseteq k \conv\set{\pm u_i: i \in S}}.
 \]
 Then, we have that
 \begin{equation}
@@ -1354,12 +1363,12 @@ otherwise, which exists by linear independence. Now letting $v_x =
 \[
 \inner{v_x}{u_x} = \sum_{i=1}^n |x_i| \geq |\bnds(x)| \geq \alpha n .
 \]
-Since $u_x \in \beta K$ and $r K \subseteq n \conv(\pm u_i: i
-\in [n])$, we have that
+Since $u_x \in \beta K$ and $r K \subseteq n \conv\set{\pm u_i: i
+\in [n]}$, we have that
 \begin{align*}
 \alpha n \leq \beta \max_{z \in K} \inner{v_x}{z} 
          \leq \frac{\beta}{r} n 
-               \max_{z \in \conv(\pm u_i: i \in [n])} \inner{v_x}{z}
+               \max_{z \in \conv\set{\pm u_i: i \in [n]}} \inner{v_x}{z}
           = \frac{\beta}{r} n .
 \end{align*}
 The desired inequality now follows by rearranging.
@@ -1401,18 +1410,19 @@ also assume that $\vol_n(K)=1$. In this case~\eqref{eq:conj-simple}, and hence
 Conjecture~\ref{conj:partial-volume}, directly reduces to the following
 geometric conjecture.
 
-\begin{conjecture}[Restricted Invertibility Principle for Convex Bodies]
-\label{conj:conv-restr-iso} There exists an absolute constant $c \geq 1$, such
-for any $n \in \N$, symmetric convex body $K \subseteq \R^n$ of volume $1$,
-there exists $S \subseteq [n]$ such that $K_S \subseteq c |S| B_1^S$.
-\end{conjecture}
+\ripconvex*
+% \begin{conjecture}[Restricted Invertibility Principle for Convex Bodies]
+% \label{conj:conv-restr-iso} There exists an absolute constant $c \geq 1$, such
+% for any $n \in \N$, symmetric convex body $K \subseteq \R^n$ of volume $1$,
+% there exists $S \subseteq [n]$ such that $K_S \subseteq c |S| B_1^S$.
+% \end{conjecture}
 
 Another natural, and again stronger conjecture, would be to ask for containment
 inside $c \sqrt{|S|} B_2^S \subseteq c |S| B_1^S$. We suspect that this version
 should also hold, and indeed, our evidence for the conjecture supports this
 belief. 
 
-Two natural weakenings of Conjecture~\ref{conj:conv-restr-iso} are to ask
+Two natural weakenings of Conjecture~\ref{conj:rip-convex} are to ask
 whether (a) it holds for ellipsoids and (b) whether it holds for general bodies
 but with coordinate sections replaced by arbitrary sections. As our main
 evidence for the conjecture, we show that both assertions indeed hold with the
@@ -1420,7 +1430,7 @@ stronger containment relation with respect to $B_2^n$. We note that (a) indeed
 implies Conjecture~\ref{conj:partial-volume} when $K$ is an ellipsoid.  
 
 Before formally stating our partial results, we give a last simplification of
-Conjecture~\ref{conj:conv-restr-iso}. In particular, when attempting to prove
+Conjecture~\ref{conj:rip-convex}. In particular, when attempting to prove
 the conjecture we may additionally assume that $\vol_{|S|}(K_S) \geq 1$ for all
 $S \subset [n]$. This follows by noting that if there exists $S \subset [n]$
 with $\vol_{|S|}(K_S) < 1$, we may simply apply induction on $K_S$, after
@@ -1460,7 +1470,7 @@ Lemma~\ref{lem:cover-to-section} follows relatively directly from Milman's
 quotient of subspace (QS) theorem, which states that there exists a projection
 of a section of $K$ of proportional dimension which is constant factor
 isomorphic to a Euclidean ball. We remark that the main step that seems to be
-missing for the proof of Conjecture~\ref{conj:conv-restr-iso} is a
+missing for the proof of Conjecture~\ref{conj:rip-convex} is a
 corresponding ``coordinate version'' of the QS theorem. As the proofs of the
 above lemmas require a fair amount of machinery, and only yield partial evidence
 for a conjecture, we defer detailed proofs to the full version.  
