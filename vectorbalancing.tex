@@ -130,39 +130,12 @@ Nicole Tomczak-Jaegermann
 \noteswarning
 
 \begin{abstract}
-In the vector balancing problem, we are given symmetric convex bodies $C$ and
-$K$ in $\R^n$, and our goal is to determine the minimum number $\beta \geq 0$,
-known as the vector balancing constant from $C$ to $K$, such that for any
-sequence of vectors in $C$ there always exists a signed combination of them
-lying inside $\beta K$. Many fundamental results in discrepancy theory, such as
-the Beck-Fiala (Discrete Appl.~Math `81), Spencer's ``six standard deviations
-suffice'' (Trans.~Amer.~Math.~Soc `85) and Banaszczyk's vector balancing theorem
-(Random Structures \& Algorithms `98) correspond to bounds on vector balancing
+In the vector balancing problem, we are given symmetric convex bodies $C$ and $K$ in $\R^n$, and our goal is to determine the minimum number $\beta \geq 0$, known as the vector balancing constant from $C$ to $K$, such that for any sequence of vectors in $C$ there always exists a signed combination of them lying inside $\beta K$. Many fundamental results in discrepancy theory, such as the Beck-Fiala theorem (Discrete Appl.~Math `81), Spencer's ``six standard deviations suffice'' theorem (Trans.~Amer.~Math.~Soc `85) and Banaszczyk's vector balancing theorem (Random Structures \& Algorithms `98) correspond to bounds on vector balancing
 constants. 
 
-The above theorems have inspired much research in recent years within
-theoretical computer science, from the development of efficient polynomial time
-algorithms for matching existential vector balancing guarantees, to
-their applications in the context of approximation algorithms. In this work, we
-show that all vector balancing constants admit ``good'' approximate
-characterizations, with approximation factors depending only polylogarithmically
-on the dimension $n$. Firstly, we show that a volumetric lower bound due to
-Banaszczyk is tight within a $O(\log n)$ factor. Our proof is algorithmic, where
-we show that Rothvoss's (FOCS `14) partial coloring algorithm can be
-analyzed to obtain these guarantees. Second, we present a novel convex program
-which encodes the ``best possible  way'' to apply Banaszczyk's vector balancing
-theorem for upper bounding vector balancing constants, and show that it is tight
-within an $O(\log^{2.5} n)$ factor. This also directly yields a corresponding
-polynomial time approximation algorithm for the hereditary discrepancy of any
-sequence of vectors with respect to an arbitrary norm.   
+The above theorems have inspired much research in recent years within theoretical computer science, from the development of efficient polynomial time algorithms for matching existential vector balancing guarantees, to their applications in the context of approximation algorithms. In this work, we show that all vector balancing constants admit ``good'' approximate characterizations, with approximation factors depending only polylogarithmically on the dimension $n$. First, we show that a volumetric lower bound due to Banaszczyk is tight within a $O(\log n)$ factor. Our proof is algorithmic, and we show that Rothvoss's (FOCS `14) partial coloring algorithm can be analyzed to obtain these guarantees. Second, we present a novel convex program which encodes the ``best possible  way'' to apply Banaszczyk's vector balancing theorem for bounding vector balancing constants from above, and show that it is tight within an $O(\log^{2.5} n)$ factor. This also directly yields a corresponding polynomial time approximation algorithm both for vector balancing constants, and for the hereditary discrepancy of any sequence of vectors with respect to an arbitrary norm.    
   
-Our results yield the first guarantees which depend only polygarithmically on
-the dimension of the norm ball $K$. All prior works required the norm to be
-polyhedral and incurred a dependence of $O(\sqrt{\log m})$, where $m$ is the
-number of facets. Our techniques rely on a novel combination of techniques
-convex geometry and discrepancy theory. In particular, we give a new way to
-lower bound Gaussian measures using only volumetric information, which may be of
-independent interest.
+Our results yield the first guarantees which depend only polygarithmically on the dimension of the norm ball $K$. All prior works required the norm to be polyhedral and incurred a dependence of $O(\sqrt{\log m})$, where $m$ is the number of facets. Our techniques rely on a novel combination of techniques from convex geometry and discrepancy theory. In particular, we give a new way to show lower bounds on Gaussian measures using only volumetric information, which may be of independent interest.
 \end{abstract}
 
 \textbf{Keywords.}  Discrepancy, Convex Geometry, Gaussian Measure, M-ellipsoid,
@@ -181,10 +154,14 @@ The discrepancy of a set system is defined as the minimum, over the set of $\pm 
 %over the set of $\pm 1$ colorings of the elements, what is the minimum
 %worst-case imbalance, known as discrepancy, one guarantee between the number of
 %$+1$ and $-1$ elements in every set? 
-The tools developed for deriving bounds on
-the discrepancy of set systems have found many applications in mathematics and
-computer science~\cite{Matousek,Chazelle}, from the study of pseudorandomness,
-to communication complexity, and most recently, to approximation algorithms and privacy. 
+The tools developed for deriving bounds on the discrepancy of set
+systems have found many applications in mathematics and computer
+science~\cite{Matousek,Chazelle}, from the study of pseudorandomness,
+to communication complexity, and most recently, to approximation
+algorithms and privacy.  Here we study a geometric generalization of
+combinatorial discrepancy, known as vector balancing, which captures
+some of the most powerful techniques in the area, and is of intrinsic
+interest. 
 
 \paragraph{\bf Vector Balancing} In many instances, the best known techniques for finding
 good bounds in combinatorial discrepancy were derived by working with more
@@ -203,7 +180,7 @@ u_i \Bigr\|_{K}: N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\},
 \]
 where $\norm{x}_K := \min \set{s \geq 0: x \in sK}$ is the norm induced by $K$.
 
-As an example, one may consider Spencer's theorem~\cite{Spencer}, independently
+As an example, one may consider Spencer's ``six standard deviations'' theorem~\cite{Spencer}, independently
 obtained by Gluskin~\cite{gluskin}, which states that every set system on $n$
 points and $n$ sets can be colored with discrepancy at most $O(\sqrt{n})$. In
 the vector balancing context, the more general statement is that
@@ -216,18 +193,29 @@ $i$ is in set $j$ and $0$ otherwise. Here the columns of $U$ have $\ell_\infty$
 norm $1$, and thus the sign vector $x \in \set{-1,1}^n$ satisfying $\norm{U
 x}_\infty = O(\sqrt{n})$ indeed yields the desired coloring.   
 
-Many fundamental discrepancy bounds, as well as conjectured bounds, can be
-stated in terms of vector balancing constants. The Beck-Fiala theorem, which
-bounds the discrepancy of any $t$-sparse set system by $2t-1$, i.e.~where each
-element appears in at most $t$-sets, can be recovered from the bound
-$\vb(B_1^n,B_\infty^n) < 2$~\cite{beckfiala}. The Beck-Fiala conjecture,
-which asks whether the bound for $t$-sparse set systems can be improved to
-$O(\sqrt{t})$, is generalized by the K{\'o}mlos conjecture~\cite{spencer-lectures},
-which asks whether $\vb(B_2^n,B_\infty^n) = O(1)$. One of the most important
-vector balancing bounds is due to Banaszczyk~\cite{bana}, who proved that for
-any convex body $K \subseteq \R^n$ of Gaussian measure $1/2$, one has the bound
-$\vb(B_2^n,K) \leq 5$. In particular, this implies the bound of
-$\vb(B_2^n,B_\infty^n) = O(\sqrt{\log n})$ for the K{\'o}mlos conjecture. 
+In fact, vector balancing was studied earlier, and independently from
+combinatorial discrepancy. In 1963 Dvoretzky asked the general problem
+of determining $\vb(K, K)$ for a given symmetric convex body $K$. The
+more general version with two different bodies was introduced by
+Barany and Grinberg~\cite{baranygrinberg} who proved that for any
+symmetric convex body $K$ in $\R^n$, $\vb(K, K) \le n$.  In addition
+to Spencer's theorem, as described above, many other fundamental
+discrepancy bounds, as well as conjectured bounds, can be stated in
+terms of vector balancing constants. The Beck-Fiala theorem, which
+bounds the discrepancy of any $t$-sparse set system by $2t-1$,
+i.e.~where each element appears in at most $t$-sets, can be recovered
+from the bound $\vb(B_1^n,B_\infty^n) < 2$~\cite{beckfiala}. The
+Beck-Fiala conjecture, which asks whether the bound for $t$-sparse set
+systems can be improved to $O(\sqrt{t})$, is generalized by the
+K{\'o}mlos conjecture~\cite{spencer-lectures}, which asks whether
+$\vb(B_2^n,B_\infty^n) = O(1)$. One of the most important vector
+balancing bounds is due to Banaszczyk~\cite{bana}, who proved that for
+any convex body $K \subseteq \R^n$ of Gaussian measure $1/2$, one has
+the bound $\vb(B_2^n,K) \leq 5$. In particular, this implies the bound
+of $\vb(B_2^n,B_\infty^n) = O(\sqrt{\log n})$ for the K{\'o}mlos
+conjecture.
+
+
 
 \paragraph{\bf Hereditary Discrepancy.} While vector balancing gives useful
 worst-case bounds, one is often interested in understanding the discrepancy
@@ -247,9 +235,10 @@ When convenient, we will also use the notation $\hd(U,K) :=
 $\disc(U_S,K) := \disc((u_i)_{i \in S},K)$ for any subset $S \subseteq [N]$.  In
 the context of set systems, $\ell_\infty$ hereditary discrepancy corresponds to
 the worst-case discrepancy of any element induced subsystem, which gives a
-robust notion of how low discrepancy a set system is. As an interesting example,
+robust notion of discrepancy, and can be seen as a measure of the
+complexity of the set system. As an interesting example,
 a set system has $\ell_\infty$ hereditary discrepancy $1$ if and only if its
-incidence matrix is totally unimodular. 
+incidence matrix is totally unimodular~\cite{GH-tum}. 
 
 Beyond set systems, hereditary discrepancy can also usefully bound the
 worst-case ``error'' required for rounding a fractional LP solution to an
@@ -259,7 +248,7 @@ n}, b \in \R^m$, of a binary IP, and given any norm $\norm{\cdot}$ on $\R^m$
 measuring ``constraint violation'', one can ask what guarantees can be given on
 $\min_{x \in \set{0,1}^n} \norm{A(y-x)}$? Using a well-known reduction of
 Lov{\'a}sz, Spencer and Vesztergombi~\cite{LSV}, this error can be bounded by
-$\hd(A,K)$ where $K$ is unit ball of $\norm{\cdot}$. Furthermore,
+$\hd(A,K)$ where $K$ is the unit ball of $\norm{\cdot}$. Furthermore,
 this reduction guarantees that $x$ agrees with $y$ on its integer coordinates.
 Note that we have the freedom to choose the norm $\norm{\cdot}$ so that the
 error bounds meaningfully relate to the structure of the problem. Indeed, much
@@ -271,7 +260,7 @@ $1$ on the hereditary discrepancy with respect to the weighted $\ell_\infty$
 norm $\norm{y-x}_{\Delta} = \max_{i \in [m]} |y_i-x_i|/\Delta_i$.  Indeed, in
 many instances, this is (at least implicitly) how these bounds are proved. These
 error profile bounds have been fruitfully leveraged for problems where small
-``additive violations'' to the constraints are either allow or can be repaired.
+``additive violations'' to the constraints are either allowed or can be repaired.
 In particular, they were used in for the recent $O(\log n)$-additive
 approximation for bin packing~\cite{HobergRothvoss17}, an additive approximation
 scheme for the train delivery problem~\cite{R12}, and additive approximations of
@@ -286,7 +275,7 @@ colorings. %Over the last eight years, starting with the breakthrough work of
 %bounds have been made algorithmic. 
 Starting wiht the breakthrough work of Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem using random walk and semidefinite programming techniques, nearly all known bounds have been made algorithmic in the last eight years.
 
-One of the most important discrepancy minimization techniques is known as the
+One of the most important discrepancy minimization techniques is Beck's
 partial coloring method, which covers most of the above discrepancy results
 apart from Banaszczyk's vector balancing theorem. This method was first
 primarily applied to $\ell_\infty$ discrepancy minimization problems of the form
@@ -294,43 +283,48 @@ primarily applied to $\ell_\infty$ discrepancy minimization problems of the form
 \min_{x \in \set{-1,1}^n} \Big\|\sum_{i=1}^n x_i v_i\Big\|_\infty, \text{ where
 } (v_i)_{i=1}^n \in \R^m.
 \]
-As before, the goal is not to solve such problems near-optimally but instead to find
-solutions satisfying a guaranteed error bound. The partial coloring method
-solves this problem phases, where at each phase it ``colors'' (i.e.~sets to $\pm
-1$) at least a constant fraction of the remaining uncolored variables.  This
-yields $O(\log n)$ partial coloring phases, where the discrepancy of the full
-coloring is generally upper bounded by the sum of discrepancies incurred in each
-phase. The existence of low discrepancy partial colorings, i.e.~which color half
-the variables, was initially established via the pigeon hole principle and
-certain entropy bounds for random $\pm 1$ combinations of the vectors, known as
-Beck's entropy method. In particular, the entropy method gave a general
-sufficient condition for the feasibility of any error profile (as above) with
-respect to partial colorings. This method was made constructive by Lovett and
-Meka~\cite{lovettmeka} using random walk techniques. The entropy method was
-further generalized by Giannopoulos~\cite{giann} to the general vector balancing
-setting using Gaussian measure. Precisely, he showed that if a symmetric convex
-body $K \subseteq \R^n$ has Gaussian measure at least $2^{-c n}$, for
-$c$ small enough, then for any sequence vector $v_1,\dots,v_n \in B_2^n$,
-there exists a partial coloring $x \in \set{-1,0,1}^n$, having support at least
-$n/2$, such that $\sum_{i=1}^n x_i v_i \in O(1) K$. This method was made
-constructive by Rothvoss~\cite{rothvoss-giann}, using a random projection
-algorithm, and later by Eldan and Singh~\cite{ES14} who used the solution of a
-random linear maximization problem. An important difference between the
-constructive and existential partial coloring methods, is that the constructive
-methods only guarantee that the ``uncolored'' coordinates of a partial coloring
-$x$ are in $(-1,1)$ instead of equal to $0$. This relaxation seems to make the
-constructive methods more robust, i.e.~the conditions needed for such ``fractional''
-partial colorings are somewhat milder, without having noticeable drawbacks in most
-applications. 
+As before, the goal is not to solve such problems near-optimally but
+instead to find solutions satisfying a guaranteed error bound. The
+partial coloring method solves this problem in phases, where at each
+phase it ``colors'' (i.e.~sets to $\pm 1$) at least a constant
+fraction of the remaining uncolored variables.  This yields $O(\log
+n)$ partial coloring phases, where the discrepancy of the full
+coloring is generally bounded by the sum of discrepancies incurred in
+each phase. The existence of low discrepancy partial colorings,
+i.e.~which color half the variables, was initially established via the
+pigeon hole principle and arguments based on the probabilistic and the
+entropy method. In particular, the entropy method gave a general
+sufficient condition for the feasibility of any error profile (as
+above) with respect to partial colorings. This method was made
+constructive by Lovett and Meka~\cite{lovettmeka} using random walk
+techniques. These techniques  were further generalized by
+Giannopoulos~\cite{giann} to the general vector balancing setting
+using Gaussian measure. Precisely, he showed that if a symmetric
+convex body $K \subseteq \R^n$ has Gaussian measure at least $2^{-c
+  n}$, for $c$ small enough, then for any sequence of vectors
+$v_1,\dots,v_n \in B_2^n$, there exists a partial coloring $x \in
+\set{-1,0,1}^n$, having support at least $n/2$, such that
+$\sum_{i=1}^n x_i v_i \in O(1) K$. This method was made constructive
+by Rothvoss~\cite{rothvoss-giann}, using a random projection
+algorithm, and later by Eldan and Singh~\cite{ES14} who used the
+solution of a random linear maximization problem. An important
+difference between the constructive and existential partial coloring
+methods, is that the constructive methods only guarantee that the
+``uncolored'' coordinates of a partial coloring $x$ are in $(-1,1)$
+instead of equal to $0$. This relaxation seems to make the
+constructive methods more robust, i.e.~the conditions needed for such
+``fractional'' partial colorings are somewhat milder, without having
+noticeable drawbacks in most applications.
 
 The main alternative to the partial coloring method comes from Banaszczyk's
-vector balancing theorem~\cite{bana}. Comparing to Giannopoulos, when the input
-norm is $\ell_2$ Banaszczyk's method proves the existence of a full coloring when
-$K$ has gaussian measure $1/2$ compared to a partial coloring when $K$ has measure
-$2^{-cn}$.  Banaszczyk's method was only very recently made constructive in
+vector balancing theorem~\cite{bana}. 
+ Banaszczyk's method proves the existence of a full coloring when
+$K$ has gaussian measure $1/2$, in contrast to Giannopoulos's result
+which gives a partial coloring but requires measure only $2^{-cn}$.
+Banaszczyk's method was only very recently made constructive in
 the sequence of works~\cite{BDG16,DGLN16,BDGL18}. In particular,~\cite{DGLN16}
 showed an equivalence of Banaszcyzk's theorem to the existence of certain
-subgaussian signing distributions, and~\cite{BDGL18} gave a random walk
+subgaussian signing distributions, and~\cite{BDGL18} gave a random walk-based
 algorithm to build such distributions.
 
 \subsection{Approximating Vector Balancing and Hereditary Discrepancy}
@@ -356,11 +350,14 @@ over to vector balancing, and thus we restrict for now the discussion to the
 former. For question 1a, one may be tempted to ask whether we can directly
 compute a coloring whose $K$-discrepancy is approximately
 $\disc((u_i)_{i=1}^N,K)$ instead of $\hd((u_i)_{i=1}^N,K)$. Unfortunately, even
-for $K = B_\infty^n$ and $(u_i)_{i=1}^n \in [-1,1]^n$, it is NP-hard to
+for $K = B_\infty^n$ and $(u_i)_{i=1}^n \in [-1,1]^n$, it was shown in
+\cite{CNN11} that it is NP-hard to
 distinguish whether $\disc((u_i)_{i=1}^n,B_\infty^n)$ is $0$ or
 $\Omega(\sqrt{n})$ (note that $O(\sqrt{n})$ is guaranteed by Spencer's theorem),
 thus one cannot hope for any non-trivial approximation guarantee in this
-context. We now discuss prior work on these questions and then continue with our
+context. 
+
+We now discuss prior work on these questions and then continue with our
 main results. 
 
 \paragraph{Prior work.} For both questions, prior work has mostly dealt with the
@@ -420,9 +417,9 @@ equivalently restate the guarantees of~\cite{Bansal10} as yielding colorings of
 discrepancy $O(\sqrt{\log m \log n} \hd(U,K))$ and of~\cite{disc-gamma2} as a
 $O(\sqrt{\log m}\log n)$ approximation to $\hd(U,K)$ for any $n$-dimensional
 symmetric polytope $K$ with $m$ facets. A natural question is therefore
-whether there exists corresponding coloring and approximation algorithms whose
+whether there exist corresponding coloring and approximation algorithms whose
 guarantees depend only polygarithmically on the dimension of the norm and not on
-the complexity its representation. 
+the complexity of its representation. 
 
 We note that polynomial bounds in $n$ for general $K$ can be achieved by simply
 approximating $K$ by a sandwiching ellipsoid $E \subseteq K \subseteq \sqrt{n}
@@ -454,7 +451,7 @@ rely on a novel combination of tools from convex geometry and discrepancy. In
 particular, we give a new way to prove lower bounds on Gaussian measure using
 only volumetric information, which could be of independent interest.
 Furthermore, we make a natural geometric conjecture which would imply that
-Rothvoss' algorithm is a hereditary sense optimal for finding partial colorings
+Rothvoss' algorithm is (in a hereditary sense) optimal for finding partial colorings
 in any norm, and prove the conjecture for the special case of $\ell_2$.
 
 Comparing to prior work, our coloring and hereditary discrepancy
@@ -751,14 +748,259 @@ principle, and indeed our proof for ellipsoids reduces to it. We refer the
 reader to section~\ref{sec:rip-convex} for further details and proofs.
 
 \paragraph{\bf A Factorization Approach for Vector Balancing.}   
-\dnote{TODO: talk about factorization approach}
 
-As mentioned above, our approximate characterization of hereditary discrepancy
-transfers seemlessly to the vector balancing setting (note that the
-approximation bounds do not depend on $N$). We note that these characterizations
-easily imply lower and upper bounds for $\vb(B_p^n,B_q^n)$ for any $p,q \in
-[1,\infty]$, which are tight with an $O(\min \set{q,\sqrt{\log n}})$ factor.
-While not novel, they perhaps illustrate the utility of the general approach.  
+In the inductive proof of Theorem~\ref{thm:tightness} we need to keep
+alternating between computing Gaussian estimates based on volume
+information, and appealing to Rothvoss's algorithm, as we induct
+on lower dimensional subspaces. One downside of this indirect nature
+of our proof is that it does not lead to an algorithm for computing
+the vector balancing constant $\vb(C,K)$ of two symmetric convex
+bodies $C$ and $K$, or of the hereditary discrepancy $\hd((u_i)_{i =
+  1}^N, K)$. In this section, we explore a different approach, which
+aims at separating computing a Gaussian estimate from volume
+information, on one hand, and the vector balancing argument on the
+other. The approach is based on recasting vector balancing in the
+language of linear operators between normed spaces, and on factoring
+such operators through Euclidean space. This factorization strategy is
+a significant generalization of the connection between the $\gamma_2$
+norm and hereditary discrepancy used in~\cite{disc-gamma2}.
+
+
+Let $U:X \to Y$ be a linear operator between two $n$-dimensional
+normed spaces $(X, \| \cdot\|_X)$ and $(Y, \| \cdot\|_Y)$. A natural
+way to define the vector balancing constant of $U$ is
+\begin{equation}\label{eq:vb-oper}
+\vb(U) = \sup\left\{
+  \min_{\eps_1, \ldots, \eps_N \in \{-1, 1\}} 
+  \biggl\|\sum_{i = 1}^N \eps_i U(x_i)\biggr\|_Y:
+  N \in \mathbb{N}, x_1, \ldots, x_N \in B_X\right\}
+\end{equation}
+where $B_X = \{x: \|x\|_X \le 1\}$ is the unit ball of $X$. If $C$ and
+$K$ are two centrally symmetric convex bodies in $\R^n$, and we define
+the corresponding normed spaces $X_C = (\R^n, \|\cdot\|_C)$ and $X_K =
+(\R^n, \|\cdot\|_K)$, then the vector balancing constant $\vb(I)$ of
+the formal identity operator $I:X_C \to X_K$ recovers $\vb(C, K)$.
+
+We will relate $\vb(U)$ to an efficiently computable quantity
+$\lambda(U)$, which will allow us to efficiently approximate $\vb(U)$
+(given appropriate access to the domain and range $X$ and
+$Y$). Moreover, we will see that for the operator $U:\ell_1^N \to X_K$
+given by $Ue_i = u_i$, $\lambda(U)$ also approximates $\hd((u_i)_{i =
+  1}^N, K)$. Once again our main tool for giving lower bounds on
+$\vb(U)$ is the volume lower bound, which we reformulate in the
+operator setting.
+
+\begin{lemma}
+\label{lem:vol-lb-oper}
+Let $(X, \|\cdot\|_X)$ and $(Y, \|\cdot\|_Y)$ be two $n$-dimensional
+normed spaces, and let $U:X \to Y$ be an invertible linear
+operator. Define
+\[
+\vollb_k^{\rm h}(U) \eqdef
+\sup\bigl\{\vol_k\bigl(\set{a \in \R^k: \|UV a\|_Y \le 1}\bigr)^{-1/k}\bigr\},
+\]
+where the supremum is over all operators $V:\ell_1^k \to X$ of
+operator norm $1$ and rank $k$. Then, letting
+\[
+\vollb^{\rm h}(U) \eqdef \max_{k \in [n]} \vollb_k^{\rm h}(U),
+\]
+we have that
+\[
+\vb(U) \geq \vollb^{\rm h}(U).
+\]
+\end{lemma}
+
+Lemma~\ref{lem:vol-lb-oper} is just a reformulation of
+Lemma~\ref{lem:vol-lb} in the language of linear operators. Because
+\[
+\max_{i = 1}^k{\|Ve_i\|_X} = \|V\| = 1,
+\]
+the points $u_1, \ldots, u_k$ defined by $u_i = V e_i$ lie in $B_X$,
+where $e_i$ is the $i$-th standard basis vector of $X$. Then the
+lemma follows directly from Lemma~\ref{lem:vol-lb} with $C = B_X$
+and $K = \{x \in X: Ux \in B_Y\}$. 
+
+Recall that Banaszczyk's vector balancing theorem states that if a
+body $K$ has Gaussian measure at least $1/2$, then $\vb(B_2^n, K) \le
+5$. As a warm-up, let us see how we can use this theorem to get
+nearly tight bounds on $\vb(B^n_p, B^n_q)$, or, equivalently, on
+$\vb(I)$, where $I:\ell_p^n \to \ell_q^n$ is the identity. For any
+$x_1, \ldots, x_N \in B_p^n$, the points defined by $u_i \eqdef
+{x_i}/{\max\{1, n^{1/2 -1/p}\}}$ lie in $B_2^n$ and we can apply
+Banaszczyk's theorem to them and the convex body $K \eqdef C \sqrt{q}
+n^{1/q} B_q^n$, which has Gaussian
+measure at least $\frac12$ as long as we choose $C$ to be a large
+enough constant. We get that there exist signs $\eps_1, \ldots, \eps_N
+\in \{-1, 1\}$ such that 
+\[
+\left\|\sum_{i = 1}^N{u_i}\right\|_K \le 5
+\iff
+\left\|\sum_{i = 1}^N{x_i}\right\|_q \le
+ 5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}. 
+\]
+In other words, we have that 
+\[
+\vb(B_p^n, B_q^n) = \vb(I) \le
+5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}.
+\]
+The volume lower bound (Lemmas~\ref{lem:vol-lb},\ref{lem:vol-lb-oper})
+can be used to show that this bound is tight up to the $O(\sqrt{q})$
+factor. Indeed one can show that $B_p^n$ contains $n$ vectors $u_1,
+\ldots u_n$ such that the matrix $U \eqdef  (u_1, \ldots, u_n)$ has
+determinant $\det(U) \ge e^{-1}  \max\{1, n^{1/2 -1/p}\}$
+(see~\cite{Ball89}~or~\cite{N15}). By standard estimates,
+$\vol(B_q^n)^{1/n} \ge c n^{1/q}$ for an absolute constant
+$c >0$. Plugging these estimates into Lemma~\ref{lem:vol-lb} shows
+$\vb(B_p, B_q) \ge c' \max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}$ for a
+constant $c' > 0$. 
+
+One take away from the example above is that Banaszczyk's theorem
+can be used for balancing vectors in the unit ball $B_X$ of any norm
+$X$ by appropriately ``embedding'' $B_X$ into $B_2^n$. In the case
+$\ell^n_p$ and $\ell^n_q$, this embedding just corresponds to
+rescaling the unit ball $B_p^n$. For general norms this does not
+necessarily make sense. However, we can instead choose a linear map $T:X \to
+\ell_2^n$ so that $T(B_X) \subseteq B_2^n$, i.e.~$\|T\| \le 1$. Our
+approach is based on this idea, and, in particular, on choosing such a
+map $T$ optimally.
+
+To capture the intution above into a definition, we will use the
+$\ell$-norm, which has been extensively studied in the theory of
+operator ideals, and in asymptotic convex geometry (see
+e.g.~\cite{TJ-book,Pisier-book,AGM-book}). For a linear operator
+$S:\ell_2^n \to Y$, where $Y = (\R^n, \|\cdot\|_Y)$ is a normed space,
+the $\ell$-norm of $S$ is defined as
+\[
+\ell(S) \eqdef \left( \int \|S(x)\|_Y^2 d\gamma_n(x) \right)^{1/2},
+\]
+where $\gamma_n$ is the standard Gaussian measure on $\R^n$. I.e., if
+$Z$ is a standard Gaussian random variable in $\R^n$, then $\ell(S) =
+(\E \|S(Z)\|_Y^2)^{1/2}$. It is easy to verify that $\ell(\cdot)$ is a
+norm on the space of linear operators from $\ell_2^n$ to $Y$, for any
+normed space $Y$ as above. 
+
+Moreover, we can define a dual norm $\ell^*$ via trace duality: for
+any linear opartor $R: Y \to \ell_2^n$, we define
+\[
+\ell^*(R) \eqdef \sup\{\tr(RS): S: \ell_2^n \to Y, \ell(S) \le 1\}.
+\]
+Then $\ell$ and $\ell^*$ form a dual pair, and in particular we have
+\[
+\ell(S) = \sup\{\tr(RS): R:Y\to\ell_2^n, \ell^*(R) \le 1\}.
+\]
+For a finite dimensional space $Y$, both suprema above are achieved.
+An in-depth discussion of the $\ell$ norm can be found, for example,
+in the book~\cite{TJ-book}.
+
+We now define our main tool: a factorization constant $\lambda$, which, for any
+two $n$-dimensional normed spaces $X$ and $Y$ and an operator $U:X \to
+Y$ is defined by
+\[
+\lambda(U) \eqdef \inf \{\ell(S)\|T\|: T: X \to \ell_2^n,\ S: \ell_2^n
+\to Y, U = ST\}.
+\]
+In other words, $\lambda(U)$ is the minimum of $\ell(S)\|T\|$ over all
+ways to factor $U$ through $\ell_2^n$ as $U = ST$. Here $\|T\|$ is the
+operator norm, equal to $\max \frac{\|Tx\|_2}{\|x\|_X}$. 
+This definition
+captures in a sense an optimal application of Banaszczyk's
+theorem. Using the theorem, it is not hard to show that $\vb(U) \le
+C\lambda(U)$ for an absolute constant $C$. Our main result is showing
+$\vb(U)$ and $\lambda(U)$ are in fact equal up to a factor which is
+polynomial in $\log n$. To prove this, we formulate $\lambda(U)$ as a
+convex minimization problem. Such a formulation is important both for
+our structural results, which rely on Lagrangian duality, and also for
+giving an algorithm to compute $\lambda(U)$ efficiently, and,
+therefore, approximate $\vb(U)$ efficiently, which turns out to be
+sufficient to approximate hereditary discrepancy in arbitrary norms.
+
+The most immediate way to formulate $\lambda(U)$ as an optimization
+problem is 
+\begin{align*}
+  &\inf %\ell(B^{-1})
+  \ell(UT^{-1})\\
+  &\text{s.t.}\\
+  &T:X \to\ell_2^n,\|T\| \le 1\\
+  &A \succ 0.
+\end{align*}
+Unfortunately, this optimization problem is not convex in $T$: the
+value of the objective function is finite for any nonzero $T$, but
+infinite for $0 = \frac12(T + (-T))$, for example. The key observation
+that allows us to circumvent this issue is that the objective function
+is completely determined by the operator $A \eqdef T^*T$, and is in
+fact convex in $A$. Here $T^*$ is the dual operator of $T$ (see
+Section~\ref{sect:fact-prelims} for more details.) We use $f(A)$ to
+denote this objective function, i.e.~to denote $\ell(UT^{-1})$ where
+$T$ is an operator such that $T^*T = A$. We give more justification
+why this function is well-defined and convex in
+Section~\ref{sect:fact-conv}. Then, our convex formulation of
+$\lambda(U)$ is
+\begin{align*}
+  &\inf  f(A) \\
+  &\text{s.t.}\notag\\
+  &A: X \to X^*,\|A\| \le 1\\
+  &A \succ 0.
+\end{align*}
+Above, $X^*$ is the dual space of $X$, and $\|A\|$ is the operator
+norm. The first constraint is equivalent to the constraint $\|T\|\le
+1$ where $U = ST$ is the factorization in the definition of
+$\lambda(U)$. The last constraint says that $A$ should be positive
+definite, which is important so that $A$ can be written as $T^*T$ and
+$f(A)$ is defined. 
+
+In order to utilize this convex formulation approximately characterize
+$\vb(U)$ in terms of $\lambda(U)$, we use Lagrange duality to derive a
+dual formulation of $\lambda(U)$ as a supremum over ``dual
+certificates''. Such a formulation is useful in approximately
+characterizing $\vb(U)$ in terms of $\lambda(U)$ because it reduces
+our task to relating the dual certificates to the terms in
+the volume lower bound~\eqref{eq:vol-lb}. If we can show that every
+dual certificate bounds from below one of the terms of the volume
+lower bound (up to factors polynomial in $\log n$), then we can
+conclude that $\lambda(U)$ also bounds the volume lower bound from
+below, and therefore $\vb(U)$ as well. 
+
+The derivation of our dual formulation, relies on
+standard tools, but is quite technical due to the complicated nature
+of the function $f(A)$. We give the formulation for norms $X$ such
+that $B_X = \conv\{\pm x_1, \ldots, \pm x_m\}$. This is without loss
+of generality since every symmetric convex body can be approximated by
+a convex polytope. The dual formulation is as follows:
+\begin{align*}
+  &\sup \tr((RU(\sum_{i = 1}^m{p_i x_i \otimes  x_i})U^*R^*)^{1/3})^{3/2}\\
+  \text{s.t.}\notag\\
+  &R: Y \to \ell_2^n, \ell^*(R) \le 1 \\
+  &\sum_{i = 1}^m{p_i} = 1\\
+  &p_1, \ldots, p_m \ge 0. 
+\end{align*}
+Above $x_i \otimes x_i$ is the rank-1 operator from the dual space
+$X^*$ to $X$, given by $(x_i \otimes x_i)(x^*) = \langle x^*,
+x_i\rangle x_i$. 
+
+We relate this dual to the volume lower bound via deep inequalities
+between $\ell^*$ and the $\ell$ norms ($K$-convexity), and between the
+$\ell$ norm and packing and covering numbers (Sudakov's
+minoration). Our main result is the theorem below.
+
+\begin{theorem}\label{thm:fact-main}
+  There exists a constant $C$ such that for any two $n$-dimensional
+  normed spaces $X$ and $Y$, and any linear operator $U:X \to Y$
+  between them, we have
+  \[
+  \frac1C \le \frac{\lambda(U)}{\vb(U)} \le C (1 + \log n)^{5/2}.
+  \]
+  Moreover, for any vectors $u_1, \ldots, u_N$ and convex body $K$ in
+  $\R^n$ we can define a norm $X$ on $\R^n$ so that for the space $Y$
+  with unit ball $K$ and the identity map $I:X \to Y$,
+  \[
+  \frac{\lambda(I)}{C(1 + \log n)^{5/2}} 
+  \le \hd((u_i)_{i = 1}^N, K) \le \vb(I) 
+  \le C \lambda(I).
+  \]
+  Finally, $\lambda(U)$ is computable in polynomial time given
+  appropriate access to $X$ and $Y$.
+  \footnote{See Theorem~\ref{thm:alg} for the necessary assumptions.}
+\end{theorem}
 
 \subsection{Organization}
 
@@ -1596,80 +1838,26 @@ Lemma~\ref{lem:cover-to-section}, from which we derive the result.
 \section{The Factorization Approach}
 \label{sec:factorization}
 
-In the inductive proof of Theorem~\ref{thm:tightness} we need to keep
-alternating between computing Gaussian estimates based on volume
-information, and applying Theorem~\ref{thm:roth-giann}, as we induct
-on lower dimensional subspaces. One downside of this indirect nature
-of our proof is that it does not lead to an algorithm for computing
-the vector balancing constant $\vb(C,K)$ of two symmetric convex
-bodies $C$ and $K$, or of the hereditary discrepancy $\hd((u_i)_{i =
-  1}^N, K)$. In this section, we explore a different approach, which
-aims at separating computing a Gaussian estimate from volume
-information, on one hand, and the vector balancing argument on the
-other. The approach is based on recasting vector balancing in the
-language of linear operators between normed spaces, and on factoring
-such operators through Euclidean space. This factorization strategy is
-a significant generalization of the connection between the $\gamma_2$
-norm and hereditary discrepancy used in~\cite{disc-gamma2}.
+In this section we develop the operator-theoretic approach to vector
+balancing and prove that, roughly speaking, applying Banaszczyk's vector
+balancing theorem optimally gives nearly tight bounds on vector
+balancing constants. This approach is the basis of our polynomial time
+approximation algorithm for hereditary discrepancy in any norm. 
 
-Let $U:X \to Y$ be a linear operator between two $n$-dimensional
-normed spaces $(X, \| \cdot\|_X)$ and $(Y, \| \cdot\|_Y)$. A natural
-way to define the vector balancing constant of $U$ is
+Let us recall the definition of the vector balancing constant of an
+operator $U:X \to Y$ between two $n$-dimensional normed space $X$ and
+$Y$, given in \eqref{eq:vb-oper}:
 \[
 \vb(U) = \sup\left\{
   \min_{\eps_1, \ldots, \eps_N \in \{-1, 1\}} 
   \biggl\|\sum_{i = 1}^N \eps_i U(x_i)\biggr\|_Y:
   N \in \mathbb{N}, x_1, \ldots, x_N \in B_X\right\}
 \]
-where $B_X = \{x: \|x\|_X \le 1\}$ is the unit ball of $X$. If $C$ and
-$K$ are two centrally symmetric convex bodies in $\R^n$, and we define
-the corresponding normed spaces $X_C = (\R^n, \|\cdot\|_C)$ and $X_K =
-(\R^n, \|\cdot\|_K)$, then the vector balancing constant $\vb(I)$ of
-the formal identity operator $I:X_C \to X_K$ recovers $\vb(C, K)$.
-
-We will relate $\vb(U)$ to an efficiently computable quantity
-$\lambda(U)$, which will allow us to efficiently approximate $\vb(U)$
-(given appropriate access to the domain and range $X$ and
-$Y$). Moreover, we will see that for the operator $U:\ell_1^N \to X_K$
-given by $Ue_i = u_i$, $\lambda(U)$ also approximates $\hd((u_i)_{i =
-  1}^N, K)$. Once again our main tool for giving lower bounds on
-$\vb(U)$ is the volume lower bound, which we reformulate in the
-operator setting.
-
-\begin{lemma}
-\label{lem:vol-lb-oper}
-Let $(X, \|\cdot\|_X)$ and $(Y, \|\cdot\|_Y)$ be two $n$-dimensional
-normed spaces, and let $U:X \to Y$ be an invertible linear
-operator. Define
-\[
-\vollb_k^{\rm h}(U) \eqdef
-\sup\bigl\{\vol_k\bigl(\set{a \in \R^k: \|UV a\|_Y \le 1}\bigr)^{-1/k}\bigr\},
-\]
-where the supremum is over all operators $V:\ell_1^k \to X$ of
-operator norm $1$ and rank $k$. Then, letting
-\[
-\vollb^{\rm h}(U) \eqdef \max_{k \in [n]} \vollb_k^{\rm h}(U),
-\]
-we have that
-\[
-\vb(U) \geq \vollb^{\rm h}(U).
-\]
-\end{lemma}
-\begin{proof}
-  The lemma is just a reformulation of Lemma~\ref{lem:vol-lb} in the
-  language of linear operators. Because 
-  \[
-  \max_{i = 1}^k{\|Ve_i\|_X} = \|V\| = 1,
-  \]
-  the points $u_1, \ldots, u_k$ defined by $u_i = V e_i$ lie in $B_X$,
-  where $e_i$ is the $i$-th standard basis vector of $X$. Then the
-  lemma follows directly from Lemma~\ref{lem:vol-lb} with $C = B_X$
-  and $K = \{x \in X: Ux \in B_Y\}$. 
-\end{proof}
+Before we present the details of our approach, we give some
+relevant preliminaries. 
 
 \subsection{Preliminaries}
-
-\snote{Put all prelims in one place, Schur convexity}
+\label{sect:fact-prelims}
 
 To every finite dimensional normed space $(X, \|\cdot\|)$ over $\R$ we
 associate its dual space $(X^*, \|\cdot\|_*)$ defined over linear maps
@@ -1774,99 +1962,14 @@ constants to the following deep theorem of Banaszczyk.
   \frac12$. Then, $\vb(B_2^n, K) \le 5$.
 \end{theorem}
 
-As a warm-up, let us see how we can use Theorem~\ref{thm:bana} to get
-nearly tight bounds on $\vb(B^n_p, B^n_q)$, or, equivalently, on
-$\vb(I)$, where $I:\ell_p^n \to \ell_q^n$ is the identity. For any
-$x_1, \ldots, x_N \in B_p^n$, the points defined by $u_i \eqdef
-{x_i}/{\max\{1, n^{1/2 -1/p}\}}$ lie in $B_2^n$ and we can apply
-Banaszczyk's theorem to them and the convex body $K \eqdef C \sqrt{q}
-n^{1/q} B_q^n$, which has Gaussian
-measure at least $\frac12$ as long as we choose $C$ to be a large
-enough constant. We get that there exist signs $\eps_1, \ldots, \eps_N
-\in \{-1, 1\}$ such that 
-\[
-\left\|\sum_{i = 1}^N{u_i}\right\|_K \le 5
-\iff
-\left\|\sum_{i = 1}^N{x_i}\right\|_q \le
- 5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}. 
-\]
-In other words, we have that 
-\[
-\vb(B_p^n, B_q^n) = \vb(I) \le
-5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}.
-\]
-The volume lower bound (Lemmas~\ref{lem:vol-lb},\ref{lem:vol-lb-oper})
-can be used to show that this bound is tight up to the $O(\sqrt{q})$
-factor. Indeed one can show that $B_p^n$ contains $n$ vectors $u_1,
-\ldots u_n$ such that the matrix $U \eqdef  (u_1, \ldots, u_n)$ has
-determinant $\det(U) \ge e^{-1}  \max\{1, n^{1/2 -1/p}\}$
-(see~\cite{Ball89}~or~\cite{N15}). By standard estimates,
-$\vol(B_q^n)^{1/n} \ge c n^{1/q}$ for an absolute constant
-$c >0$. Plugging these estimates into Lemma~\ref{lem:vol-lb} shows
-$\vb(B_p, B_q) \ge c' \max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}$ for a
-constant $c' > 0$. 
-
-One take away from the example above is that Theorem~\ref{thm:bana}
-can be used for balancing vectors in the unit ball $B_X$ of any norm
-$X$ by appropriately ``embedding'' $B_X$ into $B_2^n$. In the case
-$\ell^n_p$ and $\ell^n_q$, this embedding just corresponds to
-rescaling the unit ball $B_p^n$. For general norms this does not
-necessarily make sense. However, we can instead choose a linear map $T:X \to
-\ell_2^n$ so that $T(B_X) \subseteq B_2^n$, i.e.~$\|T\| \le 1$. Our
-approach is based on this idea, and, in particular, on choosing such a
-map $T$ optimally.
-
-To capture the intution above into a definition, we will use the
-$\ell$-norm, which has been extensively studied in the theory of
-operator ideals, and in asymptotic convex geometry (see
-e.g.~\cite{TJ-book,Pisier-book,AGM-book}). For a linear operator
-$S:\ell_2^n \to Y$, where $Y = (\R^n, \|\cdot\|_Y)$ is a normed space,
-the $\ell$-norm of $S$ is defined as
-\[
-\ell(S) \eqdef \left( \int \|S(x)\|_Y^2 d\gamma_n(x) \right)^{1/2},
-\]
-where $\gamma_n$ is the standard Gaussian measure on $\R^n$. I.e., if
-$Z$ is a standard Gaussian random variable in $\R^n$, then $\ell(S) =
-(\E \|S(Z)\|_Y^2)^{1/2}$. It is easy to verify that $\ell(\cdot)$ is a
-norm on the space of linear operators from $\ell_2^n$ to $Y$, for any
-normed space $Y$ as above. 
-
-Moreover, we can define a dual norm $\ell^*$ via trace duality: for
-any linear opartor $R: Y \to \ell_2^n$, we define
-\[
-\ell^*(R) \eqdef \sup\{\tr(RS): S: \ell_2^n \to Y, \ell(S) \le 1\}.
-\]
-Then $\ell$ and $\ell^*$ form a dual pair, and in particular we have
-\[
-\ell(S) = \sup\{\tr(RS): R:Y\to\ell_2^n, \ell^*(R) \le 1\}.
-\]
-For a finite dimensional space $Y$, both suprema above are achieved.
-An in-depth discussion of the $\ell$ norm can be found, for example,
-in the book~\cite{TJ-book}.
-
-
-
-We now define the main object of study in this section. Let $X$ and
-$Y$ be $n$-dimensional normed spaces, and let $U:X \to Y$ be a
-linear operator. We define a factorization constant
+Recall the definition of the vector balancing constant $\lambda(U)$ of
+$U:X \to Y$: 
 \[
 \lambda(U) \eqdef \inf \{\ell(S)\|T\|: T: X \to \ell_2^n,\ S: \ell_2^n
 \to Y, U = ST\}.
 \]
-In other words, $\lambda(U)$ is the minimum of $\ell(S)\|T\|$ over all
-ways to factor $U$ through $\ell_2^n$ as $U = ST$. A standard
-compactness argument shows that the infimum is in fact achieved. 
+Note that a standard compactness argument shows that the infimum is in fact achieved. 
 
-\cut{It is
-also worth noting that we can choose the operator $T$ to map $X$ to
-$\ell_2^m$, and $S$ to map $\ell_2^m$ to $Y$, for any $m \ge
-\rank(U)$, without changing the value of $\lambda(U)$. The reason is
-that, if we choose $W$ to be the subspace of $\R^m$ of dimension $r
-\eqdef \rank(U)$ such that $S(W)$ equals the range of $U$, then we can
-replace $S$ with $S\pi$ and $T$ with $\pi T$, where $\pi:\ell_2^m
-\to\ell_2^{r}$ is the orthogonal projection that sends $W$ to
-$\R^{r}$. This is still a factorization of $U$ and the norms $\ell(S)$
-and $\|T\|$ remain unchanged.}
 We have the following theorem, which shows that $\lambda(U)$ is, up to
 constants, an upper bound on $\vb(U)$ for any operator $U$. 
 
@@ -2026,37 +2129,19 @@ assumptions on how we are given access to the normed spaces $X$ and
 $Y$, $\lambda(U)$ can be computed in polynomial time. Given
 Corollaries~\ref{cor:vb-apx}~and~\ref{cor:hd-apx}, this also implies a
 polynomial time approximation algorithm for vector balancing and
-hereditary discrepancy with arbitrary norms. 
+hereditary discrepancy with arbitrary norms, and proves Theorem~\ref{thm:fact-main}
 
 \subsection{Convex And Dual Formulations}
+\label{sect:fact-conv}
 
-The factorization constant $\lambda(U)$ can be formulated as the
-solution to a convex optimization problem, i.e.~as the infimum of a
-convex function over a convex domain. This fact is useful since it
-allows applying generic convex optimization techniques to compute
-$\lambda(U)$ given appropriate access to the unit balls of $X$ and
-$Y$. It will also be useful in deriving a dual formulation of
-$\lambda(U)$, which we then use to prove Theorem~\ref{thm:fact-vollb}.
-
-The most immediate way to formulate $\lambda(U)$ as an optimization
-problem is 
-\begin{align*}
-  &\inf %\ell(B^{-1})
-  \ell(UT^{-1})\\
-  &\text{s.t.}\\
-  &T:X \to\ell_2^n,\|T\| \le 1\\
-  &A \succ 0.
-\end{align*}
-Unfortunately, this optimization problem is not convex in $T$: the
-value of the objective function is finite for any nonzero $T$, but
-infinite for $0 = \frac12(T + (-T))$, for example. The key observation
-that allows us to circumvent this issue is that the objective function
-is completely determined by the operator $A \eqdef T^*T$, and is in
-fact convex in $A$. 
+Here we give an equivalent formulation of $\lambda(U)$ as a convex
+minimization problem, i.e.~as the infimum of a convex function over a
+convex domain. Then we use this convex formulation to derive another
+equivalent dual reformulation as a maximization problem.
 
 
 The objective function $f(A)$ of our convex optimization formulation of
-$\lambda(U)$ is then defined as follows: for any positive definite
+$\lambda(U)$ is defined as follows: for any positive definite
 operator $A:X \to X^*$, we set
 \begin{equation}
   \label{eq:obj-def}
@@ -2104,18 +2189,6 @@ convex optimization problem for $\lambda(U)$.
   Moreover, the objective \eqref{eq:fact-obj} and the constraints
   \eqref{eq:fact-constr}--\eqref{eq:fact-psd} are convex in $A$.
 \end{restatable}
-
-In addition to allowing us to efficiently compute $\lambda(U)$, the
-optimization problem \eqref{eq:fact-obj}--\eqref{eq:fact-psd} makes it
-possible to use Lagrange duality to derive a dual formulation of
-$\lambda(U)$ as a supremum over ``dual certificates''. Such a
-formulation is useful in proving Theorem~\ref{thm:fact-vollb}, because
-it allows us to reduce the proof to relating the dual certificates
-to the terms in the volume lower bound~\eqref{eq:vol-lb}. If we can
-show that every dual certificate bounds from below one of the terms of
-the volume lower bound (up to factors polynomial in $\log n$), then we
-can conclude that $\lambda(U)$ also bounds the volume lower bound from
-below.
 
 The dual formulation of $\lambda(U)$ is given in the following lemma. 
 \begin{restatable}{lemma}{dual}
