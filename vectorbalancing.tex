@@ -1139,8 +1139,8 @@ elementary symmetric polynomials to the eigenvalues of $Q$:
 To verify this equation, consider the coefficient of $t^{n-k}$ in the polynomial
 $\det(Q + tI)$. Calculating the coefficient using the Leibniz formula for the
 determinant gives the right hand side; calculating it using $\det(Q + tI) =
-(\lambda_1 + t)\ldots(\lambda_n + t)$ gives the left hand side. Since the eigen
-values are all non-negative, we get that
+(\lambda_1 + t)\ldots(\lambda_n + t)$ gives the left hand side. Since the 
+eigenvalues are all non-negative, we get that
 \[
 \prod_{i=1}^k \lambda_i \leq p_k(\lambda) =  
  \sum_{S \subseteq [n]: |S|=k} \det(Q_{S,S}) \leq \binom{n}{k} \max_{S
@@ -1346,7 +1346,7 @@ below.
 Let $\eps = 1/60000$ and $\delta = (3/2) \eps \log_2(1/\eps)$. By
 Theorem~\ref{thm:gauss-via-volume}, $\eta(\delta) K$ satisfies the conditions
 for applying Theorem~\ref{thm:roth-giann} on any $x \in (-1,1)^n$ with
-`parameters $\eps$ and $\delta$ as in the last sentence. This yieds
+`parameters $\eps$ and $\delta$ as in the last sentence. This yields
 Lemma~\ref{lem:partial-via-volume} with $\eps_0 = \eps/2$, $\delta = \delta$ and
 $C = O(\eta(\delta)) = O(1)$, as needed.   
 \end{proof}
@@ -1946,7 +1946,6 @@ have the identity
 where the supremum is over orthogonal transformations on $\ell_2^n$. 
 
 
-
 \subsection{The Factorization Constant $\lambda$}
 
 In what follows we fix two $n$-dimensional normed spaces $(X,
@@ -2222,7 +2221,7 @@ We will use Lemma~\ref{lm:dual} to prove Theorem~\ref{thm:fact-vollb}.
 In the proof, we need to relate the objective function
 \eqref{eq:dual-obj} of the dual formulation to volumetric information
 about $X$ and $Y$. We do so in two steps. In the first step, we
-consider a soluion $R, p$ of
+consider a solution $R, p$ of
 \eqref{eq:dual-obj}--\eqref{eq:dual-nonneg}, and, using purely
 linearly algebraic techniques, we find a subset $S$ of $\{1, \ldots,
 m\}$ so that the Gram matrix of the vectors $(RUx_i)_{i \in S}$ has large
@@ -3112,7 +3111,7 @@ function $f$.
 
 
 \begin{proof}[Proof of Theorem~\ref{thm:conv-hull}]
-  Let us fix a a sequence of linearly independent vectors $u_1,
+  Let us fix a sequence of linearly independent vectors $u_1,
   \ldots, u_{k-1} \in C$ for the remainder of the proof,
   and, for any $x\in \R^n$, define the matrix $U_x = (u_1, \ldots
   u_{k-1}, x)$.  To prove the theorem, it is enough to show that the
