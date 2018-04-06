@@ -129,23 +129,43 @@ Nicole Tomczak-Jaegermann
 \noteswarning
 
 \begin{abstract}
-In the vector balancing problem, we are given $N$ vectors $v_1,..., v_N$ in an
-$n$-dimensional normed space, and our goal is to assign signs to them, so that
-the norm of their signed sum is as small as possible. The balancing constant of
-a set of vectors is the smallest number $\beta$, such that any subset of the set
-can be balanced so that their signed sum has norm at most $\beta$. The vector
-balancing constant generalizes combinatorial discrepancy, and is related to
-rounding problems in combinatorial optimization. We study the question of
-efficiently approximating the vector balancing constant of any set of vectors,
-with respect to an arbitrary norm. We show that the vector balancing constant
-can be approximated in polynomial time to within factors logarithmic in the
-dimension, and is characterized by (an appropriately optimized version of) a
-known volumetric lower bound. Our techniques draw on results from geometric
-functional analysis and the theory of Gaussian processes.  Our results also
-imply an improved approximation algorithm for hereditary discrepancy. 
+In the vector balancing problem, we are given symmetric convex bodies $C$ and
+$K$ in $\R^n$, and our goal is to determine the minimum number $\beta \geq 0$,
+known as the vector balancing constant from $C$ to $K$, such that for any
+sequence of vectors in $C$ there always exists a signed combination of them
+lying inside $\beta K$. Many fundamental results in discrepancy theory, such as
+the Beck-Fiala (Discrete Appl. Math `81), Spencer's ``six standard deviations
+suffice'' (Trans. Amer. Math. Soc `85) and Banaszczyk's vector balancing theorem
+(RSA `98) correspond to bounds on vector balancing
+constants. 
+
+The above theorems have inspired much research in recent years within
+theoretical computer science, from the development of efficient polynomial time
+algorithms for matching existential vector balancing guarantees, to
+their applications in the context of approximation algorithms. In this work, we
+show that all vector balancing constants admit ``good'' approximate
+characterizations, with approximation factors depending only polylogarithmically
+on the dimension $n$. Firstly, we show that a volumetric lower bound due to
+Banaszczyk is tight within a $O(\log n)$ factor. Our proof is algorithmic, where
+we show that Rothvoss's (FOCS `14) partial coloring algorithm can be
+analyzed to obtain these guarantees. Second, we present a novel convex program
+which encodes the ``best possible  way'' to apply Banaszczyk's vector balancing
+theorem for upper bounding vector balancing constants, and show that it is tight
+within an $O(\log^{2.5} n)$ factor. This also directly yields a corresponding
+polynomial time approximation algorithm for the hereditary discrepancy of any
+sequence of vectors with respect to an arbitrary norm.   
+  
+Our results yield the first guarantees which depend only polygarithmically on
+the dimension of the norm ball $K$. All prior works required the norm to be
+polyhedral and incurred a dependence of $O(\sqrt{\log m})$, where $m$ is the
+number of facets. Our techniques rely on a novel combination of techniques
+convex geometry and discrepancy theory. In particular, we give a new way to
+lower bound Gaussian measures using only volumetric information, which may be of
+independent interest.
 \end{abstract}
 
-\textbf{Keywords.}  Discrepancy, Convex Geometry, Gaussian Measure, M-ellipsoid.
+\textbf{Keywords.}  Discrepancy, Convex Geometry, Gaussian Measure, M-ellipsoid,
+K-convexity.
 
 \thispagestyle{empty}
 
