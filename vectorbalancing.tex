@@ -67,8 +67,8 @@
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 
 % MARGIN NOTES
-%\newif\ifnotes\notestrue
-\newif\ifnotes\notesfalse
+\newif\ifnotes\notestrue
+%\newif\ifnotes\notesfalse
 
 \ifnotes
 \usepackage{color}
@@ -194,7 +194,7 @@ norm $1$, and thus the sign vector $x \in \set{-1,1}^n$ satisfying $\norm{U
 x}_\infty = O(\sqrt{n})$ indeed yields the desired coloring.   
 
 In fact, vector balancing was studied earlier, and independently from
-combinatorial discrepancy. In 1963 Dvoretzky asked the general problem
+combinatorial discrepancy. In 1963 Dvoretzky posed the general problem
 of determining $\vb(K, K)$ for a given symmetric convex body $K$. The
 more general version with two different bodies was introduced by
 Barany and Grinberg~\cite{baranygrinberg} who proved that for any
@@ -758,7 +758,7 @@ on the vector balancing constant, we are not aware of an efficient
 algorithm for computing the volume lower bound, which is itself a
 maximum over an exponential number of terms. To address this
 shortcoming, we study a different approach to vector balancing which
-relies on applying Banaszczyk's vector balancing theorem in an optimal
+relies on applying Banaszczyk's theorem in an optimal
 way in order to get an efficiently computable, and nearly tight, upper
 bound on both vector balancing constants and hereditary discrepancy.
 
@@ -776,20 +776,20 @@ applying Banaszczyk's theorem. Let us take an arbitrary sequence of
 points $u_1, \ldots, u_N \in B_p^n$, and rescale them to define new
 points $v_i \eqdef {u_i}/{\max\{1, n^{1/2 -1/p}\}}$. The rescaled
 points $v_1, \ldots, v_N$ lie in $B_2^n$ and we can apply Banaszczyk's
-theorem to them and the convex body $K \eqdef C \sqrt{q} n^{1/q}
+theorem to them and the convex body $K \eqdef L \sqrt{q} n^{1/q}
 B_q^n$, which has Gaussian measure at least $\frac12$ as long as we
-choose $C$ to be a large enough constant. We get that there exist
+choose $L$ to be a large enough constant. We get that there exist
 signs $\eps_1, \ldots, \eps_N \in \{-1, 1\}$ such that
 \[
-\left\|\sum_{i = 1}^N{v_i}\right\|_K \le 5
+\left\|\sum_{i = 1}^N{\eps_i v_i}\right\|_K \le 5
 \iff
-\left\|\sum_{i = 1}^N{u_i}\right\|_q \le
- 5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}. 
+\left\|\sum_{i = 1}^N{\eps_i u_i}\right\|_q \le
+ 5L\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}. 
 \]
 In other words, we have that 
 \[
 \vb(B_p^n, B_q^n) \le
-5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}.
+5L\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}.
 \]
 The volume lower bound (Lemmas~\ref{lem:vol-lb}) can be used to show
 that this bound is tight up to the $O(\sqrt{q})$ factor. Indeed one
@@ -901,7 +901,7 @@ norm. The first constraint is equivalent to the constraint $\|T\|\le
 1$ where $U = ST$ is the factorization in the definition of
 $\lambda(U)$. The last constraint says that $A$ should be positive
 definite, which is important so that $A$ can be written as $T^*T$ and
-$f(A)$ is defined. 
+$f(A)$ is well-defined. 
 
  We utilize this convex formulation
 and Lagrange duality to derive a
@@ -945,7 +945,7 @@ $X^*$ to $X$, given by $(x_i \otimes x_i)(x^*) = \langle x^*,
 x_i\rangle x_i$. 
 
 We relate  the volume lower bound to this dual via deep inequalities
-between $\ell^*$ and the $\ell$ norms ($K$-convexity), and between the
+between the $\ell^*$ and the $\ell$ norms ($K$-convexity), and between the
 $\ell$ norm and packing and covering numbers (Sudakov's
 minoration). Our main result is the theorem below.
 
@@ -978,7 +978,7 @@ partial progress on the restricted invertibility conjecture for convex bodies.
 In section~\ref{sec:factorization}, we present the proof of tightness for our
 factorization approach to vector balancing. In section~\ref{sect:fact-alg}, we
 give a polynomial time algorithm to compute the factorization constant up to a
-constant factor. In section~\ref{sec:conv-hulls}, we show that volume lower
+constant factor. In section~\ref{sec:conv-hulls}, we show that the volume lower
 bound is invariant under taking convex hulls.  
 
 % \section{Definitions and Statement of the Volume Lower Bound}
@@ -1809,11 +1809,11 @@ Lemma~\ref{lem:cover-to-section}, from which we derive the result.
 \section{The Factorization Approach}
 \label{sec:factorization}
 
-In this section we develop the operator-theoretic approach to vector
-balancing and prove that, roughly speaking, applying Banaszczyk's vector
-balancing theorem optimally gives nearly tight bounds on vector
-balancing constants. This approach is the basis of our polynomial time
-approximation algorithm for hereditary discrepancy in any norm. 
+In this section we develop the approach to vector balancing via linear
+operators and prove that, roughly speaking, applying Banaszczyk's
+vector balancing theorem optimally gives nearly tight bounds on vector
+balancing constants. This  is the basis of our polynomial time
+approximation algorithm for hereditary discrepancy in any norm.
 
 Let us recall the definition of the vector balancing constant of an
 operator $U:X \to Y$ between two $n$-dimensional normed space $X$ and
@@ -1958,7 +1958,7 @@ operators is without loss of generality: given an operator $U:X \to Y$
 which has a nontrivial kernel $W$, we can replace $X$ by the
 quotient space $X/W$, and $Y$ by its subspace given by the range of
 $U$, and $U$ by the induced operator $\tilde{U}:X/W \to U(X)$ which
-sends $x+W$ to $Ux$. It is straightforward to check that this not
+sends $x+W$ to $Ux$. It is straightforward to check that this does not
 change any of the quantities we study.
 
 In this section we reduce all upper bounds on vector balancing
@@ -2086,7 +2086,7 @@ direction as well, as captured in the following theorem.
 \end{theorem}
 
 Theorems~\ref{thm:factorization}~and~\ref{thm:fact-vollb} together
-with Lemma~\ref{lem:vol-lb} give a characterization of $\vb(U)$ in
+with Lemma~\ref{lem:vol-lb-oper} give a characterization of $\vb(U)$ in
 terms of $\lambda(U)$.
 
 \begin{corollary}\label{cor:vb-apx}
@@ -2135,7 +2135,7 @@ assumptions on how we are given access to the normed spaces $X$ and
 $Y$, $\lambda(U)$ can be computed in polynomial time. Given
 Corollaries~\ref{cor:vb-apx}~and~\ref{cor:hd-apx}, this also implies a
 polynomial time approximation algorithm for vector balancing and
-hereditary discrepancy with arbitrary norms, and proves Theorem~\ref{thm:fact-main}
+hereditary discrepancy with arbitrary norms, and proves Theorem~\ref{thm:fact-main}.
 
 \subsection{Convex And Dual Formulations}
 \label{sect:fact-conv}
@@ -2240,7 +2240,7 @@ $\{a: \|UVa\|_Y \le 1\}$ appearing in the volume lower bound, we can
 finish the proof by appealing to the Blaschke-Santal\'o inequality.
 
 
-In the context of linear operators it is often convenient use to the
+In the context of linear operators it is often convenient to use the
 notion of entropy numbers instead of covering numbers.  The entropy
 number $e_k(A)$ of a linear operator $A:X \to Y$ is defined by
 \[
@@ -2483,13 +2483,16 @@ Before we prove Lemma~\ref{lm:obj-f}, we need an auxiliary lemma.
   \ell(S)^2 &= \int_{t = 0}^\infty (1-\gamma_n(\sqrt{t}K))dt\\
   &= \int_{t = 0}^\infty \int_{W}(1-\gamma_{n-k}(\sqrt{t}K \cap (y + W^\perp))d\gamma_{k}(y))dt
   \end{align*}
-  By the logconcavity of Gaussian measure and the symmetry of $K$,
+  By the log-concavity of Gaussian measure and the symmetry of $K$,
   $\gamma_{n-k}(\sqrt{t}K \cap (y + W^\perp)) \le \gamma_{n-k}(\sqrt{t}K \cap
   W^\perp)$ for all $y \in W$, and, for all $y$ outside a
   compact set we have $\gamma_{n-k}(\sqrt{t}K \cap (y + W^\perp)) = 0 <
   \gamma_{n-k}(\sqrt{t}K \cap W^\perp)$. Therefore, $\ell(S\pi) < \ell(S)$, a
   contradiction.
 \end{proof}
+
+\snote{add something about majorization because it is used in the
+  following proof.}
 
 \begin{proof}[Proof of Lemma~\ref{lm:obj-f}]
   We begin with the proof of differentiability. Because $A$ is
@@ -2531,17 +2534,20 @@ Before we prove Lemma~\ref{lm:obj-f}, we need an auxiliary lemma.
   our case, equals $RU$), the function $\tr((VA^{-1}V^*)^{1/2})$ is
   convex in $A$ for $A:X\to X^*$ positive definite. Then, we would
   have that $f(A)$ is a supremum of convex functions, and, therefore,
-  convex.  The convexity of $\tr((VA^{-1}V^*)^{1/2})$ follows from a
-  standard argument based on majorization, which we give next.  Since
-  $V$ is invertible, we have $VA^{-1}V^* = (V^{-*}AV^{-1})^{-1}$, and
-  $\tr((VA^{-1}V^*)^{1/2}) = \tr(((V^{-*}AV^{-1})^{-1/2})$. Let
-  $\alpha \in (0,1)$ be arbitrary, and let $A_1, A_2$ be two positive
-  definite operators from $X$ to $X^*$. Let $\mu$ be the function that
-  maps a self-adjoint operator on $\ell_2^n$ to the vector of its
-  eigenvalues. By the Ky-Fan inequalities, $\mu(V^{-*}(\alpha A_1 +
-  (1-\alpha)A_2)V^{-1})$ is majorized by $\alpha \mu(V^{-*}A_1V^{-1}) + (1-\alpha)
-  \mu(V^{-*}A_2V^{-1})$. Let $g$ be the function defined on vectors $x \in
-  \R^n$ with positve coordinates by $g(x) =
+  convex.  
+
+  The convexity of $\tr((VA^{-1}V^*)^{1/2})$ follows from a standard
+  argument based on majorization and Schur convexity, which we give
+  next.  Since $V$ is invertible, we have $VA^{-1}V^* =
+  (V^{-*}AV^{-1})^{-1}$, and $\tr((VA^{-1}V^*)^{1/2}) =
+  \tr(((V^{-*}AV^{-1})^{-1/2})$. Let $\alpha \in (0,1)$ be arbitrary,
+  and let $A_1, A_2$ be two positive definite operators from $X$ to
+  $X^*$. Let $\mu$ be the function that maps a self-adjoint operator
+  on $\ell_2^n$ to the vector of its eigenvalues. By the Ky-Fan
+  inequalities, $\mu(V^{-*}(\alpha A_1 + (1-\alpha)A_2)V^{-1})$ is
+  majorized by $\alpha \mu(V^{-*}A_1V^{-1}) + (1-\alpha)
+  \mu(V^{-*}A_2V^{-1})$. Let $g$ be the function defined on vectors $x
+  \in \R^n$ with positve coordinates by $g(x) =
   \sum_{i=1}^n{x_i^{-1/2}}$. It is easy to verify that $g$ is convex
   and Schur-convex, so
   \begin{align*}
