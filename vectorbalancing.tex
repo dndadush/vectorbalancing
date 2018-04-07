@@ -851,7 +851,7 @@ norm on the space of linear operators from $\ell_2^n$ to $Y$, for any
 normed space $Y$ as above. The reason the $\ell$-norm is useful to us
 is the fact that the smallest $r$ for which the set $K = \{x \in \R^n:
 \|Sx\|_Y \le r\}$  has Gaussian measure at least $1/2$ is approximately
-$\ell(S)$. 
+$\ell(S)$, due to the  concentration of measure phenomenon. 
 
 We now define our main tool: a factorization constant $\lambda$, which, for any
 two $n$-dimensional normed spaces $X$ and $Y$ and an operator $U:X \to
@@ -932,7 +932,7 @@ standard tools, but is quite technical due to the complicated nature
 of the function $f(A)$. We give the formulation for norms $X$ such
 that $B_X = \conv\{\pm x_1, \ldots, \pm x_m\}$. This is without loss
 of generality since every symmetric convex body can be approximated by
-a convex polytope. The dual formulation is as follows:
+a symmetric polytope. The dual formulation is as follows:
 \begin{align*}
   &\sup \tr((RU(\sum_{i = 1}^m{p_i x_i \otimes  x_i})U^*R^*)^{1/3})^{3/2}\\
   \text{s.t.}\ \ \ 
@@ -2498,24 +2498,21 @@ Before we prove Lemma~\ref{lm:obj-f}, we need an auxiliary lemma.
   We begin with the proof of differentiability. Because $A$ is
   positive definite, it defines an inner product $\langle y,x\rangle_A
   = \langle y, Ax\rangle$ on $X$, and a corresponding Gaussian measure
-  $\gamma_A$. Let $B:X \to X^*$ be a self-adjoint operator. For small
-  enough $t \in \R$ the operator $A + tB$ is positive definite, and we
-  have
+  $\gamma_A$. Let us fix some positive definite operator $A_0:X \to
+  X^*$. Then, for any positive definite $A: X \to X^*$ we can write
   \[
-  f(A+tB)  = \int_X \|Ux\|_Y d\gamma_{A + tB}(x)
-  = \int_X \|Ux\|_Y \frac{d\gamma_{A+tB}}{d\gamma_A}(x)\ d\gamma_A(x).
+  f(A) = \int_X \|Ux\|_Y d\gamma_A(x)
+  = \int_X \|Ux\|_Y \frac{d\gamma_{A}}{d\gamma_{A_0}}(x)\ d\gamma_{A_0}(x).
   \]
-  For any $x$, 
+  For any $x \in X$, 
   \[
-  \frac{d\gamma_{A+tB}}{d\gamma_A}(x) =
-  \sqrt{\frac{\det(A+tB)}{\det(A)}} e^{-t\langle x, Bx\rangle / 2}
+  \frac{d\gamma_{A}}{d\gamma_{A_0}}(x) =
+  \sqrt{\frac{\det(A)}{\det(A_0)}} e^{-\langle x, (A - A_0)x\rangle / 2}.
   \]
-  is differentiable in $t$, and, by the dominated convergence theorem,
-  $\frac{d}{dt}f(A+tB)$ exists and is given by differentiating under the
-  integral sign. Moreover, it is easy to see that the derivative is
-  continuous in $A$. This implies that all directional derivatives of $f(A)$
-  exist and are continuous in its domain, and, therefore, $f(A)$ is
-  differentiable everywhere in its domain. 
+  Since $\frac{d\gamma_{A}}{d\gamma_{A_0}}(x)$ is easily seen to be
+  continuously differentiable in $A$, by the dominated convergence
+  theorem the derivative of $f$ also exists and is given by
+  differentiating under the integral sign.
 
   Next we prove the identity \eqref{eq:f-formula}. Observe that for
   any orthogonal transformation $O:\ell_2^n \to \ell_2^n$ and any
