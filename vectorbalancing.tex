@@ -749,105 +749,93 @@ reader to section~\ref{sec:rip-convex} for further details and proofs.
 
 \paragraph{\bf A Factorization Approach for Vector Balancing.}   
 
-While Theorem~\ref{thm:tightness} gives an efficient method of
-balancing a given set of vectors approximately optimally, it does not
-give an efficiently computable upper bound of the vector balancing
-constant $\vb(C,K)$ of two symmetric convex bodies $C$ and $K$, or of
-the hereditary discrepancy $\hd((u_i)_{i = 1}^N, K)$. Moreover, we are
-not aware of an efficient algorithm for computing the volume lower
-bound, which is itself a maximum over an exponential number of
-volumes. Instead we explore a different approach, which
+While Theorem~\ref{thm:tightness} gives an efficient and approximately
+optimal method of balancing a given set of vectors, it does not give
+an efficiently computable tight upper bound on the vector balancing constant
+or on hereditary discrepancy. Even though we proved that, after an
+appropriate scaling, the volume lower bound also gives an upper bound
+on the vector balancing constant, we are not aware of an efficient
+algorithm for computing the volume lower bound, which is itself a
+maximum over an exponential number of terms. To address this
+shortcoming, we study a different approach to vector balancing which
 relies on applying Banaszczyk's vector balancing theorem in an optimal
 way in order to get an efficiently computable, and nearly tight, upper
-bound on both vector balancing constants and hereditary
-discrepancy. 
+bound on both vector balancing constants and hereditary discrepancy.
 
 Recall that Banaszczyk's vector balancing theorem states that if a
 body $K$ has Gaussian measure at least $1/2$, then $\vb(B_2^n, K) \le
-5$. The theorem gives an upper bound on $\vb(B_2^n, K)$ in terms
-of the Gaussian measure of the body $K$. In particular, if $r$ is the
-smallest number such that the Gaussian measure of $rK$ is $\frac12$,
-then the theorem tells us that $\vb(B_2^n, K) \le 5r$. To use this
-upper bound for bodies $C$ different from $B_2^n$, we find an
-optimal way to map $C$ into $B_2^n$ and then use the theorem as
-above. It turns out that the most convenient language for for this
-approach is that of linear operators between normed spaces. In
-particular, we recast the problem of mapping $C$ into $B_2^n$ as one
-of factoring a linear operator through Euclidean space. This
-factorization strategy is a significant generalization of the
-connection between the $\gamma_2$ norm and hereditary discrepancy used
-in~\cite{disc-gamma2}.
+5$. In order to apply the theorem to bodies $K$ of small Gaussian
+measure, we can use rescaling.  In particular, if $r$ is the smallest
+number such that the Gaussian measure of $rK$ is $\frac12$, then the
+theorem tells us that $\vb(B_2^n, K) \le 5r$. A natural way to use
+this upper bound for bodies $C$ different from $B_2^n$ is to find a
+mapping of $C$ into $B_2^n$, and then use the theorem as above. As an
+illustration of this idea, let us see how we can get nearly tight
+bounds on $\vb(B^n_p, B^n_q)$ (the $\ell_p$ and $\ell_q$ balls) by
+applying Banaszczyk's theorem. Let us take an arbitrary sequence of
+points $u_1, \ldots, u_N \in B_p^n$, and rescale them to define new
+points $v_i \eqdef {u_i}/{\max\{1, n^{1/2 -1/p}\}}$. The rescaled
+points $v_1, \ldots, v_N$ lie in $B_2^n$ and we can apply Banaszczyk's
+theorem to them and the convex body $K \eqdef C \sqrt{q} n^{1/q}
+B_q^n$, which has Gaussian measure at least $\frac12$ as long as we
+choose $C$ to be a large enough constant. We get that there exist
+signs $\eps_1, \ldots, \eps_N \in \{-1, 1\}$ such that
+\[
+\left\|\sum_{i = 1}^N{v_i}\right\|_K \le 5
+\iff
+\left\|\sum_{i = 1}^N{u_i}\right\|_q \le
+ 5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}. 
+\]
+In other words, we have that 
+\[
+\vb(B_p^n, B_q^n) \le
+5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}.
+\]
+The volume lower bound (Lemmas~\ref{lem:vol-lb}) can be used to show
+that this bound is tight up to the $O(\sqrt{q})$ factor. Indeed one
+can show that $B_p^n$ contains $n$ vectors $u_1, \ldots u_n$ such that
+the matrix $U \eqdef (u_1, \ldots, u_n)$ has determinant $\det(U) \ge
+e^{-1} \max\{1, n^{1/2 -1/p}\}$ (see~\cite{Ball89}~or~\cite{N15}). By
+standard estimates, $\vol(B_q^n)^{1/n} \ge c n^{1/q}$ for an absolute
+constant $c >0$. Plugging these estimates into Lemma~\ref{lem:vol-lb}
+shows $\vb(B_p, B_q) \ge c' \max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}$ for a
+constant $c' > 0$.
 
-Let us now introduce the generalization of vector balancing constants
-to operators. 
-Let $U:X \to Y$ be a linear operator between two $n$-dimensional
-normed spaces $(X, \| \cdot\|_X)$ and $(Y, \| \cdot\|_Y)$. A natural
-way to define the vector balancing constant of $U$ is
+It is easy to see that, unlike the example above, in general simply
+rescaling $C$ and $K$ and applying Banaszczyk's theorem to the
+rescaled bodies may not give a tight bound on $\vb(C, K)$. However, we
+will show that we can get such tight bounds if we expand the class of
+transformations we allow on $C$ and $K$ from simple rescaling to
+arbitrary linear transformations.  It turns out that the most
+convenient language for this approach is that of linear operators
+between normed spaces. We can generalize the notion of a vector
+balancing constant between a pair of convex bodies to arbitrary linear
+operators $U:X \to Y$ between two $n$-dimensional normed spaces $(X,
+\| \cdot\|_X)$ and $(Y, \| \cdot\|_Y)$ as follows
 \begin{equation}\label{eq:vb-oper}
 \vb(U) = \sup\left\{
   \min_{\eps_1, \ldots, \eps_N \in \{-1, 1\}} 
   \biggl\|\sum_{i = 1}^N \eps_i U(x_i)\biggr\|_Y:
   N \in \mathbb{N}, x_1, \ldots, x_N \in B_X\right\}
 \end{equation}
-where $B_X = \{x: \|x\|_X \le 1\}$ is the unit ball of $X$. This
+where $B_X = \{x: \|x\|_X \le 1\}$ is the unit ball of $X$.  This
 definition is indeed a generalization of the geometric one. If $C$ and
 $K$ are two centrally symmetric convex bodies in $\R^n$, and we define
 the corresponding normed spaces $X_C = (\R^n, \|\cdot\|_C)$ and $X_K =
 (\R^n, \|\cdot\|_K)$, then the vector balancing constant $\vb(I)$ of
 the formal identity operator $I:X_C \to X_K$ recovers $\vb(C,
-K)$. While our main goal is characterize $\vb(C, K)$, the language of
-linear operators is more natural for the factorization approach. 
+K)$. However, the more abstract setting makes it plain that a simple
+rescaling is not the right approach to applying Banaszczyk's theorem
+to arbitrary norms: if $X$ is an arbitrary norm, then $X$ and $B_2^n$
+may not be defined on the same vector space, and rescaling $B_X$ so
+that it is a subset of $B_2^n$ does not even make sense. Instead, when
+dealing with general norms, it becomes very natural to embed $B_X$
+into $B_2^n$ via a linear map $T:X \to \ell_2^n$
+so that $T(B_X) \subseteq B_2^n$. Our approach is
+based on this idea, and, in particular, on choosing such a map $T$
+optimally.
 
-We will relate $\vb(U)$ to an efficiently computable quantity
-$\lambda(U)$, which will allow us to efficiently approximate $\vb(U)$
-(given appropriate access to the domain and range $X$ and
-$Y$). Moreover, we will see that for the operator $U:\ell_1^N \to X_K$
-given by $Ue_i = u_i$, $\lambda(U)$ also approximates $\hd((u_i)_{i =
-  1}^N, K)$. 
-
-As a warm-up, let us see how we can use this theorem to get
-nearly tight bounds on $\vb(B^n_p, B^n_q)$, or, equivalently, on
-$\vb(I)$, where $I:\ell_p^n \to \ell_q^n$ is the identity. For any
-$x_1, \ldots, x_N \in B_p^n$, the points defined by $u_i \eqdef
-{x_i}/{\max\{1, n^{1/2 -1/p}\}}$ lie in $B_2^n$ and we can apply
-Banaszczyk's theorem to them and the convex body $K \eqdef C \sqrt{q}
-n^{1/q} B_q^n$, which has Gaussian
-measure at least $\frac12$ as long as we choose $C$ to be a large
-enough constant. We get that there exist signs $\eps_1, \ldots, \eps_N
-\in \{-1, 1\}$ such that 
-\[
-\left\|\sum_{i = 1}^N{u_i}\right\|_K \le 5
-\iff
-\left\|\sum_{i = 1}^N{x_i}\right\|_q \le
- 5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}. 
-\]
-In other words, we have that 
-\[
-\vb(B_p^n, B_q^n) = \vb(I) \le
-5C\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}.
-\]
-The volume lower bound (Lemmas~\ref{lem:vol-lb},\ref{lem:vol-lb-oper})
-can be used to show that this bound is tight up to the $O(\sqrt{q})$
-factor. Indeed one can show that $B_p^n$ contains $n$ vectors $u_1,
-\ldots u_n$ such that the matrix $U \eqdef  (u_1, \ldots, u_n)$ has
-determinant $\det(U) \ge e^{-1}  \max\{1, n^{1/2 -1/p}\}$
-(see~\cite{Ball89}~or~\cite{N15}). By standard estimates,
-$\vol(B_q^n)^{1/n} \ge c n^{1/q}$ for an absolute constant
-$c >0$. Plugging these estimates into Lemma~\ref{lem:vol-lb} shows
-$\vb(B_p, B_q) \ge c' \max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}$ for a
-constant $c' > 0$. 
-
-One take away from the example above is that Banaszczyk's theorem
-can be used for balancing vectors in the unit ball $B_X$ of any norm
-$X$ by appropriately ``embedding'' $B_X$ into $B_2^n$. In the case
-$\ell^n_p$ and $\ell^n_q$, this embedding just corresponds to
-rescaling the unit ball $B_p^n$. For general norms this does not
-necessarily make sense. However, we can instead choose a linear map $T:X \to
-\ell_2^n$ so that $T(B_X) \subseteq B_2^n$, i.e.~$\|T\| \le 1$. Our
-approach is based on this idea, and, in particular, on choosing such a
-map $T$ optimally.
-
-To capture the intution above into a definition, we will use the
+To formalize the above, we use the
 $\ell$-norm, which has been extensively studied in the theory of
 operator ideals, and in asymptotic convex geometry (see
 e.g.~\cite{TJ-book,Pisier-book,AGM-book}). For a linear operator
@@ -860,20 +848,10 @@ where $\gamma_n$ is the standard Gaussian measure on $\R^n$. I.e., if
 $Z$ is a standard Gaussian random variable in $\R^n$, then $\ell(S) =
 (\E \|S(Z)\|_Y^2)^{1/2}$. It is easy to verify that $\ell(\cdot)$ is a
 norm on the space of linear operators from $\ell_2^n$ to $Y$, for any
-normed space $Y$ as above. 
-
-Moreover, we can define a dual norm $\ell^*$ via trace duality: for
-any linear opartor $R: Y \to \ell_2^n$, we define
-\[
-\ell^*(R) \eqdef \sup\{\tr(RS): S: \ell_2^n \to Y, \ell(S) \le 1\}.
-\]
-Then $\ell$ and $\ell^*$ form a dual pair, and in particular we have
-\[
-\ell(S) = \sup\{\tr(RS): R:Y\to\ell_2^n, \ell^*(R) \le 1\}.
-\]
-For a finite dimensional space $Y$, both suprema above are achieved.
-An in-depth discussion of the $\ell$ norm can be found, for example,
-in the book~\cite{TJ-book}.
+normed space $Y$ as above. The reason the $\ell$-norm is useful to us
+is the fact that the smallest $r$ for which the set $K = \{x \in \R^n:
+\|Sx\|_Y \le r\}$  has Gaussian measure at least $1/2$ is approximately
+$\ell(S)$. 
 
 We now define our main tool: a factorization constant $\lambda$, which, for any
 two $n$-dimensional normed spaces $X$ and $Y$ and an operator $U:X \to
@@ -884,21 +862,21 @@ Y$ is defined by
 \]
 In other words, $\lambda(U)$ is the minimum of $\ell(S)\|T\|$ over all
 ways to factor $U$ through $\ell_2^n$ as $U = ST$. Here $\|T\|$ is the
-operator norm, equal to $\max \frac{\|Tx\|_2}{\|x\|_X}$. 
+operator norm, equal to $\max\{{\|Tx\|_2}/{\|x\|_X}\}$. 
 This definition
-captures in a sense an optimal application of Banaszczyk's
+captures an optimal application of Banaszczyk's
 theorem. Using the theorem, it is not hard to show that $\vb(U) \le
 C\lambda(U)$ for an absolute constant $C$. Our main result is showing
 $\vb(U)$ and $\lambda(U)$ are in fact equal up to a factor which is
 polynomial in $\log n$. To prove this, we formulate $\lambda(U)$ as a
 convex minimization problem. Such a formulation is important both for
-our structural results, which rely on Lagrangian duality, and also for
+our structural results, which rely on Lagrange duality, and also for
 giving an algorithm to compute $\lambda(U)$ efficiently, and,
 therefore, approximate $\vb(U)$ efficiently, which turns out to be
 sufficient to approximate hereditary discrepancy in arbitrary norms.
 
 The most immediate way to formulate $\lambda(U)$ as an optimization
-problem is to minimize $\ell(UT^{-1})$ subject over operators $T:X \to
+problem is to minimize $\ell(UT^{-1})$ over operators $T:X \to
 \ell_2^n$ and subject to the constraint $\|T\|\le 1$.
 Unfortunately, this optimization problem is not convex in $T$: the
 value of the objective function is finite for any nonzero $T$, but
@@ -906,7 +884,7 @@ infinite for $0 = \frac12(T + (-T))$, for example. The key observation
 that allows us to circumvent this issue is that the objective function
 is completely determined by the operator $A \eqdef T^*T$, and is in
 fact convex in $A$. Here $T^*$ is the dual operator of $T$ (see
-Section~\ref{sect:fact-prelims} for more details.) We use $f(A)$ to
+Section~\ref{sect:fact-prelims} for more details). We use $f(A)$ to
 denote this objective function, i.e.~to denote $\ell(UT^{-1})$ where
 $T$ is an operator such that $T^*T = A$. We give more justification
 why this function is well-defined and convex in
@@ -925,8 +903,8 @@ $\lambda(U)$. The last constraint says that $A$ should be positive
 definite, which is important so that $A$ can be written as $T^*T$ and
 $f(A)$ is defined. 
 
-In order to utilize this convex formulation approximately characterize
-$\vb(U)$ in terms of $\lambda(U)$, we use Lagrange duality to derive a
+ We utilize this convex formulation
+and Lagrange duality to derive a
 dual formulation of $\lambda(U)$ as a supremum over ``dual
 certificates''. Such a formulation is useful in approximately
 characterizing $\vb(U)$ in terms of $\lambda(U)$ because it reduces
@@ -937,7 +915,19 @@ lower bound (up to factors polynomial in $\log n$), then we can
 conclude that $\lambda(U)$ also bounds the volume lower bound from
 below, and therefore $\vb(U)$ as well. 
 
-The derivation of our dual formulation, relies on
+Before we can give the dual formulation, we need to introduce the
+dual norm $\ell^*$ of the $\ell$-norm, defined via trace duality: for
+any linear opartor $R: Y \to \ell_2^n$, let
+\[
+\ell^*(R) \eqdef \sup\{\tr(RS): S: \ell_2^n \to Y, \ell(S) \le 1\}.
+\]
+The norms $\ell$ and $\ell^*$ form a dual pair, and in particular we have
+\[
+\ell(S) = \sup\{\tr(RS): R:Y\to\ell_2^n, \ell^*(R) \le 1\}.
+\]
+For a finite dimensional space $Y$, both suprema above are achieved.
+
+The derivation of our dual formulation uses
 standard tools, but is quite technical due to the complicated nature
 of the function $f(A)$. We give the formulation for norms $X$ such
 that $B_X = \conv\{\pm x_1, \ldots, \pm x_m\}$. This is without loss
@@ -954,7 +944,7 @@ Above $x_i \otimes x_i$ is the rank-1 operator from the dual space
 $X^*$ to $X$, given by $(x_i \otimes x_i)(x^*) = \langle x^*,
 x_i\rangle x_i$. 
 
-We relate this dual to the volume lower bound via deep inequalities
+We relate  the volume lower bound to this dual via deep inequalities
 between $\ell^*$ and the $\ell$ norms ($K$-convexity), and between the
 $\ell$ norm and packing and covering numbers (Sudakov's
 minoration). Our main result is the theorem below.
