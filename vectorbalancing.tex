@@ -372,7 +372,7 @@ based random walk algorithm which on $U \in \R^{m \times n}$, produces a full
 coloring of $\ell_\infty$ discrepancy $O(\sqrt{\log m \log \rank(U)}
 \hd(U,B_\infty^m))$, where $\rank(U)$ is the rank of $U$. Recently,
 Larsen~\cite{Larsen17} gave an algorithm for the $\ell_2$ norm achieving
-discrepancy $O(\sqrt{\rank(U)}\hd(U,B_2^m))$. 
+discrepancy $O(\sqrt{\log(\rank(U))}\hd(U,B_2^m))$. 
 
 In terms of certifying lower bounds on $\hd(U,B_\infty^m))$, the main tool has
 been the so-called determinant lower bound of~\cite{LSV}, where it was shown that
@@ -490,13 +490,13 @@ symmetric convex body. For $S \subseteq [N]$, let $U_S$ denote the columns
 of $U$ in $S$. For $k \in [n]$, define 
 \begin{equation}
 \label{eq:vol-lb}
-\vollb^{\rm h}_k((u_i)_{i=1}^n,K) \eqdef \vollb^{\rm h}_k(U, K) \eqdef
+\vollb^{\rm h}_k((u_i)_{i=1}^N,K) \eqdef \vollb^{\rm h}_k(U, K) \eqdef
 \max_{S \subseteq [N],|S|=k} \vol_k(\{x \in \R^k: U_S x \in K\})^{-1/k}.
 \end{equation}
 Then, we have that
 \begin{equation}
 \label{eq:vol-lbh}
-\vollb^{\rm h}((u_i)_{i=1}^n,K) \eqdef \vollb^{\rm h}(U,K) \eqdef \max_{k \in [n]} \vollb^{\rm h}_k(U,K) \leq \hd(U,K). 
+\vollb^{\rm h}((u_i)_{i=1}^N,K) \eqdef \vollb^{\rm h}(U,K) \eqdef \max_{k \in [n]} \vollb^{\rm h}_k(U,K) \leq \hd(U,K). 
 \end{equation}
 \end{restatable}
 
