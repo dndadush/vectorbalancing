@@ -135,7 +135,7 @@ constants.
 
 The above theorems have inspired much research in recent years within theoretical computer science, from the development of efficient polynomial time algorithms for matching existential vector balancing guarantees, to their applications in the context of approximation algorithms. In this work, we show that all vector balancing constants admit ``good'' approximate characterizations, with approximation factors depending only polylogarithmically on the dimension $n$. First, we show that a volumetric lower bound due to Banaszczyk is tight within a $O(\log n)$ factor. Our proof is algorithmic, and we show that Rothvoss's (FOCS `14) partial coloring algorithm can be analyzed to obtain these guarantees. Second, we present a novel convex program which encodes the ``best possible  way'' to apply Banaszczyk's vector balancing theorem for bounding vector balancing constants from above, and show that it is tight within an $O(\log^{2.5} n)$ factor. This also directly yields a corresponding polynomial time approximation algorithm both for vector balancing constants, and for the hereditary discrepancy of any sequence of vectors with respect to an arbitrary norm.    
   
-Our results yield the first guarantees which depend only polygarithmically on the dimension of the norm ball $K$. All prior works required the norm to be polyhedral and incurred a dependence of $O(\sqrt{\log m})$, where $m$ is the number of facets. Our techniques rely on a novel combination of techniques from convex geometry and discrepancy theory. In particular, we give a new way to show lower bounds on Gaussian measures using only volumetric information, which may be of independent interest.
+Our results yield the first guarantees which depend only polylogarithmically on the dimension of the norm ball $K$. All prior works required the norm to be polyhedral and incurred a dependence of $O(\sqrt{\log m})$, where $m$ is the number of facets. Our techniques rely on a novel combination of techniques from convex geometry and discrepancy theory. In particular, we give a new way to show lower bounds on Gaussian measures using only volumetric information, which may be of independent interest.
 \end{abstract}
 
 \textbf{Keywords.}  Discrepancy, Convex Geometry, Gaussian Measure, M-ellipsoid,
@@ -323,7 +323,7 @@ $K$ has gaussian measure $1/2$, in contrast to Giannopoulos's result
 which gives a partial coloring but requires measure only $2^{-cn}$.
 Banaszczyk's method was only very recently made constructive in
 the sequence of works~\cite{BDG16,DGLN16,BDGL18}. In particular,~\cite{DGLN16}
-showed an equivalence of Banaszcyzk's theorem to the existence of certain
+showed an equivalence of Banaszczyk's theorem to the existence of certain
 subgaussian signing distributions, and~\cite{BDGL18} gave a random walk-based
 algorithm to build such distributions.
 
@@ -418,7 +418,7 @@ discrepancy $O(\sqrt{\log m \log n} \hd(U,K))$ and of~\cite{disc-gamma2} as a
 $O(\sqrt{\log m}\log n)$ approximation to $\hd(U,K)$ for any $n$-dimensional
 symmetric polytope $K$ with $m$ facets. A natural question is therefore
 whether there exist corresponding coloring and approximation algorithms whose
-guarantees depend only polygarithmically on the dimension of the norm and not on
+guarantees depend only polylogarithmically on the dimension of the norm and not on
 the complexity of its representation. 
 
 We note that polynomial bounds in $n$ for general $K$ can be achieved by simply
@@ -442,7 +442,7 @@ factor than the $\gamma_2$ bound, and hence gives an $O(\min \set{\log n
 show that Rothvoss' partial coloring algorithm~\cite{rothvoss-giann} is nearly
 optimal for general hereditary discrepancy by showing near-tightness with
 respect to a volumetric lower bound of Banaszczyk~\cite{Bana93}. Second, we show
-that the ``best possible way'' to apply Banaszcyzk's vector balancing
+that the ``best possible way'' to apply Banaszczyk's vector balancing
 theorem~\cite{bana} for the purpose of upper bounding $\hd(U,K)$ can be
 encoded as a convex program, and prove that this bound is tight to within an
 $O(\log^{2.5} n)$ factor. As a consequence, we show that Banaszczyk's theorem is
