@@ -1,0 +1,114 @@
+\section{Properties of the Bounds}
+\subsection{The Volume Lower Bound and Convex Hulls}
+\label{sec:conv-hulls}
+
+Here we show that the volume lower bound is maximized at the extreme
+points of a convex set. This shows that the fact that
+Theorem~\ref{thm:fact-vollb} relates $\lambda$ to volume lower bounds
+given by extreme points is not an accident. In general, it shows that
+the volume lower bound does not distinguish between vector balancing
+and hereditary discrepancy. 
+
+\begin{theorem}\label{thm:conv-hull}
+  Let $v_1, \ldots, v_m$ be points in $\R^n$, and let $C \eqdef
+  \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. Then, for any $k \in
+  \mathbb{N}$, $1 \le k \le n$, and any symmetric convex body $K$ in
+  $\R^n$,
+  \[
+  \sup_{u_1, \ldots, u_k \in C}\vollb((u_i)_{i = 1}^k, K)
+  \le
+  \vollb^{\rm h}_k((v_i)_{i = 1}^m, K).
+  \]
+\end{theorem}
+
+We will use a theorem of K.~Ball~\cite{Ball88}, which allows us to
+define a norm associated with an arbitrary logarithmically concave
+function $f$.
+\begin{theorem}\label{thm:ball-logconcave}
+  Let $f: \R^k \to [0, \infty)$ be an even logarithmically concave
+  function such that $0 < \int_{\R^k} f < \infty$. Then, for any $p
+  \ge 1$, 
+  \[
+  \|x\|_{f,p} \eqdef 
+  \begin{cases}
+    \left(\int_0^\infty f(rx) r^{p-1}dr\right)^{-1/p}, &x \neq 0,\\
+    0, &x = 0.
+  \end{cases}
+  \]
+  defines a norm on $\R^n$. 
+\end{theorem}
+
+
+\begin{proof}[Proof of Theorem~\ref{thm:conv-hull}]
+  Let us fix a sequence of linearly independent vectors $u_1,
+  \ldots, u_{k-1} \in C$ for the remainder of the proof,
+  and, for any $x\in \R^n$, define the matrix $U_x = (u_1, \ldots
+  u_{k-1}, x)$.  To prove the theorem, it is enough to show that the
+  function $g: \R^n \to [0, \infty)$ defined by
+  \[
+  %g(x) = \frac{\det(U_x^\T U_x)^{1/2}}{\vol_k(K \cap \lspan\{u_1,
+  %  \ldots, u_{k-1}, x\})}
+  g(x) = \vollb((u_1, \ldots, u_{k-1}, x), K)^k 
+  = \frac{1}{\vol_k(\{a \in \R^k: U_x a \in K\})}
+  \]
+  achieves its maximum on $C$ at one of the extreme points $\pm v_1,
+  \ldots, \pm v_m$. This follows immediately if $g$ is
+  convex. Below, we use Theorem~\ref{thm:ball-logconcave} to prove the
+  convexity of $g$.
+  
+  Let  $W = \lspan\{u_1, \ldots, u_{k-1}\}$ and let $\pi$ be
+  the orthogonal projection onto the orthogonal complement $W^\perp$
+  of $W$. Notice that 
+  \[
+  \vol_k(\{a \in \R^k: U_x a \in K\}) 
+  = \vol_k(\{a \in \R^k: U_{\pi x} a \in K\}).
+  \]
+  To show that that $g$ is convex, it is, therefore, enough to show
+  that it is convex on $W^\perp$.  For any $x \in W^\perp$, define 
+  \begin{align*}
+    L_x &= \{b \in \R^{k-1}: Ub + x \in K\},
+  \end{align*}
+  where $U$ is the matrix $(u_1, \ldots, u_{k-1})$. It is
+  easy to check that for any two $x, x' \in W^\perp$, and any $\alpha
+  \in [0,1]$, $\alpha L_{x} + (1-\alpha) L_{x'} \subseteq L_{\alpha x
+    + (1-\alpha)x'}$. Therefore, by the Brunn-Minkowski inequality,
+  the function $h(x) = \vol(L_x)$ is logarithmically
+  concave. Moreover, by the symmetry of $K$, $L_{-x} = -L_x$, so $h(x)
+  = h(-x)$.  By Theorem~\ref{thm:ball-logconcave} it follows that 
+  \begin{align*}
+  g(x) &=\frac{1}{\int_{-\infty}^\infty h(tx) dt}
+  = \frac{1}{2\int_{0}^\infty h(tx) dt}
+  = \frac{1}{2}\|x\|_{h,1}.
+  \end{align*}
+  is a norm on $W^\perp$, and, therefore, convex. The theorem follows.
+\end{proof}
+
+\snote{Do we need to state Brunn-Minkowski anywhere?}
+
+\cut{
+Let $v_1, \ldots, v_m \in \R^n$ and define a norm $X$ on $\R^n$ with
+unit ball $B_X = \mathrm{conv}\{\pm v_1, \ldots, \pm v_m\}$. By
+Theorem~\ref{thm:tightness}, we have that 
+\[
+1 \le \frac{\beta(X, Y)}{\sup_{u_1, \ldots, u_n \in
+    B_X}\vollb((u_i)_{i = 1}^n, Y)} \le C K(Y)(1+\log n).
+\]
+Theorem~\ref{thm:conv-hull} allows us to write the stronger inequality
+\[
+1 \le \frac{\beta(X, Y)}{\vollb((v_i)_{i = 1}^m, Y)} \le C K(Y)(1+\log n).
+\]
+This also implies that
+\begin{equation}\label{eq:beta-conv-hull}
+\beta(X, Y) \le CK(Y)(1+\log n) \beta((v_i)_{i = 1}^m, Y),
+\end{equation}
+i.e.~the vector balancing constant does not increase much when we take
+convex hulls. 
+
+\medskip\noindent
+\textbf{Questions}:
+\begin{itemize}
+\item Does \eqref{eq:beta-conv-hull} hold with $CK(Y)(1+\log n)$
+  replaced by a fixed constant?
+\item Is there a more direct proof of \eqref{eq:beta-conv-hull}?
+\end{itemize}
+}

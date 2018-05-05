@@ -1,0 +1,155 @@
+\section{Preliminaries}
+\label{sec:prelims}
+
+We use the notation $[n] = \set{1,\dots,n}$. For vectors $x,y \in \R^n$, we
+define $\inner{x}{y} = \sum_{i=1}^n x_i y_i$ to be the standard inner product in
+$\R^n$. For a square matrix $T \in \R^{n \times n}$, we define $\tr(T) =
+\sum_{i=1}^n T_{ii}$, and a matrix $M \in \R^{n \times m}$, we define its
+transpose $M^\T_{ij} := M_{ji}$. For two sets $A,B \in \R^n$, we define their
+Minkowski sum $A+B = \set{a+b: a \in A,b \in B}$.
+
+For a linear subspace $W \subseteq \R^n$, we denote the orthogonal projection
+onto $W$ by $\pi_W$. For $S \subseteq [n]$, we write $\pi_S$ to denote the
+projection onto the coordinate subspace $\lspan\{e_i: i \in S)\}$.
+
+\paragraph{\bf Convexity.} A convex body $K \subseteq \R^n$ is a compact convex
+set with non-empty interior. $K$ is symmetric if $K = -K$. A symmetric convex
+body induces a norm $\norm{x}_K = \min \set{s \geq 0: x \in sK}$. If $K$
+contains the origin is its interior, the polar of $K$ is defined by $K^\circ =
+\set{x \in \R^n: \inner{x}{y} \leq 1, \forall y \in K}$. Furthermore, by convex
+duality, we have that relation $(K^{\circ})^\circ = K$. 
+
+For a subset $S \subseteq [n]$, we denote the coordinate section of $K$ on $S$
+by $K_S \eqdef \set{x \in K: x_i = 0, ~\forall i \notin S}$. 
+
+For a vector $x \in \R^n$, for $p \in [1,\infty)$, we let $\norm{x}_p =
+(\sum_{i=1}^n |x_i|^p)^{1/p}$ denote the $\ell_p$ norm, and $\norm{x}_\infty =
+\max_{i=1}^n |x_i|$ denote the $\ell_\infty$ norm. We use $B_p^n$, $p \in
+[1,\infty]$, to denote the unit $\ell_p$ ball in dimension $n$, $B_p^S :=
+(B_p^n)_S$ and $B_p^W := (B_p^n) \cap W$ for corresponding coordinate and
+general sections, where $S \subseteq [n]$ is a subset and $W \subseteq \R^n$ is
+a linear subspace. 
+
+\paragraph{\bf Probability and Measure.} We denote the $n$-dimensional Lebesgue
+measure by $\vol_n(\cdot)$. Let $\kappa_n := \vol_n(B_2^n)$ denote the volume
+of the Euclidean ball, which can be estimated by $\kappa_n^{1/n} \approx
+\sqrt{\frac{2\pi e}{n}}$. For a matrix $A \in \R^{n \times k}$, for any
+measurable set $S \subseteq \R^k$, we have $\vol_k(A S) = \det(A^\T A)^{1/2}
+\vol_k(S)$.  
+
+We define $\gamma_n$ to be the standard Gaussian measure on $\R^n$, that is
+$\gamma_n(A) = \frac{1}{\sqrt{2\pi}^n} \int_A e^{-\|x\|^2/2}$. We will often use
+the $k$-dimensional Gaussian measure restricted to $k$-dimensional linear
+subspace $H$ of $\R^n$, for which we use the notation $\gamma_H$.
+
+\paragraph{\bf Positive Definite Matrices and Ellipsoids.} A matrix $A \in \R^{n
+\times n}$ is symmetric if $A = A^\T$. A symmetric matrix $A \in \R^{n \times
+n}$ is positive semidefinite (PSD), written $A \succ 0$, if $x^\T A x \geq 0$
+for all $x \in \R^n$. Equivalently, it is PSD if $A$ if it is symmetric and all
+its eigenvalues are non-negative. $A$ is positive definite, $A \succ 0$, it is
+eigenvalues are all strictly positive. We write $A \succeq B$ to mean $A-B
+\succeq 0$ and similarly for $A \succ B$. Every positive semidefinite matrix $A$
+has a unique positive semidefinite square root, which we denote $A^{1/2}$. 
+
+For an $n \times n$ positive definite matrix $Q$, we define the ellipsoid $E(Q)
+= \set{x \in \R^n: x^\T Q x \leq 1} = A^{-1/2} B_2^n$. The polar ellipsoid is
+$E(Q)^\circ = E(Q^{-1})$ that $\vol_n(E(Q)) = \kappa_n \det(Q)^{-1/2}$. The
+length of the principal axes of $Q$, which are aligned with the eigen vectors of
+$Q$, have length $1/\sqrt{\lambda_n} \geq \cdots \geq 1/\sqrt{\lambda_1}$, where
+$\lambda_1 \geq \cdots \lambda_n > 0$ are the eigenvalues of $Q$.   
+
+\paragraph{\bf Membership Oracles.} To interact with a convex body $K \subseteq
+\R^n$, we will assume that it is given by a well-guaranteed membership oracle
+$O_K$, where $O_K(x) = 1$ if $x \in K$ and $0$ otherwise. It comes with
+guarantees $(a_0,r,R)$, $a_0 \in \R^n$ a center, $0 < r < R$, for which $a_0 +
+rB_2^n \subseteq K \subseteq a_0 + RB_2^n$. With access to such oracle, one can
+perform many standard tasks in convex optimization, such as approximately
+maximize a linear function over $K$, or compute the closest point in $K$ to an
+input point $y$, compute the norm $\norm{x}_K$ (when $K$ is symmetric), using a
+polynomial number of queries to the oracle and arithmetic operations. See for
+example~\cite{GLS} for a reference. All our algorithms will rely upon the real
+model of computation.  
+
+\paragraph{\bf Inequalities for Convex Bodies.} We will need the following
+inequalities to relate the volume of a symmetric convex body to that of its
+polar.
+
+\begin{theorem}[Blaschke-Santal{\'o}]\label{thm:santalo} 
+Let $K \subseteq \R^n$ be a symmetric convex body. Then $\vol_n(K)\cdot
+\vol_n(K^\circ) \leq \kappa_n^2$, where equality holds if and only if $K$ is
+an origin centered ellipsoid. Here $\kappa_n = \vol_n(B_2^n)$.
+\end{theorem}
+
+\paragraph{\bf Restricted Invertibility.}
+
+We will need a refinement of the restricted invertibility theorem of Bourgain
+and Tzafriri~\cite{bour-tza} due to Spielman and Srivastava.
+
+\begin{theorem}[\cite{bt-constructive}]\label{thm:rest-inv}
+Let $Q \in \R^{n \times n}$ be positive definite quadratic form and $\eps \in
+(0,1)$. Let $\lambda_1 := \lambda_1(Q) > 0$ denote the maximum eigenvalue of
+$Q$.  For $k = \floor{\eps^2 \tr(Q)/\lambda_1}$, there exists $S \subseteq [n]$,
+$|S|=k$, such that $\lambda_{\rm min}(Q_{S,S}) > \frac{(1-\eps)^2\tr(Q)}{n}$,
+where $\lambda_{\rm min}(Q_{S,S})$ is the minimum eigenvalue of $Q_{S,S}$.
+\end{theorem}
+
+We will also need a couple of simple determinantal analogues of the restricted
+invertibility principle.
+
+\begin{lemma}\label{lm:rip-det}
+  Let $Q$ be an $n\times n$ real positive semi-definite matrix with
+  eigenvalues $\lambda_1 \ge \ldots \ge \lambda_n$. For any integer
+  $k$, $1 \le k \le n$, there exists a set $S \subseteq [n]$ of size $k$
+  such that
+  \[\prod_{i=1}^k \lambda_i \leq \binom{n}{k} \det(Q_{S,S}).\]
+\end{lemma}
+\begin{proof}
+To prove the lemma, we will rely on the classical identity for applying the
+elementary symmetric polynomials to the eigenvalues of $Q$:
+\begin{equation*}
+\sum_{S \in [n],|S|=k} \prod_{i \in S} \lambda_i \eqdef p_k(\lambda) = \sum_{S \subset [n]: |S| = k}\det(Q_{S,S}).
+\end{equation*}
+To verify this equation, consider the coefficient of $t^{n-k}$ in the polynomial
+$\det(Q + tI)$. Calculating the coefficient using the Leibniz formula for the
+determinant gives the right hand side; calculating it using $\det(Q + tI) =
+(\lambda_1 + t)\ldots(\lambda_n + t)$ gives the left hand side. Since the 
+eigenvalues are all non-negative, we get that
+\[
+\prod_{i=1}^k \lambda_i \leq p_k(\lambda) =  
+ \sum_{S \subseteq [n]: |S|=k} \det(Q_{S,S}) \leq \binom{n}{k} \max_{S
+\subseteq [n]: |S|=k} \det(Q_{S,S}),
+\]
+as needed.
+\end{proof}
+
+\subsection{Proof of Volume Lower Bound}
+\label{sec:proof-vollb}
+
+\vollbstat*
+\begin{proof}
+For $S \subseteq [N]$, $|S| = k \in [n]$, let $C = \set{x \in \R^k: U_S x \in
+K}$. It is direct to verify $\hd((e_i)_{i=1}^k,C) = \hd(U_S,K) \leq \hd(U,K)$,
+where $(e_i)_{i=1}^k$ is the standard basis of $\R^k$. Thus, it suffices to
+show that $\hd((e_i)_{i=1}^k,C) \geq \vol_k(C)^{-1/k}$. For $x \in \R^k$, $A
+\subseteq \R^k$ finite, let $d(x,A) := \min_{a \in A} \norm{a-x}_C$
+denote the minimum distance between $x$ and $A$ under the \\ (semi-)norm induced by
+$C$. From here, we apply the standard reduction from linear discrepancy to
+hereditary discrepancy~\cite{LSV}, to get
+\begin{align*}
+\max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \max_{x \in [0,1]^n}
+d(x,\{0,\tfrac12,1\}^k) + \max_{x' \in \{0,\tfrac12,1\}} d(x',\set{0,1}^n) \\
+&\leq \frac{1}{2} \max_{x \in [0,1]^k} d(x,\set{0,1}^k) + \frac{1}{2}
+\hd((e_i)_{i=1}^k,C) \\
+&\Rightarrow \\
+\max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \hd((e_i)_{i=1}^k,C).
+\end{align*}
+Let $r = \hd((e_i)_{i=1}^k,C)$, we in particular have that $[0,1]^k \subseteq
+\set{0,1}^k + rC$. Thus
+\begin{align*}
+\vol_k(rC) &\geq \vol_s(\cup_{x \in \set{0,1}^k} rC \cap (-x+[0,1)^k)) 
+             = \vol_k(\cup_{x \in \set{0,1}^k} (rC+x) \cap [0,1)^k) \\
+             &= \vol_k((\set{0,1}^k+rC) \cap [0,1)^k) 
+              \geq \vol_k([0,1)^k) = 1 .
+\end{align*}
+In particular, $r \geq \vol_k(C)^{-1/k}$ as needed.
+\end{proof}
