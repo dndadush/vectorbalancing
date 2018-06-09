@@ -1,0 +1,72 @@
+\section{Approximate Caratheodory Estimates}
+\label{sect:apx-carath}
+
+In this section we introduce connections between vector balancing, and
+approximate versions of Caratheodory's theorem. Recall that, by
+Caratheodory's theorem, for any $N$ vectors $u_1, \ldots, u_N \in
+\R^n$ and a point $z$ in their convex hull, there exist $k \le n+1$
+vectors $v_1, \ldots, v_k \in \{u_1, \ldots, u_N\}$ such that $z \in
+\conv\{v_1, \ldots, v_k\}$. While this is easily seen to be optimal in
+general, improvements are possible if we only need to approximately
+represent $z$. For example, it is well-known that if $u_1, \ldots, u_N
+\in B_2^n$, then for any $z \in \conv\{u_1, \ldots, u_N\}$ and any
+$\eps \in (0,1)$,  there exist $k = O(\eps^{-2})$ vectors $v_1,
+\ldots, v_k \in \{u_1, \ldots, u_N\}$ such that $\left\|z - \frac1k
+  \sum_{i = 1}^k{v_i}\right\|_2 \le \eps$. Note that the bound on $k$
+in this approximate version of Caratheodory's theorem is independent
+of the dimension $n$, and that $z$ is close to the avarage of $v_1,
+\ldots, v_k$, rather than merely in their convex hull. This
+dimension-independent bound has been used to speed up algorithms in
+computational geometry...
+
+\snote{Dig up some refs and applications. Reference for the $\ell_2$
+  approximate Caratheodory theorem?}
+
+We call bounds of the type given above for vectors in $B_2^n$
+approximate Caratheodory estimates. Such estimates are also known for
+$B_p^n$, where the distance from $z$ is measured in the $\ell_p^n$
+norm, and follow from type and cotype theory. (Other proofs are also
+known.) Here we systematically explore approximate Caratheodory
+estimates and connect them to vector balancing. Let us define the
+$k$-vector approximate Caratheodory constant $\ac_k(C,K)$ from a
+convex body $C \subset \R^n$ to a symmetric convex body $K\subset
+\R^n$ as the smallest constant $a$ such that for any $u_1, \ldots, u_N
+\in C$, and any $z \in \conv\{u_1, \ldots, u_N\}$, there exist (not
+necessarily distinct) vectors $v_1, \ldots, v_k \in \{u_1, \ldots,
+u_N\}$ such that
+\begin{equation}\label{eq:ac-defn}
+\left\|z - \frac1k \sum_{i = 1}^k{v_i}\right\|_K \le \frac{a}{k}.
+\end{equation}
+We define $\ac(C,K) = \sup\{\ac_k(C, K): k \in \N\}$.
+
+Our first result shows that the approximate Caratheodory constant is
+bounded in terms of hereditary discrepancy, and, therefore, in terms
+of the vector balancing constant.  Since our proof is algorithmic,
+together with Theorem~\ref{thm:tightness} it also gives us a
+polynomial time algorithm to compute the vectors $v_1, \ldots, v_k$
+whose average is close to $z$.
+
+\begin{theorem}\label{thm:ac-all-k}
+  For any convex body $C \subset \R^n$, and any symmetric convex body
+  $K \subset \R^n$, we have
+  \[
+  \ac(C,K) \le \vb(C-C,K).
+  \]
+  Moreover, there exists a randomized polynomial time algorithm that,
+  given $u_1, \ldots, u_N \in C$, and $z$ in their convex hull,
+  computes vectors $v_1, \ldots, v_k \in \{u_1, \ldots, u_N\}$ such
+  that \eqref{eq:ac-defn} holds with $a = O(\log n \vb(C-C, K)$.
+\end{theorem}
+
+Our proof of Theorem~\ref{thm:ac-all-k} is based on the following
+lemma, which is a slight extension of a result by Lov\'asz, Spencer,
+and Vesztergombi~\cite{LSV}.
+
+\begin{lemma}\label{lm:ac-to-herdisc}
+  For any symmetric convex body $K \subset\R^n$, any $u_1, \ldots, u_N
+  \in \R^n$, and any $w \in [0,1]^N$, there exists an $x\in \{0,1\}^N$
+  such that $\sum_{i = 1}^N{x_i} \le \sum_{i = 1}^N{w_i}$, and
+  \[
+  \left\|\sum_{i = 1}^n(w_i - x_i)u_i\right\|_K \le \hd((u_i)_{i =  1}^N, K).
+  \]
+\end{lemma}
