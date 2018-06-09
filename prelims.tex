@@ -137,7 +137,7 @@ $C$. From here, we apply the standard reduction from linear discrepancy to
 hereditary discrepancy~\cite{LSV}, to get
 \begin{align*}
 \max_{x \in [0,1]^k} d(x,\{0,1\}^k) &\leq \max_{x \in [0,1]^n}
-d(x,\{0,\tfrac12,1\}^k) + \max_{x' \in \{0,\tfrac12,1\}} d(x',\set{0,1}^n) \\
+d(x,\{0,\tfrac12,1\}^k) + \max_{x' \in \{0,\tfrac12,1\}^k} d(x',\set{0,1}^n) \\
 &\leq \frac{1}{2} \max_{x \in [0,1]^k} d(x,\set{0,1}^k) + \frac{1}{2}
 \hd((e_i)_{i=1}^k,C) \\
 &\Rightarrow \\
@@ -146,7 +146,7 @@ d(x,\{0,\tfrac12,1\}^k) + \max_{x' \in \{0,\tfrac12,1\}} d(x',\set{0,1}^n) \\
 Let $r = \hd((e_i)_{i=1}^k,C)$, we in particular have that $[0,1]^k \subseteq
 \set{0,1}^k + rC$. Thus
 \begin{align*}
-\vol_k(rC) &\geq \vol_s(\cup_{x \in \set{0,1}^k} rC \cap (-x+[0,1)^k)) 
+\vol_k(rC) &\geq \vol_k(\cup_{x \in \set{0,1}^k} rC \cap (-x+[0,1)^k)) 
              = \vol_k(\cup_{x \in \set{0,1}^k} (rC+x) \cap [0,1)^k) \\
              &= \vol_k((\set{0,1}^k+rC) \cap [0,1)^k) 
               \geq \vol_k([0,1)^k) = 1 .

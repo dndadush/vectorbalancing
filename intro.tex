@@ -27,8 +27,7 @@ balancing constant of $C$ into $K$ is defined as
 % the vector balancing constant of $C$ into $D$. 
 \[
 \vb(C, K) \eqdef \sup\Bigg\{ 
-\min_{x \in \set{-1,1}^N} \Bigl\|\sum_{i = 1}^N x_i
-u_i \Bigr\|_{K}: N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\},
+\min_{x \in \set{-1,1}^N} \Bigl\|\sum_{i = 1}^N x_i u_i \Bigr\|_{K}: N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\},
 \]
 where $\norm{x}_K := \min \set{s \geq 0: x \in sK}$ is the norm induced by $K$.
 
@@ -662,8 +661,8 @@ arbitrary linear transformations.  It turns out that the most
 convenient language for this approach is that of linear operators
 between normed spaces. We can generalize the notion of a vector
 balancing constant between a pair of convex bodies to arbitrary linear
-operators $U:X \to Y$ between two $n$-dimensional normed spaces $(X,
-\| \cdot\|_X)$ and $(Y, \| \cdot\|_Y)$ as follows
+operators $U:X \to Y$ between two $n$-dimensional normed spaces $X$,
+with norm $\| \cdot\|_X)$, and $Y$, with norm $\| \cdot\|_Y)$, as follows
 \begin{equation}\label{eq:vb-oper}
 \vb(U) = \sup\left\{
   \min_{\eps_1, \ldots, \eps_N \in \{-1, 1\}} 
@@ -691,7 +690,7 @@ To formalize the above, we use the
 $\ell$-norm, which has been extensively studied in the theory of
 operator ideals, and in asymptotic convex geometry (see
 e.g.~\cite{TJ-book,Pisier-book,AGM-book}). For a linear operator
-$S:\ell_2^n \to Y$, where $Y = (\R^n, \|\cdot\|_Y)$ is a normed space,
+$S:\ell_2^n \to Y$ into a normed space $Y$ with norm $\|\cdot\|_Y$,
 the $\ell$-norm of $S$ is defined as
 \[
 \ell(S) \eqdef \left( \int \|S(x)\|_Y^2 d\gamma_n(x) \right)^{1/2},

@@ -60,7 +60,7 @@ whose average is close to $z$.
 
 Our proof of Theorem~\ref{thm:ac-all-k} is based on the following
 lemma, which is a slight extension of a result by Lov\'asz, Spencer,
-and Vesztergombi~\cite{LSV}.
+and Vesztergombi~\cite{LSV}. 
 
 \begin{lemma}\label{lm:ac-to-herdisc}
   For any symmetric convex body $K \subset\R^n$, any $u_1, \ldots, u_N
@@ -70,3 +70,119 @@ and Vesztergombi~\cite{LSV}.
   \left\|\sum_{i = 1}^n(w_i - x_i)u_i\right\|_K \le \hd((u_i)_{i =  1}^N, K).
   \]
 \end{lemma}
+\begin{proof}
+  We first show that the lemma holds for every $w \in \{0, \frac12,
+  1\}^N$ with a better constant. Specifically, we show that for any $w
+  \in \{0, \frac12, 1\}^N$, there exists an $x \in \{0,1\}^N$ such that
+  \[
+  \left\|\sum_{i = 1}^n(w_i - x_i)u_i\right\|_K \le  \frac12 \hd((u_i)_{i =  1}^N, K),
+  \]
+  and $\sum_{i = 1}^N x_i \le \sum_{i = 1}^N{w_i}$. Towards this goal,
+  let us define $S = \{i \in [n]: w_i = \frac12\}$. By the definition
+  of hereditary discrepancy, there exists a vector of signs
+  $(\eps_i)_{i \in S} \in \{-1,+1\}^S$ such that 
+  \[
+  \left\|\sum_{i \in S}{\eps_i u_i}\right\|_K   \le \hd((u_i)_{i = 1}^N,  K).
+  \] 
+  Let us define $x' \in \{-1, 0,   1\}^N$ by 
+  \[
+  x'_i =
+  \begin{cases}
+    \eps_i &i \in S\\
+    0 &i \not \in S
+  \end{cases}.
+  \]
+  Observe, first, that $w+\frac12 x'$ and $w-\frac12 x'$ both belong to $\{0,1\}^N$,
+  and, second, that 
+  \[
+  \min\left\{\sum_{i = 1}^N{w_i+\frac12 x'_i}, \sum_{i = 1}^N{w_i-\frac12 x'_i}\right\}
+  \le \sum_{i = 1}^N{w_i}.
+  \]
+  We can then take the vector $x \in \{w + \frac12 x', w-\frac12 x'\}$ that achieves the minimum
+  on the right hand side above, and we have
+  \[
+  \left\|\sum_{i = 1}^n(w_i - x_i)u_i\right\|_K 
+  =\frac12  \left\|\sum_{i \in S}{\eps_i u_i}\right\|_K 
+  \le  \frac12 \hd((u_i)_{i =  1}^N, K),
+  \]
+  as desired.
+
+  To finish the proof of the lemma, it suffices to prove it for $w$
+  such that $w_i$ has a finite binary expansion for each $i$,
+  i.e.~$w_i = b_12^{-1} + \ldots + b_k2^{-k}$ for some finite $k$ and
+  $b_1, \ldots, b_k \in \{0,1\}$. We do so by induction. Let us assume
+  that the lemma is proved for all $w \in 2^{-k}\mathbb{Z}^N\cap
+  [0,1)^N$ for some $k \ge 1$. (Note that the case $k=1$ was already
+  proved above.) We will show that it then also holds for every $w \in
+  2^{-k-1}\mathbb{Z}^N\cap [0,1)^N$. Fix such a $w$, and write it as
+  $w = w' + \frac12 w''$, where $w' \in \{0, \frac12\}^N$ and $w'' \in
+  2^{-k}\mathbb{Z}^N\cap [0,1)^N$. By the induction hypothesis,
+  there exists an $x'' \in \{0,1\}^N$ such that 
+  \[
+  \left\|\sum_{i = 1}^n(w_i'' - x_i'')u_i\right\|_K \le  \hd((u_i)_{i =  1}^N, K),
+  \]
+  and $\sum_{i = 1}^N x''_i \le \sum_{i = 1}^N w''_i$. We have $w' +
+  \frac12 x'' \in \{0,\frac12, 1\}$, and, as we have already shown above, there
+  exists an $x \in \{0,1\}^N$ such that 
+  \begin{equation}\label{eq:transf-ind}
+  \left\|\sum_{i = 1}^n(w_i' + \frac12 x''_i - x_i)u_i\right\|_K 
+  \le \frac12 \hd((u_i)_{i =  1}^N, K),
+  \end{equation}
+  and 
+  \[
+  \sum_{i = 1}^N x_i \le \sum_{i = 1}^N{w'_i} + \frac12 \sum_{i = 1}^N{x''_i}
+  \le \sum_{i = 1}^N{w'_i} + \frac12 \sum_{i = 1}^N{w''_i} 
+  =   \sum_{i = 1}^N w_i.
+  \]
+  The inequality \eqref{eq:transf-ind} and the triangle inequality then imply
+  \begin{align*}
+  \left\|\sum_{i = 1}^n(w_i - x_i)u_i\right\|_K 
+  &= 
+  \left\|\sum_{i = 1}^n(w_i' + \frac12 w''_i - x_i)u_i\right\|_K \\
+  &\le 
+  \left\|\sum_{i = 1}^n(w_i' + \frac12 x''_i - x_i)u_i\right\|_K 
+  + 
+  \frac12 \left\|\sum_{i = 1}^n(w_i'' - x_i'')u_i\right\|_K 
+  \le  \hd((u_i)_{i =  1}^N, K).
+  \end{align*}
+  This completes the proof of the lemma. 
+\end{proof}
+
+\snote{This is also used in the proof of the volume lower bound (where
+  the condition on $\sum x_i$ is not needed). Move it there?}
+
+\begin{proof}[Proof of Theorem~\ref{thm:ac-all-k}]
+  Let us fix some $k \in \N$, vectors $u_0, u_1, \ldots, u_N$ and $z
+  \in \conv\{u_0, \ldots, u_N\}$. (We index the vectors from $0$ for
+  notational convenience.) Define the new vectors $u'_1, \ldots u'_N$
+  by $u'_i = u_i - u_0$. We have that $z - u_0 \in \conv\{u_1',
+  \ldots, u_N'\}$, and we can write $z - u_0 = \sum_{i =
+    1}^N{\lambda_i u'_i}$ for some $\lambda_1, \ldots, \lambda_N \ge
+  0$ such that $\sum_{i = 1}^N{\lambda_i} = 1$. Let $w$ be the fractional
+  part of the vector $k\lambda$, i.e.~$w_i = k\lambda_i - \lfloor
+  k\lambda_i \rfloor$. By Lemma~\ref{lm:ac-to-herdisc}, there exists a
+  vector $x \in \{0,1\}^N$ such that  $\sum_{i = 1}^N{x_i} \le \sum_{i = 1}^N{w_i}$, and
+  \[
+  \left\|\sum_{i = 1}^n(w_i - x_i)u'_i\right\|_K \le \hd((u'_i)_{i =  1}^N, K).
+  \]
+  Let us define vectors $v'_1, \ldots, v'_\ell \in \{u'_1, \ldots,
+  u'_N\}$ by taking $\lfloor  k\lambda_i\rfloor + x_i$ copies of
+  $u'_i$. Clearly,
+  \[
+  \ell = \sum_{i = 1}^N{\lfloor k\lambda_i\rfloor + x_i} \le \sum_{i
+    = 1}^N{\lfloor k\lambda_i\rfloor + w_i}  = k\sum_{i =
+    1}^N{\lambda_i} = k.
+  \]
+  We then define $v_1, \ldots, v_k \in \{u_0, \ldots, u_N\}$ by taking
+  $k-\ell$ copies of $u_0$, and also taking the vectors $v'_i + u_0$
+  for every $i
+  \in [\ell]$.  Observe that
+  \begin{align*}
+    \left\|z - \frac1k \sum_{i = 1}^k{v_i}\right\|_K
+    &= 
+    \left\|z -u_0 - \frac1k \sum_{i = 1}^\ell{v'_i}\right\|_K\\
+    &= \frac{1}{k} \left\|\sum_{i = 1}^n(w_i - x_i)u'_i\right\|_K
+    \le \hd((u'_i)_{i = 1}^N, K) \le \vb(C - C, K).
+  \end{align*}
+  This completes the proof. 
+\end{proof}
