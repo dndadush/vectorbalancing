@@ -1,0 +1,1417 @@
+
+%% bare_conf.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
+% Add the compsocconf option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
+% not currently provide for hyperlinked citations.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+\usepackage[cmex10]{amsmath}
+\usepackage{amssymb,mathtools,amsthm}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[tight,footnotesize]{subfigure}
+% subfigure.sty was written by Steven Douglas Cochran. This package makes it
+% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
+% work, it is a good idea to load it with the tight package option to reduce
+% the amount of white space around the subfigures. subfigure.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at:
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+% subfigure.sty has been superceeded by subfig.sty.
+
+
+
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+% subfig.sty, also written by Steven Douglas Cochran, is the modern
+% replacement for subfigure.sty. However, subfig.sty requires and
+% automatically loads Axel Sommerfeldt's caption.sty which will override
+% IEEEtran.cls handling of captions and this will result in nonIEEE style
+% figure/table captions. To prevent this problem, be sure and preload
+% caption.sty with its "caption=false" package option. This is will preserve
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
+% (recommended due to many improvements over 1.2) of subfig.sty supports
+% the caption=false option directly:
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+% The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+% The latest version and documentation of caption.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Documentation is contained in the stfloats.sty comments as well as in the
+% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
+% does not allow \baselineskip to stretch. Authors submitting work to the
+% IEEE should note that IEEE rarely uses double column equations and
+% that authors should try to avoid such use. Do not be tempted to use the
+% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
+% not format its papers in such ways.
+
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newcommand{\cut}[1]{}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\N}{{\mathbb{N}}}
+\renewcommand{\S}{\mathbb{S}}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\mathsf T}
+
+\newcommand\eps{\varepsilon}
+\newcommand{\eqdef}{:=}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+
+\DeclareMathOperator{\vollb}{volLB}
+\DeclareMathOperator{\detlb}{detLB}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\hd}{hd}
+\DeclareMathOperator{\vb}{vb}
+\DeclareMathOperator{\ac}{ac}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\lspan}{span}
+\DeclareMathOperator{\speclb}{specLB}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\bnds}{bounds}
+\DeclareMathOperator{\rank}{rk}
+
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Balancing Vectors in Any Norm}
+
+
+% author names and affiliations
+% use a multiple column layout for up to two different
+% affiliations
+
+% \author{\IEEEauthorblockN{Authors Name/s per 1st Affiliation (Author)}
+% \IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
+% line 2: name of organization, acronyms acceptable\\
+% line 3: City, Country\\
+% line 4: Email: name@xyz.com}
+% \and
+% \IEEEauthorblockN{Authors Name/s per 2nd Affiliation (Author)}
+% \IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
+% line 2: name of organization, acronyms acceptable\\
+% line 3: City, Country\\
+% line 4: Email: name@xyz.com}
+% }
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+\author{\IEEEauthorblockN{
+    Daniel Dadush\IEEEauthorrefmark{1},
+    Aleksandar Nikolov\IEEEauthorrefmark{2},
+    Kunal Talwar\IEEEauthorrefmark{3}, 
+    Nicole Tomczak-Jaegermann\IEEEauthorrefmark{4}}
+  \IEEEauthorblockA{
+    \IEEEauthorrefmark{1}
+    Centrum Wiskunde \& Informatica,
+    Amsterdam, Netherlands\\ 
+    Email: dadush@cwi.nl}
+  \IEEEauthorblockA{
+    \IEEEauthorrefmark{2}
+    %Department of Computer Science\\
+    University of Toronto,
+    Toronto, Ontario,Canada\\
+    Email: anikolov@cs.toronto.edu}
+  \IEEEauthorblockA{
+    \IEEEauthorrefmark{3}
+    Google Brain\\
+    Email: kunal@google.com}
+  \IEEEauthorblockA{
+    \IEEEauthorrefmark{2}
+    %Department of Mathematical and Statistical Sciences\\
+    University of Alberta
+    Edmonton, Alberta, Canada\\
+    Email: nicole.tomczak@ualberta.ca}}
+
+% \author{
+%   \IEEEauthorblockN{Daniel Dadush}
+%   \IEEEauthorblockA{
+%     Centrum Wiskunde \& Informatica\\
+%     Amsterdam, Netherlands\\ 
+%     Email: dadush@cwi.nl}
+%   \and
+%   \IEEEauthorblockN{Aleksandar Nikolov}
+%   \IEEEauthorblockA{
+%     Department of Computer Science\\
+%     University of Toronto\\
+%     Toronto, Canada\\
+%     Email: anikolov@cs.toronto.edu}
+%   \and
+%   \IEEEauthorblockN{Kunal Talwar}
+%   \IEEEauthorblockA{
+%     \IEEEauthorrefmark{3}
+%     Google Brain\\
+%     Email: kunal@google.com}
+%   \and
+%   \IEEEauthorblockN{Nicole Tomczak-Jaegermann}
+%   \IEEEauthorblockA{
+%     %Department of Mathematical and Statistical Sciences\\
+%     University of Alberta\\
+%     Edmonton, Canada\\
+%     Email: nicole.tomczak@ualberta.ca}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+In the vector balancing problem, we are given symmetric convex bodies $C$ and $K$ in $\R^n$, and our goal is to determine the minimum number $\beta \geq 0$, known as the vector balancing constant from $C$ to $K$, such that for any sequence of vectors in $C$ there always exists a signed combination of them lying inside $\beta K$. Many fundamental results in discrepancy theory, such as the Beck-Fiala theorem (Discrete Appl.~Math `81), Spencer's ``six standard deviations suffice'' theorem (Trans.~Amer.~Math.~Soc `85) and Banaszczyk's vector balancing theorem (Random Structures \& Algorithms `98) correspond to bounds on vector balancing
+constants. 
+
+The above theorems have inspired much research in recent years within theoretical computer science. In this work, we show that all vector balancing constants admit ``good'' approximate characterizations, with approximation factors depending only polylogarithmically on the dimension $n$. First, we show that a volumetric lower bound due to Banaszczyk is tight within a $O(\log n)$ factor. Our proof is algorithmic, and we show that Rothvoss's (FOCS `14) partial coloring algorithm can be analyzed to obtain these guarantees. Second, we present a novel convex program which encodes the ``best possible  way'' to apply Banaszczyk's vector balancing theorem for bounding vector balancing constants from above, and show that it is tight within an $O(\log^{2.5} n)$ factor. This also directly yields a corresponding polynomial time approximation algorithm both for vector balancing constants, and for the hereditary discrepancy of any sequence of vectors with respect to an arbitrary norm.    
+  
+%Our results yield the first guarantees which depend only polylogarithmically on the dimension of the norm ball $K$. All prior works required the norm to be polyhedral and incurred a dependence of $O(\sqrt{\log m})$, where $m$ is the number of facets. Our techniques rely on a novel combination of techniques from convex geometry and discrepancy theory. In particular, we give a new way to show lower bounds on Gaussian measures using only volumetric information, which may be of independent interest.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Discrepancy; Convex Geometry; Gaussian measure; M-ellipsoid; K-convexity.
+\end{IEEEkeywords}
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+\section{Introduction}
+
+The discrepancy of a set system is defined as the minimum, over the set of $\pm 1$ colorings of the elements, of the imbalance between the number of $+1$ and $-1$ elements in the most imbalanced set. Classical combinatorial discrepancy theory studies bounds on the discrepancy of set systems, in terms of their structure. 
+%In classical combinatorial discrepancy, one studies for various set systems,
+%over the set of $\pm 1$ colorings of the elements, what is the minimum
+%worst-case imbalance, known as discrepancy, one guarantee between the number of
+%$+1$ and $-1$ elements in every set? 
+The tools developed for deriving bounds on the discrepancy of set
+systems have found many applications in mathematics and computer
+science~\cite{Matousek,Chazelle}, from the study of pseudorandomness,
+to communication complexity, and most recently, to approximation
+algorithms and privacy.  Here we study a geometric generalization of
+combinatorial discrepancy, known as vector balancing, which captures
+some of the most powerful techniques in the area, and is of intrinsic
+interest. 
+
+\paragraph{\bf Vector Balancing} In many instances, the best known techniques for finding
+good bounds in combinatorial discrepancy were derived by working with more
+general vector balancing problems, where convex geometric techniques can be
+applied. Given symmetric convex bodies $C,K \subseteq \R^n$, the vector
+balancing constant of $C$ into $K$ is defined as 
+% i.e.~which induce the unit ball of a norm, and the
+% goal is to understand the minimum number $M \geq 0$ such that for any sequence
+% $(v_i)_{i=1}^N \in C$, there exists signs $(x_i)_{i=1}^N \in \set{-1,1}$ such
+% that $\sum_{i=1}^N x_i v_i \in M D$. The minimum $M$ is denoted $\vb(C,D)$,
+% the vector balancing constant of $C$ into $D$. 
+\begin{multline*}
+\vb(C, K) \eqdef \sup\Bigg\{ 
+\min_{x \in \set{-1,1}^N} \Bigl\|\sum_{i = 1}^N x_i u_i \Bigr\|_{K}: \\N \in \mathbb{N}, u_1, \ldots, u_N \in C \Bigg\},
+\end{multline*}
+where $\norm{x}_K := \min \set{s \geq 0: x \in sK}$ is the norm induced by $K$.
+
+As an example, one may consider Spencer's ``six standard deviations'' theorem~\cite{Spencer}, independently
+obtained by Gluskin~\cite{gluskin}, which states that every set system on $n$
+points and $n$ sets can be colored with discrepancy at most $O(\sqrt{n})$. In
+the vector balancing context, the more general statement is that
+$\vb(B_\infty^n,B_\infty^n) = O(\sqrt{n})$ (also proved
+in~\cite{Spencer,gluskin}), where we use the notation $B_p^n = \set{x \in \R^n:
+\norm{x}_p \leq 1}$, $p \in [1,\infty]$, to denote the unit ball of the $\ell_p$
+norm. To encode Spencer's theorem, we simply represent the set system using its
+incidence matrix $U \in \set{0,1}^{n \times n}$, where $U_{ji} = 1$ if element
+$i$ is in set $j$ and $0$ otherwise. Here the columns of $U$ have $\ell_\infty$
+norm $1$, and thus the sign vector $x \in \set{-1,1}^n$ satisfying $\norm{U
+x}_\infty = O(\sqrt{n})$ indeed yields the desired coloring.   
+
+In fact, vector balancing was studied earlier, and independently from
+combinatorial discrepancy. In 1963 Dvoretzky posed the general problem
+of determining $\vb(K, K)$ for a given symmetric convex body $K$. The
+more general version with two different bodies was introduced by
+Barany and Grinberg~\cite{baranygrinberg} who proved that for any
+symmetric convex body $K$ in $\R^n$, $\vb(K, K) \le n$.  In addition
+to Spencer's theorem, as described above, many other fundamental
+discrepancy bounds, as well as conjectured bounds, can be stated in
+terms of vector balancing constants. The Beck-Fiala theorem, which
+bounds the discrepancy of any $t$-sparse set system (i.e.~one in which
+each element appears in at most $t$ sets) by $2t-1$, can be recovered
+from the bound $\vb(B_1^n,B_\infty^n) < 2$~\cite{beckfiala}. The
+Beck-Fiala conjecture, which asks whether the bound for $t$-sparse set
+systems can be improved to $O(\sqrt{t})$, is generalized by the
+K{\'o}mlos conjecture~\cite{spencer-lectures}, which asks whether
+$\vb(B_2^n,B_\infty^n) = O(1)$. One of the most important vector
+balancing bounds is due to Banaszczyk~\cite{bana}, who proved that for
+any convex body $K \subseteq \R^n$ of Gaussian measure $1/2$, one has
+the bound $\vb(B_2^n,K) \leq 5$. In particular, this implies the bound
+of $\vb(B_2^n,B_\infty^n) = O(\sqrt{\log n})$ for the K{\'o}mlos
+conjecture.
+
+
+
+\paragraph{\bf Hereditary Discrepancy.} While vector balancing gives useful
+worst-case bounds, one is often interested in understanding the discrepancy
+guarantees one can get for instances derived from a fixed set of vectors, known
+as hereditary discrepancy. Given vectors $(u_i)_{i=1}^N$ in $\R^n$, the
+discrepancy and hereditary discrepancy with respect to a symmetric convex body
+$K \subseteq \R^n$ are defined as:
+\begin{align*}
+\disc((u_i)_{i = 1}^N,K) &\eqdef \min_{\eps_1, \ldots,\eps_N \in
+  \{-1, 1\}}
+\Bigl\|\sum_{i = 1}^N{\eps_i u_i}\Bigr\|_{K};\\
+\hd((u_i)_{i = 1}^N, K) &\eqdef \max_{S \subseteq [N]}{\disc((u_i)_{i \in S}, K)}.
+\end{align*}
+
+When convenient, we will also use the notation $\hd(U,K) :=
+\hd((u_i)_{i=1}^N,K)$, where $U := (u_1,\dots,u_N) \in \R^{n \times N}$, and
+$\disc(U_S,K) := \disc((u_i)_{i \in S},K)$ for any subset $S \subseteq [N]$.  In
+the context of set systems, $\ell_\infty$ hereditary discrepancy corresponds to
+the worst-case discrepancy of any element induced subsystem, which gives a
+robust notion of discrepancy, and can be seen as a measure of the
+complexity of the set system. As an interesting example,
+a set system has $\ell_\infty$ hereditary discrepancy $1$ if and only if its
+incidence matrix is totally unimodular~\cite{GH-tum}. 
+
+Beyond set systems, hereditary discrepancy can also usefully bound the
+worst-case ``error'' required for rounding a fractional LP solution to an
+integral one. More precisely, given any solution $y \in \R^n$ to a linear
+programming relaxation $Ax \leq b$, $x \in [0,1]^n$, with $A \in \R^{m \times
+n}, b \in \R^m$, of a binary IP, and given any norm $\norm{\cdot}$ on $\R^m$
+measuring ``constraint violation'', one can ask what guarantees can be given on
+$\min_{x \in \set{0,1}^n} \norm{A(y-x)}$? Using a well-known reduction of
+Lov{\'a}sz, Spencer and Vesztergombi~\cite{LSV}, this error can be bounded by
+$\hd(A,K)$ where $K$ is the unit ball of $\norm{\cdot}$. Furthermore,
+this reduction guarantees that $x$ agrees with $y$ on its integer coordinates.
+Note that we have the freedom to choose the norm $\norm{\cdot}$ so that the
+error bounds meaningfully relate to the structure of the problem. Indeed, much
+work has been done on the achievable ``error profiles'' one can obtain
+algorithmically, e.g.~for which $\Delta \in \R^m_{> 0}$ we can always find $x
+\in \set{0,1}^m$ satisfying $|A(y-x)| \leq \Delta$, $\forall y \in [0,1]^m$?
+Note that the feasibility of an error profile can be recovered from a bound of
+$1$ on the hereditary discrepancy with respect to the weighted $\ell_\infty$
+norm $\norm{y-x}_{\Delta} = \max_{i \in [m]} |y_i-x_i|/\Delta_i$.  Indeed, in
+many instances, this is (at least implicitly) how these bounds are proved. These
+error profile bounds have been fruitfully leveraged for problems where small
+``additive violations'' to the constraints are either allowed or can be repaired.
+In particular, they were used in the recent $O(\log n)$-additive
+approximation for bin packing~\cite{HobergRothvoss17}, an additive approximation
+scheme for the train delivery problem~\cite{R12}, and additive approximations of
+the degree bounded matroid basis problem~\cite{BN15}. 
+
+\paragraph{\bf Discrepancy Minimization.} The original proofs of many of the
+aforementioned discrepancy upper bounds were existential, and did not come with
+efficient algorithms capable of constructing the requisite low discrepancy
+colorings. %Over the last eight years, starting with the breakthrough work of
+%Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem
+%using random walk and semidefinite programming techniques, almost all known
+%bounds have been made algorithmic. 
+Starting with the breakthrough work of Bansal~\cite{Bansal10}, who gave a constructive version of Spencer's theorem using random walk and semidefinite programming techniques, nearly all known bounds have been made algorithmic in the last eight years.
+
+One of the most important discrepancy minimization techniques is Beck's
+partial coloring method, which covers most of the above discrepancy results
+apart from Banaszczyk's vector balancing theorem. This method was first
+primarily applied to $\ell_\infty$ discrepancy minimization problems of the form
+\[
+\min_{x \in \set{-1,1}^n} \Big\|\sum_{i=1}^n x_i v_i\Big\|_\infty, \text{ where
+} (v_i)_{i=1}^n \in \R^m.
+\]
+As before, the goal is not to solve such problems near-optimally but
+instead to find solutions satisfying a guaranteed error bound. The
+partial coloring method solves this problem in phases, where at each
+phase it ``colors'' (i.e.~sets to $\pm 1$) at least a constant
+fraction of the remaining uncolored variables.  This yields $O(\log
+n)$ partial coloring phases, where the discrepancy of the full
+coloring is generally bounded by the sum of discrepancies incurred in
+each phase. The existence of low discrepancy partial colorings was
+initially established via the pigeon hole principle and arguments
+based on the probabilistic and the entropy methods. In particular, the
+entropy method gave a general sufficient condition for the feasibility
+of any error profile (as above) with respect to partial
+colorings. This method was made constructive by Lovett and
+Meka~\cite{lovettmeka} using random walk techniques. The partial
+coloring method was generalized by Giannopoulos~\cite{giann} to the
+general vector balancing setting using Gaussian measure. Precisely, he
+showed that if a symmetric convex body $K \subseteq \R^n$ has Gaussian
+measure at least $2^{-c n}$, for $c$ small enough, then for any
+sequence of vectors $v_1,\dots,v_n \in B_2^n$, there exists a partial
+coloring $x \in \set{-1,0,1}^n$, having support at least $n/2$, such
+that $\sum_{i=1}^n x_i v_i \in O(1) K$. This method was made
+constructive by Rothvoss~\cite{rothvoss-giann}, using a random
+projection algorithm, and later by Eldan and Singh~\cite{ES14} who
+used the solution of a random linear maximization problem. An
+important difference between the constructive and existential partial
+coloring methods, is that the constructive methods only guarantee that
+the ``uncolored'' coordinates of a partial coloring $x$ are in
+$(-1,1)$ instead of equal to $0$. This relaxation seems to make the
+constructive methods more robust, i.e.~the conditions needed for such
+``fractional'' partial colorings are somewhat milder, without having
+noticeable drawbacks in most applications.
+
+The main alternative to the partial coloring method comes from Banaszczyk's
+vector balancing theorem~\cite{bana}. 
+ Banaszczyk's method proves the existence of a full coloring when
+$K$ has gaussian measure $1/2$, in contrast to Giannopoulos's result
+which gives a partial coloring but requires measure only $2^{-cn}$.
+Banaszczyk's method was only very recently made constructive in
+the sequence of works~\cite{BDG16,DGLN16,BDGL18}. In particular,~\cite{DGLN16}
+showed an equivalence of Banaszczyk's theorem to the existence of certain
+subgaussian signing distributions, and~\cite{BDGL18} gave a random walk-based
+algorithm to build such distributions.
+
+\subsection{Approximating Vector Balancing and Hereditary Discrepancy}
+Given the powerful tools mentioned above, a natural question is
+whether they can be extended to get nearly optimal bounds for any vector
+balancing or hereditary discrepancy problem. More precisely, we will be
+interested in the following computational and mathematical questions: 
+
+\begin{enumerate}
+\item Given vectors $(u_i)_{i=1}^N$ and a symmetric convex body $K$ in $\R^n$,
+can we (a) efficently compute a coloring whose $K$-discrepancy is approximately
+bounded by $\hd((u_i)_{i=1}^N,K)$? (b) efficiently approximate $\hd((u_i)_{i=1}^N,K)$?
+\item Given two symmetric convex bodies $C,K \subseteq \R^n$, does $\vb(C,K)$
+admit a ``good'' characterization? Namely, are there simple certificates which
+certify nearly tight upper and lower bounds on $\vb(C,K)$?
+\end{enumerate}
+
+To begin, a few remarks are in order.  Firstly, question 2 can be inefficiently
+encoded as question 1b, by letting $(u_i)_{i=1}^N$ denote a sufficiently fine
+net of $C$. Thus ``good'' characterizations for hereditary discrepancy transfer
+over to vector balancing, and, for this reason, we restrict for now the discussion to the
+former. For question 1a, one may be tempted to ask whether we can directly
+compute a coloring whose $K$-discrepancy is approximately
+$\disc((u_i)_{i=1}^N,K)$ instead of $\hd((u_i)_{i=1}^N,K)$. Unfortunately, even
+for $K = B_\infty^n$ and $(u_i)_{i=1}^n \in [-1,1]^n$, it was shown in
+\cite{CNN11} that it is NP-hard to
+distinguish whether $\disc((u_i)_{i=1}^n,B_\infty^n)$ is $0$ or
+$\Omega(\sqrt{n})$ (note that $O(\sqrt{n})$ is guaranteed by Spencer's theorem),
+thus one cannot hope for any non-trivial approximation guarantee in this
+context. 
+
+We now discuss prior work on these questions and then continue with our
+main results. 
+
+\subsection{Prior work.} For both questions 1 and and 2 above, prior
+work has mostly dealt with the case of $\ell_\infty$ or $\ell_2$
+discrepancy. Bounds on vector balancing constants from $\ell_p$ to
+$\ell_q$ for some $p$ and $q$ have also been studied, as
+described earlier, but without a unified approach. The question of
+obtaining near-optimal results for general vector balancing and
+hereditary discrepancy problems has not been studied
+before.
+
+In terms of coloring algorithms, Bansal~\cite{Bansal10} gave a partial coloring
+based random walk algorithm which on $U \in \R^{m \times n}$, produces a full
+coloring with $\ell_\infty$ discrepancy $O(\sqrt{\log m \log \rank(U)}
+\hd(U,B_\infty^m))$, where $\rank(U)$ is the rank of $U$. Recently,
+Larsen~\cite{Larsen17} gave an algorithm for the $\ell_2$ norm achieving
+discrepancy $O(\sqrt{\log(\rank(U))}\hd(U,B_2^m))$. 
+
+In terms of certifying lower bounds on $\hd(U,B_\infty^m))$, the main tool has
+been the so-called determinant lower bound of~\cite{LSV}, where it was shown that
+\[
+\hd(U,B_\infty^m) \geq \detlb(U) := \max_k \max_B \frac{1}{2}|\det(B)|^{1/k}
+\]       
+with the maximum over $k \times k$ submatrices $B$ of $U$.
+Matou\v{s}ek~\cite{Matousek11} built upon the results of~\cite{Bansal10} to show that 
+\[
+\hd(U,B_\infty^m) \leq O(\sqrt{\log m} \log\rank(U) \detlb(U)).
+\]
+For certifying tight upper bounds,~\cite{NT15,disc-gamma2} showed that the
+$\gamma_2$ norm of $U$, defined by 
+\begin{multline*}
+\gamma_2(U) := \min \{\|A\|_{2 \rightarrow \infty} \|B\|_{1 \rightarrow 2}: U
+= A B, \\A \in \R^{m \times k}, B \in \R^{k \times n}, k \in \N\}  
+\end{multline*}
+where $\|A\|_{2 \rightarrow \infty}$ is the maximum $\ell_2$ norm of any row of $A$,
+and $\|B\|_{1 \rightarrow 2}$ is the maximum $\ell_2$ norm of any column of $B$,
+satisfies
+\begin{align*}
+\Omega(\gamma_2(U)/\log(\rank(U))) &\leq \detlb(U) \\
+&\leq \hd(U,B_\infty^m) \leq O(\sqrt{\log m} \gamma_2(U)) 
+\end{align*}
+which implies a $O(\sqrt{\log m} \log \rank(U))$ approximation to $\ell_\infty$
+hereditary discrepancy. For $\ell_2$, it was shown in~\cite{NT15}
+that a relaxation of $\gamma_2$ yields an $O(\log \rank(U))$-approximation to
+$\hd(U,B_2^m)$. We note that part of the strategy of~\cite{NT15,disc-gamma2}
+is to replace the $\ell_\infty$ norm via an averaged version of $\ell_2$, where
+one optimizes over the averaging coefficients, which makes the $\ell_2$ norm by
+itself an easier special case.
+
+\paragraph{\bf Moving to general norms.} While at first glance it may seem that
+the above techniques for $\ell_\infty$ do not apply to more general norms, this
+is in some sense deceptive. Notwithstanding complexity considerations, every
+norm can be isometrically embedded into $\ell_\infty$, where in particular any
+polyhedral norm with $m$ facets can be embedded into $B^m_\infty$. Vice versa,
+starting from a matrix $U \in \R^{m \times N}$, with $\rank(U) = n$ and rank
+factorization $U = A B$, it is direct to verify that $\hd(U,B^m_\infty) = \hd(B,K)$,
+where $K = \set{x \in \R^n: \|Ax\|_\infty \leq 1}$ is an $n$-dimensional symmetric
+polytope with $m$ facets. Thus, for any $U \in \R^{n \times N}$, one can
+equivalently restate the guarantees of~\cite{Bansal10} as yielding colorings of
+discrepancy $O(\sqrt{\log m \log n} \hd(U,K))$ and of~\cite{disc-gamma2} as a
+$O(\sqrt{\log m}\log n)$ approximation to $\hd(U,K)$ for any $n$-dimensional
+symmetric polytope $K$ with $m$ facets. A natural question is therefore
+whether there exist corresponding coloring and approximation algorithms whose
+guarantees depend only polylogarithmically on the dimension of the norm and not on
+the complexity of its representation. The upper and lower bound tools
+mentioned above (the determinant lower bound and the $\gamma_2$ norm,
+respectively) are insufficient for this task, as the polylogarithmic
+dependence on $m$ in the bounds is known to be inherent. 
+
+We note that polynomial bounds in $n$ for general $K$ can be achieved by simply
+approximating $K$ by a sandwiching ellipsoid $E \subseteq K \subseteq \sqrt{n}
+E$ and applying the corresponding results for $\ell_2$, which yield $O(\sqrt{n
+\log n})$ coloring and $O(\sqrt{n}\log n)$ approximations guarantees
+respectively. Interestingly, these guarantees are identical to what can be
+achieved by replacing $K$ by a symmetric polytope with $3^n$ facets, giving a sandwiching factor of $2$, and applying the $\ell_\infty$ results.
+
+\section{Results} 
+Our main results are that polylogarithmic approximations to hereditary
+discrepancy and vector balancing constants with respect to arbitrary
+norms are indeed possible. In particular, given $U \in \R^{n \times
+  N}$ and a symmetric convex body $K \subseteq \R^n$ (specified by an
+appropriate oracle), we give randomized polynomial time algorithms for
+computing colorings of discrepancy $O(\log n \hd(U,K))$ and
+approximating $\hd(U,K)$ up to an $O(\log^{2.5} n)$ factor.  Furthermore,
+if $K$ is a polyhedral norm with at most $m$ facets, our approximation
+algorithm for $\hd(U,K)$ always achieves a tighter approximation
+factor than the $\gamma_2$ bound, and hence gives an $O(\min \set{\log
+  n \sqrt{\log m}, \log^{2.5} n})$ approximation. To achieve these
+results, we first show that Rothvoss' partial coloring
+algorithm~\cite{rothvoss-giann} is nearly optimal for general
+hereditary discrepancy by showing near-tightness with respect to a
+volumetric lower bound of Banaszczyk~\cite{Bana93}. Second, we show
+that the ``best possible way'' to apply Banaszczyk's vector balancing
+theorem~\cite{bana} for the purpose of bounding $\hd(U,K)$ from above can
+be encoded as a convex program, and prove that this bound is tight to
+within an $O(\log^{2.5} n)$ factor. As a consequence, we show that
+Banaszczyk's theorem is essentially ``universal'' for vector
+balancing. To analyze these approaches we rely on a novel combination
+of tools from convex geometry and discrepancy. In particular, we give
+a new way to prove lower bounds on Gaussian measure using only
+volumetric information, which could be of independent interest.
+Furthermore, we make a natural geometric conjecture which would imply
+that Rothvoss' algorithm is (in a hereditary sense) optimal for
+finding partial colorings in any norm, and prove the conjecture for
+the special case of $\ell_2$.
+
+Comparing to prior work, our coloring and hereditary discrepancy
+approximation algorithms give uniformly better (or at at least no worse)
+guarantees in almost every setting which has been studied. Furthermore our
+methods provide a unified approach for studying discrepancy in arbitrary norms,
+which we expect to have further applications.
+
+Interestingly, our results imply a tighter relationship between vector balancing
+and hereditary discrepancy than one might initially expect. We observe
+that neither the volumetric lower bound we use nor our factorization based upper
+bound ``see'' the difference between vector balancing constants and
+hereditary discrepancy. More precisely, both bounds remain
+invariant when replacing $\hd(U,K)$ by $\vb(\conv\set{\pm u_i: i \in [N]},K)$. This
+has the relatively non-obvious implication that 
+\begin{multline}
+\label{eq:hd-to-vb}
+\hd(U,K) \leq \vb(\conv\set{\pm u_i: i \in [N]},K) \\\leq O(\log n) \hd(U,K).
+\end{multline}
+We believe it is an interesting question to understand whether a polylogarithmic
+separation indeed exists between the above quantities (we are currently unaware
+of any examples), as it would give a tangible geometric obstruction for tighter
+approximations.    
+
+\section{Outline of the Proofs}
+
+Starting with hereditary discrepancy, to push beyond the limitations of prior
+approaches the first two tasks at hand are: (1) find a stronger lower bound and
+(2) develop techniques to avoid the ``union bound''. Fortunately, a solution to the
+first problem was already given by Banaszczyk\cite{Bana93}, which we present in
+slightly adapted form below.
+
+\begin{lemma}[Volume Lower Bound]%{lemma}{vollbstat} 
+\label{lem:vol-lb}
+Let $U=(u_1,\dots,u_N) \in \R^{n \times N}$ and $K \subseteq \R^n$ be a
+symmetric convex body. For $S \subseteq [N]$, let $U_S$ denote the
+submatrix of $U$ consisting of the columns
+indexed by $S$. For $k \in [n]$, define 
+\begin{multline}
+\label{eq:vol-lb}
+\vollb^{\rm h}_k((u_i)_{i=1}^N,K) \eqdef \vollb^{\rm h}_k(U, K) \\
+\eqdef
+\max_{S \subseteq [N],|S|=k} \vol_k(\{x \in \R^k: U_S x \in K\})^{-1/k}.
+\end{multline}
+Then, we have that
+\begin{multline}
+\label{eq:vol-lbh}
+\vollb^{\rm h}((u_i)_{i=1}^N,K) \eqdef \vollb^{\rm h}(U,K) \\
+\eqdef \max_{k \in [n]} \vollb^{\rm h}_k(U,K) \leq \hd(U,K). 
+\end{multline}
+\end{lemma}
+
+A formal proof of the above is given in the full version, and follows
+from the argument in \cite{Bana93}. At a high level, the proof is a simple covering
+argument, where it is argued that for any subset $S$, $|S|=k$, every point in
+$[0,1]^k$ is at distance at most $\hd(U,K)$ from $\set{0,1}^k$ under the norm
+induced by $C := \set{x \in \R^k: U_S x \in K}$. Equivalently an $\hd(U,K)$
+scaling of $C$ placed around the points of $\set{0,1}^k$ cover $[0,1]^k$, and
+hence by a standard lattice argument must have volume at least that of
+$[0,1]^k$, namely $1$. This yields the desired lower bound after rearranging. 
+
+We note that the volume lower bound extends in the obvious way to vector
+balancing. In particular, for two symmetric convex bodies $C,K
+\subseteq \R^n$, we define
+\begin{equation*}
+%\label{eq:vol-lb-vb}
+\vollb^{\rm h}(C,K) \eqdef \sup \vollb((u_i)_{i=1}^k,K),
+\end{equation*}
+with the supremum over $k \in [n]$ and sequences $u_1,\dots,u_k \in
+C$. Then we have
+\begin{equation}
+\label{eq:vol-lb-vb}
+\vollb^{\rm h}(C,K)  \geq \vb(C,K).
+\end{equation}
+This lower bound can be substantially stronger than the determinant lower
+bound for $\ell_\infty$ discrepancy. As a simple example, let $U \in \R^{2^n
+\times n}$ be the matrix having a row for each vector in $\set{-1,1}^n$. Since
+$U$ has rank $n$, the determinant lower bound is restricted to $k \times k$
+matrices for $k \in [n]$. Hadamard's inequality implies that for any $k \times k$
+matrix $B$ with $\pm 1$ entries we have $|\det(B)|^{1/k} \leq \sqrt{k} \leq
+\sqrt{n}$. A moment's thought, however, reveals that for $x \in \R^n$,
+$\norm{Ux}_\infty = \norm{x}_1$ and hence any coloring $x \in \set{-1,1}$ must
+have discrepancy $\norm{x}_1 = n$. Using the previous logic, the volume lower
+bound yields by standard estimates
+\begin{align*}
+\vollb(U,B^m_\infty) &\geq \vol_n(\set{x \in \R^n: \norm{x}_1 \leq 1})^{-1/n}\\
+&= \vol_n(B_1^n)^{-1/n} = (n!/2^n)^{1/n} \geq n/(2e), 
+\end{align*}
+which is essentially tight. 
+
+\subsection{From Volume to Coloring} 
+
+The above example gives hope that the volume lower bound can
+circumvent a dependency on the facet complexity of the norm. Our first
+main result shows that indeed this is the case:
+
+\begin{theorem}[Tightness of the Volume Lower Bound]%{theorem}{tightvollb} 
+\label{thm:tightness}
+For any $U \in \R^{n \times N}$ and symmetric convex body $K$ in $\R^n$, we have that
+\begin{equation*}
+\label{eq:tightness}
+\hspace{-0.8em}\vollb^{\rm h}(U,K) \leq \hd(U,K) \leq O(\log(n) \vollb^{\rm h}(U,K)).
+\end{equation*}
+Furthermore, there exists a randomized polynomial time algorithm that computes a
+coloring of $U$ with $K$-discrepancy $O(\log n \vollb^{\rm h}(U,K))$, given a
+membership oracle for $K$. 
+\end{theorem}
+
+We note that the above immediately implies the corresponding approximate
+tightness of the volume lower bound for vector balancing. The above bound can
+also be shown to be tight. In particular, the counterexample to the
+3-permutations conjecture from~\cite{NNN12}, which has $\ell_\infty$ discrepancy
+$\Omega(\log n)$, can be shown to have volume lower bound $O(1)$. The
+computations for this are somewhat technical, so we defer a detailed discussion
+to the full version. As mentioned previously, an interesting property of the
+volume lower bound is its invariance under taking convex hulls, namely $\vollb^{\rm
+h}(\conv\set{\pm U},K) = \vollb^{\rm h}(U,K)$. In combination with
+Theorem~\ref{thm:tightness}, this establishes the claimed
+inequality~\eqref{eq:hd-to-vb}. This invariance is proved in
+the full version by showing that  the volume lower bound is convex in
+each $u_i$, and hence maximized at extreme points.
+
+Our proof of Theorem~\ref{thm:tightness} is algorithmic, and relies on iterated
+applications of Rothvoss's partial coloring algorithm. We now explain our high
+level strategy as well as the differences with respect to prior approaches. 
+
+For simplicity of the presentation, we shall assume that $U=(e_1,\dots,e_n) \in
+\R^{n \times n}$ and that the volume lower bound $\vollb^{\rm
+h}((e_i)_{i=1}^n,K)=1$. This can be (approximately) achieved by applying a
+standard reduction to the case where $U$ is non-singular, so $N \leq n$,
+``folding'' $U$ into $K$, and appropriately guessing the volume lower
+bound. 
+
+For any subset $S \subseteq [n]$, let $K_S := \set{x \in K: x_i = 0~\forall i \in [n]
+\setminus S}$ denote the coordinate section of $K$ induced by $S$. Since the
+vectors of $U$ now correspond to the coordinate basis, it is direct to verify that
+\[
+\vollb^{\rm h}((e_i)_{i=1}^n,K) = \max_{S \subseteq [n],k:=|S|}
+\vol_k(K_S)^{-1/k} .
+\]  
+In particular, the assumption $\vollb^{\rm h}((e_i)_{i=1}^n,K) = 1$ implies that
+\begin{equation}
+\label{eq:big-volume}
+\vol_{|S|}(K_S) \geq 1,~\forall S \subseteq [n]. 
+\end{equation}
+Under this condition, our goal can now be stated as finding a coloring $x \in
+\set{-1,1}^n \in O(\log n) K$.
+
+When $K$ is a symmetric polytope \cut{$|Ax| \leq 1$,} with $m$ facets,
+the algorithm by Bansal~\cite{Bansal10} uses a ``sticky'' random walk
+inside $[0,1]^n$ with increments computed via an SDP. The SDP is used
+to guarantee that the variance in the normal direction of any facet is
+at bounded by $s\hd((e_i)_{i=1}^n,K)^2$, while the variance in the
+direction of any (active) coordinate directions is at least $s$, for a
+small parameter $s$. As this only gives probabilistic error
+guarantees for each constraint in isolation, a union bound is used to
+get a global guarantee, incurring the $O(\sqrt{\log m})$ dependence in
+the final bound.
+
+To avoid the ``union bound'', we instead use Rothvoss's partial coloring
+algorithm, which simply samples a random Gaussian vector $X \in \R^n$ and
+computes the closest point in Euclidean distance $x$ to $X$ in $K \cap [-1,1]^n$
+as the candidate partial coloring. As long as $K$ has ``large enough'' Gaussian
+measure, Rothvoss shows that $x$ has at least
+a constant fraction of its components at $\pm 1$. While this method can in
+ better leverage the geometry of $K$ than Bansal's method (in particular,
+it does not need an explicit description of $K$), it is apriori unclear why Gaussian
+measure should be large enough in the present context. 
+
+Our main technical result is that if all the coordinate sections of
+$K$ have volume at least $1$ (i.e.~condition~\eqref{eq:big-volume}),
+then there indeed exists a section of $K$ of dimension close to $n$,
+whose Gaussian measure is ``large'' after an appropriate
+scaling. Specifically, we show that for any $\delta \in (0,1)$, there
+exists a subspace $H$ of dimension $(1-\delta)n$ such that the
+Gaussian measure of $2^{O(1/\delta)} (K \cap H)$ is at least
+$2^{-\delta n}$ (the exact statement is given in the full version). We
+sketch the ideas in the next subsection.
+
+The existence of a large section of $K$ with Gaussian measure which is
+not too small in fact suffices to run Rothvoss's partial coloring
+algorithm. Conveniently, one does not need to know the section
+explicitly, as its existence is only used in the analysis of the
+algorithm. Since condition~\ref{eq:big-volume} is hereditary, we can
+now find partial colorings of $K$-discrepancy $O(1)$ on any subset of
+coordinates.  Thus, applying $O(\log n)$ partial coloring phases in
+the standard way yields the desired full coloring.
+
+A useful restatement of the above is that Rothvoss's algorithm can
+always find partial colorings with discrepancy $O(1)$ times the volume
+lower bound. 
+%We note that this guarantee is a natural by-product of
+%the algorithm (once one has guessed the appropriate scaling), which
+%does not need to be explicitly enforced as in Bansal's algorithm.
+
+\subsection{Finding a section with large Gaussian measure.} We now sketch how
+to find a section of $K$ of large Gaussian measure under the assumption that
+$\vol_{|S|}(K_S) \geq 1, \forall S \subseteq [n]$. The main tool we require is
+the M-ellipsoid from convex geometry~\cite{Milman86-reverseBM}. The M-ellipsoid
+$E$ of $K$ is an ellipsoid which approximates $K$ well from the perspective of
+covering, that is $2^{O(n)}$ translates of $E$ suffice to cover $K$ and vice
+versa. 
+
+The main idea is to use the volumetric assumption to show that the longest
+$(1-\delta)n$ axes of $E$, for $\delta \in (0,1)$ of our choice, have length at
+least $\sqrt{n}2^{-O(1/\delta)}$, and then use the subspace generated by these
+axes for the section of $K$ we use. On this subspace $H$, we have that a
+$2^{O(1/\delta)}$ scaling of $E \cap H$ contains the $\sqrt{n}$ ball, and thus
+by the covering estimate $2^{O(n)}$ translates of $2^{O(1/\delta)}(K \cap H)$
+cover the $\sqrt{n}$ ball. Since the $\sqrt{n}$ ball on $H$ has Gaussian
+measure at least $1/2$, the prior covering estimate indeed implies that
+$2^{O(1/\delta)}(K \cap H)$ has Gaussian measure $2^{-O(n)}$, noting that
+shifting $2^{O(1/\delta)}(K \cap H)$ away from the origin only reduces Gaussian
+measure. Using an M-ellipsoid with appropriate regularity properties
+(as in\cite{Pisier89}), one can scale $K \cap H$ by another $2^{O(1/\delta)}$
+factor so that the preceding argument yields Gaussian measure at least
+$2^{-\delta n}$. 
+
+We now explain why the $(1-\delta)n$ longest axes of $E$ are indeed
+long enough. By the covering estimates, for any $S \subseteq [n]$,
+$|S| = \delta n$, the sections $E_S$ and $K_S$ satisfy
+\[
+\vol_{\delta n}(E_S)^{1/{\delta n}} \geq 2^{-O(1/\delta)} \vol_{\delta
+n}(K_S)^{1/{\delta n}} \geq 2^{-O(1/\delta)},
+\]
+where the last inequality is by assumption. Using a form of the
+restricted invertibility principle for determinants (see e.g.~the full
+version of\cite{N15}), one can show that if all coordinate sections of
+$E$ of dimension $\delta n$ have large volume, then so does every
+section of $E$ of the same dimension.  Precisely, one gets that
+\begin{multline*}
+\min_{\dim(W)=\delta n} \vol_{\delta n}(E \cap W)^{1/\delta n} \geq\\ 
+\binom{n}{\delta n}^{-1/\delta n} \min_{|S|=\delta n} \vol_{\delta
+  n}(E_S)^{1/\delta n}\geq 2^{O(-1/\delta)}.
+\end{multline*}
+In particular, the above implies that the geometric average of the
+lengths of the \emph{shortest} $\delta n$ axes of $E$ (corresponding
+to the minimum volume section of $E$), must be at least
+$\sqrt{n}2^{-O(1/\delta)}$ since the ball of volume $1$ in dimension
+$\delta n$ has radius $\Omega(\sqrt{\delta n})$. But then, the longest
+$(1-\delta) n$ axes all have have length
+$\sqrt{n}2^{-O(1/\delta)}$. This completes the proof sketch.
+
+\subsection{ The Discrepancy of Partial Colorings} Our analysis of Rothvoss's
+algorithm opens up the tantalizing possibility that it may indeed be optimal for
+finding partial colorings in a hereditary sense. More precisely, we conjecture
+that if when run on an instance $U$ with norm ball $K$, the algorithm almost
+always produces partial colorings with $K$-discrepancy at least $D$, then there
+exists a subset of $S$ of the columns of $U$ such that every partial coloring
+of $U_S$ has discrepancy $\Omega(D)$. The starting point for this conjecture is
+our upper bound of $O(\vollb^{\rm h}(U,K))$, on the discrepancy of the partial
+colorings the algorithm computes. It remains to show that the volume
+lower bound is also a lower bound on the hereditary discrepancy of
+\emph{partial} colorings. We now provide a purely geometric conjecture,
+which would imply the above ``hereditary optimality'' for Rothvoss's algorithm. 
+
+As in the last subsection, we may assume that $U=(e_1,\dots,e_n)$ is the
+standard basis of $\R^n$ and that $\vollb((e_i)_{i=1}^n,K) = 1$. To prove the
+conjecture, it suffices to show that there exists some subset $S \subseteq [n]$ of
+coordinates, such that all partial colorings have $K$-discrepancy $\Omega(1)$.
+For concreteness, let us ask for partial colorings which color at least $|S|/2$
+coordinates (the precise constant will not matter). For $x \in [-1,1]^n$, define
+$\bnds(x) = \set{i \in [n]: x_i \in \set{-1,1}}$.  With this notation, our goal
+is to find $S \subseteq [n]$, such that $\forall x \in [-1,1]^S$, $|\bnds(x)|
+\geq |S|/2$, $\norm{\sum_{i \in S} x_i e_i}_K \geq \Omega(1)$.
+
+We explain the candidate geometric obstruction to low discrepancy partial
+colorings, which is a natural generalization of the so-called spectral lower
+bound for $\ell_2$ discrepancy. Assume that for some subset $S \subseteq
+[n]$, we have that 
+\begin{equation}
+\label{eq:spec-obst-intro}
+K_S \subseteq c \sqrt{|S|} B_2^S,
+\end{equation}
+where $B_2^S := (B_2^n)_S$, for some constant $c > 0$. Since any partial
+coloring $x \in [-1,1]^S$, $|\bnds(x)|\geq |S|/2$, clearly has $\norm{x}_2 \geq
+\sqrt{|S|/2}$, we must have that
+\begin{equation}
+\label{eq:spec-lb-intro}
+\frac{1}{c\sqrt{2}} 
+\leq \Bigl\|\sum_{i \in S} x_i e_i\Bigr\|_{c\sqrt{|S|}B_2^S} 
+\leq \Bigl\|\sum_{i \in S} x_i e_i\Bigr\|_{K_S}.
+\end{equation}
+In particular, every partial coloring on $S$ has discrepancy at least $\tfrac{1}{c
+\sqrt{2}} = \Omega(1)$, as desired.
+
+Given the above, we may now reduce the conjecture to the following natural
+geometric question:
+
+\begin{conjecture}[Restricted Invertibility for Convex Bodies]%{conjecture}{ripconvex} 
+\label{conj:rip-convex}
+There exists an absolute constant $c \geq 1$, such that for any $n \in \N$
+and symmetric convex body $K \subseteq \R^n$ of volume at most $1$, there exists $S
+\subseteq [n]$, $S \neq \emptyset$, such that $K_S \subseteq c\sqrt{|S|}B_2^S$. 
+\end{conjecture}
+
+To see that this indeed implies the required statement, note that if
+$\vollb((e_i)_{i=1}^n,K) = 1$, then by definition there exists $A \subseteq
+[n]$, $|A| \geq 1$, such that $\vol_{|A|}(K_A) \leq 1$. Now applying the above
+conjecture to $K_A$ yields the desired result. 
+
+Two natural relaxations of the conjectures are to ask (1) does it hold for
+ellipsoids and (2) does it hold for general sections instead of coordinate
+sections? Our main evidence for this conjecture is that indeed both these
+statements are true. We note that (1) indeed implies the optimality of
+Rothvoss's partial coloring algorithm for $\ell_2$ discrepancy. Our results here
+are slightly stronger than (1)+(2), as we in some sense manage to get ``halfway
+there'' with coordinates sections, by working with the M-ellipsoid, and only for
+the last step do we need to resort to general sections. We note that the above
+conjecture is closely related to the Bourgain-Tzafriri restricted invertibility
+principle\cite{bour-tza}, and indeed our proof for ellipsoids reduces to it.
+
+\subsection{A Factorization Approach for Vector Balancing.}   
+
+While Theorem~\ref{thm:tightness} gives an efficient and approximately
+optimal method of balancing a given set of vectors, it does not give
+an efficiently computable tight upper bound on the vector balancing constant
+or on hereditary discrepancy. Even though we proved that, after an
+appropriate scaling, the volume lower bound also gives an upper bound
+on the vector balancing constant, we are not aware of an efficient
+algorithm for computing the volume lower bound, which is itself a
+maximum over an exponential number of terms. To address this
+shortcoming, we study a different approach to vector balancing which
+relies on applying Banaszczyk's theorem in an optimal
+way in order to get an efficiently computable, and nearly tight, upper
+bound on both vector balancing constants and hereditary discrepancy.
+
+Recall that Banaszczyk's vector balancing theorem states that if a
+body $K$ has Gaussian measure at least $1/2$, then $\vb(B_2^n, K) \le
+5$. In order to apply the theorem to bodies $K$ of small Gaussian
+measure, we can use rescaling.  In particular, if $r$ is the smallest
+number such that the Gaussian measure of $rK$ is $\frac12$, then the
+theorem tells us that $\vb(B_2^n, K) \le 5r$. A natural way to use
+this upper bound for bodies $C$ different from $B_2^n$ is to find a
+mapping of $C$ into $B_2^n$, and then use the theorem as above. As an
+illustration of this idea, let us see how we can get nearly tight
+bounds on $\vb(B^n_p, B^n_q)$ (the $\ell_p$ and $\ell_q$ balls) by
+applying Banaszczyk's theorem. Let us take an arbitrary sequence of
+points $u_1, \ldots, u_N \in B_p^n$, and rescale them to define new
+points $v_i \eqdef {u_i}/{\max\{1, n^{1/2 -1/p}\}}$. The rescaled
+points $v_1, \ldots, v_N$ lie in $B_2^n$ and we can apply Banaszczyk's
+theorem to them and the convex body $K \eqdef L \sqrt{q} n^{1/q}
+B_q^n$, which has Gaussian measure at least $\frac12$ as long as we
+choose $L$ to be a large enough constant. We get that there exist
+signs $\eps_1, \ldots, \eps_N \in \{-1, 1\}$ such that
+\begin{multline*}
+\left\|\sum_{i = 1}^N{\eps_i v_i}\right\|_K \le 5
+\iff\\
+\left\|\sum_{i = 1}^N{\eps_i u_i}\right\|_q \le
+ 5L\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}. 
+\end{multline*}
+In other words, we have that 
+\[
+\vb(B_p^n, B_q^n) \le
+5L\sqrt{q}\max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}.
+\]
+The volume lower bound (Lemmas~\ref{lem:vol-lb}) can be used to show
+that this bound is tight up to the $O(\sqrt{q})$ factor. Indeed one
+can show that $B_p^n$ contains $n$ vectors $u_1, \ldots u_n$ such that
+the matrix $U \eqdef (u_1, \ldots, u_n)$ has determinant $\det(U) \ge
+e^{-1} \max\{1, n^{1/2 -1/p}\}$ (see~\cite{Ball89}~or~\cite{N15}). By
+standard estimates, $\vol(B_q^n)^{1/n} \ge c n^{1/q}$ for an absolute
+constant $c >0$. Plugging these estimates into Lemma~\ref{lem:vol-lb}
+shows $\vb(B_p, B_q) \ge c' \max\{n^{1/q}, n^{1/q + 1/2 -1/p}\}$ for a
+constant $c' > 0$.
+
+It is easy to see that, unlike the example above, in general simply
+rescaling $C$ and $K$ and applying Banaszczyk's theorem to the
+rescaled bodies may not give a tight bound on $\vb(C, K)$. However, we
+will show that we can get such tight bounds if we expand the class of
+transformations we allow on $C$ and $K$ from simple rescaling to
+arbitrary linear transformations.  It turns out that the most
+convenient language for this approach is that of linear operators
+between normed spaces. We can generalize the notion of a vector
+balancing constant between a pair of convex bodies to arbitrary linear
+operators $U:X \to Y$ between two $n$-dimensional normed spaces $X$,
+with norm $\| \cdot\|_X$, and $Y$, with norm $\| \cdot\|_Y$, as follows
+\begin{multline}\label{eq:vb-oper}
+\vb(U) = \sup%\Biggl\{
+  \min_{\eps_1, \ldots, \eps_N \in \{-1, 1\}} 
+  \biggl\|\sum_{i = 1}^N \eps_i U(x_i)\biggr\|_Y,%\Biggr\}
+\end{multline}
+where $B_X = \{x: \|x\|_X \le 1\}$ is the unit ball of $X$, and the
+supremum is over positive integers $N$ and sequences $x_1, \ldots, x_N
+\in B_X$.  This
+definition is indeed a generalization of the geometric one. If $C$ and
+$K$ are two centrally symmetric convex bodies in $\R^n$, and we define
+the corresponding normed spaces $X_C = (\R^n, \|\cdot\|_C)$ and $X_K =
+(\R^n, \|\cdot\|_K)$, then the vector balancing constant $\vb(I)$ of
+the formal identity operator $I:X_C \to X_K$ recovers $\vb(C,
+K)$. However, the more abstract setting makes it plain that a simple
+rescaling is not the right approach to applying Banaszczyk's theorem
+to arbitrary norms: if $X$ is an arbitrary norm, then $X$ and $B_2^n$
+may not be defined on the same vector space, and rescaling $B_X$ so
+that it is a subset of $B_2^n$ does not even make sense. Instead, when
+dealing with general norms, it becomes very natural to embed $B_X$
+into $B_2^n$ via a linear map $T:X \to \ell_2^n$
+so that $T(B_X) \subseteq B_2^n$. Our approach is
+based on this idea, and, in particular, on choosing such a map $T$
+optimally.
+
+To formalize the above, we use the $\ell$-norm, which has been
+extensively studied in the theory of operator ideals, and in
+asymptotic convex geometry (see
+e.g.~\cite{TJ-book,Pisier-book,AGM-book}). For a linear operator
+$S:\ell_2^n \to Y$ into an $n$-dimensional normed space $Y$ with norm
+$\|\cdot\|_Y$, the $\ell$-norm of $S$ is defined as
+\[
+\ell(S) \eqdef \left( \int \|S(x)\|_Y^2 d\gamma_n(x) \right)^{1/2},
+\]
+where $\gamma_n$ is the standard Gaussian measure on $\R^n$. I.e., if
+$Z$ is a standard Gaussian random variable in $\R^n$, then $\ell(S) =
+(\E \|S(Z)\|_Y^2)^{1/2}$. It is direct to verify that $\ell(\cdot)$ is a
+norm on the space of linear operators from $\ell_2^n$ to $Y$, for any
+normed space $Y$ as above. The reason the $\ell$-norm is useful to us
+is the fact that the smallest $r$ for which the set $K = \{x \in \R^n:
+\|Sx\|_Y \le r\}$  has Gaussian measure at least $1/2$ is approximately
+$\ell(S)$, due to the  concentration of measure phenomenon. 
+
+We now define our main tool: a factorization constant $\lambda$, which, for any
+two $n$-dimensional normed spaces $X$ and $Y$ and an operator $U:X \to
+Y$ is defined by
+\[
+\lambda(U) \eqdef \inf \{\ell(S)\|T\|: T: X \to \ell_2^n,\ S: \ell_2^n
+\to Y, U = ST\}.
+\]
+In other words, $\lambda(U)$ is the minimum of $\ell(S)\|T\|$ over all
+ways to factor $U$ through $\ell_2^n$ as $U = ST$. Here $\|T\|$ is the
+operator norm, equal to $\max\{{\|Tx\|_2}/{\|x\|_X}\}$. 
+This definition
+captures an optimal application of Banaszczyk's
+theorem. Using the theorem, it is not hard to show that $\vb(U) \le
+C\lambda(U)$ for an absolute constant $C$. Our main result is showing
+$\vb(U)$ and $\lambda(U)$ are in fact equal up to a factor which is
+polynomial in $\log n$. To prove this, we formulate $\lambda(U)$ as a
+convex minimization problem. Such a formulation is important both for
+our structural results, which rely on Lagrange duality, and also for
+giving an algorithm to compute $\lambda(U)$ efficiently, and,
+therefore, approximate $\vb(U)$ efficiently, which turns out to be
+sufficient to approximate hereditary discrepancy in arbitrary norms.
+
+The most immediate way to formulate $\lambda(U)$ as an optimization
+problem is to minimize $\ell(UT^{-1})$ over operators $T:X \to
+\ell_2^n$ and subject to the constraint $\|T\|\le 1$.
+Unfortunately, this optimization problem is not convex in $T$: the
+value of the objective function is finite for any nonzero $T$, but
+infinite for $0 = \frac12(T + (-T))$, for example. The key observation
+that allows us to circumvent this issue is that the objective function
+is completely determined by the operator $A \eqdef T^*T$, and is in
+fact convex in $A$. Here $T^*$ is the dual operator of $T$. We use $f(A)$ to
+denote this objective function, i.e.~to denote $\ell(UT^{-1})$ where
+$T$ is an operator such that $T^*T = A$. In the full version we prove
+that this function is well-defined and convex. Then, our convex formulation of
+$\lambda(U)$ is
+\begin{align*}
+  &\inf  f(A) \\
+  &\text{s.t.}\notag\\
+  &A: X \to X^*,\|A\| \le 1\\
+  &A \succ 0.
+\end{align*}
+Above, $X^*$ is the dual space of $X$, and $\|A\|$ is the operator
+norm. The first constraint is equivalent to the constraint $\|T\|\le
+1$ where $U = ST$ is the factorization in the definition of
+$\lambda(U)$. The last constraint says that $A$ should be positive
+definite, which is important so that $A$ can be written as $T^*T$ and
+$f(A)$ is well-defined. 
+
+ We utilize this convex formulation
+and Lagrange duality to derive a
+dual formulation of $\lambda(U)$ as a supremum over ``dual
+certificates''. Such a formulation is useful in approximately
+characterizing $\vb(U)$ in terms of $\lambda(U)$ because it reduces
+our task to relating the dual certificates to the terms in
+the volume lower bound~\eqref{eq:vol-lb}. If we can show that every
+dual certificate bounds from below one of the terms of the volume
+lower bound (up to factors polynomial in $\log n$), then we can
+conclude that $\lambda(U)$ also bounds the volume lower bound from
+below, and therefore $\vb(U)$ as well. 
+
+Before we can give the dual formulation, we need to introduce the
+dual norm $\ell^*$ of the $\ell$-norm, defined via trace duality: for
+any linear opartor $R: Y \to \ell_2^n$, let
+\[
+\ell^*(R) \eqdef \sup\{\tr(RS): S: \ell_2^n \to Y, \ell(S) \le 1\}.
+\]
+The norms $\ell$ and $\ell^*$ form a dual pair, and in particular we have
+\[
+\ell(S) = \sup\{\tr(RS): R:Y\to\ell_2^n, \ell^*(R) \le 1\}.
+\]
+For a finite dimensional space $Y$, both suprema above are achieved.
+
+The derivation of our dual formulation uses standard tools, but is
+quite technical due to the complicated nature of the function
+$f(A)$. We give the formulation for norms $X$ such that $B_X =
+\conv\{\pm x_1, \ldots, \pm x_m\}$. This is without loss of generality
+since every symmetric convex body can be approximated by a symmetric
+polytope (but has implications for the complexity of our algorithms). The dual
+formulation is as follows:
+\begin{align*}
+  &\sup \tr((RU(\sum_{i = 1}^m{p_i x_i \otimes  x_i})U^*R^*)^{1/3})^{3/2}\\
+  \text{s.t.}\ \ \ 
+  &R: Y \to \ell_2^n, \ell^*(R) \le 1 \\
+  &\sum_{i = 1}^m{p_i} = 1, \ \ 
+  p_1, \ldots, p_m \ge 0. 
+\end{align*}
+Above $x_i \otimes x_i$ is the rank-1 operator from the dual space
+$X^*$ to $X$, given by $(x_i \otimes x_i)(x^*) = \langle x^*,
+x_i\rangle x_i$. 
+
+We relate  the volume lower bound to this dual via deep inequalities
+between the $\ell^*$ and the $\ell$ norms ($K$-convexity), and between the
+$\ell$ norm and packing and covering numbers (Sudakov's
+minoration). Our second main result is the theorem below.
+
+\begin{theorem}\label{thm:fact-main}
+  There exists a constant $C$ such that for any two $n$-dimensional
+  normed spaces $X$ and $Y$, and any linear operator $U:X \to Y$
+  between them, we have
+  \[
+  \frac1C \le \frac{\lambda(U)}{\vb(U)} \le C (1 + \log n)^{5/2}.
+  \]
+  Moreover, for any vectors $u_1, \ldots, u_N$ and convex body $K$ in
+  $\R^n$ we can define a norm $X$ on $\R^n$ so that for the space $Y$
+  with unit ball $K$ and the identity map $I:X \to Y$,
+  \[
+  \frac{\lambda(I)}{C(1 + \log n)^{5/2}} 
+  \le \hd((u_i)_{i = 1}^N, K) \le \vb(I) 
+  \le C \lambda(I).
+  \]
+  Finally, $\lambda(U)$ is computable in polynomial time given
+  appropriate access to $X$ and $Y$.
+  \footnote{See the full version of the paper for the necessary assumptions.}
+\end{theorem}
+
+\section*{Acknowledgment}
+
+Daniel Dadush is supported by NWO Veni grant 639.071.510. Aleksandar
+Nikolov is supported by an NSERC Discovery Grant (RGPIN-2016-06333). 
+
+The authors would like to thank the American Institute of Mathematics
+for hosting a workshop on Hereditary Discrepancy and Factorization
+Norms, where work on this project began.
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{../Discrepancy.bib}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+
+
+
+
+% that's all folks
+\end{document}
+
+
